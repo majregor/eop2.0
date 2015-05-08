@@ -1,7 +1,7 @@
 
 <div id="container">
 
-    <p class="logotxt">EOP ASSIST</p>
+    <p class="logotxt">EOP ASSIST Installation</p>
 
 
     <fieldset id="signin_menu">
