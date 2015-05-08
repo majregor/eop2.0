@@ -1,0 +1,4 @@
+[07-May-2015 17:47:36 UTC] PHP Parse error:  parse error, expecting `']'' in /Users/GMajwega/sites/eop2.0/application/controllers/welcome.php on line 22
+[08-May-2015 02:02:25 UTC] PHP Fatal error:  Call to undefined function base_url() in /Users/GMajwega/sites/eop2.0/application/views/login_screen.php on line 7
+[08-May-2015 02:02:44 UTC] PHP Fatal error:  Call to undefined function base_url() in /Users/GMajwega/sites/eop2.0/application/views/login_screen.php on line 7
+[08-May-2015 02:02:50 UTC] PHP Fatal error:  Call to undefined function base_url() in /Users/GMajwega/sites/eop2.0/application/views/login_screen.php on line 7

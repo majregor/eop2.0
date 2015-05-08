@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - eop2_db1@localhost" uuid="55466ae7-71ba-4729-983c-fa5a9df53486">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>eop2_db1.*</schema-pattern>
+      <default-schemas>eop2_db1.*</default-schemas>
+    </data-source>
+  </component>
+</project>

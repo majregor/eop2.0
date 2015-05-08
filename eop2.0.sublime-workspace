@@ -1,0 +1,603 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"mar",
+				"margin-left"
+			],
+			[
+				"html",
+				"htmlentities"
+			],
+			[
+				"mysqli",
+				"mysqli_escape_string"
+			],
+			[
+				"text",
+				"textarea	Tag"
+			],
+			[
+				"bac",
+				"background-color"
+			],
+			[
+				"entr",
+				"entryId"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"challenge",
+				"challengesStr"
+			],
+			[
+				"author",
+				"author_id"
+			],
+			[
+				"challe",
+				"challengesStr"
+			],
+			[
+				"autho",
+				"author_id"
+			],
+			[
+				"chall",
+				"challengesStr"
+			],
+			[
+				"form_field_",
+				"form_field_15"
+			],
+			[
+				"back",
+				"background-position"
+			],
+			[
+				"screen",
+				"screen_name"
+			],
+			[
+				"scree",
+				"screen_name"
+			],
+			[
+				"auth",
+				"author_id"
+			],
+			[
+				"res",
+				"returnString"
+			],
+			[
+				"revie",
+				"reviewed_by"
+			],
+			[
+				"op",
+				"option	Tag"
+			],
+			[
+				"rel",
+				"reload"
+			],
+			[
+				"result",
+				"result_array"
+			],
+			[
+				"for",
+				"foreach	foreach …"
+			],
+			[
+				"sco",
+				"scoreId"
+			],
+			[
+				"respo",
+				"responseText"
+			],
+			[
+				"revi",
+				"reviewerId"
+			],
+			[
+				"review",
+				"reviewed_by"
+			],
+			[
+				"selec",
+				"selectedEntry"
+			],
+			[
+				"retur",
+				"returnString"
+			],
+			[
+				"en",
+				"entryId"
+			],
+			[
+				"data",
+				"dataString"
+			],
+			[
+				"get",
+				"getRewiewers"
+			],
+			[
+				"re",
+				"reviewers"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"my",
+				"mysql_fetch_object"
+			],
+			[
+				"mysqli_",
+				"mysqli_fetch"
+			],
+			[
+				"entry",
+				"entryId"
+			],
+			[
+				"ENTRY",
+				"entry_id"
+			],
+			[
+				"incl",
+				"include_once"
+			],
+			[
+				"num",
+				"numVideoRows"
+			],
+			[
+				"pat",
+				"pathParts"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"font-s",
+				"font-size"
+			],
+			[
+				"date_defa",
+				"date_default_timezone_set"
+			],
+			[
+				"gro",
+				"group_value"
+			],
+			[
+				"group_",
+				"group_index"
+			],
+			[
+				"grou",
+				"group_index"
+			],
+			[
+				"newOp",
+				"newOptions_sel"
+			],
+			[
+				"multisele",
+				"multiselect_unsel"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "application/config/config.php",
+			"settings":
+			{
+				"buffer_size": 12964,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "application/config/database.php",
+			"settings":
+			{
+				"buffer_size": 3229,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/GMajwega/Sites/eop2.0",
+		"/Users/GMajwega/Sites/eop2.0/application",
+		"/Users/GMajwega/Sites/eop2.0/application/config",
+		"/Users/GMajwega/Sites/eop2.0/system",
+		"/Users/GMajwega/Sites/eop2.0/system/libraries"
+	],
+	"file_history":
+	[
+		"/Users/GMajwega/Sites/eop2.0/application/config/config.php",
+		"/Volumes/dev.y4y/uploadify/moderate.php",
+		"/Volumes/dev.y4y/uploadify/export-xlsx.php",
+		"/Volumes/dev.y4y/uploadify/Classes/PHPExcel/Shared/PCLZip/pclzip.lib.php",
+		"/Users/GMajwega/Downloads/reviewers-export(3).xlsx",
+		"/Users/GMajwega/Documents/ncela/newsletter_subscriptions_as_at_04-30-2015.csv",
+		"/Volumes/y4ystaging/uploadify/moderate.php",
+		"/Users/GMajwega/Downloads/exp_nasa_reviewers.sql",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/embeds.group/videos-nasa-admin-view.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/embeds.group/videos-nasa-admin-editscore.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/embeds.group/videos-nasa-admin-score.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/embeds.group/videos-nasa-reviewer-view.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/styles.group/tablesorter.css",
+		"/Users/GMajwega/Sites/eop/files/dbconnection.php",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/embeds.group/videos-nasa-reviewer-score.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/embeds.group/videos-nasa-reviewer-editscore.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/forms.group/video.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/embeds.group/videos-nasa-member-view.html",
+		"/Volumes/dev.y4y/uploadify/uploadify.php",
+		"/Volumes/y4ystaging/uploads/challenge/nasa/STEM_VIDEO_1.vtt",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/stemchallenges.group/uploaded_videos_admin.html",
+		"/Users/GMajwega/Downloads/USBWebserver v8.6/apache2/conf/httpd.conf",
+		"/Users/GMajwega/Downloads/USBWebserver v8.6/settings/usbwebserver.ini",
+		"/Users/GMajwega/Downloads/__jquery.tablesorter/themes/green/style.css",
+		"/Users/GMajwega/Downloads/USBWebserver v8.6/root/index.php",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/styles.group/jquery.tablesorter.pager.css",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/stemchallenges.group/uploaded_videos.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/embeds.group/header-nasa.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/stemchallenges.group/videos_admin.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/stemchallenges.group/videos.html",
+		"/Volumes/dev.y4y/uploadify/export-score-xlsx.php",
+		"/Users/GMajwega/Documents/ncela/newsletter_subscriptions_as_at_04-17-2015.csv",
+		"/Volumes/dev.y4y/assets/css/nasa/multi-select.css",
+		"/Volumes/dev.y4y/uploadify/database-functions.php",
+		"/Volumes/dev.y4y/assets/js/nasa/jquery.multi-select.js",
+		"/Volumes/dev.y4y/index.php",
+		"/Volumes/dev.y4y/uploadify/check-exists.php",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/main.group/videos.html",
+		"/Volumes/dev.y4y/assets/js/y4ycommon.js",
+		"/Users/GMajwega/Documents/ncela/newsletter_subscriptions_as_at_03-25-2015.xlsx",
+		"/Volumes/dev.y4y/uploadify/database.inc",
+		"/Users/GMajwega/Sites/y4y/calendar-working/php/Event.php",
+		"/Users/GMajwega/Sites/y4y/calendar-working/php/DBConnection.php",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/embeds.group/header.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/styles.group/uploadify.css",
+		"/Volumes/dev.y4y/assets/js/uploadify.js",
+		"/Volumes/dev.y4y/assets/css/uploadify.css",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/embeds.group/landing-signoff.html",
+		"/Volumes/dev.y4y/assets/css/nasa/style.css",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/stemchallenges.group/video_styles.css",
+		"/Volumes/dev.y4y/assets/js/jquery-ui-1.11.4.js",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/stemchallenges.group/nasa.html",
+		"/Volumes/dev.y4y/avalon/expressionengine/templates/default_site/stemchallenges.group/index.html",
+		"/Volumes/dev.y4y/info_LAMP1.php",
+		"/Volumes/dev.y4y/avalon/expressionengine/config/database.php",
+		"/Users/GMajwega/Sites/calendar/lib/fullcalendar.js",
+		"/Users/GMajwega/Sites/calendar/index.php",
+		"/Volumes/eopassiststaging/test.php",
+		"/Volumes/eopassiststaging/calendar/php/datesController.php",
+		"/Volumes/eopassiststaging/files/dbconnection.php",
+		"/Volumes/htdocs-1/sites/all/modules/multiselect/multiselect.js",
+		"/Volumes/htdocs-1/sites/all/modules/multiselect/multiselect.module",
+		"/Users/GMajwega/Sites/y4y/scratch/nasa_challenge_channel_template.html",
+		"/Users/GMajwega/Sites/y4y/avalon/expressionengine/config/config.php",
+		"/Users/GMajwega/Sites/index.php",
+		"/Users/GMajwega/Sites/calendar/admin/index.php",
+		"/Users/GMajwega/Sites/calendar/php/eventsController.php",
+		"/Users/GMajwega/Desktop/report.csv",
+		"/Users/GMajwega/Sites/y4ee-03-03.sql",
+		"/Users/GMajwega/Sites/calendar/admin/embeds/add_event.php",
+		"/Users/GMajwega/Sites/hover.html",
+		"/Users/GMajwega/Sites/y4y/y4y.htaccess",
+		"/Users/GMajwega/Sites/y4y/avalon/expressionengine/config/database.php",
+		"/Users/GMajwega/Sites/y4y/avalon.php",
+		"/Users/GMajwega/Sites/y4y/index.php",
+		"/Users/GMajwega/Sites/y4y/calendar/php/eventsController.php",
+		"/Volumes/htdocs/themes/seven/template.php",
+		"/Volumes/htdocs/sites/all/modules/multiselect/descriptorsGrouping.js",
+		"/Volumes/htdocs/sites/all/modules/multiselect/multiselect.module",
+		"/Volumes/htdocs/sites/all/modules/multiselect/multiselect.js",
+		"/Volumes/htdocs/sites/all/modules/multiselect/multiselect.info",
+		"/Volumes/htdocs/sites/all/themes/ncela2014th/descriptorsGrouping.php",
+		"/Volumes/htdocs/sites/all/themes/ncela2014th/template.php",
+		"/Users/GMajwega/Documents/ncela/title3_funding_data.sql",
+		"/Volumes/htdocs/sites/default/settings.php",
+		"/Users/GMajwega/Desktop/page--front.tpl.php",
+		"/Volumes/htdocs-1/sites/all/themes/ncela2014th/page--front.tpl.php"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/Volumes/dev.y4y/uploadify/Classes",
+			"/Volumes/dev.y4y/uploadify"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"errorMsg",
+			"queue",
+			"PCLZIP_TEMPORARY_DIR",
+			",",
+			"exp_nasa_scores",
+			"<form",
+			"field",
+			"freeform_form_entries",
+			"field",
+			"exp_freeform_form_entries",
+			"form_field",
+			"freeform_form",
+			"input",
+			"17",
+			"19",
+			"- All -",
+			"exp",
+			"form_field_19",
+			"review_status",
+			"status",
+			"statusreview_status",
+			"status",
+			"open",
+			"Inaudible",
+			"php",
+			"freebie",
+			"nasa-member-videos",
+			"reviewer",
+			"revewer",
+			"randomId",
+			"random",
+			"rand",
+			"tbl",
+			"export-reviewers",
+			"<form",
+			"form",
+			",",
+			"tbl_nasa_reviewers",
+			"tbl",
+			"			\n",
+			"freeform",
+			"tbl_nasa_scores",
+			"action",
+			"body",
+			"alert",
+			"8",
+			"already exists",
+			"login",
+			",",
+			"signin",
+			"form",
+			"log",
+			"form",
+			"jquery-ui",
+			"</a",
+			">\n",
+			"</a>",
+			",",
+			"com",
+			",",
+			"chal",
+			"chal1",
+			"images",
+			"assets",
+			"|",
+			"-",
+			"+----------------------------+-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+\n| Site                       | Email                             | Event                                                                                                                                              | Booked on           |\n+----------------------------+-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+\n| jbesserman                 | jbesserman@pemb.org               | Why Pressure Suits? Challenge  - NASA Engineer and Scientist Connection                                                                            | 2015-02-26 13:23:29 |\n| MMcGibney                  | mmcgibne@jeffco.k12.co.us         | NASA Careers and Overcoming Obstacles - NASA Engineer and Scientist Connection                                                                     | 2015-02-25 21:27:49 |\n| MMcGibney                  | mmcgibne@jeffco.k12.co.us         | Design a Crew Exploration Vehicle NASA Engineer and Scientist Connection                                                                           | 2015-02-25 20:45:49 |\n| BGCGG_Woodbury             | woodbury@bgcgg.org                | Parachuting onto Mars Challenge  - NASA Engineer and Scientist ConnectionParachuting onto Mars Challenge  - NASA Engineer and Scientist Connection | 2015-02-25 15:06:48 |\n| Liz_642                    | eannis@rcps.info                  | Packing up for the Moon Challenge  - NASA Engineer and Scientist Connection                                                                        | 2015-02-25 14:38:49 |\n| DanielleS                  | dsingleton@passaic-city.k12.nj.us | Spaced Out Sports NASA Engineer and Scientist Connection                                                                                           | 2015-02-24 21:31:36 |\n| DanielleS                  | dsingleton@passaic-city.k12.nj.us | Why Pressure Suits? NASA Engineer and Scientist Connection                                                                                         | 2015-02-24 21:31:05 |\n| racines                    | racines@cfschools.net             | Parachuting onto Mars NASA Engineer and Scientist Connection                                                                                       | 2015-02-24 16:50:16 |\n| JasonF                     | jfuscellaro@wwschools.org         | Parachuting onto Mars Challenge  - NASA Engineer and Scientist Connection                                                                          | 2015-02-24 15:34:19 |\n| rochelle.hesford@gmail.com | rochelle.hesford@gmail.com        |  Design a Crew Exploration Vehicle Challenge  - NASA Engineer and Scientist Connection                                                             | 2015-02-24 10:02:45 |\n| FT Junior High             | boudreab@ftsd.org                 | NASA Careers and Overcoming Obstacles - NASA Engineer Scientist                                                                                    | 2015-02-23 10:08:55 |\n| FT Junior High             | boudreab@ftsd.org                 | Design a Crew Exploration Vehicle NASA Engineer and Scientist Connection                                                                           | 2015-02-23 10:08:41 |\n| Adam Rusticus              | rusticusa@grps.org                | Packing up for the Moon NASA Engineer and Scientist Connection                                                                                     | 2015-02-22 20:58:50 |\n| Adam Rusticus              | rusticusa@grps.org                | Design a Crew Exploration Vehicle NASA Engineer and Scientist Connection                                                                           | 2015-02-22 20:56:50 |\n| Amanda_M                   | amandaruud@gmail.com              | Design a Crew Exploration Vehicle NASA Engineer and Scientist Connection                                                                           | 2015-02-21 19:44:26 |\n| ktrammell@fairpoint.net    | ktrammell@fairpoint.net           | Packing up for the Moon NASA Engineer and Scientist Connection                                                                                     | 2015-02-21 11:40:14 |\n| BobbiS                     | bscrivner@jay.k12.ok.us           | Packing up for the Moon NASA Engineer and Scientist Connection                                                                                     | 2015-02-20 16:34:47 |\n| Brittany Stilley           | B-stilley@allenbowden.k12.ok.us   | Why Pressure Suits? NASA Engineer and Scientist Connection                                                                                         | 2015-02-20 14:59:23 |\n| FT Junior High             | boudreab@ftsd.org                 | NASA Careers and Overcoming Obstacles - NASA Engineer Scientist                                                                                    | 2015-02-20 10:59:32 |\n+----------------------------+-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+",
+			"eventArray",
+			",",
+			"net",
+			",",
+			"EDU",
+			",",
+			"$",
+			"js"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"form_field_19",
+			"nasa-videos-admin",
+			"exp_nasa_reviewers",
+			"/assets/img/nasa",
+			"/assets",
+			",",
+			"|"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "application/config/config.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12964,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1027,
+								1037
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "application/config/database.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3229,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2853,
+								2853
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": -0.0,
+						"translation.y": 96.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "eop2.0.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 458.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
