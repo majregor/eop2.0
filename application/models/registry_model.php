@@ -9,39 +9,36 @@
 class Registry_model extends CI_Model {
 
     private $id;
-    private $key, $value;
+    private $variables = array();
 
     public function __construct(){
         parent::__construct();
     }
 
-    public function setKey($key){
-        $this->key = $key;
-    }
-    public function setValue($value){
-        $this->value = $value;
-    }
-
-
-    function addEntry($key, $value){
+    function addVariable($key, $value){
 
     }
 
-    function getAllEntries(){
+    function getAllVariables(){
 
     }
 
-    function get($id){
-
-    }
-
-    function getKey($value){
+    function getVariable($id){
 
     }
 
     function getValue($key){
+        $sql = "SELECT * FROM eop_registry WHERE `key` = ? LIMIT 1"; 
+        $query = $this->db->query($sql, array($key));
 
+        if ($query->num_rows() > 0){
+            return $query->row()->value;
+        }
+        else{
+            return False;
+        }
     }
+
 
     function hasKey($key){
 
