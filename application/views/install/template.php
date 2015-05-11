@@ -26,8 +26,8 @@
            
               <div style="clear:both"></div>
                   <div id="logos"> 
-                    <a href="http://rems.ed.gov/" target="_blank"><img class="REMSlogo" src="assets/img/REMS-TA-Center.png"></a>
-                    <a href="http://www.ed.gov/" target="_blank"><img class="DOEDlogo" src="assets/img/DOElogo.png"></a>
+                    <a href="http://rems.ed.gov/" target="_blank"><img class="REMSlogo" src="<?php echo base_url(); ?>assets/img/REMS-TA-Center.png"></a>
+                    <a href="http://www.ed.gov/" target="_blank"><img class="DOEDlogo" src="<?php echo base_url(); ?>assets/img/DOElogo.png"></a>
                   </div>
                 
                 <p class="logintxtbtm">THE U.S. DEPARTMENT OF EDUCATION IS PROVIDING THE SOFTWARE AS IT IS, AND MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE WORK—EXPRESS, IMPLIED, STATUTORY OR OTHERWISE, INCLUDING WITHOUT LIMITATION WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR THE PRESENCE OR ABSENCE OF LATENT OR OTHER DEFECTS, ACCURACY, OR THE PRESENCE OR ABSENCE OF ERRORS, WHETHER OR NOT DISCOVERABLE, ALL TO THE GREATEST EXTENT PERMISSIBLE UNDER FEDERAL LAW.</p>

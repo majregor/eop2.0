@@ -39,7 +39,7 @@ class App extends CI_Controller {
         }
         else{ //App has never been installed
 
-            //Call the insall action to start the installation process
+            //Call the install action to start the installation process
            $this->install();
         }
 	}
@@ -56,12 +56,93 @@ class App extends CI_Controller {
         // installation progress variables
         $install_status = $this->registry_model->getValue('install_status');
 
-        if($install_status == FALSE){
+        if($install_status == FALSE){ //Installation has never been started
 
-             $this->template->set('title', 'EOP Assist Installation');
-             $data['screen']    =   'hosting_level';
-             $data['step']      =   'hosting_level';
-            
+            if(null == $this->session->userdata('install_status')){ //Installation not started
+                //Load the initial install screen view and set the session data status to install_started
+                $this->template->set('title', 'EOP Assist Installation');
+                $data['screen']    =   'hosting_level';
+                $data['step']      =   'hosting_level';
+                $this->session->set_userdata(array(
+                    'install_status'        => 'started',
+                    'install_step'          => 'hosting_level',
+                    'install_step_status'   => 'initiated'
+                ));
+
+                $this->template->load('install/template', 'install/install_screen', $data);
+            }
+            else{
+
+                $install_step = $this->session->userdata('install_step');
+
+                switch($install_step){
+                    case "hosting_level":
+                        $install_step_status = $this->session->userdata('install_step_status');
+                        if($install_step_status == 'initiated'){
+
+                            if($this->input->post('ajax')){ // If form was submitted using ajax request
+
+                                $data['screen'] =   'verify_requirements';
+                                $data['step']   =   'verify_requirements';
+                                $this->session->set_userdata(array(
+                                    'pref_hosting_level'    => $this->input->post('pref_hosting_level'),
+                                    'install_step'          => 'verify_requirements',
+                                    'install_step_status'   => 'initiated'
+                                ));
+
+                                //$this->output->set_output(json_encode($data));
+                                $d=$this->load->view('install/embeds/verify_requirements', $data, TRUE);
+                                $this->output->set_output($d);
+                            }
+                            else{
+                                $data['screen']     =   'hosting_level';
+                                $data['step']       =   'hosting_level';
+                                $this->template->set('title', 'EOP Assist Installation');
+                                $this->template->load('install/template', 'install/install_screen', $data);
+
+                            }
+                        }
+                        break;
+                    case "verify_requirements":
+                        $install_step_status = $this->session->userdata('install_step_status');
+
+                        if($install_step_status == 'initiated'){
+                            if($this->input->post('ajax')){ // If form is submitted using ajax
+
+                                /**
+                                 * Call method to inspect host system
+                                 * The method will return an array of status messages
+                                 */
+                                //$statusMsgs = checkRequirements();
+
+
+                                $data['screen'] =   'database_settings';
+                                $data['step']   =   'database_settings';
+                                $this->session->set_userdata(array(
+                                    'requirements_verified'    => 'yes',
+                                    'install_step'          => 'database_settings',
+                                    'install_step_status'   => 'initiated'
+                                ));
+
+                                //$this->output->set_output(json_encode($data));
+                                $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
+
+                            }
+                            else{
+                                $data['screen']    =   'verify_requirements';
+                                $data['step']      =   'verify_requirements';
+                                $this->template->set('title', 'EOP Assist Installation');
+                                $this->template->load('install/template', 'install/install_screen', $data);
+                            }
+                        }
+                        else{
+
+                        }
+                        break;
+                }
+            }
+
+
         }
         else{
 
@@ -78,8 +159,6 @@ class App extends CI_Controller {
 
             $this->template->set('title', 'EOP Assist Installation Resumed');
         }
-        
-        $this->template->load('install/template', 'install/install_screen', $data);
     }
 
     /**
@@ -88,9 +167,7 @@ class App extends CI_Controller {
      * get to this by typing http://example.com/app/phpinfo in the browser.
      */
     public function phpinfo(){
-        //phpinfo();
-        $data['param']='foddo';
-        $this->template->load('template', 'welcome_message', $data);
+        phpinfo();
     }
 
 }
