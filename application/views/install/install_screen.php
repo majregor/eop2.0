@@ -2,7 +2,9 @@
 $step1 = ($this->session->userdata('pref_hosting_level')) ? $this->session->userdata('pref_hosting_level') : null;
 $step2 = ($this->session->userdata('requirements_verified'))? $this->session->userdata('requirements_verified') : null;
 $step3 = ($this->session->userdata('database_settings_set'))? $this->session->userdata('database_settings_set') : null;
-$step4 = ($this->session->userdata('step_admin_account'))? $this->session->userdata('step_admin_account') : null;
+$step4 = ($this->session->userdata('admin_account_set'))? $this->session->userdata('admin_account_set') : null;
+$step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('step_finished') : null;
+
 
 ?>
     <div id="left-pane" style="width:30%; float:left; display:block;">
@@ -22,8 +24,9 @@ $step4 = ($this->session->userdata('step_admin_account'))? $this->session->userd
             <li id="step_admin_account" class="<?php echo ($step == 'admin_account')? 'active' : (is_null($step4) ? '' : 'done'); ?>">
                 Admin Account
             </li>
-            <li>Configure  App</li>
-            <li>FInished</li>
+            <li id="step_finished" class="<?php echo ($step == 'finished')? 'active' : (is_null($step5) ? '' : 'done'); ?>">
+                Finished
+            </li>
         </ul>
         <h3>
         <font color="red">* &nbsp;</font>
@@ -45,7 +48,11 @@ $step4 = ($this->session->userdata('step_admin_account'))? $this->session->userd
     elseif($screen=='admin_account'){
         include('embeds/admin_account.php');
     }
+    elseif($screen=='finished'){
+        include('embeds/finished.php');
+    }
     ?>
+
     </div>
 
 
@@ -71,6 +78,7 @@ $step4 = ($this->session->userdata('step_admin_account'))? $this->session->userd
                     $('#right-pane').html(response);
                     $('#step_hosting_level').removeClass('active').addClass('done');
                     $('#step_verify_requirements').addClass('active');
+                    $('#verify_requirements_form').submit(submit_verify_requirements_form);
 
                 }
             });
@@ -79,8 +87,8 @@ $step4 = ($this->session->userdata('step_admin_account'))? $this->session->userd
         });
 
 
-        $('#verify_requirements_form').submit(function() {
 
+        function submit_verify_requirements_form() {
 
             var form_data = {
                 ajax: '1'
@@ -97,11 +105,21 @@ $step4 = ($this->session->userdata('step_admin_account'))? $this->session->userd
                     $('#step_verify_requirements').removeClass('active').addClass('done');
                     $('#step_database_settings').addClass('active');
 
+                    $("#database_settings_form").validate({
+                        rules: {
+                            database_password: "required",
+                            database_password_conf: {
+                                equalTo: "#database_password"
+                            }
+                        },
+                        submitHandler: submit_database_settings_form
+                    });
+
                 }
             });
 
             return false;
-        });
+        }
 
         function submit_database_settings_form() {
             var selectedDbVal;
@@ -129,11 +147,49 @@ $step4 = ($this->session->userdata('step_admin_account'))? $this->session->userd
                     $('#step_database_settings').removeClass('active').addClass('done');
                     $('#step_admin_account').addClass('active');
 
+                    $("#admin_account_form").validate({
+                        rules: {
+                            user_password: "required",
+                            user_password_conf: {
+                                equalTo: "#user_password"
+                            }
+                        },
+                        submitHandler: submit_admin_account_form
+                    });
+
                 }
             });
-            alert('you tried to submit me');
 
             return false;
+        }
+
+        function submit_admin_account_form(){
+
+            // TO use encodeURIComponent() only when we use a concocted string but as for now the formdata ensures
+            // that jquery takes care of the encoding
+            var form_data = {
+                user_name               : $('#user_name').val(),
+                user_email              : $('#user_email').val(),
+                user_password           : $('#user_password').val(),
+                ajax                    : '1'
+            };
+
+            $.ajax({
+                url: "<?php echo base_url('app/install'); ?>",
+                type: 'POST',
+                data: form_data,
+                success: function(response) {
+
+                    //alert(msg);
+                    $('#right-pane').html(response);
+                    $('#step_admin_account').removeClass('active').addClass('done');
+                    $('#step_finished').addClass('active');
+
+                }
+            });
+
+            return false;
+
         }
 
         /**
@@ -152,6 +208,16 @@ $step4 = ($this->session->userdata('step_admin_account'))? $this->session->userd
                 }
             },
             submitHandler: submit_database_settings_form
+        });
+
+        $("#admin_account_form").validate({
+            rules: {
+                user_password: "required",
+                user_password_conf: {
+                    equalTo: "#user_password"
+                }
+            },
+            submitHandler: submit_admin_account_form
         });
 
 

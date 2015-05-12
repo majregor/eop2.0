@@ -1,80 +1,69 @@
 <?php
-echo form_open('app/install', array('class'=>'database_settings_form', 'id'=>'database_settings_form'));
+echo form_open('app/install', array('class'=>'admin_account_form', 'id'=>'admin_account_form'));
 ?>
-    <h3 class="title">Database Setup</h3>
-    <p>
-        <label><span class="inputlabel">Database Type</span> &nbsp; <span class="required">*</span></label><br>
-                The type of database where your EOP Data will be stored in.
-    </p>
+    <h3 class="title">Super Admin Setup</h3>
 
     <p>
-        <?php echo form_radio('database_type', 'mysql', TRUE); ?> MySQL
-        <?php echo form_radio('database_type', 'sqlite', FALSE); ?> SQLite
-        <?php echo form_radio('database_type', 'psql', FALSE); ?> PostgreSQL
-        <?php echo form_radio('database_type', 'sqlserver', FALSE); ?>SQL Server
-
-    </p>
-    <p>
-        <label><span class="inputlabel">Database Name</span> <span class="required">*</span> </label><br>
+        <label><span class="inputlabel">User Name</span> <span class="required">*</span> </label><br>
         <?php
-            $databaseNameInput = array(
-                'name'      =>  'database_name',
-                'id'        =>  'database_name',
+            $usernameInput = array(
+                'name'      =>  'user_name',
+                'id'        =>  'user_name',
                 'value'     =>  '',
                 'required'  =>  'required',
                 'minlength'  =>  '3'
             );
-        echo form_input($databaseNameInput);
+        echo form_input($usernameInput);
         ?>
-        The name of the database your data will be stored in. It must exist on your server before EOP can be installed.
+        The username will be used to login as a super administrator.
     </p>
     <p>
-        <label><span class="inputlabel">Database Username</span> <span class="required">*</span> </label><br>
+        <label><span class="inputlabel">Email</span> <span class="required">*</span> </label><br>
         <?php
-        $databaseUserNameInput = array(
-            'name'      =>  'database_username',
-            'id'        =>  'database_username',
+        $userEmailInput = array(
+            'name'      =>  'user_email',
+            'id'        =>  'user_email',
             'value'     =>  '',
             'required'  =>  'required',
-            'minlength'  =>  '3'
+            'type'      =>  'email'
         );
-        echo form_input($databaseUserNameInput);
+        echo form_input($userEmailInput);
         ?>
-        The database username set with administration priviledges on the database selected.
+        Administrator email
     </p>
     <p>
         <label><span class="inputlabel">Database User Password</span> <span class="required">*</span> </label><br>
         <?php
-            $databasePasswordInput = array(
-                'name'      =>  'database_password',
-                'id'        =>  'database_password',
+            $userPasswordInput = array(
+                'name'      =>  'user_password',
+                'id'        =>  'user_password',
                 'value'     =>  '',
                 'required'  =>  'required',
                 'minlength'  =>  '6'
             );
-            echo form_password($databasePasswordInput);
+            echo form_password($userPasswordInput);
         ?>
     </p>
     <p>
         <label><span class="inputlabel">Confirm Password</span> <span class="required">*</span> </label><br>
         <?php
-        $databasePasswordConfInput = array(
-            'name'      =>  'database_password_conf',
-            'id'        =>  'database_password_conf',
+        $userPasswordConfInput = array(
+            'name'      =>  'user_password_conf',
+            'id'        =>  'user_password_conf',
             'value'     =>  '',
             'required'  =>  'required',
             'minlength'  =>  '6'
         );
-        echo form_password($databasePasswordConfInput);
+        echo form_password($userPasswordConfInput);
         ?>
     </p>
     <p>
         <?php
         $attributes = array(
-            'name'  =>  'database_settings_submit',
+            'name'  =>  'admin_account_submit',
             'value' =>  'Save and Continue',
             'class' =>  'signin_submit',
-            'id'    =>  'database_settings_submit',
+            'id'    =>  'admin_account_submit',
             'style' =>  ''
         );
         ?>

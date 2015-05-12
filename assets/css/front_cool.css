@@ -88,7 +88,7 @@ a.signin.menu-open span {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px ;
 }
-#signin_menu input[type=text], #signin_menu input[type=password]{
+#signin_menu input[type=text], input[type=email], #signin_menu input[type=password]{
 	display:block;
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;

@@ -8,3 +8,7 @@
 [11-May-2015 14:07:36 UTC] PHP Parse error:  parse error, expecting `')'' in /Users/GMajwega/Sites/eop2.0/application/views/install/embeds/hosting_level.php on line 23
 [11-May-2015 18:22:34 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/controllers/app.php on line 99
 [12-May-2015 14:18:57 UTC] PHP Fatal error:  Cannot use isset() on the result of a function call (you can use "null !== func()" instead) in /Users/GMajwega/Sites/eop2.0/application/views/install/install_screen.php on line 13
+[12-May-2015 16:42:15 UTC] PHP Fatal error:  Call to a member function query() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/registry_model.php on line 32
+[12-May-2015 18:19:16 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/views/install/embeds/finished.php on line 8
+[12-May-2015 20:57:20 UTC] PHP Fatal error:  Call to undefined function prinit_r() in /Users/GMajwega/Sites/eop2.0/system/helpers/file_helper.php on line 487
+[12-May-2015 20:59:12 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/system/helpers/file_helper.php on line 489

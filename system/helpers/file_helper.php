@@ -475,6 +475,50 @@ if ( ! function_exists('octal_permissions'))
 	}
 }
 
+/**
+ * Custom function to write config file 'settings.php'
+ */
+if(! function_exists('make_config_file')){
+
+    function make_config_file($data="", $file="", $mode="w"){
+
+        $data = 'Oyo Majwega yemubbi... FoDDO';
+        $fileInformation = get_file_info('./application/config/settings.php');
+
+        if($fileInformation !== FALSE){
+            print_r($fileInformation);
+            if ( ! write_file('./application/config/settings.php', $data, $mode))
+            {
+                echo 'Unable to write the file: '. $fileInformation['server_path'];
+            }
+            else
+            {
+
+
+                echo 'File written! '. $fileInformation['server_path'];
+            }
+        }
+        else{
+            echo 'File not found';
+        }
+    }
+}
+
+if(! function_exists('generateConfigOutput')){
+
+    function generateConfigOutput($parsedArray){
+
+        // General first line in the config file
+        $data = "<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');\n\n";
+
+        /**
+         * First deal with the database settings
+         */
+
+        //Last line output
+        $data .= "\n\n?>";
+    }
+}
 
 /* End of file file_helper.php */
 /* Location: ./system/helpers/file_helper.php */

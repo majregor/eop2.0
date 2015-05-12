@@ -13,10 +13,25 @@ class App extends CI_Controller {
 	{
         $is_logged_in = FALSE;
         $is_installed = FALSE;
+//        $this->session->sess_destroy();
+
 
         /**
          *  Check if the application installation completed successfully
          */
+        if($this->db->conn_id === FALSE){
+
+            //echo $this->db->_error_message();
+           //var_dump( $this->db->conn_id);
+            echo 'Database not setup';
+
+        }
+        else{
+            // Load the registry module
+            $this->load->model('registry_model');
+        }
+
+
         if($this->session->userdata('is_installed'))
             $is_installed = $this->session->userdata('is_installed');
 
@@ -50,13 +65,11 @@ class App extends CI_Controller {
     */
     public function install(){
 
-        // Load the registry module
-        $this->load->model('registry_model');
 
         // installation progress variables
-        $install_status = $this->registry_model->getValue('install_status');
+        $install_started = $this->session->userdata('install_started');
 
-        if($install_status == FALSE){ //Installation has never been started
+        if($install_started === FALSE){ //Installation has never been started
 
             if(!$this->session->userdata('install_status')){ //Installation not started
                 //Load the initial install screen view and set the session data status to install_started
@@ -123,7 +136,7 @@ class App extends CI_Controller {
                                     'install_step'          => 'database_settings',
                                     'install_step_status'   => 'initiated'
                                 ));
-
+echo 'here';
                                 //$this->output->set_output(json_encode($data));
                                 $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
 
@@ -146,28 +159,110 @@ class App extends CI_Controller {
                             if($this->input->post('ajax')){ // If form is submitted using ajax
 
                                 /**
-                                 * Call method to inspect host system
-                                 * The method will return an array of status messages
+                                 * Write database settings into config file
+                                 *
                                  */
                                 //$statusMsgs = checkRequirements();
 
 
-                                $data['screen'] =   'database_settings';
-                                $data['step']   =   'database_settings';
+                                $data['screen'] =   'admin_account';
+                                $data['step']   =   'admin_account';
                                 $this->session->set_userdata(array(
-                                    'requirements_verified'    => 'yes',
-                                    'install_step'          => 'database_settings',
+                                    'database_settings_set'    => 'yes',
+                                    'install_step'          => 'admin_account',
                                     'install_step_status'   => 'initiated'
                                 ));
 
                                 //$this->output->set_output(json_encode($data));
-                                $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
+                                $this->output->set_output($this->load->view('install/embeds/admin_account', $data, TRUE));
 
                             }
                             else{
 
                                 $data['screen']    =   'database_settings';
                                 $data['step']      =   'database_settings';
+
+                                $this->template->set('title', 'EOP Assist Installation');
+                                $this->template->load('install/template', 'install/install_screen', $data);
+                            }
+                        }
+                        else{
+
+                        }
+                        break;
+                    case "admin_account":
+                        $install_step_status = $this->session->userdata('install_step_status');
+
+                        if($install_step_status == 'initiated'){
+                            if($this->input->post('ajax')){ // If form is submitted using ajax
+
+                                /**
+                                 * Connect to database and save the super admin settings
+                                 *
+                                 */
+                                //$statusMsgs = checkRequirements();
+
+
+                                $data['screen'] =   'finished';
+                                $data['step']   =   'finished';
+                                $this->session->set_userdata(array(
+                                    'admin_account_set'    => 'yes',
+                                    'install_step'          => 'finished',
+                                    'install_step_status'   => 'initiated',
+                                    'user_name'             => $this->input->post('user_name'),
+                                    'user_email'            => $this->input->post('user_email'),
+                                    'user_password'         => $this->input->post('user_password')
+                                ));
+
+                                //$this->output->set_output(json_encode($data));
+                                $this->output->set_output($this->load->view('install/embeds/finished', $data, TRUE));
+
+                            }
+                            else{
+
+                                $data['screen']    =   'admin_account';
+                                $data['step']      =   'admin_account';
+
+                                $this->template->set('title', 'EOP Assist Installation');
+                                $this->template->load('install/template', 'install/install_screen', $data);
+                            }
+                        }
+                        else{
+
+                        }
+                        break;
+                    case "finished":
+                        $install_step_status = $this->session->userdata('install_step_status');
+
+                        if($install_step_status == 'initiated'){
+                            if($this->input->post('ajax')){ // If form is submitted using ajax
+
+                                /**
+                                 * Connect to database and save the super admin settings
+                                 *
+                                 */
+                                //$statusMsgs = checkRequirements();
+
+
+                                $data['screen'] =   'finished';
+                                $data['step']   =   'finished';
+                                $this->session->set_userdata(array(
+                                    'admin_account_set'    => 'yes',
+                                    'install_step'          => 'finished',
+                                    'install_step_status'   => 'initiated',
+                                    'user_name'             => $this->input->post('user_name'),
+                                    'user_email'            => $this->input->post('user_email'),
+                                    'user_password'         => $this->input->post('user_password')
+                                ));
+
+                                //$this->output->set_output(json_encode($data));
+                                $this->output->set_output($this->load->view('install/embeds/finished', $data, TRUE));
+
+                            }
+                            else{
+
+                                $data['screen']    =   'finished';
+                                $data['step']      =   'finished';
 
                                 $this->template->set('title', 'EOP Assist Installation');
                                 $this->template->load('install/template', 'install/install_screen', $data);
@@ -199,6 +294,16 @@ class App extends CI_Controller {
         }
     }
 
+
+    /**
+     * Function that uses the file helper to make a config file from the preferred settings
+     */
+
+    public function mkconfig(){
+        $this->load->helper('file');
+
+        $r = make_config_file();
+    }
     /**
      * Echo PHP installation information on the server running the Web Application
      *
