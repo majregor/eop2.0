@@ -3,3 +3,8 @@
 [08-May-2015 02:02:44 UTC] PHP Fatal error:  Call to undefined function base_url() in /Users/GMajwega/sites/eop2.0/application/views/login_screen.php on line 7
 [08-May-2015 02:02:50 UTC] PHP Fatal error:  Call to undefined function base_url() in /Users/GMajwega/sites/eop2.0/application/views/login_screen.php on line 7
 [08-May-2015 18:27:16 UTC] PHP Fatal error:  Cannot use isset() on the result of a function call (you can use "null !== func()" instead) in /Users/GMajwega/Sites/eop2.0/application/controllers/app.php on line 12
+[11-May-2015 14:07:19 UTC] PHP Parse error:  parse error, expecting `')'' in /Users/GMajwega/Sites/eop2.0/application/views/install/embeds/hosting_level.php on line 23
+[11-May-2015 14:07:35 UTC] PHP Parse error:  parse error, expecting `')'' in /Users/GMajwega/Sites/eop2.0/application/views/install/embeds/hosting_level.php on line 23
+[11-May-2015 14:07:36 UTC] PHP Parse error:  parse error, expecting `')'' in /Users/GMajwega/Sites/eop2.0/application/views/install/embeds/hosting_level.php on line 23
+[11-May-2015 18:22:34 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/controllers/app.php on line 99
+[12-May-2015 14:18:57 UTC] PHP Fatal error:  Cannot use isset() on the result of a function call (you can use "null !== func()" instead) in /Users/GMajwega/Sites/eop2.0/application/views/install/install_screen.php on line 13

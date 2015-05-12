@@ -1,9 +1,9 @@
 @charset "UTF-8";
 /* CSS Document */
 #right-pane p{
-  margin:25px 0px;
+  margin:5px 0px;
   line-height:20px;
-  width:70%; 
+  width:100%;
   float:left; 
   display:block;
 }
