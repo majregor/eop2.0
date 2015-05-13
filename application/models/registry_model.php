@@ -19,6 +19,20 @@ class Registry_model extends CI_Model {
 
     }
 
+    function addVariables($data){
+        $recordsArray=array();
+        foreach($data as $key=>$value){
+            array_push($recordsArray, array(
+                'key'       =>  $key,
+                'value'     =>  $value));
+        }
+
+
+        $this->db->insert_batch('eop_registry', $recordsArray);
+        return $this->db->affected_rows();
+
+    }
+
     function getAllVariables(){
 
     }

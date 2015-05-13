@@ -28,8 +28,17 @@ class User_model extends CI_Model {
 
     }
 
-    function register(){
 
+    function addUser($userData){
+        $data = array(
+            'role_id'   => isset($userData['role_id'])? $userData['role_id']:'',
+            'email'     => isset($userData['email'])? $userData['email']:'',
+            'username'  => isset($userData['username'])? $userData['username']:'',
+            'password'  => isset($userData['password'])? $userData['password']:''
+        );
+
+        $this->db->insert('eop_user', $data);
+        return $this->db->affected_rows();
     }
 
     function update(){

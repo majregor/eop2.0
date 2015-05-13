@@ -1,7 +1,10 @@
 <?php
-    echo form_open('app/install', array('class'=>'verify_requirements_form', 'id'=>'verify_requirements_form'));
+    echo form_open('app/install', array('class'=>'finished_form', 'id'=>'finished_form'));
 ?>
     <h3 class="title">Configuration Completed</h3>
+<?php if(isset($error)): ?>
+    <h3 class='error'><?php echo ($error); ?></h3>
+<?php endif; ?>
 
 <p>
     Your have finalised the install process.
@@ -11,10 +14,10 @@
     <p>
         <?php
         $attributes = array(
-            'name'  =>  'verify_requirements_submit',
+            'name'  =>  'finished_form_submit',
             'value' =>  'Save and Continue',
             'class' =>  'signin_submit',
-            'id'    =>  'verify_requirements_submit',
+            'id'    =>  'finished_form_submit',
             'style' =>  ''
         );
         ?>

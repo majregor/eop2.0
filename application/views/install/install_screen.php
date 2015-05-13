@@ -5,7 +5,7 @@ $step3 = ($this->session->userdata('database_settings_set'))? $this->session->us
 $step4 = ($this->session->userdata('admin_account_set'))? $this->session->userdata('admin_account_set') : null;
 $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('step_finished') : null;
 
-
+//echo @$this->session->userdata['database']['hostname'];
 ?>
     <div id="left-pane" style="width:30%; float:left; display:block;">
         <p>
@@ -76,8 +76,9 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 
                     //alert(msg);
                     $('#right-pane').html(response);
-                    $('#step_hosting_level').removeClass('active').addClass('done');
-                    $('#step_verify_requirements').addClass('active');
+
+                    toggleMenu();
+
                     $('#verify_requirements_form').submit(submit_verify_requirements_form);
 
                 }
@@ -86,6 +87,47 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
             return false;
         });
 
+        function toggleMenu(){
+            var step1 = $('#step_hosting_level').removeClass();
+            var step2 = $('#step_verify_requirements').removeClass();
+            var step3 = $('#step_database_settings').removeClass();
+            var step4 = $('#step_admin_account').removeClass();
+            var step5 = $('#step_finished').removeClass();
+
+            var form_data = {
+                ajax: '1'
+            };
+
+            $.ajax({
+                url: "<?php echo base_url('app/getInstallProgress'); ?>",
+                type: 'POST',
+                data: form_data,
+                success: function(response) {
+
+                   var steps = JSON.parse(response);
+                    //alert(steps.current);
+
+                    step1.addClass(steps.step1);
+                    step2.addClass(steps.step2);
+                    step3.addClass(steps.step3);
+                    step4.addClass(steps.step4);
+                    step5.addClass(steps.step5);
+                    if(steps.current=="hosting_level")
+                        $('#step_hosting_level').addClass('active');
+                    if(steps.current=="verify_requirements")
+                        $('#step_verify_requirements').addClass('active');
+                    if(steps.current=="database_settings")
+                        $('#step_database_settings').addClass('active');
+                    if(steps.current=="admin_account")
+                        $('#step_admin_account').addClass('active');
+                    if(steps.current=="finished")
+                        $('#step_finished').addClass('active');
+
+
+                }
+            });
+
+        }
 
 
         function submit_verify_requirements_form() {
@@ -102,8 +144,8 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 
                     //alert(msg);
                     $('#right-pane').html(response);
-                    $('#step_verify_requirements').removeClass('active').addClass('done');
-                    $('#step_database_settings').addClass('active');
+
+                    toggleMenu();
 
                     $("#database_settings_form").validate({
                         rules: {
@@ -146,6 +188,8 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
                     //alert(msg);
                     $('#right-pane').html(response);
 
+                    toggleMenu();
+
                     $("#admin_account_form").validate({
                         rules: {
                             user_password: "required",
@@ -181,8 +225,10 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 
                     //alert(msg);
                     $('#right-pane').html(response);
-                    $('#step_admin_account').removeClass('active').addClass('done');
-                    $('#step_finished').addClass('active');
+
+                    toggleMenu();
+
+
 
                 }
             });
@@ -190,6 +236,30 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
             return false;
 
         }
+
+        $('#finished_form').submit(function(){
+            var form_data = {
+                ajax                    : '1'
+            };
+
+            $.ajax({
+                url: "<?php echo base_url('app/install'); ?>",
+                type: 'POST',
+                data: form_data,
+                success: function(response) {
+
+                    //alert(msg);
+                    $('#right-pane').html(response);
+
+                    toggleMenu();
+
+
+
+                }
+            });
+
+            return false;
+        });
 
         /**
          * JQuery form validation

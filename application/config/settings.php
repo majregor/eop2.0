@@ -1,4 +1,5 @@
-<?php  
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 /*
 |---------------------------------------------------------------------
 |----------------   DATABASE CONNECTIVITY SETTINGS  ------------------
@@ -11,6 +12,6 @@
 
 $config['db']['hostname'] = 'localhost';
 $config['db']['username'] = 'root';
-$config['db']['password'] = 'ssssss';
-$config['db']['database'] = 'ssssss';
+$config['db']['password'] = 'glyde1';
+$config['db']['database'] = 'eop2_db1';
 $config['db']['dbdriver'] = 'mysqli';

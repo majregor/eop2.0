@@ -13,7 +13,7 @@ class App extends CI_Controller {
 	{
         $is_logged_in = FALSE;
         $is_installed = FALSE;
-//        $this->session->sess_destroy();
+//       $this->session->sess_destroy();
 
 
         /**
@@ -30,6 +30,7 @@ class App extends CI_Controller {
         else{
             // Load the registry module
             $this->load->model('registry_model');
+
         }
 
 
@@ -162,10 +163,11 @@ class App extends CI_Controller {
                                 //Get form input and add to session
                                   $configs = array(
                                         'database' => array(
-                                        'hostname'  =>  $this->input->post('host_name'),
-                                        'username'  =>  $this->input->post('database_username'),
-                                        'password'  =>  $this->input->post('database_password'),
-                                        'database'  =>  $this->input->post('database_name')
+                                            'hostname'  =>  $this->input->post('host_name'),
+                                            'username'  =>  $this->input->post('database_username'),
+                                            'password'  =>  $this->input->post('database_password'),
+                                            'database'  =>  $this->input->post('database_name'),
+                                            'dbdriver'  =>  $this->input->post('pref_database_type')
                                         )
                                     );
                                   
@@ -178,7 +180,8 @@ class App extends CI_Controller {
 
                                   if(!$dbsetup['error']){ // If successfully written to config file
 
-                                    // Load
+                                    // Load the database
+
                                     $data['screen'] =   'admin_account';
                                     $data['step']   =   'admin_account';
                                     $this->session->set_userdata(array(
@@ -222,26 +225,49 @@ class App extends CI_Controller {
                         if($install_step_status == 'initiated'){
                             if($this->input->post('ajax')){ // If form is submitted using ajax
 
+                                // Get the submitted form input
+                                $adminData = array(
+                                        'username'      =>  $this->input->post('user_name'),
+                                        'email'         =>  $this->input->post('user_email'),
+                                        'password'      =>  md5($this->input->post('user_password')),
+                                        'role_id'       =>  1
+                                );
                                 /**
                                  * Connect to database and save the super admin settings
                                  *
                                  */
-                                //$statusMsgs = checkRequirements();
 
+                                $this->load->model('user_model');
+                                $savedRecs = $this->user_model->addUser($adminData);
 
-                                $data['screen'] =   'finished';
-                                $data['step']   =   'finished';
-                                $this->session->set_userdata(array(
-                                    'admin_account_set'    => 'yes',
-                                    'install_step'          => 'finished',
-                                    'install_step_status'   => 'initiated',
-                                    'user_name'             => $this->input->post('user_name'),
-                                    'user_email'            => $this->input->post('user_email'),
-                                    'user_password'         => $this->input->post('user_password')
-                                ));
+                                if(is_numeric($savedRecs) && $savedRecs>=1){ // Record saved successfully
 
-                                //$this->output->set_output(json_encode($data));
-                                $this->output->set_output($this->load->view('install/embeds/finished', $data, TRUE));
+                                    $data['screen'] =   'finished';
+                                    $data['step']   =   'finished';
+                                    $this->session->set_userdata(array(
+                                        'admin_account_set'    => 'yes',
+                                        'install_step'          => 'finished',
+                                        'install_step_status'   => 'initiated',
+                                        'user_name'             => $this->input->post('user_name'),
+                                        'user_email'            => $this->input->post('user_email'),
+                                        'user_password'         => $this->input->post('user_password')
+                                    ));
+
+                                    //$this->output->set_output(json_encode($data));
+                                    $this->output->set_output($this->load->view('install/embeds/finished', $data, TRUE));
+
+                                }
+                                else{ // Record did not get saved
+
+                                    //Set  error message and reload admin account step
+
+                                    $data['screen'] =   'admin_account';
+                                    $data['step']   =   'admin_account';
+                                    $data['error']  =   'Database error: '.$savedRecs;
+
+                                    $this->output->set_output($this->load->view('install/embeds/admin_account', $data, TRUE));
+
+                                }
 
                             }
                             else{
@@ -264,25 +290,36 @@ class App extends CI_Controller {
                             if($this->input->post('ajax')){ // If form is submitted using ajax
 
                                 /**
-                                 * Connect to database and save the super admin settings
+                                 * Save the selected settings into the App registry
                                  *
                                  */
-                                //$statusMsgs = checkRequirements();
+                                // Get the numerous submitted  inputs
+                                $registryData = array(
+                                    'install_status'    =>  'completed',
+                                    'dbtype'            =>  $this->session->userdata['database']['dbdriver'],
+                                    'host_level'        =>  $this->session->userdata('pref_hosting_level')
+                                );
 
+                                $this->load->model('registry_model');
+                                $savedRecs = $this->registry_model->addVariables($registryData);
 
-                                $data['screen'] =   'finished';
-                                $data['step']   =   'finished';
-                                $this->session->set_userdata(array(
-                                    'admin_account_set'    => 'yes',
-                                    'install_step'          => 'finished',
-                                    'install_step_status'   => 'initiated',
-                                    'user_name'             => $this->input->post('user_name'),
-                                    'user_email'            => $this->input->post('user_email'),
-                                    'user_password'         => $this->input->post('user_password')
-                                ));
+                                if(is_numeric($savedRecs) && $savedRecs>=1){ //Records were successfully saved
 
-                                //$this->output->set_output(json_encode($data));
-                                $this->output->set_output($this->load->view('install/embeds/finished', $data, TRUE));
+                                    $data['screen'] =   'login';
+
+                                    $this->template->load('template', 'login_screen', $data);
+
+                                }
+                                else{ // There was a problem saving the data
+
+                                    $data['screen'] =   'finished';
+                                    $data['step']   =   'finished';
+                                    $data['error']  =   'Database error: '.$savedRecs;
+
+                                    //$this->output->set_output(json_encode($data));
+                                    $this->output->set_output($this->load->view('install/embeds/finished', $data, TRUE));
+                                }
+
 
                             }
                             else{
@@ -317,6 +354,25 @@ class App extends CI_Controller {
 
 
             $this->template->set('title', 'EOP Assist Installation Resumed');
+        }
+    }
+
+    /**
+     * Function returns JSON formatted install progress information
+     */
+    public function getInstallProgress()
+    {
+        if ($this->input->post('ajax')) {
+            $data = array(
+                'current'   =>      $this->session->userdata('install_step'),
+                'step1'     =>      ($this->session->userdata('pref_hosting_level'))? 'done':'',
+                'step2'     =>      ($this->session->userdata('requirements_verified'))? 'done':'',
+                'step3'     =>      ($this->session->userdata('database_settings_set'))? 'done':'',
+                'step4'     =>      ($this->session->userdata('admin_account_set'))? 'done':'',
+                'step5'     =>      ($this->session->userdata('step_finished'))? 'done':''
+            );
+
+            $this->output->set_output(json_encode($data));
         }
     }
 

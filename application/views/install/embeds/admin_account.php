@@ -32,7 +32,7 @@ echo form_open('app/install', array('class'=>'admin_account_form', 'id'=>'admin_
         Administrator email
     </p>
     <p>
-        <label><span class="inputlabel">Database User Password</span> <span class="required">*</span> </label><br>
+        <label><span class="inputlabel"> User Password</span> <span class="required">*</span> </label><br>
         <?php
             $userPasswordInput = array(
                 'name'      =>  'user_password',
