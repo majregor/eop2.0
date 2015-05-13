@@ -67,3 +67,18 @@ $db['default']['stricton'] = FALSE;
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
+
+/**
+* This will help us load our local settings.php file with the local database settings
+*If there is a local config file, overwrite the settings with that..
+*
+*/
+if (is_readable('application/config/settings.php'))
+{
+	include('application/config/settings.php');
+
+	foreach($db['default'] as $key => $val){
+		$db['default'][$key] = (isset($config['db'][$key])) ? $config['db'][$key] : $val;
+	}
+
+}

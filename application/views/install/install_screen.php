@@ -130,6 +130,7 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 
             var form_data = {
                 pref_database_type      : selectedDbVal,
+                host_name               : $('#host_name').val(),
                 database_name           : $('#database_name').val(),
                 database_username       : $('#database_username').val(),
                 database_password       : $('#database_password').val(),
@@ -144,8 +145,6 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 
                     //alert(msg);
                     $('#right-pane').html(response);
-                    $('#step_database_settings').removeClass('active').addClass('done');
-                    $('#step_admin_account').addClass('active');
 
                     $("#admin_account_form").validate({
                         rules: {

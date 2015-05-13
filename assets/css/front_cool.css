@@ -232,9 +232,8 @@ p { font-size:11px; color:#000; margin:5px 5px 5px 80px; }
 /*Setup all boxes*/
 .info,.success,.error,.warning,.tip,.secure,.message,.download,.purchase,.print
 {
-    min-height: 40px;
-    margin: 20px 50px;
-    padding: 10px;
+    margin: 0px;
+    padding:20px 10px;
     border-radius: 3px;
     box-shadow: 4px 4px #dfe1d8;
     -webkit-border-radius: 3px;

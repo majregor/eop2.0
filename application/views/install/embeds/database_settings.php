@@ -1,7 +1,23 @@
 <?php
+$step2 = ($this->session->userdata('requirements_verified'))? $this->session->userdata('requirements_verified') : null;
+
+ //$('#step_database_settings').removeClass('active').addClass('done');
+                    //$('#step_admin_account').addClass('active');
 echo form_open('app/install', array('class'=>'database_settings_form', 'id'=>'database_settings_form'));
 ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#step_database_settings').addClass('active');
+        <?php if(!is_null($step2)): ?>
+            $('#step_verify_requirements').removeClass('active').addClass('done');
+        <?php endif; ?>
+    });
+</script>
     <h3 class="title">Database Setup</h3>
+    <?php if(isset($error)): ?>
+        <h3 class='error'><?php echo ($error); ?></h3>
+    <?php endif; ?>
+   
     <p>
         <label><span class="inputlabel">Database Type</span> &nbsp; <span class="required">*</span></label><br>
                 The type of database where your EOP Data will be stored in.
@@ -13,6 +29,20 @@ echo form_open('app/install', array('class'=>'database_settings_form', 'id'=>'da
         <?php echo form_radio('database_type', 'psql', FALSE); ?> PostgreSQL
         <?php echo form_radio('database_type', 'sqlserver', FALSE); ?>SQL Server
 
+    </p>
+    <p>
+        <label><span class="inputlabel">Database Host</span> <span class="required">*</span> </label><br>
+        <?php
+            $databaseHostInput = array(
+                'name'      =>  'host_name',
+                'id'        =>  'host_name',
+                'value'     =>  'localhost',
+                'required'  =>  'required',
+                'minlength'  =>  '3'
+            );
+        echo form_input($databaseHostInput);
+        ?>
+        The name or ip address of the database host. 
     </p>
     <p>
         <label><span class="inputlabel">Database Name</span> <span class="required">*</span> </label><br>

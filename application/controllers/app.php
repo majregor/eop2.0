@@ -24,6 +24,7 @@ class App extends CI_Controller {
             //echo $this->db->_error_message();
            //var_dump( $this->db->conn_id);
             echo 'Database not setup';
+            echo $this->db->username;
 
         }
         else{
@@ -136,7 +137,7 @@ class App extends CI_Controller {
                                     'install_step'          => 'database_settings',
                                     'install_step_status'   => 'initiated'
                                 ));
-echo 'here';
+
                                 //$this->output->set_output(json_encode($data));
                                 $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
 
@@ -158,23 +159,48 @@ echo 'here';
                         if($install_step_status == 'initiated'){
                             if($this->input->post('ajax')){ // If form is submitted using ajax
 
+                                //Get form input and add to session
+                                  $configs = array(
+                                        'database' => array(
+                                        'hostname'  =>  $this->input->post('host_name'),
+                                        'username'  =>  $this->input->post('database_username'),
+                                        'password'  =>  $this->input->post('database_password'),
+                                        'database'  =>  $this->input->post('database_name')
+                                        )
+                                    );
+                                  
+                                  $this->session->set_userdata($configs);
+
                                 /**
                                  * Write database settings into config file
-                                 *
                                  */
-                                //$statusMsgs = checkRequirements();
+                                  $dbsetup = $this->mkconfig($configs);
 
+                                  if(!$dbsetup['error']){ // If successfully written to config file
 
-                                $data['screen'] =   'admin_account';
-                                $data['step']   =   'admin_account';
-                                $this->session->set_userdata(array(
-                                    'database_settings_set'    => 'yes',
-                                    'install_step'          => 'admin_account',
-                                    'install_step_status'   => 'initiated'
-                                ));
+                                    // Load
+                                    $data['screen'] =   'admin_account';
+                                    $data['step']   =   'admin_account';
+                                    $this->session->set_userdata(array(
+                                        'database_settings_set'    => 'yes',
+                                        'install_step'          => 'admin_account',
+                                        'install_step_status'   => 'initiated'
+                                    ));
 
-                                //$this->output->set_output(json_encode($data));
-                                $this->output->set_output($this->load->view('install/embeds/admin_account', $data, TRUE));
+                                    //$this->output->set_output(json_encode($data));
+                                    $this->output->set_output($this->load->view('install/embeds/admin_account', $data, TRUE));
+
+                                  }
+                                  else{ // If saving to config file failed
+
+                                    //Set  error message and reload step
+                                    //$this->session->set_flashdata('error', $dbsetup['msg']);
+                                    $data['screen']    =   'database_settings';
+                                    $data['step']      =   'database_settings';
+                                    $data['error']     =    $dbsetup['msg'];
+
+                                    $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
+                                  }
 
                             }
                             else{
@@ -299,10 +325,12 @@ echo 'here';
      * Function that uses the file helper to make a config file from the preferred settings
      */
 
-    public function mkconfig(){
+    public function mkconfig($configs){
         $this->load->helper('file');
 
-        $r = make_config_file();
+          
+        return make_config_file($configs);
+
     }
     /**
      * Echo PHP installation information on the server running the Web Application
