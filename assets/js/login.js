@@ -13,7 +13,7 @@ $(document).ready(function() {
     $("#login_form").validate({
         rules: {
             username: "required",
-            password: "required", 
+            password: "required"
         }
     });
 

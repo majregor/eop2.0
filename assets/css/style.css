@@ -861,3 +861,24 @@ background: url(bubble.gif) no-repeat bottom;
 .content{
     overflow-x: hidden;
 }
+
+/**
+**** Added by Godfrey as part of 2.0 Major update
+*/
+/* Users management
+*/
+.adminMenu{
+    background-color:#eee;
+    padding:4px;
+}
+
+.adminMenu ul{
+    list-style: none;
+    list-style-type: none;
+}
+.adminMenu ul li{
+    display: inline-block;
+    list-style: none;
+    list-style-type: none;
+
+}

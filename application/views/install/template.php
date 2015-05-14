@@ -23,7 +23,7 @@
                     <br/>
                     EOP ASSIST is being made available to the public pursuant to the following conditions.   The U.S. Department of Education is making the software available to the public and grants the public the worldwide, non-exclusive, royalty-free right to use and distribute the software created pursuant to the ED-ESE-12-O-0036 contract, for only non-commercial and educational purposes.  This license does not include the right to modify the code of the software tool or create derivative works therefrom.  If you have any questions regarding whether a proposed use is allowable under this license or want to request a particular use, please contact Madeline Sullivan at (202) 453-6705.
                 </p>
-                <?= $contents ?>
+                <?php echo( $contents ); ?>
            
               <div style="clear:both"></div>
                   <div id="logos"> 

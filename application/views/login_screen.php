@@ -55,7 +55,7 @@
                     );
                     echo form_password($userPasswordInput);
                 ?>
-                <div style="float:right;">p strength</div>
+                <!--<div style="float:right;">p strength</div>-->
             </p>
             <p>Forgot User ID and/or Password?<p>
             <p>Please contact your District Administrator or School Administrator</p>

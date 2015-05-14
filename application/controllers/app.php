@@ -30,12 +30,9 @@ class App extends CI_Controller {
         else{
             // Load the registry module
             $this->load->model('registry_model');
-
+            $is_installed = $this->registry_model->getValue('install_status');
+            $this->session->set_userdata(array('install_status' => $is_installed));
         }
-
-
-        if($this->session->userdata('is_installed'))
-            $is_installed = $this->session->userdata('is_installed');
 
 
         if($is_installed){ // App is installed
@@ -45,13 +42,12 @@ class App extends CI_Controller {
 
 
             if($is_logged_in){
-                //Set template data
-                $this->template->set('title', 'Home');
-                $this->template->load('template', 'intro');
+                // Redirect to app home page
+                redirect('/home');
             }
             else{
-                $this->template->set('title', 'Login');
-                $this->template->load('template', 'login_screen');
+                // Redirect to login page
+                redirect('/login');
             }
         }
         else{ //App has never been installed
@@ -238,7 +234,7 @@ class App extends CI_Controller {
                                  */
 
                                 $this->load->model('user_model');
-                                $savedRecs = $this->user_model->addUser($adminData);
+                                $savedUsers = $this->user_model->addUser($adminData);
 
                                 /**
                                  * Save the selected settings into the App registry
@@ -254,7 +250,8 @@ class App extends CI_Controller {
                                 $this->load->model('registry_model');
                                 $savedRecs = $this->registry_model->addVariables($registryData);
 
-                                if(is_numeric($savedRecs) && $savedRecs>=1){ // Record saved successfully
+                                if(is_numeric($savedRecs) && $savedRecs>=1 &&
+                                    is_numeric($savedUsers) && $savedUsers>=1){ // Record saved successfully
 
                                     $data['screen'] =   'finished';
                                     $data['step']   =   'finished';
@@ -276,7 +273,7 @@ class App extends CI_Controller {
 
                                     $data['screen'] =   'admin_account';
                                     $data['step']   =   'admin_account';
-                                    $data['error']  =   'Database error: '.$savedRecs;
+                                    $data['error']  =   'Database error: '.$savedRecs.' '.$savedUsers;
 
                                     $this->output->set_output($this->load->view('install/embeds/admin_account', $data, TRUE));
 
@@ -336,7 +333,7 @@ class App extends CI_Controller {
     
 
     /**
-     * Function returns JSON formatted install progress information
+     * Function returns JSON formatted install progress information to AJAX calls
      */
     public function getInstallProgress()
     {

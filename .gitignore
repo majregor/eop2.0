@@ -1,3 +1,5 @@
 php_errors.log
-.idea/*
+.idea/workspace.xml
+workspace.xml
 .htaccess
+config.php
