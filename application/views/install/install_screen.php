@@ -237,30 +237,6 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 
         }
 
-        $('#finished_form').submit(function(){
-            var form_data = {
-                ajax                    : '1'
-            };
-
-            $.ajax({
-                url: "<?php echo base_url('app/install'); ?>",
-                type: 'POST',
-                data: form_data,
-                success: function(response) {
-
-                    //alert(msg);
-                    $('#right-pane').html(response);
-
-                    toggleMenu();
-
-
-
-                }
-            });
-
-            return false;
-        });
-
         /**
          * JQuery form validation
          */

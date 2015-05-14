@@ -10,7 +10,6 @@
         <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.11.1.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.validate.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/additional-methods.min.js"></script>
-        <script type="text/javascript" src='<?php echo base_url(); ?>assets/js/login.js'></script>
     </head>
 
     <body>

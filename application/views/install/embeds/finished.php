@@ -15,7 +15,7 @@
         <?php
         $attributes = array(
             'name'  =>  'finished_form_submit',
-            'value' =>  'Save and Continue',
+            'value' =>  'Login',
             'class' =>  'signin_submit',
             'id'    =>  'finished_form_submit',
             'style' =>  ''

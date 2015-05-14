@@ -240,6 +240,20 @@ class App extends CI_Controller {
                                 $this->load->model('user_model');
                                 $savedRecs = $this->user_model->addUser($adminData);
 
+                                /**
+                                 * Save the selected settings into the App registry
+                                 *
+                                 */
+                                // Get the numerous submitted  inputs
+                                $registryData = array(
+                                    'install_status'    =>  'completed',
+                                    'dbtype'            =>  $this->session->userdata['database']['dbdriver'],
+                                    'host_level'        =>  $this->session->userdata('pref_hosting_level')
+                                );
+
+                                $this->load->model('registry_model');
+                                $savedRecs = $this->registry_model->addVariables($registryData);
+
                                 if(is_numeric($savedRecs) && $savedRecs>=1){ // Record saved successfully
 
                                     $data['screen'] =   'finished';
@@ -253,7 +267,6 @@ class App extends CI_Controller {
                                         'user_password'         => $this->input->post('user_password')
                                     ));
 
-                                    //$this->output->set_output(json_encode($data));
                                     $this->output->set_output($this->load->view('install/embeds/finished', $data, TRUE));
 
                                 }
@@ -287,49 +300,12 @@ class App extends CI_Controller {
                         $install_step_status = $this->session->userdata('install_step_status');
 
                         if($install_step_status == 'initiated'){
-                            if($this->input->post('ajax')){ // If form is submitted using ajax
 
-                                /**
-                                 * Save the selected settings into the App registry
-                                 *
-                                 */
-                                // Get the numerous submitted  inputs
-                                $registryData = array(
-                                    'install_status'    =>  'completed',
-                                    'dbtype'            =>  $this->session->userdata['database']['dbdriver'],
-                                    'host_level'        =>  $this->session->userdata('pref_hosting_level')
-                                );
+                            //Redirect to login page
 
-                                $this->load->model('registry_model');
-                                $savedRecs = $this->registry_model->addVariables($registryData);
-
-                                if(is_numeric($savedRecs) && $savedRecs>=1){ //Records were successfully saved
-
-                                    $data['screen'] =   'login';
-
-                                    $this->template->load('template', 'login_screen', $data);
-
-                                }
-                                else{ // There was a problem saving the data
-
-                                    $data['screen'] =   'finished';
-                                    $data['step']   =   'finished';
-                                    $data['error']  =   'Database error: '.$savedRecs;
-
-                                    //$this->output->set_output(json_encode($data));
-                                    $this->output->set_output($this->load->view('install/embeds/finished', $data, TRUE));
-                                }
-
-
-                            }
-                            else{
-
-                                $data['screen']    =   'finished';
-                                $data['step']      =   'finished';
-
-                                $this->template->set('title', 'EOP Assist Installation');
-                                $this->template->load('install/template', 'install/install_screen', $data);
-                            }
+                           redirect('/login');
+                                
+                            
                         }
                         else{
 
@@ -356,6 +332,8 @@ class App extends CI_Controller {
             $this->template->set('title', 'EOP Assist Installation Resumed');
         }
     }
+
+    
 
     /**
      * Function returns JSON formatted install progress information

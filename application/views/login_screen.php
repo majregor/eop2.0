@@ -10,14 +10,10 @@
         <p class="logintxttop">The U.S. Department of Education contracted for final products and deliverables that were developed under the ED-ESE-12-O-0036 contract with Synergy Enterprises, Inc., and the contract stipulates that the U.S. Department of Education is the sole owner of EOP ASSIST.<br /><br />
             EOP ASSIST is being made available to the public pursuant to the following conditions.   The U.S. Department of Education is making the software available to the public and grants the public the worldwide, non-exclusive, royalty-free right to use and distribute the software created pursuant to the ED-ESE-12-O-0036 contract, for only non-commercial and educational purposes.  This license does not include the right to modify the code of the software tool or create derivative works therefrom.  If you have any questions regarding whether a proposed use is allowable under this license or want to request a particular use, please contact Madeline Sullivan at (202) 453-6705.</p>
 
-
-        <form method="post" id="signin" name="signin" action="ValidateUser.php" onsubmit="return isLoginFormBlank();">
-            <input type="hidden" id ="messageToUser" value="<?php
-            if (!empty($_SESSION['messageToUser'])) {
-                echo $_SESSION['messageToUser'];
-                unset($_SESSION['messageToUser']);
-            }
-            ?>" />
+        <?php
+            echo form_open('login/validate', array('class'=>'login_form', 'id'=>'login_form'));
+        ?>
+            
             <h3 style="color:#59B">
                 Please enter your credentials and click the Sign in button below.
             </h3>
@@ -31,12 +27,35 @@
             </h5>
             <hr style="height: 0px; color: #59B;background-color:#598; margin: 20px 0px; width: 100% " />
             <label for="username"><span style="color:#59B"><strong>User ID:</strong> &nbsp;<font color="red">*</font></span></label>
-
-            <input id="username" name="username" value="" title="user id" tabindex="4" type="text" style="color:#59B" onfocus=""/>
+            <?php
+            $userNameInput = array(
+                    'name'      =>  'username',
+                    'id'        =>  'username',
+                    'value'     =>  '',
+                    'required'  =>  'required',
+                    'title'     =>  'User Name',
+                    'onfocus'   =>  '',
+                    'style'     =>  "color:#59B",
+                     'minlength' =>  '3'
+                );
+                echo form_input($userNameInput);
+            ?>
             </p>
             <p>
                 <label for="password"><strong><span style="color:#59B">Password: &nbsp;<font color="red">*</font></span></strong></label>
-                <input id="password" name="password" value="" title="password" tabindex="5" type="password" style="color:#59B" onfocus=""/>
+                <?php
+                    $userPasswordInput = array(
+                        'name'      =>  'password',
+                        'id'        =>  'password',
+                        'value'     =>  '',
+                        'required'  =>  'required',
+                        'minlength' =>  '6',
+                        'onfocus'   =>  '',
+                        'style'     =>  "color:#59B"
+                    );
+                    echo form_password($userPasswordInput);
+                ?>
+                <div style="float:right;">p strength</div>
             </p>
             <p>Forgot User ID and/or Password?<p>
             <p>Please contact your District Administrator or School Administrator</p>

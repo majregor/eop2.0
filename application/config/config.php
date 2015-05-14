@@ -17,7 +17,7 @@
 |
 */
 //$config['base_url'] = 'http://localhost/eop2.0/'; //Production
-  $config['base_url'] = '/eop2.0/'; //Development
+  $config['base_url'] = '/sites/eop2.0/'; //Development
 
 /*
 |--------------------------------------------------------------------------

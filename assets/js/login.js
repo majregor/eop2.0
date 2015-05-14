@@ -1,5 +1,28 @@
 
 $(document).ready(function() {
+
+
+    /**
+     * JQuery form validation
+     */
+    jQuery.validator.setDefaults({
+        //debug: true,
+        //success: "valid"
+    });
+
+    $("#login_form").validate({
+        rules: {
+            username: "required",
+            password: "required", 
+        }
+    });
+
+    /*$('#password').keyup(function()
+    {
+        alert(passwordStrength($('#password').val()));
+    })  */
+
+
     $('#forgotUserIdLink').click(function() {
         $.ajax({
             type: 'GET',
