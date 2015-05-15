@@ -417,7 +417,7 @@ li.active6 {
 .left {
     float: left;
 }
-input[type=button] {
+input[type=button], input[type=submit] {
     position: relative;
     display: block;
     color:#fff;
@@ -429,7 +429,7 @@ input[type=button] {
     font-size: .9em;
     outline: none !important;
 }
-input[type=button]:hover {
+input[type=button]:hover,input[type=submit]:hover  {
     background: #4CA6DB;
 }
 
@@ -870,15 +870,100 @@ background: url(bubble.gif) no-repeat bottom;
 .adminMenu{
     background-color:#eee;
     padding:4px;
+    margin:10px 0px;
 }
 
 .adminMenu ul{
     list-style: none;
     list-style-type: none;
+    margin:0;
+    padding:0;
+    position:relative;
+    float:left;
 }
 .adminMenu ul li{
-    display: inline-block;
     list-style: none;
     list-style-type: none;
+    margin:0;
+    padding:0
+    position:relative;
+    float:left;
 
+}
+
+.adminMenu ul a
+    {
+        display:inline-block;
+        text-decoration:none;
+        font-weight:700;
+        font-size:12px;
+        line-height:32px;
+        padding:0 15px;
+    }
+.adminMenu ul a:hover{
+    color:#333;
+}
+.adminMenu ul ul
+    {
+        display:none;
+        position:absolute;
+        top:100%;
+        left:0;
+        background:#fff;
+        padding:0;
+    z-index: 1000;
+    }
+
+
+.adminMenu ul li:hover
+{
+    background:#f6f6f6;
+}
+
+.adminMenu ul li:hover > ul
+{
+    display:block
+}
+
+
+.adminMenu ul ul li
+{
+    float:none;
+    width:auto;
+}
+
+.adminMenu ul ul a
+{
+    line-height:120%;
+    padding:10px 15px
+}
+
+.adminMenu ul ul ul
+{
+    top:0;
+    left:100%
+}
+.required{
+    color: #CC0000;
+}
+.info,.success,.error,.warning
+{
+    margin: 0px;
+    padding:5px 2px 5px 25px;
+    border-radius: 3px;
+    box-shadow: 4px 4px #dfe1d8;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -moz-box-shadow: 4px 4px #dfe1d8;
+    -webkit-box-shadow: 4px 4px #dfe1d8;
+}
+label.error{
+    z-index: 10;
+    display: inline-block;
+}
+.error{
+    border:1px solid #641f1a;
+    color:#641f1a;
+    background:#ffd2d4 url('../img/unchecked.gif') no-repeat;
+    background-position:3px 5px;
 }

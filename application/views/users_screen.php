@@ -11,10 +11,37 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/jquery.dataTables.css"/>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>
 
+<?php
+    if((null != $this->session->flashdata('error'))):
+?>
+    <div id="errorDiv">
+        <div class="notify notify-red">
+            <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+        </div>
+    </div>
+
+<?php endif; ?>
+
+<?php
+if((null != $this->session->flashdata('success'))):
+    ?>
+    <div id="errorDiv">
+        <div class="notify notify-green">
+            <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+        </div>
+    </div>
+
+<?php endif; ?>
+
 <div class="adminMenu">
     <ul>
         <li>
-            <a href="#">User Management </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+            <a href="<?php echo base_url(); ?>user">User Management </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+            <ul>
+                <li><a href="<?php echo base_url(); ?>user">View All</a></li>
+                <li><a href="<?php echo base_url(); ?>user/add">Create New User</a></li>
+
+            </ul>
         </li>
         <li>
             <a href="#">School Management</a> &nbsp;&nbsp; | &nbsp;&nbsp;
@@ -26,7 +53,14 @@
             <a href="#">State Access</a>
         </li>
     </ul>
+    <br style="clear: both;"/>
 </div>
+
+<?php if(isset($viewform)){
+    include('forms/user.php');
+}
+?>
+
 <div>
     <table id="userManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="100%" style="display: block;">
 
@@ -80,5 +114,20 @@
             "bFilter": true, // For the search text box
             "bInfo": true // For the "Showing 1 to 10 of x entries" text at the bottom
         });
+
+
+
+        $("#user_form").validate({
+            rules: {
+                phone:{
+                    phoneUS: true
+                },
+                user_password: "required",
+                user_password_conf: {
+                    equalTo: "#user_password"
+                }
+            }
+        });
+
     });
 </script>

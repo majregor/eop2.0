@@ -29,7 +29,7 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
             </li>
         </ul>
         <h3>
-        <font color="red">* &nbsp;</font>
+        <span style="color:red">* &nbsp;</span>
         <span style="color:#59B"><strong>Required Field</strong></span>
         </h3>
     </div><!-- ENd left-pane -->

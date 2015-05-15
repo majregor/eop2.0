@@ -24,12 +24,9 @@ class Login extends CI_Controller{
             redirect('/home');
         }
         else{
-            $templateData = array(
-                'page'          =>  'login',
-                'page_title'    => 'Login'
-            );
             //Load the login form page
-            $this->template->load('template', 'login_screen', $templateData);
+            $this->login_form();
+
         }
 	}
 
@@ -53,8 +50,25 @@ class Login extends CI_Controller{
 		}
 		else{ // Login failed
 
+            //Create flash error message and send back to login page
+            $this->session->set_flashdata('error', 'Login Failed: Invalid User Id or Password.');
+            $this->login_form();
 		}
 	}
+
+    /**
+     * Action for loading the login form view
+     */
+    public function login_form(){
+
+        $templateData = array(
+            'page'          =>  'login',
+            'page_title'    => 'Login'
+        );
+
+        $this->template->load('template', 'login_screen', $templateData);
+
+    }
 
     /**
      * Action to signout/logout users

@@ -14,12 +14,14 @@
             echo form_open('login/validate', array('class'=>'login_form', 'id'=>'login_form'));
         ?>
             
-            <h3 style="color:#59B">
-                Please enter your credentials and click the Sign in button below.
-            </h3>
+            <h3 class="title">   Please enter your credentials and click the Sign in button below.</h3>
             <br />
+        <?php if($this->session->flashdata('error')): ?>
+            <h3 class='error'><?php echo ($this->session->flashdata('error')); ?></h3>
+        <?php endif; ?>
+        <br/>
             <h3>
-                <font color="red">* &nbsp;</font>
+                <span style="color:red">* &nbsp;</span>
                 <span style="color:#59B"><strong>Required Field</strong></span>
             </h3></p>
             <h5>
