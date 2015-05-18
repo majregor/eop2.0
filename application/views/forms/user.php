@@ -4,7 +4,7 @@
  *
  * Displays form for adding and editing users.
  *
- */
+ */echo $this->session->userdata('host_state');
 ?>
 
 <h1>Create User</h1>
@@ -12,7 +12,7 @@
     echo form_open('user/add', array('class'=>'user_form', 'id'=>'user_form'));
 ?>
     <div id="errorDiv"></div>
-    <table border="1" width="100%" rules="all">
+    <table border="1" width="100%" rules="all" >
         <tr>
             <td width="15%"><span class="required">*</span> First Name:</td>
             <td>
@@ -121,6 +121,7 @@
                 <div id="userRoleDiv_MODIFIED">
                     <?php
                         $options = array();
+                        $options['empty'] = '--Select--';
                         foreach($roles as $rowIndex => $row){
                             $options[$row['role_id']] = $row['title'];
                         }
@@ -134,28 +135,53 @@
                 </div>
             </td>
         </tr>
-        <tr id="districtRow" style="display:none">
+        <tr id="districtRow">
             <td><span class="required">*</span>District:</td>
             <td>
-                <select name="slctzone" id="slctzone" style="width:100%">
-                    <option value="" selected="selected">--Select--</option>
-                    <?php
-                    while($zoneRow = mysqli_fetch_object($zoneList)){
-                        ?>
-                        <option value="<?php echo $zoneRow->id;?>"><?php echo $zoneRow->display_name;?></option>
-                    <?php
-                    }//end while loop
-                    ?>
-                </select>
+              <?php
+                    $options = array();
+                    $options['empty'] = '--Select--';
+                    foreach($districts as $rowIndex => $row){
+                        $options[$row['id']] = $row['name'];
+                    }
+
+                    $otherAttributes = 'id="sltdistrict" style=""';
+                    reset($options);
+                    $first_key = key($options);
+                    echo form_dropdown('sltdistrict', $options, "$first_key", $otherAttributes);
+                ?>
+
             </td>
         </tr>
-        <tr id="subDistrictRow" style="display:none">
+        <tr id="schoolRow">
             <td><span class="required">*</span>School:</td>
             <td>
-                <select name="slctsubdistrict" id="slctsubdistrict" style="width:100%">
-                    <option value="" selected="selected">--Select--</option>
+                <?php
+                $options = array();
+                $options['empty'] = '--Select--';
+                foreach($schools as $rowIndex => $row){
+                    $options[$row['id']] = $row['name'];
+                }
 
-                </select>
+                $otherAttributes = 'id="sltschool" style=""';
+                reset($options);
+                $first_key = key($options);
+                echo form_dropdown('sltschool', $options, "$first_key", $otherAttributes);
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td><span class="required">*</span>View-Only:</td>
+            <td>
+                <?php
+                    $options = array(
+                        'read'      => 'Yes',
+                        'write'      =>  'No'
+                    );
+
+                     $otherAttributes = 'id="user_access_permission" style=""';
+                    echo form_dropdown('user_access_permission', $options, 'write', $otherAttributes);
+                ?>
             </td>
         </tr>
         <tr>

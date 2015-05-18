@@ -18,6 +18,14 @@ echo form_open('app/install', array('class'=>'admin_account_form', 'id'=>'admin_
         The username will be used to login as a super administrator.
     </p>
     <p>
+        <label><span class="inputlabel">State</span> <span class="required">*</span> </label><br>
+        <?php
+            $this->load->helper('state');
+            echo state_dropdown('state');
+        ?>
+        Select the state.
+    </p>
+    <p>
         <label><span class="inputlabel">Email</span> <span class="required">*</span> </label><br>
         <?php
         $userEmailInput = array(

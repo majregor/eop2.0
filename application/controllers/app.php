@@ -31,7 +31,9 @@ class App extends CI_Controller {
             // Load the registry module
             $this->load->model('registry_model');
             $is_installed = $this->registry_model->getValue('install_status');
+            $host_state = $this->registry_model->getValue('host_state');
             $this->session->set_userdata(array('install_status' => $is_installed));
+            $this->session->set_userdata(array('host_state' => $host_state));
         }
 
 

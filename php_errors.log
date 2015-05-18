@@ -12,3 +12,51 @@
 [12-May-2015 18:19:16 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/views/install/embeds/finished.php on line 8
 [12-May-2015 20:57:20 UTC] PHP Fatal error:  Call to undefined function prinit_r() in /Users/GMajwega/Sites/eop2.0/system/helpers/file_helper.php on line 487
 [12-May-2015 20:59:12 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/system/helpers/file_helper.php on line 489
+[13-May-2015 21:16:06 UTC] PHP Fatal error:  require_once(): Failed opening required '/Users/GMajwega/Sites/eop2.0/system/database/drivers/mysql1/mysql1_driver.php' (include_path='.:') in /Users/GMajwega/Sites/eop2.0/system/database/DB.php on line 141
+[14-May-2015 14:08:35 UTC] PHP Fatal error:  Can't use method return value in write context in /Users/GMajwega/Sites/eop2.0/application/controllers/app.php on line 34
+[14-May-2015 17:44:22 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/views/template.php on line 49
+[14-May-2015 19:06:50 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/views/home_screen.php on line 18
+[15-May-2015 13:06:51 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/controllers/login.php on line 55
+[15-May-2015 13:06:51 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/controllers/login.php on line 55
+[15-May-2015 15:44:28 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:45:09 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:45:19 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:47:08 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:47:12 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:47:13 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:47:15 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:50:01 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:52:26 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:52:27 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:52:30 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:52:50 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:52:52 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:53:16 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:53:17 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:53:18 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:53:18 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:53:18 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:53:19 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:53:19 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:53:19 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 15:53:19 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 16:01:46 UTC] PHP Fatal error:  Call to undefined function getAllSubDistricts() in /Users/GMajwega/Sites/eop2.0/application/views/forms/user.php on line 171
+[15-May-2015 19:58:17 UTC] PHP Fatal error:  Cannot use isset() on the result of a function call (you can use "null !== func()" instead) in /Users/GMajwega/Sites/eop2.0/application/views/users_screen.php on line 15
+[18-May-2015 13:50:24 UTC] PHP Fatal error:  Call to undefined method User_model::getAllDistricts() in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 78
+[18-May-2015 13:50:27 UTC] PHP Fatal error:  Call to undefined method User_model::getAllDistricts() in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 78
+[18-May-2015 13:50:48 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 84
+[18-May-2015 13:50:57 UTC] PHP Fatal error:  Call to undefined method User_model::getAllDistricts() in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 78
+[18-May-2015 14:05:46 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 94
+[18-May-2015 14:41:47 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 96
+[18-May-2015 14:42:36 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 96
+[18-May-2015 14:47:07 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 96
+[18-May-2015 14:50:13 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 96
+[18-May-2015 14:50:20 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 96
+[18-May-2015 14:50:21 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 96
+[18-May-2015 14:50:22 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 96
+[18-May-2015 14:50:43 UTC] PHP Fatal error:  Call to a member function result() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 96
+[18-May-2015 14:54:38 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 97
+[18-May-2015 18:10:44 UTC] PHP Fatal error:  Call to undefined method User::set_output() in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 129
+[18-May-2015 18:12:05 UTC] PHP Fatal error:  Call to undefined method User::set_output() in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 129
+[18-May-2015 18:12:57 UTC] PHP Fatal error:  Call to undefined function ajax_reload() in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 129
+[18-May-2015 18:47:51 UTC] PHP Parse error:  parse error, expecting `'('' in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 115

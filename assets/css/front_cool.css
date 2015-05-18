@@ -131,7 +131,7 @@ a.signin.menu-open span {
 .signin_submit {
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
-	background:#39d;
+	background:#39d !important;
 	border:1px solid #39D;
 	color:#fff;
 	text-shadow:0 -1px 0 #39d;
@@ -139,6 +139,7 @@ a.signin.menu-open span {
 	font-size:11px;
 	margin:0 5px 0 0;
 	font-weight:bold;
+    display: inline !important;
 }
 .signin_submit::-moz-focus-inner {
 padding:0;
