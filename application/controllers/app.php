@@ -19,7 +19,7 @@ class App extends CI_Controller {
         /**
          *  Check if the application installation completed successfully
          */
-        if($this->db->conn_id === FALSE){
+        if($this->db->conn_id == FALSE){
 
             //echo $this->db->_error_message();
            //var_dump( $this->db->conn_id);
@@ -69,7 +69,7 @@ class App extends CI_Controller {
         // installation progress variables
         $install_started = $this->session->userdata('install_started');
 
-        if($install_started === FALSE){ //Installation has never been started
+        if($install_started == FALSE){ //Installation has never been started
 
             if(!$this->session->userdata('install_status')){ //Installation not started
                 //Load the initial install screen view and set the session data status to install_started

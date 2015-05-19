@@ -1,6 +1,6 @@
 <?php
 /**
- *  School Management Form
+ *  District Management Form
  *
  * Displays form for adding and editing schools.
  *
@@ -9,17 +9,17 @@
 
 <h1>Create School</h1>
 <?php
-    echo form_open('school/add', array('class'=>'school_form', 'id'=>'school_form'));
+    echo form_open('district/add', array('class'=>'district_form', 'id'=>'district_form'));
 ?>
     <div id="errorDiv"></div>
     <table border="1" width="100%" rules="all" >
         <tr>
-            <td width="15%"><span class="required">*</span> School Name:</td>
+            <td width="15%"><span class="required">*</span> District Name:</td>
             <td>
                 <?php
                 $inputAttributes = array(
-                    'name'      =>  'school_name',
-                    'id'        =>  'school_name',
+                    'name'      =>  'district_name',
+                    'id'        =>  'district_name',
                     'required'  =>  'required',
                     'minlength'  =>  '3',
                     'size'      =>   '70'
@@ -42,35 +42,14 @@
                 ?>
             </td>
         </tr>
-        
-        <?php if($role['create_district']=='y'): ?>
-            <tr id="districtRow">
-                <td><span class="required">*</span>District:</td>
-                <td>
-                  <?php
-                        $options = array();
-                        $options['empty'] = '--Select--';
-                        $options['']    =   'None';
-                        foreach($districts as $rowIndex => $row){
-                            $options[$row['id']] = $row['name'];
-                        }
 
-                        $otherAttributes = 'id="sltdistrict" style=""';
-                        reset($options);
-                        $first_key = key($options);
-                        echo form_dropdown('sltdistrict', $options, "$first_key", $otherAttributes);
-                    ?>
-
-                </td>
-            </tr>
-        <?php endif; ?>
         <tr>
             <td colspan="2" align="left">
                 <?php
                 $attributes = array(
-                    'name'  =>  'school_form_submit',
+                    'name'  =>  'district_form_submit',
                     'value' =>  'Save',
-                    'id'    =>  'school_form_submit',
+                    'id'    =>  'district_form_submit',
                     'style' =>  ''
                 );
                 ?>

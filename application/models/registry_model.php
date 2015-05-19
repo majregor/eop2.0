@@ -64,6 +64,14 @@ class Registry_model extends CI_Model {
 
     function update($key, $value){
 
+        $updateData = array(
+            'key'      =>  $key,
+            'value'    =>  $value
+        );
+
+        $this->db->update('eop_registry', $updateData);
+
+        return $this->db->affected_rows();
     }
 
     function updateValue($value){

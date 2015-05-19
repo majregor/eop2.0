@@ -967,3 +967,44 @@ label.error{
     background:#ffd2d4 url('../img/unchecked.gif') no-repeat;
     background-position:3px 5px;
 }
+
+button{
+    margin: 0px auto;
+    padding: 0px 5px;
+    color: #000;
+    white-space:nowrap;
+    width:auto;
+    overflow:visible;
+    height:28px;
+    background-repeat: no-repeat;
+}
+
+button em{
+    vertical-align:middle;
+    margin:0 2px;
+    display:inline-block;
+    width:16px;
+    height:16px;
+}
+
+button em.leftImage{
+    background-position: -96px -112px;
+}
+
+button em.rightImage{
+    background-position: -64px -16px;
+}
+
+em.approve{background-image: url(../img/check_mark.png); }
+em.revoke{background-image: url(../img/check_mark_cross.png);}
+.approval-holder span{ width:100%; display: block; background-position: center; max-width:72px; margin: 5px 0px;}
+
+.adminTable td{
+    padding:10px;
+}
+
+
+.adminTable tr:nth-child(even) {background: #EEE}
+.adminTable tr:nth-child(odd) {background: #CCC}
+
+

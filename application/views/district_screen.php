@@ -1,8 +1,8 @@
 <?php
 /**
- *  User Management View
+ *  District Management View
  *
- * This is the main user management view for managing and registering users, schools and districts.
+ * This is the main district management view for managing and registering users, schools and districts.
  *
  * 2015 © United States Department of Education
  */
@@ -44,50 +44,40 @@ if((null != $this->session->flashdata('success'))):
 include('embeds/admin_menu.php');
 
 if(isset($viewform)){
-    include('forms/school.php');
+    include('forms/district.php');
 }
 ?>
 
 <div>
     <!-- Hidden field used to store selected user id -->
-    <input type="hidden" id="selectedSchoolId" value="" />
-    <table id="schoolManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="100%" style="display: block; font-size:13px;">
+    <input type="hidden" id="selectedDistrictId" value="" />
+    <table id="districtManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="100%" style="display: block; font-size:13px;">
 
         <thead>
             <tr>
-                <th>School Name</th>
-                 <?php 
-                    if($role['create_district']=='y'){
-                        echo (" <th>District</th>");
-                    }
-                ?>
-                <th>EOP</th>
-                <th>Modify School</th>
+                <th>District Name</th>
+                <th>Screen Name</th>
+                <th>Modify District</th>
             </tr>
         </thead>
 
         <tbody>
-            <?php foreach($schools as $key=>$value): ?>
+            <?php foreach($districts as $key=>$value): ?>
             <tr>
                 <td>
                     <?php echo $value['name']; ?>
                 </td>
-                 <?php if($role['create_district']=='y'): ?>
-                    <td>
-                         <?php echo $value['district_id'] ?>
-                    </td>
-                <?php endif; ?>
                 
                 <td>
-                    View
+                    <?php echo $value['screen_name']; ?>
                 </td>
                
 
                 <td>
-                    <a class="modifySchoolProfileLink"
+                    <a class="modifyDistrictProfileLink"
                        param1="<?php echo($value['name']); ?>"
                        param2="<?php echo($value['screen_name']); ?>"
-                       id="<?php echo($value['id']); ?>" href="/school">
+                       id="<?php echo($value['id']); ?>" href="/district">
                         Edit
                     </a>
                 </td>
@@ -98,14 +88,9 @@ if(isset($viewform)){
 
         <tfoot>
             <tr>
-                <th>School Name</th>
-                 <?php 
-                    if($role['create_district']=='y'){
-                        echo (" <th>District</th>");
-                    }
-                ?>
-                <th>EOP</th>
-                <th>Modify School</th>
+                <th>District Name</th>
+                <th>Screen Name</th>
+                <th>Modify District</th>
             </tr>
         </tfoot>
 
@@ -114,9 +99,9 @@ if(isset($viewform)){
 
 
 
-<div id="update-school-dialog" title="Update School Profile">
+<div id="update-district-dialog" title="Update District Profile">
     <?php
-        include("forms/update_school.php");
+        include("forms/update_district.php");
     ?>
 </div>
 
@@ -128,7 +113,7 @@ if(isset($viewform)){
 
         
 
-        $('#schoolManagementTbl').DataTable({
+        $('#districtManagementTbl').DataTable({
             "bFilter": true, // For the search text box
             "bInfo": true // For the "Showing 1 to 10 of x entries" text at the bottom
         });
@@ -139,48 +124,38 @@ if(isset($viewform)){
          *
          */
 
-        $("#school_form").validate({
-            rules: {
-                phone:{
-                    phoneUS: true
-                },
-                user_password: "required",
-                user_password_conf: {
-                    equalTo: "#user_password"
-                }
-            }
-        });
+        $("#district_form").validate();
 
-        $("#update_school_form").validate({
+        $("#update_district_form").validate({
 
-            submitHandler: submit_update_school_form
+            submitHandler: submit_update_district_form
         });
 
 
 
         /**
          *
-         * Update School Profile functionality
+         * Update District Profile functionality
          */
-            $(".modifySchoolProfileLink").click(function(){
+            $(".modifyDistrictProfileLink").click(function(){
                 var id = $(this).attr('id');
                 var name = $(this).attr('param1');
                 var screen_name = $(this).attr('param2');
 
 
-                $('#school_name_update').val(name);
+                $('#district_name_update').val(name);
                 $('#screen_name_update').val(screen_name);
-                $('#school_id_update').val(id);
+                $('#district_id_update').val(id);
 
-                //Open the update user dialog form
-                $("#update-school-dialog").dialog('open');
+                //Open the update district dialog form
+                $("#update-district-dialog").dialog('open');
                 return false;
             });
 
-            $("#update-school-dialog").dialog({
+            $("#update-district-dialog").dialog({
                 resizable:      false,
-                minHeight:      300,
-                minWidth:       500,
+                minHeight:      200,
+                minWidth:       300,
                 modal:          true,
                 autoOpen:       false,
                 show:           {
@@ -189,16 +164,16 @@ if(isset($viewform)){
                 }
             });
 
-            function submit_update_school_form(){
+            function submit_update_district_form(){
 
                 var form_data = {
-                    school_id               : $('#school_id_update').val(),
-                    school_name             : $('#school_name_update').val(),
+                    district_id             : $('#district_id_update').val(),
+                    district_name           : $('#district_name_update').val(),
                     screen_name             : $('#screen_name_update').val(),
                     ajax                    : '1'
                 };
                 $.ajax({
-                    url: "<?php echo base_url('school/update'); ?>",
+                    url: "<?php echo base_url('district/update'); ?>",
                     type: 'POST',
                     data: form_data,
                     success: function(response) {
@@ -206,7 +181,7 @@ if(isset($viewform)){
                     }
                 });
 
-                $('#update-school-dialog').dialog("close");
+                $('#update-district-dialog').dialog("close");
                 return false;
             }
 
