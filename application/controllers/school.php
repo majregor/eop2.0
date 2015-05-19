@@ -17,17 +17,18 @@
  * (c) 2015 United States Department of Education
  */
 
-class User extends CI_Controller{
+class School extends CI_Controller{
 
 
     public function __construct(){
         parent::__construct();
 
         if($this->session->userdata('is_logged_in')){
-
-            $this->load->model('registry_model');
             // Load the user_model that will handle most database operations
+            $this->load->model('registry_model');
             $this->load->model('user_model');
+            $this->load->model('school_model');
+
 
             $host_state = $this->registry_model->getValue('host_state');
             $this->session->set_userdata('host_state', $host_state);
@@ -46,7 +47,7 @@ class User extends CI_Controller{
         //Get the districts available in the state
         $districts = $this->user_model->getDistricts($this->session->userdata('host_state'));
         //Get the districts available in the state
-        $schools = $this->user_model->getSchools($this->session->userdata('host_state'));
+        $schools = $this->school_model->getSchools($this->session->userdata('host_state'));
         // Get all registered users
         $users = $this->user_model->getUsers();
          // Get the role access permissions for the logged in user
@@ -54,8 +55,8 @@ class User extends CI_Controller{
 
         $templateData = array(
             'page'          =>  'users',
-            'page_title'    =>  'User Management',
-            'step_title'    =>  'Users',
+            'page_title'    =>  'School Management',
+            'step_title'    =>  'Schools',
             'users'          => $users,
             'roles'         =>  $roles,
             'districts'     =>  $districts,
@@ -63,7 +64,7 @@ class User extends CI_Controller{
             'role'          =>  $role
 
         );
-        $this->template->load('template', 'users_screen', $templateData);
+        $this->template->load('template', 'school_screen', $templateData);
     }
 
     /**
@@ -81,7 +82,7 @@ class User extends CI_Controller{
     public function add(){
 
         // Check if there is data submitted
-        $submitted = is_null($this->input->post('user_form_submit'))? FALSE : $this->input->post('user_form_submit');
+        $submitted = is_null($this->input->post('school_form_submit'))? FALSE : $this->input->post('school_form_submit');
 
         if($submitted){ // Form has been submitted
             // Process the data and add to the database
@@ -136,7 +137,7 @@ class User extends CI_Controller{
                 'users'         =>  $users,
                 'role'          =>  $role
             );
-            $this->template->load('template', 'users_screen', $templateData);
+            $this->template->load('template', 'school_screen', $templateData);
         }
 
 

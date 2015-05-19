@@ -4,7 +4,7 @@
  *
  * Displays form for adding and editing users.
  *
- */echo $this->session->userdata('host_state');
+ */
 ?>
 
 <h1>Create User</h1>
@@ -115,11 +115,13 @@
             </td>
         </tr>
 
+        
         <tr>
             <td><span class="required">*</span> User Role:</td>
             <td>
                 <div id="userRoleDiv_MODIFIED">
-                    <?php
+
+                    <?php 
                         $options = array();
                         $options['empty'] = '--Select--';
                         foreach($roles as $rowIndex => $row){
@@ -135,12 +137,14 @@
                 </div>
             </td>
         </tr>
-        <tr id="districtRow">
+       
+        <tr id="districtRow" style="display:none;">
             <td><span class="required">*</span>District:</td>
             <td>
               <?php
                     $options = array();
                     $options['empty'] = '--Select--';
+                    $options['']    =   'None';
                     foreach($districts as $rowIndex => $row){
                         $options[$row['id']] = $row['name'];
                     }

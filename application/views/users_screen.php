@@ -7,6 +7,8 @@
  * 2015 © United States Department of Education
  */
 
+//print_r($role);
+
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/jquery.dataTables.css"/>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>
@@ -33,45 +35,38 @@ if((null != $this->session->flashdata('success'))):
 
 <?php endif; ?>
 
-<div class="adminMenu">
-    <ul>
-        <li>
-            <a href="<?php echo base_url(); ?>user">User Management </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-            <ul>
-                <li><a href="<?php echo base_url(); ?>user">View All</a></li>
-                <li><a href="<?php echo base_url(); ?>user/add">Create New User</a></li>
 
-            </ul>
-        </li>
-        <li>
-            <a href="#">School Management</a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        </li>
-        <li>
-            <a href="#">District Management</a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        </li>
-        <li>
-            <a href="#">State Access</a>
-        </li>
-    </ul>
-    <br style="clear: both;"/>
-</div>
 
-<?php if(isset($viewform)){
+<?php 
+
+// Include the admin menu
+include('embeds/admin_menu.php');
+
+if(isset($viewform)){
     include('forms/user.php');
 }
 ?>
 
 <div>
-    <table id="userManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="100%" style="display: block;">
+    <!-- Hidden field used to store selected user id -->
+    <input type="hidden" id="selectedUserId" value="" />
+    <table id="userManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="100%" style="display: block; font-size:13px;">
 
         <thead>
             <tr>
                 <th>Full Name</th>
                 <th>Email</th>
-                <th>User ID</th>
+                <th>User&nbsp;ID</th>
                 <th>Status</th>
                 <th>User Role</th>
                 <th>School</th>
+                <?php 
+                    if($role['create_district']=='y'){
+                        echo (" <th>District</th>");
+                    }
+                ?>
+               
+                <th>View Only</th>
                 <th>Password</th>
                 <th>Modify User</th>
             </tr>
@@ -98,6 +93,14 @@ if((null != $this->session->flashdata('success'))):
                 <td>
                     <?php echo $value['school'] ?>
                 </td>
+                <?php if($role['create_district']=='y'): ?>
+                    <td>
+                         <?php echo $value['district_name'] ?>
+                    </td>
+                <?php endif; ?>
+                <td>
+                     <?php echo (($value['read_only']=='n')? 'No':'Yes'); ?>
+                </td>
                 <td>
                     <a class="resetUserPasswordLink"
                        param1="<?php echo($value['first_name']); ?>"
@@ -121,6 +124,19 @@ if((null != $this->session->flashdata('success'))):
                        id="<?php echo($value['user_id']); ?>" href="/user">
                         Edit
                     </a>
+                     &nbsp;|&nbsp;
+                    <?php if($value['status'] == 'active'): ?>
+                        <a class="blockUserLink"
+                           id="<?php echo($value['user_id']); ?>" href="/user">
+                            Block
+                        </a>
+
+                    <?php elseif($value['status'] == 'blocked' || !isset($value['status'])): ?>
+                        <a class="unblockUserLink"
+                           id="<?php echo($value['user_id']); ?>" href="/user">
+                            Activate
+                        </a>
+                    <?php endif; ?>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -134,6 +150,12 @@ if((null != $this->session->flashdata('success'))):
                 <th>Status</th>
                 <th>User Role</th>
                 <th>School</th>
+                 <?php 
+                    if($role['create_district']=='y'){
+                        echo (" <th>District</th>");
+                    }
+                ?>
+                <th>View Only</th>
                 <th>Password</th>
                 <th>Modify User</th>
             </tr>
@@ -154,8 +176,20 @@ if((null != $this->session->flashdata('success'))):
     ?>
 </div>
 
+<div id="block-user-dialog" title="Block User">
+    <p>This action will block this user. Press OK to Continue.</p>
+</div>
+<div id="unblock-user-dialog" title="Block User">
+    <p>This will activate the user. Press OK to Continue</p>
+</div>
+
 <script language="JavaScript" type="text/javascript">
+    
+
     $(document).ready(function(){
+
+        
+
         $('#userManagementTbl').DataTable({
             "bFilter": true, // For the search text box
             "bInfo": true // For the "Showing 1 to 10 of x entries" text at the bottom
@@ -191,9 +225,8 @@ if((null != $this->session->flashdata('success'))):
 
         $("#update_user_form").validate({
             rules: {
-                user_password_reset: "required",
-                user_password_conf_reset: {
-                    equalTo: "#user_password_reset"
+                phone_update:{
+                    phoneUS: true
                 }
             },
             submitHandler: submit_update_user_form
@@ -318,7 +351,6 @@ if((null != $this->session->flashdata('success'))):
                     access                  : $('#user_access_permission_update').val(),
                     ajax                    : '1'
                 };
-
                 $.ajax({
                     url: "<?php echo base_url('user/update'); ?>",
                     type: 'POST',
@@ -331,5 +363,116 @@ if((null != $this->session->flashdata('success'))):
                 $('#update-user-dialog').dialog("close");
                 return false;
             }
+
+
+            /**
+            * Block User functionality
+            */
+
+            $('.blockUserLink').click(function(){
+                var id = $(this).attr('id');
+                $('#selectedUserId').val(id);
+                blockUserDialog.dialog('open');
+                return false;
+            });
+
+            $('.unblockUserLink').click(function(){
+                var id = $(this).attr('id');
+                $('#selectedUserId').val(id);
+                unblockUserDialog.dialog('open');
+                return false;
+            });
+
+            function getSelectedId(){
+                return selectedUserId;
+            }
+
+            var blockUserDialog = $( "#block-user-dialog" ).dialog({
+             autoOpen: false,
+             modal: true,
+             buttons: {
+                 "Block User": function(){
+                    var form_data = {
+                        ajax:       '1',
+                        user_id:    $('#selectedUserId').val() 
+                    };
+                    $.ajax({
+                        url: "<?php echo base_url('user/block'); ?>",
+                        type: 'POST',
+                        data: form_data,
+                        success: function(response){
+                            location.reload();
+                        }
+                    });
+                 },
+                 Cancel: function() {
+                     $( this ).dialog( "close" );
+                     }
+                 }
+             });
+
+            var unblockUserDialog = $( "#unblock-user-dialog" ).dialog({
+             autoOpen: false,
+             modal: true,
+             buttons: {
+                 "Activate User": function(){
+                    
+                    var form_data = {
+                        ajax:       '1',
+                        user_id:    $('#selectedUserId').val()   
+                    };
+                    $.ajax({
+                        url: "<?php echo base_url('user/unblock'); ?>",
+                        type: 'POST',
+                        data: form_data,
+                        success: function(response){
+                            location.reload();
+                        }
+                    });
+                 },
+                 Cancel: function() {
+                     $( this ).dialog( "close" );
+                     }
+                 }
+             });
+
+            /***
+            * Load District dropdown when district admin is selected 
+            */
+            if($('select#slctuserrole').val() == 3){
+                 $('#districtRow').css('display', 'table-row');
+                 $('#schoolRow').css('display', 'none');
+            }
+            if($('select#slctuserrole').val() == 2){
+                 $('#schoolRow').css('display', 'none');
+                 $('#districtRow').css('display', 'none');
+            }
+            if($('select#slctuserrole').val() == 4){
+                 $('#schoolRow').css('display', 'table-row');
+                 $('#districtRow').css('display', 'none');
+            }
+            if($('select#slctuserrole').val() == 5){
+                 $('#schoolRow').css('display', 'table-row');
+                 $('#districtRow').css('display', 'table-row');
+            }
+
+            $('select#slctuserrole').on('change', function() {
+                if(this.value == 3){ // District Admin selected
+                    $('#districtRow').css('display', 'table-row');
+                    $('#schoolRow').css('display', 'none');
+                }
+                else if(this.value==2){ // State Admin selected
+                    $('#districtRow').css('display', 'none');
+                    $('#schoolRow').css('display', 'none');
+                }
+                else if(this.value == 4){ //School admin selected
+                    $('#schoolRow').css('display', 'table-row');
+                }else if(this.value == 5){
+                     $('#schoolRow').css('display', 'table-row');
+                }
+                
+
+                
+            });
     });
 </script>

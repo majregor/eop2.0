@@ -13,13 +13,15 @@ class User_model extends CI_Model {
     }
 
     function validate($username, $password){
-
+        
         $this->db->where('username', $username);
         $this->db->where('password', md5($password));
         $query = $this->db->get('eop_user');
+        $result = $query->result_array();
 
-        if($query->num_rows == 1)
+        if($query->num_rows >= 1)
         {
+            $this->session->set_userdata('user_id',$result[0]['user_id']);
             return true;
         }
         else{
@@ -44,15 +46,23 @@ class User_model extends CI_Model {
         $this->db->insert('eop_user', $data);
         return $this->db->affected_rows();
     }
+ 
+    function update($data=array()){
 
-    function update($data=''){
-        if(is_array($data)){
+        $updateData = array(
+            'role_id'       =>  $data['role_id'],
+            'first_name'    =>  $data['first_name'],
+            'last_name'     =>  $data['last_name'],
+            'email'         =>  $data['email'],
+            'username'      =>  $data['username'],
+            'phone'         =>  $data['phone']
+        );
 
-            $this->db->where('user_id', $data['user_id']);
-            $this->db->update('eop_user', $data);
+        $this->db->where('user_id', $data['user_id']);
+        $this->db->update('eop_user', $updateData);
 
-            return $this->db->affected_rows();
-        }
+        return $this->db->affected_rows();
+        
     }
 
     function getUser($id){
@@ -71,12 +81,22 @@ class User_model extends CI_Model {
         }
     }
 
-    function blockUser($id){
+    function block($user_id){
 
+        $data   = array('status' => 'blocked');
+        $this->db->where('user_id', $user_id);
+        $this->db->update('eop_user', $data);
+
+        return $this->db->affected_rows();
     }
 
-    function blockUsers($data){
+    function unblock($user_id){
 
+        $data   = array('status' => 'active');
+        $this->db->where('user_id', $user_id);
+        $this->db->update('eop_user', $data);
+
+        return $this->db->affected_rows();
     }
 
     function deleteUser($id){
@@ -91,12 +111,19 @@ class User_model extends CI_Model {
      * Function getAllRoles
      *  Function to returns array of all roles from the database
      */
-    function getAllRoles(){
+    function getAllRoles(){ 
 
         $query = $this->db->get('eop_user_roles');
 
-        return $query->result_array();
+        $cleanRoleData = array();
+        $userRole = $this->getUserRole($this->session->userdata('user_id'));
 
+        foreach($query->result_array() as $key=>$value){
+            if($value['level'] >$userRole['level']){
+                array_push($cleanRoleData, $value);
+            }
+        }
+        return $cleanRoleData;
     }
 
     /**
@@ -143,6 +170,37 @@ class User_model extends CI_Model {
         $this->db->update('eop_user', $data);
 
         return $this->db->affected_rows();
+    }
+
+    public function getUserRole($uid){
+      
+        $this->db->select('A.user_id, B.*')
+                ->from('eop_user A')
+                ->join('eop_user_roles B', 'A.role_id=B.role_id')
+                ->where(array('A.user_id'=>$uid));
+        $query = $this->db->get();
+
+        $result = $query->result_array();
+
+        $permissionsData = array(
+            'role_id'               => $result[0]['role_id'],
+            'role'                  => $result[0]['title'],
+            'role_screen_name'      => $result[0]['screen_name'],
+            'is_locked'             => $result[0]['is_locked'],
+            'can_view'              => $result[0]['can_view'],
+            'can_edit'              => $result[0]['can_edit'],
+            'create_district'       => $result[0]['create_district'],
+            'edit_district'         => $result[0]['edit_district'],
+            'create_school'         => $result[0]['create_school'],
+            'edit_school'           => $result[0]['edit_school'],
+            'create_user'           => $result[0]['create_user'],
+            'edit_user'             => $result[0]['edit_user'],
+            'alter_state_access'    => $result[0]['alter_state_access'],
+            'edit_entity'           => $result[0]['edit_entity'],
+            'level'                 => $result[0]['level']
+            );
+
+        return $permissionsData;
     }
 
 
