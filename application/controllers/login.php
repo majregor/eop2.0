@@ -46,7 +46,8 @@ class Login extends CI_Controller{
 		if($check){ // Login credentials match
 			$sessionData = array(
 				'is_logged_in'	=>	TRUE,
-				'username'		=>	$username
+				'username'		=>	$username,
+                'role'          => $this->user_model->getUserRoleByUsername($username)
 				);
 
 			$this->session->set_userdata($sessionData);

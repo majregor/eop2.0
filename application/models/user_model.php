@@ -88,7 +88,24 @@ class User_model extends CI_Model {
     }
 
     function getUser($id){
+        $conditions = array('user_id'=>$id);
+        $query = $this->db->get_where('eop_user', $conditions);
 
+        return $query->result_array();
+    }
+
+    function getUserDistrict($id){
+        $conditions = array('uid'=>$id);
+        $query = $this->db->get_where('eop_user2district', $conditions);
+
+        return $query->result_array();
+    }
+
+    function getUserSchool($id){
+        $conditions = array('uid'=>$id);
+        $query = $this->db->get_where('eop_user2school', $conditions);
+
+        return $query->result_array();
     }
 
     function getUsers($data=''){
@@ -98,7 +115,7 @@ class User_model extends CI_Model {
             return $query->result_array();
         }
         elseif(is_array($data)){
-            $query = $this->db_get_where('eop_view_user', $data);
+            $query = $this->db->get_where('eop_view_user', $data);
             return $query->result_array();
         }
     }
@@ -221,6 +238,37 @@ class User_model extends CI_Model {
             'edit_entity'           => $result[0]['edit_entity'],
             'level'                 => $result[0]['level']
             );
+
+        return $permissionsData;
+    }
+
+    public function getUserRoleByUsername($username){
+
+        $this->db->select('A.user_id, A.username, B.*')
+            ->from('eop_user A')
+            ->join('eop_user_roles B', 'A.role_id=B.role_id')
+            ->where(array('A.username'=>$username));
+        $query = $this->db->get();
+
+        $result = $query->result_array();
+
+        $permissionsData = array(
+            'role_id'               => $result[0]['role_id'],
+            'role'                  => $result[0]['title'],
+            'role_screen_name'      => $result[0]['screen_name'],
+            'is_locked'             => $result[0]['is_locked'],
+            'can_view'              => $result[0]['can_view'],
+            'can_edit'              => $result[0]['can_edit'],
+            'create_district'       => $result[0]['create_district'],
+            'edit_district'         => $result[0]['edit_district'],
+            'create_school'         => $result[0]['create_school'],
+            'edit_school'           => $result[0]['edit_school'],
+            'create_user'           => $result[0]['create_user'],
+            'edit_user'             => $result[0]['edit_user'],
+            'alter_state_access'    => $result[0]['alter_state_access'],
+            'edit_entity'           => $result[0]['edit_entity'],
+            'level'                 => $result[0]['level']
+        );
 
         return $permissionsData;
     }

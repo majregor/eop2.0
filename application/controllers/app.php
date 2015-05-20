@@ -250,6 +250,7 @@ class App extends CI_Controller {
                                     'install_status'    =>  'completed',
                                     'dbtype'            =>  $this->session->userdata['database']['dbdriver'],
                                     'host_level'        =>  $this->session->userdata('pref_hosting_level'),
+                                    'host_state'        =>  $this->input->post('host_state'),
                                     'state_permission'  =>  ($host_level=='state')? 'write' : 'deny'
                                 );
 

@@ -37,6 +37,10 @@ class School_model extends CI_Model {
 
     function getSchool($id){
 
+        $condition = array('id' => $id);
+        $query = $this->db->get_where('eop_school', $condition);
+
+        return $query->result_array();
     }
 
 
@@ -48,14 +52,30 @@ class School_model extends CI_Model {
      * Function getSchools
      * Returns all schools available in a particular state or district
      *
-     * @param string $state   The state to which the schools belongs
+     * @param string $state   The state to which the schools belong
      * @param string $district Optional to filter district
      */
     function getSchools($state){
         $conditions = array('state_val' => $state);
 
-        $query = $this->db->get_where('eop_school', $conditions);
-        return $query->result_array();
+        if($this->session->userdata['role']['level'] > 3 ){
+
+            $this->db->select('A.*, B.uid')
+                ->from('eop_view_school A')
+                ->join('eop_user2school B', 'A.id = B.sid')
+                ->where(array('uid'=> $this->session->userdata('user_id')));
+
+            $query = $this->db->get();
+
+            return $query->result_array();
+
+        }
+        else{
+            $query = $this->db->get_where('eop_view_school', $conditions);
+            return $query->result_array();
+        }
+
+
 
     }
 

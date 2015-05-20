@@ -48,6 +48,11 @@ if(isset($viewform)){
 }
 ?>
 
+<!-- Show only for Super admin and State Admin -->
+<?php if($this->session->userdata['role']['level'] < 3): ?>
+
+    <div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>district/add">Add New District</a></div>
+<?php endif; ?>
 <div>
     <!-- Hidden field used to store selected user id -->
     <input type="hidden" id="selectedDistrictId" value="" />
@@ -55,9 +60,9 @@ if(isset($viewform)){
 
         <thead>
             <tr>
-                <th>District&nbsp;&nbsp;Name</th>
-                <th>Screen&nbsp;&nbsp;Name</th>
-                <th>Modify&nbsp;&nbsp;District</th>
+                <th>&nbsp;&nbsp;&nbsp;&nbsp;District&nbsp;&nbsp;Name&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Screen&nbsp;&nbsp;Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>&nbsp;&nbsp;&nbsp;&nbsp;Modify&nbsp;&nbsp;District&nbsp;&nbsp;&nbsp;&nbsp;</th>
             </tr>
         </thead>
 

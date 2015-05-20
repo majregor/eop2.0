@@ -33,14 +33,14 @@ class Access extends CI_Controller{
 
         // Get the role access permissions for the logged in user
         $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
-        $stateAccess = $this->access_model->getStateWideStateAccess();
+        $stateWideStateAccess = $this->access_model->getStateWideStateAccess();
 
         $templateData = array(
-            'page'          =>  'district',
-            'page_title'    =>  'District Management',
-            'step_title'    =>  'Districts',
-            'role'          =>  $role,
-            'stateAccess'   =>  $stateAccess
+            'page'                  =>  'district',
+            'page_title'            =>  'District Management',
+            'step_title'            =>  'Districts',
+            'role'                  =>  $role,
+            'stateWideStateAccess'  =>  $stateWideStateAccess
         );
         $this->template->load('template', 'state_access_screen', $templateData);
     }

@@ -22,14 +22,13 @@ class Access_model extends CI_Model {
 
         $districtRow = $this->district_model->getDistrict($district);
 
-        return $districtRow['state_permission'];
+        return $districtRow[0]['state_permission'];
     }
 
-    public function getSchoolWideStateAccess(){
-        /*$districts = $this->district_model->getDistricts($this->registry_model->getValue('host_state'));
-        foreach($districts as $key=>$value){
+    public function getSchoolWideStateAccess($school){
+        $schoolRow = $this->school_model->getSchool($school);
 
-        }*/
+        return $schoolRow[0]['state_permission'];
     }
 
     public function grantStatewideAccess(){
@@ -40,6 +39,16 @@ class Access_model extends CI_Model {
        return $this->registry_model->update('state_permission', 'deny');
     }
 
+    /**
+     * @method getStateAccess
+     *  State Access to EOP
+     */
+    public function getStateAccess(){
+
+        $stateAccess = $this->getStateWideStateAccess();
+
+        return $stateAccess;
+    }
 
 
 }

@@ -7,7 +7,7 @@
  */
 ?>
 
-<h1>Create School</h1>
+<h1>Create District</h1>
 <?php
     echo form_open('district/add', array('class'=>'district_form', 'id'=>'district_form'));
 ?>

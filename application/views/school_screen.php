@@ -10,7 +10,7 @@
 //print_r($role);
 //echo $this->session->userdata('host_state');
 
-
+print_r($schools);
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/jquery.dataTables.css"/>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>
@@ -48,6 +48,8 @@ if(isset($viewform)){
 }
 ?>
 
+<div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>school/add">Add New School</a></div>
+
 <div>
     <!-- Hidden field used to store selected user id -->
     <input type="hidden" id="selectedSchoolId" value="" />
@@ -55,13 +57,19 @@ if(isset($viewform)){
 
         <thead>
             <tr>
-                <th>School Name</th>
+                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;School Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                  <?php 
                     if($role['create_district']=='y'){
-                        echo (" <th>District</th>");
+                        echo (" <th>&nbsp;&nbsp;&nbsp;&nbsp;District&nbsp;&nbsp;&nbsp;&nbsp;</th>");
                     }
                 ?>
-                <th>EOP</th>
+                <?php
+                    if(($role['level']==2) && ($stateEOPAccess=='write' || $stateEOPAccess=='read')){
+                        echo "<th>EOP</th>";
+                    }
+
+                ?>
+
                 <th>Modify School</th>
             </tr>
         </thead>
@@ -74,14 +82,19 @@ if(isset($viewform)){
                 </td>
                  <?php if($role['create_district']=='y'): ?>
                     <td>
-                         <?php echo $value['district_id'] ?>
+                         <?php echo $value['district'] ?>
                     </td>
                 <?php endif; ?>
-                
-                <td>
-                    View
-                </td>
-               
+
+                <?php if(($role['level']==2) && ($stateEOPAccess=='write' || $stateEOPAccess=='read')){
+                        /*if($value['state_permission']){
+                            echo "<td>View</td>";
+                        }*/
+
+                    }
+                ?>
+
+
 
                 <td>
                     <a class="modifySchoolProfileLink"
@@ -98,13 +111,18 @@ if(isset($viewform)){
 
         <tfoot>
             <tr>
-                <th>School Name</th>
+                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;School Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                  <?php 
                     if($role['create_district']=='y'){
-                        echo (" <th>District</th>");
+                        echo (" <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;District&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>");
                     }
                 ?>
-                <th>EOP</th>
+                <?php
+                if(($role['level']==2) && ($stateEOPAccess=='write' || $stateEOPAccess=='read')){
+                    echo "<th>EOP</th>";
+
+                }
+                ?>
                 <th>Modify School</th>
             </tr>
         </tfoot>

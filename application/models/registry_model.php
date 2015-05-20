@@ -27,7 +27,6 @@ class Registry_model extends CI_Model {
                 'value'     =>  $value));
         }
 
-
         $this->db->insert_batch('eop_registry', $recordsArray);
         return $this->db->affected_rows();
 

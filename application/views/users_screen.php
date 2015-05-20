@@ -46,7 +46,7 @@ if(isset($viewform)){
     include('forms/user.php');
 }
 ?>
-
+<div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>user/add">Create New User</a></div>
 <div>
     <!-- Hidden field used to store selected user id -->
     <input type="hidden" id="selectedUserId" value="" />
@@ -201,10 +201,24 @@ if(isset($viewform)){
          *
          */
 
+        /** Remove School User if Super Admin or State Admin is logged in */
+        <?php if($this->session->userdata['role']['level'] < 3): ?>
+                $("#slctuserrole option[value='5']").remove();
+        <?php endif; ?>
+
         $("#user_form").validate({
             rules: {
                 phone:{
                     phoneUS: true
+                },
+                sltdistrict:{
+                    required: true
+                },
+                sltschool:{
+                    required:true
+                },
+                slctuserrole:{
+                    required: true
                 },
                 user_password: "required",
                 user_password_conf: {

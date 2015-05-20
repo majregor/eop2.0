@@ -28,6 +28,7 @@ class School extends CI_Controller{
             $this->load->model('registry_model');
             $this->load->model('user_model');
             $this->load->model('school_model');
+            $this->load->model('access_model');
 
             $host_state = $this->registry_model->getValue('host_state');
             $this->session->set_userdata('host_state', $host_state);
@@ -51,6 +52,8 @@ class School extends CI_Controller{
         $users = $this->user_model->getUsers();
          // Get the role access permissions for the logged in user
         $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
+        // Get the EOP access setting to the state
+        $stateEOPAccess = $this->access_model->getStateAccess();
 
         $templateData = array(
             'page'          =>  'school',
@@ -60,7 +63,8 @@ class School extends CI_Controller{
             'roles'         =>  $roles,
             'districts'     =>  $districts,
             'schools'       =>  $schools,
-            'role'          =>  $role
+            'role'          =>  $role,
+            'stateEOPAccess'=>  $stateEOPAccess
         );
         $this->template->load('template', 'school_screen', $templateData);
     }
@@ -100,12 +104,6 @@ class School extends CI_Controller{
                 $this->session->set_flashdata('error', ' School creation failed!');
             }
 
-            $templateData = array(
-                'page'          =>  'school',
-                'page_title'    =>  'School Management',
-                'step_title'    =>  'Schools'
-            );
-
             redirect('/school');
         }
         else{ // No form submitted, prompt with the user addition form
@@ -120,6 +118,8 @@ class School extends CI_Controller{
             $users = $this->user_model->getUsers();
              // Get the role access permissions for the logged in user
             $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
+            // Get the EOP access setting to the state
+            $stateEOPAccess = $this->access_model->getStateAccess();
 
             $templateData = array(
                 'page'          =>  'users',
@@ -130,7 +130,8 @@ class School extends CI_Controller{
                 'districts'     =>  $districts,
                 'schools'       =>  $schools,
                 'users'         =>  $users,
-                'role'          =>  $role
+                'role'          =>  $role,
+                'stateEOPAccess'=>  $stateEOPAccess
             );
             $this->template->load('template', 'school_screen', $templateData);
         }

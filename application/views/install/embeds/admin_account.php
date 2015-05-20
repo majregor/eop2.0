@@ -21,7 +21,7 @@ echo form_open('app/install', array('class'=>'admin_account_form', 'id'=>'admin_
         <label><span class="inputlabel">State</span> <span class="required">*</span> </label><br>
         <?php
             $this->load->helper('state');
-            echo state_dropdown('state');
+            echo state_dropdown('state', 'AL', 'host_state');
         ?>
         Select the state.
     </p>

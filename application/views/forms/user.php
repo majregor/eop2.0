@@ -123,7 +123,7 @@
 
                     <?php 
                         $options = array();
-                        $options['empty'] = '--Select--';
+                        $options[''] = '--Select--';
                         foreach($roles as $rowIndex => $row){
                             $options[$row['role_id']] = $row['title'];
                         }
@@ -143,13 +143,13 @@
             <td>
               <?php
                     $options = array();
-                    $options['empty'] = '--Select--';
+                    $options[''] = '--Select--';
                     $options['']    =   'None';
                     foreach($districts as $rowIndex => $row){
                         $options[$row['id']] = $row['name'];
                     }
 
-                    $otherAttributes = 'id="sltdistrict" style=""';
+                    $otherAttributes = 'id="sltdistrict" required="required" style=""';
                     reset($options);
                     $first_key = key($options);
                     echo form_dropdown('sltdistrict', $options, "$first_key", $otherAttributes);
@@ -162,12 +162,12 @@
             <td>
                 <?php
                 $options = array();
-                $options['empty'] = '--Select--';
+                $options[''] = '--Select--';
                 foreach($schools as $rowIndex => $row){
                     $options[$row['id']] = $row['name'];
                 }
 
-                $otherAttributes = 'id="sltschool" style=""';
+                $otherAttributes = 'id="sltschool" required="required" style=""';
                 reset($options);
                 $first_key = key($options);
                 echo form_dropdown('sltschool', $options, "$first_key", $otherAttributes);

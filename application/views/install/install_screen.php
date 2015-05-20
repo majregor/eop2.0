@@ -213,6 +213,7 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
             var form_data = {
                 user_name               : $('#user_name').val(),
                 user_email              : $('#user_email').val(),
+                host_state              : $('#host_state').val(),
                 user_password           : $('#user_password').val(),
                 ajax                    : '1'
             };

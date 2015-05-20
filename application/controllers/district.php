@@ -105,7 +105,6 @@ class District extends CI_Controller{
             $roles = $this->user_model->getAllRoles();
             //Get the districts available in the state
             $districts = $this->district_model->getDistricts($this->registry_model->getValue('host_state'));
-
             // Get all registered users
             $users = $this->user_model->getUsers();
              // Get the role access permissions for the logged in user
@@ -123,7 +122,6 @@ class District extends CI_Controller{
             );
             $this->template->load('template', 'district_screen', $templateData);
         }
-
 
     }
 

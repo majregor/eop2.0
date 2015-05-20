@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.22, for osx10.8 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.19, for osx10.7 (i386)
 --
--- Host: 127.0.0.1    Database: eop2_db1
+-- Host: localhost    Database: eop2_db1
 -- ------------------------------------------------------
--- Server version	5.6.14
+-- Server version	5.6.22
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -84,7 +84,7 @@ CREATE TABLE `eop_district` (
   `state_val` varchar(8) DEFAULT NULL,
   `modified_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `owner` int(32) DEFAULT NULL,
-  `state_permission` varchar(45) DEFAULT NULL,
+  `state_permission` varchar(45) DEFAULT 'deny',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -95,7 +95,7 @@ CREATE TABLE `eop_district` (
 
 LOCK TABLES `eop_district` WRITE;
 /*!40000 ALTER TABLE `eop_district` DISABLE KEYS */;
-INSERT INTO `eop_district` VALUES (2,'First District','My First District',NULL,'0','2015-05-20 04:33:20',NULL,NULL),(3,'Second District','My Second District',NULL,'0','2015-05-20 04:36:17',NULL,NULL);
+INSERT INTO `eop_district` VALUES (2,'First District','My First District',NULL,'MD','2015-05-20 04:33:20',NULL,'deny'),(3,'Second Districts','My Second Districts',NULL,'MD','2015-05-20 04:36:17',NULL,'deny');
 /*!40000 ALTER TABLE `eop_district` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,7 +173,7 @@ CREATE TABLE `eop_registry` (
   `value` varchar(128) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,7 +182,7 @@ CREATE TABLE `eop_registry` (
 
 LOCK TABLES `eop_registry` WRITE;
 /*!40000 ALTER TABLE `eop_registry` DISABLE KEYS */;
-INSERT INTO `eop_registry` VALUES (19,'install_status','completed','2015-05-20 04:21:11'),(20,'dbtype','mysqli','2015-05-20 04:21:11'),(21,'host_level','state','2015-05-20 04:21:11'),(22,'state_permission','deny','2015-05-20 06:08:06');
+INSERT INTO `eop_registry` VALUES (19,'install_status','completed','2015-05-20 04:21:11'),(20,'dbtype','mysqli','2015-05-20 04:21:11'),(21,'host_level','state','2015-05-20 04:21:11'),(22,'state_permission','deny','2015-05-20 15:37:30'),(23,'host_state','MD','2015-05-20 13:22:34');
 /*!40000 ALTER TABLE `eop_registry` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,9 +230,9 @@ CREATE TABLE `eop_school` (
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `modified_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `owner` int(32) DEFAULT NULL,
-  `state_permission` varchar(45) DEFAULT NULL,
+  `state_permission` varchar(45) DEFAULT 'deny',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,6 +241,7 @@ CREATE TABLE `eop_school` (
 
 LOCK TABLES `eop_school` WRITE;
 /*!40000 ALTER TABLE `eop_school` DISABLE KEYS */;
+INSERT INTO `eop_school` VALUES (2,2,'MD','School 1','First School',NULL,'2015-05-20 08:42:07','2015-05-20 12:42:07',NULL,'deny'),(3,3,'MD','School 2','ssss',NULL,'2015-05-20 11:40:07','2015-05-20 15:40:07',NULL,'deny'),(4,NULL,NULL,NULL,NULL,NULL,'2015-05-20 17:24:24','2015-05-20 21:24:24',NULL,'deny');
 /*!40000 ALTER TABLE `eop_school` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,7 +259,7 @@ CREATE TABLE `eop_state` (
   `screen_name` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `val_UNIQUE` (`val`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +268,7 @@ CREATE TABLE `eop_state` (
 
 LOCK TABLES `eop_state` WRITE;
 /*!40000 ALTER TABLE `eop_state` DISABLE KEYS */;
-INSERT INTO `eop_state` VALUES (1,'CAL','California','California'),(2,'MD','Maryland','Maryland');
+INSERT INTO `eop_state` VALUES (2,'MD','Maryland','Maryland'),(3,'AL','Alabama','Alabama'),(4,'AK','Alaska','Alaska'),(5,'AZ','Arizona','Arizona'),(6,'AR','Arkansas','Arkansas'),(7,'CA','California','California'),(8,'CO','Colorado','Colorado'),(9,'CT','Connecticut','Connecticut'),(10,'DE','Delaware','Delaware'),(11,'DC','District Of Columbia','DC'),(12,'FL','Florida','Florida'),(13,'GA','Georgia','Georgia'),(14,'HI','Hawaii','Hawaii'),(15,'ID','Idaho','Idaho'),(16,'IL','Illinois','Illinois'),(17,'IN','Indiana','Indiana'),(18,'IA','Iowa','Iowa'),(19,'KS','Kansas','Kansas'),(20,'KY','Kentucky','Kentucky'),(21,'LA','Louisiana','Louisiana'),(22,'ME','Maine','Maine'),(24,'MA','Massachusetts','Massachusetts'),(25,'MI','Michigan','Michigan'),(26,'MN','Minnesota','Minnesota'),(27,'MS','Mississippi','Mississippi'),(28,'MO','Missouri','Missouri'),(29,'MT','Montana','Montana'),(30,'NE','Nebraska','Nebraska'),(31,'NV','Nevada','Nevada'),(32,'NH','New Hampshire','New Hampshire'),(33,'NJ','New Jersey','New Jersey'),(34,'NM','New Mexico','New Mexico'),(35,'NY','New York','New York'),(36,'NC','North Carolina','North Carolina'),(37,'ND','North Dakota','North Dakota'),(38,'OH','Ohio','Ohio'),(39,'OK','Oklahoma','Oklahoma'),(40,'OR','Oregon','Oregon'),(41,'PA','Pennsylvania','Pennsylvania'),(42,'RI','Rhode Island','Rhode Island'),(43,'SC','South Carolina','South Carolina'),(44,'SD','South Dakota','South Dakota'),(45,'TN','Tennessee','Tennessee'),(46,'TX','Texas','Texas'),(47,'UT','Utah','Utah'),(48,'VT','Vermont','Vermont'),(49,'VA','Virginia','Virginia'),(50,'WA','Washington','Washington'),(51,'WV','West Virginia','West Virginia'),(52,'WI','Wisconsin','Wisconsin'),(53,'WY','Wyoming','Wyoming');
 /*!40000 ALTER TABLE `eop_state` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -294,7 +295,7 @@ CREATE TABLE `eop_user` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -303,7 +304,7 @@ CREATE TABLE `eop_user` (
 
 LOCK TABLES `eop_user` WRITE;
 /*!40000 ALTER TABLE `eop_user` DISABLE KEYS */;
-INSERT INTO `eop_user` VALUES (17,1,'Super','Administrator','majregor@glydenet.com','admin','7ce8bcd42b1efa29518674ec4a99fa60','','active','2015-05-20 00:21:11',NULL,'n'),(19,2,'state','administrator','majregor2@glydenet.com','sadmin','7ce8bcd42b1efa29518674ec4a99fa60','2407056739','active','2015-05-20 00:30:15',NULL,'n'),(21,3,'District','Administrator','monaly15@yahoo.com','dadmin','7ce8bcd42b1efa29518674ec4a99fa60','2407056739','active','2015-05-20 00:38:23',NULL,'n'),(22,3,'District','Administrator2','majregor22@gmail.com','dadmin2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','2407056739','active','2015-05-20 01:10:37',NULL,'n');
+INSERT INTO `eop_user` VALUES (17,1,'Super','Administrator','majregor@glydenet.com','admin','7ce8bcd42b1efa29518674ec4a99fa60','','active','2015-05-20 00:21:11',NULL,'n'),(19,2,'state','administrator','majregor2@glydenet.com','sadmin','7ce8bcd42b1efa29518674ec4a99fa60','2407056739','active','2015-05-20 00:30:15',NULL,'n'),(21,3,'District','Administrator','monaly15@yahoo.com','dadmin','7ce8bcd42b1efa29518674ec4a99fa60','2407056739','active','2015-05-20 00:38:23',NULL,'n'),(22,3,'District','Administrator2','majregor22@gmail.com','dadmin2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','2407056739','active','2015-05-20 01:10:37',NULL,'n'),(24,3,'District','Administrator by State Admin','dd@sd.com','dadmin3','96e79218965eb72c92a549dd5a330112','2407056739','active','2015-05-20 08:33:34',NULL,'n'),(25,4,'School','Administrator by State Admin','dslkdsk@dc.com','schooladmin1','96e79218965eb72c92a549dd5a330112','2407056739','active','2015-05-20 09:41:57',NULL,'n');
 /*!40000 ALTER TABLE `eop_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,7 +321,7 @@ CREATE TABLE `eop_user2district` (
   `did` int(32) DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -329,7 +330,7 @@ CREATE TABLE `eop_user2district` (
 
 LOCK TABLES `eop_user2district` WRITE;
 /*!40000 ALTER TABLE `eop_user2district` DISABLE KEYS */;
-INSERT INTO `eop_user2district` VALUES (1,22,2,'2015-05-20 05:10:37'),(2,21,3,'2015-05-20 05:34:25');
+INSERT INTO `eop_user2district` VALUES (1,22,2,'2015-05-20 05:10:37'),(2,21,3,'2015-05-20 05:34:25'),(3,0,2,'2015-05-20 12:32:46'),(4,24,2,'2015-05-20 12:33:34');
 /*!40000 ALTER TABLE `eop_user2district` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -346,7 +347,7 @@ CREATE TABLE `eop_user2school` (
   `sid` int(32) DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -355,7 +356,7 @@ CREATE TABLE `eop_user2school` (
 
 LOCK TABLES `eop_user2school` WRITE;
 /*!40000 ALTER TABLE `eop_user2school` DISABLE KEYS */;
-INSERT INTO `eop_user2school` VALUES (1,22,0,'2015-05-20 05:10:37');
+INSERT INTO `eop_user2school` VALUES (1,22,0,'2015-05-20 05:10:37'),(2,25,2,'2015-05-20 13:41:57');
 /*!40000 ALTER TABLE `eop_user2school` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -420,9 +421,32 @@ CREATE TABLE `eop_user_roles` (
 
 LOCK TABLES `eop_user_roles` WRITE;
 /*!40000 ALTER TABLE `eop_user_roles` DISABLE KEYS */;
-INSERT INTO `eop_user_roles` VALUES (1,'Super Admin',NULL,'Super Administrator','n','y','y','y','y','n','n','y','y','n','y',1),(2,'State Administrator',NULL,'State Administrator','n','y','y','y','y','n','n','y','y','n','y',2),(3,'District Administrator',NULL,'District Administrator','n','y','y','n','n','n','n','y','y','n','y',3),(4,'School Administrator',NULL,'School Administrator','n','y','y','n','n','n','n','y','y','n','y',4),(5,'School User',NULL,'School User','n','y','y','n','n','n','n','y','y','n','y',5);
+INSERT INTO `eop_user_roles` VALUES (1,'Super Admin',NULL,'Super Administrator','n','y','y','y','y','n','n','y','y','y','y',1),(2,'State Administrator',NULL,'State Administrator','n','y','y','y','y','n','n','y','y','y','y',2),(3,'District Administrator',NULL,'District Administrator','n','y','y','n','n','n','n','y','y','y','y',3),(4,'School Administrator',NULL,'School Administrator','n','y','y','n','n','n','n','y','y','y','y',4),(5,'School User',NULL,'School User','n','y','y','n','n','n','n','y','y','n','y',5);
 /*!40000 ALTER TABLE `eop_user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Temporary view structure for view `eop_view_school`
+--
+
+DROP TABLE IF EXISTS `eop_view_school`;
+/*!50001 DROP VIEW IF EXISTS `eop_view_school`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `eop_view_school` AS SELECT 
+ 1 AS `id`,
+ 1 AS `district_id`,
+ 1 AS `state_val`,
+ 1 AS `name`,
+ 1 AS `screen_name`,
+ 1 AS `description`,
+ 1 AS `created_date`,
+ 1 AS `modified_date`,
+ 1 AS `owner`,
+ 1 AS `state_permission`,
+ 1 AS `district`,
+ 1 AS `state`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Temporary view structure for view `eop_view_user`
@@ -453,6 +477,24 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Final view structure for view `eop_view_school`
+--
+
+/*!50001 DROP VIEW IF EXISTS `eop_view_school`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `eop_view_school` AS select `A`.`id` AS `id`,`A`.`district_id` AS `district_id`,`A`.`state_val` AS `state_val`,`A`.`name` AS `name`,`A`.`screen_name` AS `screen_name`,`A`.`description` AS `description`,`A`.`created_date` AS `created_date`,`A`.`modified_date` AS `modified_date`,`A`.`owner` AS `owner`,`A`.`state_permission` AS `state_permission`,`B`.`name` AS `district`,`C`.`name` AS `state` from ((`eop_school` `A` left join `eop_district` `B` on((`A`.`district_id` = `B`.`id`))) left join `eop_state` `C` on((`A`.`state_val` = `C`.`val`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `eop_view_user`
 --
 
@@ -479,4 +521,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-20  8:05:49
+-- Dump completed on 2015-05-20 17:39:51

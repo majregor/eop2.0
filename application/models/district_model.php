@@ -40,6 +40,8 @@ class District_model extends CI_Model {
      *
      * @param string $state   The state to which the districts belongs
      *
+     *  If returns all districts if requested by super or state admins but it will return only the districts associated
+     *  with other users when requested by district or school admins or school users
      */
     function getDistricts($state=''){
         if($state ==''){
@@ -49,9 +51,21 @@ class District_model extends CI_Model {
             $conditions = array('state_val' => $state);
         }
 
-        $query = $this->db->get_where('eop_district', $conditions);
-        return $query->result_array();
+        if($this->session->userdata['role']['level'] >= 3 ){
 
+            $this->db->select('A.*, B.uid')
+                        ->from('eop_district A')
+                        ->join('eop_user2district B', 'A.id = B.did')
+                        ->where(array('uid'=> $this->session->userdata('user_id')));
+
+            $query = $this->db->get();
+
+            return $query->result_array();
+        }
+        else{
+            $query = $this->db->get_where('eop_district', $conditions);
+            return $query->result_array();
+        }
     }
 
     function getDistrict($district_id){

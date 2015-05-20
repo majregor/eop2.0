@@ -10,6 +10,7 @@ $(document).ready(function() {
      */
     $('#logoutLink').click(function () {
         var txt = 'Are you sure you want to log out?';
+        var logout_link = $(this).attr('href');
         var data = {
             ajax: '1',
             logout: '1'
@@ -21,7 +22,7 @@ $(document).ready(function() {
 
                 if (v) {
                     $.ajax({
-                        url: 'login/signout',
+                        url: logout_link,
                         data: data,
                         type: 'POST',
                         success: function (response) {
@@ -38,5 +39,6 @@ $(document).ready(function() {
             }
         });
 
+        return false;
     });
 });

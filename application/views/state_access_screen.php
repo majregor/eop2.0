@@ -6,7 +6,8 @@
  *
  * 2015 © United States Department of Education
  */
-//echo $stateAccess;
+//echo $stateWideStateAccess;
+
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/jquery.dataTables.css"/>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>
@@ -51,15 +52,15 @@ include('embeds/admin_menu.php');
         <tr>
             <td>State Access to School EOPs</td>
             <td>
-                <span id="state_access_icon" class="<?php echo (($stateAccess=='write' || $stateAccess=='read')? 'approved_button':'revoked_button'); ?>"></span>
-                <span id="access-label"><?php echo (($stateAccess=='write' || $stateAccess=='read')? 'Enabled':'Disabled'); ?></span>
+                <span id="state_access_icon" class="<?php echo (($stateWideStateAccess=='write' || $stateWideStateAccess=='read')? 'approved_button':'revoked_button'); ?>"></span>
+                <span id="access-label"><?php echo (($stateWideStateAccess=='write' || $stateWideStateAccess=='read')? 'Enabled':'Disabled'); ?></span>
             </td>
             <td>
                 <div id="" class="approval-holder">
-                    <?php if($stateAccess == 'write' || $stateAccess == 'read'): ?>
+                    <?php if($stateWideStateAccess == 'write' || $stateWideStateAccess == 'read'): ?>
                         <button value="" class="btn-revoke"><em class="leftImage revoke"></em>Disable</button>
                     <?php endif; ?>
-                    <?php if($stateAccess == 'deny'): ?>
+                    <?php if($stateWideStateAccess == 'deny'): ?>
                      <button value="" class="btn-approve"><em class="leftImage approve"></em>Enable</button>
                     <?php endif; ?>
 
