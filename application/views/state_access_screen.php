@@ -51,6 +51,7 @@ include('embeds/admin_menu.php');
         <tr>
             <td>State Access to School EOPs</td>
             <td>
+                <span id="state_access_icon" class="<?php echo (($stateAccess=='write' || $stateAccess=='read')? 'approved_button':'revoked_button'); ?>"></span>
                 <span id="access-label"><?php echo (($stateAccess=='write' || $stateAccess=='read')? 'Enabled':'Disabled'); ?></span>
             </td>
             <td>
@@ -89,6 +90,8 @@ include('embeds/admin_menu.php');
                 success: function(response) {
                     if(response == 1){
                        $('#access-label').html('Enabled');
+                       $('#state_access_icon').removeClass('revoked_button');
+                       $('#state_access_icon').addClass('approved_button');
                         var btnString = "<button value='' class='btn-revoke'><em class='leftImage revoke'></em>Disable</button>";
                         $('.approval-holder').html(btnString);
                     }
@@ -113,6 +116,8 @@ include('embeds/admin_menu.php');
                 success: function(response) {
                     if(response == 1){
                         $('#access-label').html('Disabled');
+                        $('#state_access_icon').removeClass('approved_button');
+                        $('#state_access_icon').addClass('revoked_button');
                         var btnString = "<button value='' class='btn-approve'><em class='leftImage approve'></em>Enable</button>";
                         $('.approval-holder').html(btnString);
                     }

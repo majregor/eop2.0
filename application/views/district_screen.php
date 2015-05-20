@@ -51,13 +51,13 @@ if(isset($viewform)){
 <div>
     <!-- Hidden field used to store selected user id -->
     <input type="hidden" id="selectedDistrictId" value="" />
-    <table id="districtManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="100%" style="display: block; font-size:13px;">
+    <table id="districtManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="100%" style="width:100%;display: block; font-size:13px;">
 
         <thead>
             <tr>
-                <th>District Name</th>
-                <th>Screen Name</th>
-                <th>Modify District</th>
+                <th>District&nbsp;&nbsp;Name</th>
+                <th>Screen&nbsp;&nbsp;Name</th>
+                <th>Modify&nbsp;&nbsp;District</th>
             </tr>
         </thead>
 

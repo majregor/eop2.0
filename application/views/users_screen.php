@@ -95,7 +95,7 @@ if(isset($viewform)){
                 </td>
                 <?php if($role['create_district']=='y'): ?>
                     <td>
-                         <?php echo $value['district_name'] ?>
+                         <?php echo $value['district'] ?>
                     </td>
                 <?php endif; ?>
                 <td>

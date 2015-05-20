@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"re",
+				"registry_model"
+			],
+			[
+				"pass",
+				"password"
+			],
+			[
+				"role",
+				"role_id"
+			],
+			[
+				"eop_user",
+				"eop_user_roles"
+			],
+			[
+				"sele",
+				"selectedUserId"
+			],
+			[
+				"save",
+				"savedRecs"
+			],
+			[
+				"user",
+				"username"
+			],
+			[
 				"retu",
 				"returnMsg"
 			],
@@ -136,10 +164,6 @@
 				"getRewiewers"
 			],
 			[
-				"re",
-				"reviewers"
-			],
-			[
 				"json",
 				"json_encode"
 			],
@@ -208,58 +232,68 @@
 	"buffers":
 	[
 		{
-			"file": "system/helpers/file_helper.php",
+			"file": "application/models/user_model.php",
 			"settings":
 			{
-				"buffer_size": 14683,
+				"buffer_size": 6247,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "application/controllers/app.php",
+			"file": "application/controllers/user.php",
 			"settings":
 			{
-				"buffer_size": 14748,
+				"buffer_size": 8997,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "application/views/install/install_screen.php",
+			"file": "application/controllers/school.php",
 			"settings":
 			{
-				"buffer_size": 7932,
+				"buffer_size": 9059,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "application/views/install/embeds/database_settings.php",
+			"file": "application/views/school_screen.php",
 			"settings":
 			{
-				"buffer_size": 4336,
+				"buffer_size": 6972,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "assets/css/front_cool.css",
+			"file": "application/models/school_model.php",
 			"settings":
 			{
-				"buffer_size": 7172,
+				"buffer_size": 2260,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "application/config/autoload.php",
+			"file": "application/views/forms/school.php",
 			"settings":
 			{
-				"buffer_size": 3141,
+				"buffer_size": 2552,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "application/config/settings.php",
+			"contents": "Searching 352 files for \"logoutLink\"\n\n/Users/godfreymajwega/Sites/eop2.0/application/views/embeds/main_menu.php:\n   20                  <li><a href=\"report\" id=\"reportManagementLink\">My EOP</a></li>\n   21                  <li><a href=\"user\" id=\"userManagementLink\">Users</a></li>\n   22:                 <li><a href=\"#\" id=\"logoutLink\">Log Out</a></li>\n   23              </ul>\n   24          </div>\n\n/Users/godfreymajwega/Sites/eop2.0/assets/js/standard.js:\n    9       * Logout link click prompts user with dialog to confirm option before logging them out\n   10       */\n   11:     $('#logoutLink').click(function () {\n   12          var txt = 'Are you sure you want to log out?';\n   13          var data = {\n\n2 matches across 2 files\n",
 			"settings":
 			{
-				"buffer_size": 585,
+				"buffer_size": 736,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "assets/js/standard.js",
+			"settings":
+			{
+				"buffer_size": 1099,
 				"line_ending": "Unix"
 			}
 		}
@@ -288,13 +322,34 @@
 	},
 	"file_history":
 	[
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/embeds/main_menu.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/users_screen.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/forms/user.php",
+		"/Users/godfreymajwega/Sites/y4y/calendar/admin/embeds/show_events.php",
+		"/Users/godfreymajwega/Sites/eop2.0/assets/css/style.css",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/embeds/admin_menu.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/school_screen.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/controllers/login.php",
+		"/Applications/XAMPP/xamppfiles/etc/my.cnf",
+		"/Applications/XAMPP/xamppfiles/logs/error_log",
+		"/Users/godfreymajwega/Sites/eop2.0/application/controllers/app.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/login_screen.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/models/user_model.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/install_screen.php",
+		"/Users/godfreymajwega/Downloads/ci_series/application/models/membership_model.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/embeds/admin_account.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/template.php",
+		"/Users/godfreymajwega/Sites/eop2.0/assets/js/login.js",
+		"/Users/godfreymajwega/Sites/eop2.0/assets/css/front_cool.css",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/template.php",
+		"/Users/godfreymajwega/Sites/eop2.0/system/helpers/file_helper.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/embeds/finished.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/embeds/database_settings.php",
 		"/Users/godfreymajwega/Sites/eop2.0/application/config/settings.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/config/autoload.php",
 		"/Users/godfreymajwega/Sites/eop2.0/application/config/database.php",
 		"/Users/godfreymajwega/Sites/eop2.0/application/config/config.php",
-		"/Users/godfreymajwega/Sites/eop2.0/application/config/autoload.php",
 		"/Users/godfreymajwega/Sites/eop2.0/assets/css/cpstyle.css",
-		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/embeds/database_settings.php",
-		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/install_screen.php",
 		"/Users/GMajwega/Sites/eop2.0/application/config/config.php",
 		"/Volumes/dev.y4y/uploadify/moderate.php",
 		"/Volumes/dev.y4y/uploadify/export-xlsx.php",
@@ -389,9 +444,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
+			"/Users/godfreymajwega/Sites/eop2.0",
 			"/Volumes/dev.y4y/uploadify/Classes",
 			"/Volumes/dev.y4y/uploadify"
 		]
@@ -401,6 +457,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"logoutLink",
+			"login",
+			"saveRecs",
+			"log",
+			"passwordDescription",
+			"error",
+			"finished_form",
 			"hidden",
 			"errorMsg",
 			"queue",
@@ -501,50 +564,51 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 7,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "system/helpers/file_helper.php",
+					"file": "application/models/user_model.php",
 					"settings":
 					{
-						"buffer_size": 14683,
+						"buffer_size": 6247,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								14568,
-								14568
+								5601,
+								5616
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7549.0,
+						"translation.y": 2359.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "application/controllers/app.php",
+					"file": "application/controllers/user.php",
 					"settings":
 					{
-						"buffer_size": 14748,
+						"buffer_size": 8997,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								632,
-								632
+								805,
+								805
 							]
 						],
 						"settings":
@@ -554,25 +618,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 77.0,
+						"translation.y": 108.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "application/views/install/install_screen.php",
+					"file": "application/controllers/school.php",
 					"settings":
 					{
-						"buffer_size": 7932,
+						"buffer_size": 9059,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1079,
-								1103
+								3196,
+								3196
 							]
 						],
 						"settings":
@@ -582,25 +646,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 867.0,
+						"translation.y": 1044.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "application/views/install/embeds/database_settings.php",
+					"file": "application/views/school_screen.php",
 					"settings":
 					{
-						"buffer_size": 4336,
+						"buffer_size": 6972,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								518,
-								518
+								735,
+								735
 							]
 						],
 						"settings":
@@ -617,76 +681,128 @@
 				},
 				{
 					"buffer": 4,
-					"file": "assets/css/front_cool.css",
+					"file": "application/models/school_model.php",
 					"settings":
 					{
-						"buffer_size": 7172,
+						"buffer_size": 2260,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4117,
-								4117
+								158,
+								158
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3204.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "application/config/autoload.php",
+					"file": "application/views/forms/school.php",
 					"settings":
 					{
-						"buffer_size": 3141,
+						"buffer_size": 2552,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2333,
-								2333
+								1113,
+								1113
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 836.0,
+						"translation.y": 317.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "application/config/settings.php",
 					"settings":
 					{
-						"buffer_size": 585,
+						"buffer_size": 736,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										323,
+										333
+									],
+									[
+										587,
+										597
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "assets/js/standard.js",
+					"settings":
+					{
+						"buffer_size": 1099,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								469,
-								469
+								577,
+								577
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,

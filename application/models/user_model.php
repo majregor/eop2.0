@@ -44,7 +44,29 @@ class User_model extends CI_Model {
         );
 
         $this->db->insert('eop_user', $data);
-        return $this->db->affected_rows();
+        $affected_rows = $this->db->affected_rows();
+        $user_id = $this->db->insert_id();
+
+
+        if($userData['district']!=''){ // Need to associate new user to the selected district
+
+            $user2districtData = array(
+                'uid'   => $user_id,
+                'did'   =>  $userData['district']
+                );
+            $this->db->insert('eop_user2district', $user2districtData);
+        }
+
+        if($userData['school']!=''){ // Need to associate new user to the selected school
+
+            $user2schoolData = array(
+                'uid'   => $user_id,
+                'sid'   =>  $userData['school']
+                );
+            $this->db->insert('eop_user2school', $user2schoolData);
+        }
+
+        return $affected_rows;
     }
  
     function update($data=array()){

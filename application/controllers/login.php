@@ -13,21 +13,28 @@ class Login extends CI_Controller{
 
 	public function __construct(){
 		parent::__construct();
-
+        $this->load->model('registry_model');
         $this->load->model('user_model');
 	}
 
 	public function index(){
 
-        if($this->session->userdata('is_logged_in')){
-            // If the user has already logged in take them to the home page
-            redirect('/home');
-        }
-        else{
-            //Load the login form page
-            $this->login_form();
+        $is_installed = $this->registry_model->getValue('install_status');
 
+        if($is_installed){ // Check if app is installed
+            if($this->session->userdata('is_logged_in')){
+                // If the user has already logged in take them to the home page
+                redirect('/home');
+            }
+            else{
+                //Load the login form page
+                $this->login_form();
+
+            }
+        }else{ // Redirect to app which will initiate the install process
+            redirect('/app');
         }
+        
 	}
 
 	public function validate(){

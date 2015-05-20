@@ -14,7 +14,7 @@
     <div id="errorDiv"></div>
     <table border="1" width="100%" rules="all" >
         <tr>
-            <td width="15%"><span class="required">*</span> District Name:</td>
+            <td width="15%"><span class="required">*</span> District&nbsp;&nbsp;Name:</td>
             <td>
                 <?php
                 $inputAttributes = array(
@@ -30,7 +30,7 @@
             </td>
         </tr>
         <tr>
-            <td> Screen Name:</td>
+            <td> Screen&nbsp;&nbsp;Name:</td>
             <td>
                 <?php
                 $inputAttributes = array(

@@ -228,6 +228,8 @@ class App extends CI_Controller {
                                         'username'      =>  $this->input->post('user_name'),
                                         'email'         =>  $this->input->post('user_email'),
                                         'password'      =>  md5($this->input->post('user_password')),
+                                        'first_name'    =>  'Super',
+                                        'last_name'     =>  'Administrator',
                                         'role_id'       =>  1
                                 );
                                 /**
@@ -243,10 +245,12 @@ class App extends CI_Controller {
                                  *
                                  */
                                 // Get the numerous submitted  inputs
+                                $host_level = $this->session->userdata('pref_hosting_level');
                                 $registryData = array(
                                     'install_status'    =>  'completed',
                                     'dbtype'            =>  $this->session->userdata['database']['dbdriver'],
-                                    'host_level'        =>  $this->session->userdata('pref_hosting_level')
+                                    'host_level'        =>  $this->session->userdata('pref_hosting_level'),
+                                    'state_permission'  =>  ($host_level=='state')? 'write' : 'deny'
                                 );
 
                                 $this->load->model('registry_model');

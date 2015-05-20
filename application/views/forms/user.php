@@ -156,7 +156,7 @@
                 ?>
 
             </td>
-        </tr>
+        </tr> 
         <tr id="schoolRow">
             <td><span class="required">*</span>School:</td>
             <td>
@@ -183,7 +183,7 @@
                         'write'      =>  'No'
                     );
 
-                     $otherAttributes = 'id="user_access_permission" style=""';
+                     $otherAttributes = 'id="user_access_permission"  style=""';
                     echo form_dropdown('user_access_permission', $options, 'write', $otherAttributes);
                 ?>
             </td>

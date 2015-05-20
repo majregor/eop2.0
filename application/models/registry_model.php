@@ -14,7 +14,7 @@ class Registry_model extends CI_Model {
     public function __construct(){
         parent::__construct();
     }
-
+ 
     function addVariable($key, $value){
 
     }
@@ -65,10 +65,10 @@ class Registry_model extends CI_Model {
     function update($key, $value){
 
         $updateData = array(
-            'key'      =>  $key,
             'value'    =>  $value
         );
 
+        $this->db->where('key', $key);
         $this->db->update('eop_registry', $updateData);
 
         return $this->db->affected_rows();

@@ -863,7 +863,7 @@ background: url(bubble.gif) no-repeat bottom;
 }
 
 /**
-**** Added by Godfrey as part of 2.0 Major update
+**** Added by Godfrey as part of 2.0 Major upgrade
 */
 /* Users management
 */
@@ -1006,5 +1006,21 @@ em.revoke{background-image: url(../img/check_mark_cross.png);}
 
 .adminTable tr:nth-child(even) {background: #EEE}
 .adminTable tr:nth-child(odd) {background: #CCC}
+
+.approved_button { 
+  background-image: url("../img/accept.png"); 
+  width:16px; 
+  height: 16px; 
+  display: inline-block;
+  margin:-3px 5px;
+}
+
+.revoked_button{
+  background-image: url("../img/check_mark_cross.png");
+  width:16px;
+  height: 16px;
+  display: inline-block;
+  margin: -3px 5px;
+}
 
 

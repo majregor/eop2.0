@@ -8,7 +8,6 @@
 
 <p>
     Your have finalised the install process.
-    <?php echo urldecode($this->session->userdata('user_email')); ?>
 </p>
 
     <p>

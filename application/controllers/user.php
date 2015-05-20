@@ -85,6 +85,7 @@ class User extends CI_Controller{
 
         if($submitted){ // Form has been submitted
             // Process the data and add to the database
+
             $data = array(
                 'role_id'       =>  $this->input->post('slctuserrole'),
                 'first_name'    =>  $this->input->post('first_name'),
@@ -92,7 +93,9 @@ class User extends CI_Controller{
                 'email'         =>  $this->input->post('email'),
                 'username'      =>  $this->input->post('username'),
                 'password'      =>  md5($this->input->post('user_password')),
-                'phone'         =>  $this->input->post('phone')
+                'phone'         =>  $this->input->post('phone'),
+                'district'      =>  ($this->input->post('sltdistrict') == FALSE) ? '' : $this->input->post('sltdistrict'),
+                'school'        =>  ($this->input->post('sltschool') == FALSE) ? '' : $this->input->post('sltschool')
             );
 
             $savedRecs = $this->user_model->addUser($data);
