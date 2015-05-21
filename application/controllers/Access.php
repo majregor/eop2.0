@@ -52,8 +52,7 @@ class Access extends CI_Controller{
             'role'                  =>  $role,
             'stateWideStateAccess'  =>  $stateWideStateAccess,
             'districtWideStateAccess'=> isset($districtWideStateAccess) ? $districtWideStateAccess : '',
-            'schoolWideStateAccess' =>  isset($schoolWideStateAccess) ? $schoolWideStateAccess : '',
-            'districtWideStateAccess'=>$districtWideStateAccess
+            'schoolWideStateAccess' =>  isset($schoolWideStateAccess) ? $schoolWideStateAccess : ''
         );
         $this->template->load('template', 'state_access_screen', $templateData);
     }
