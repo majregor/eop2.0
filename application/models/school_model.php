@@ -28,9 +28,17 @@ class School_model extends CI_Model {
             'name'       =>  $data['name'],
             'screen_name'    =>  $data['screen_name']
         );
-
+ 
         $this->db->where('id', $data['id']);
         $this->db->update('eop_school', $updateData);
+
+        return $this->db->affected_rows();
+    }
+
+    function updateSchool($sid, $data){
+        
+        $this->db->where('id', $sid);
+        $this->db->update('eop_school', $data);
 
         return $this->db->affected_rows();
     }

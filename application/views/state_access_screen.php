@@ -7,7 +7,7 @@
  * 2015 © United States Department of Education
  */
 //echo $stateWideStateAccess;
-
+//print_r( $districtWideStateAccess);
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/jquery.dataTables.css"/>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>
@@ -50,22 +50,66 @@ include('embeds/admin_menu.php');
             <td>Action</td>
         </tr>
         <tr>
-            <td>State Access to School EOPs</td>
-            <td>
-                <span id="state_access_icon" class="<?php echo (($stateWideStateAccess=='write' || $stateWideStateAccess=='read')? 'approved_button':'revoked_button'); ?>"></span>
-                <span id="access-label"><?php echo (($stateWideStateAccess=='write' || $stateWideStateAccess=='read')? 'Enabled':'Disabled'); ?></span>
-            </td>
-            <td>
-                <div id="" class="approval-holder">
-                    <?php if($stateWideStateAccess == 'write' || $stateWideStateAccess == 'read'): ?>
-                        <button value="" class="btn-revoke"><em class="leftImage revoke"></em>Disable</button>
-                    <?php endif; ?>
-                    <?php if($stateWideStateAccess == 'deny'): ?>
-                     <button value="" class="btn-approve"><em class="leftImage approve"></em>Enable</button>
-                    <?php endif; ?>
 
-                </div>
-            </td>
+            <?php if($role['level']==2 || $role['level']==1): //State or Super admin administrator ?>
+                <td>State Access to School EOPs</td>
+                <td>
+                    <span id="state_access_icon" class="<?php echo (($stateWideStateAccess=='write' || $stateWideStateAccess=='read')? 'approved_button':'revoked_button'); ?>"></span>
+                    <span id="access-label"><?php echo (($stateWideStateAccess=='write' || $stateWideStateAccess=='read')? 'Enabled':'Disabled'); ?></span>
+                </td>
+                <td>
+                    <div id="" class="approval-holder">
+                        <?php if($stateWideStateAccess == 'write' || $stateWideStateAccess == 'read'): ?>
+                            <button value="" class="btn-revoke"><em class="leftImage revoke"></em>Disable</button>
+                        <?php endif; ?>
+                        <?php if($stateWideStateAccess == 'deny'): ?>
+                         <button value="" class="btn-approve"><em class="leftImage approve"></em>Enable</button>
+                        <?php endif; ?>
+
+                    </div>
+                </td>
+            <?php endif; ?>
+
+
+            <?php if($role['level']==3): //District administrator ?>
+                <td>State Access to My District's School EOPs</td>
+                <td>
+                    <span id="state_access_icon" class="<?php echo (($districtWideStateAccess=='write' || $districtWideStateAccess=='read')? 'approved_button':'revoked_button'); ?>"></span>
+                    <span id="access-label"><?php echo (($districtWideStateAccess=='write' || $districtWideStateAccess=='read')? 'Enabled':'Disabled'); ?></span>
+                </td>
+                <td>
+                    <div id="" class="approval-holder">
+                        <?php if($districtWideStateAccess == 'write' || $districtWideStateAccess == 'read'): ?>
+                            <button value="" class="btn-revoke"><em class="leftImage revoke"></em>Disable</button>
+                        <?php endif; ?>
+                        <?php if($districtWideStateAccess == 'deny'): ?>
+                         <button value="" class="btn-approve"><em class="leftImage approve"></em>Enable</button>
+                        <?php endif; ?>
+
+                    </div>
+                </td>
+            <?php endif; ?>
+
+
+            <?php if($role['level']==4): //School administrator ?>
+                <td>State Access to My School EOP</td>
+                <td>
+                    <span id="state_access_icon" class="<?php echo (($schoolWideStateAccess=='write' || $schoolWideStateAccess=='read')? 'approved_button':'revoked_button'); ?>"></span>
+                    <span id="access-label"><?php echo (($schoolWideStateAccess=='write' || $schoolWideStateAccess=='read')? 'Enabled':'Disabled'); ?></span>
+                </td>
+                <td>
+                    <div id="" class="approval-holder">
+                        <?php if($schoolWideStateAccess == 'write' || $schoolWideStateAccess == 'read'): ?>
+                            <button value="" class="btn-revoke"><em class="leftImage revoke"></em>Disable</button>
+                        <?php endif; ?>
+                        <?php if($schoolWideStateAccess == 'deny'): ?>
+                         <button value="" class="btn-approve"><em class="leftImage approve"></em>Enable</button>
+                        <?php endif; ?>
+
+                    </div>
+                </td>
+            <?php endif; ?>
+
         </tr>
     </table>
 </div>
@@ -85,7 +129,14 @@ include('embeds/admin_menu.php');
                 ajax                    : '1'
             };
             $.ajax({
-                url: "<?php echo base_url('access/grant_statewide_access'); ?>",
+                <?php if($role['level']==3): //District administrator ?>
+                    url: "<?php echo base_url('access/grant_districtwide_access'); ?>",
+                <?php elseif($role['level']==4): //School Administrator ?>
+                    url: "<?php echo base_url('access/grant_schoolwide_access'); ?>",
+                <?php else: // State Administrator and other roles with access to this screen ?>
+                    url: "<?php echo base_url('access/grant_statewide_access'); ?>",
+                <?php endif; ?>
+                
                 type: 'POST',
                 data: form_data,
                 success: function(response) {
@@ -111,7 +162,14 @@ include('embeds/admin_menu.php');
                 ajax                    : '1'
             };
             $.ajax({
-                url: "<?php echo base_url('access/revoke_statewide_access'); ?>",
+                <?php if($role['level']==3): //District administrator ?>
+                   url: "<?php echo base_url('access/revoke_districtwide_access'); ?>",
+                <?php elseif($role['level']==4): //School Administrator ?>
+                    url: "<?php echo base_url('access/revoke_schoolwide_access'); ?>",
+                <?php else: // State Administrator and other roles with access to this screen ?>
+                    url: "<?php echo base_url('access/revoke_statewide_access'); ?>",
+                <?php endif; ?>
+                
                 type: 'POST',
                 data: form_data,
                 success: function(response) {

@@ -10,7 +10,7 @@
 //print_r($role);
 //echo $this->session->userdata('host_state');
 
-print_r($schools);
+//print_r($schools);
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/jquery.dataTables.css"/>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.dataTables.min.js"></script>
@@ -63,11 +63,32 @@ if(isset($viewform)){
                         echo (" <th>&nbsp;&nbsp;&nbsp;&nbsp;District&nbsp;&nbsp;&nbsp;&nbsp;</th>");
                     }
                 ?>
-                <?php
-                    if(($role['level']==2) && ($stateEOPAccess=='write' || $stateEOPAccess=='read')){
-                        echo "<th>EOP</th>";
-                    }
+                <?php 
+                    if($role['level']==2){
+                        $viewEOP = false;
+                        if($stateEOPAccess=='write' || $stateEOPAccess=='read'){
+                            $dpermission = NULL;
+                            foreach($districts as $dkey=>$dvalue){
+                                if($value['district_id'] == $dvalue['id']){
+                                    $dpermission = $dvalue['state_permission'];
+                                    break;
+                                }
+                            }
 
+                            if(null!=$dpermission && $dpermission=='write'){
+                                $viewEOP = true;
+                            }
+                            elseif(null==$dpermission && $value['state_permission']=='write'){
+                                $viewEOP = true;
+                            }
+                        }
+
+                        if($viewEOP){
+                             echo "<td>View</td>";
+                        }
+                    }else{
+                        echo "<td>View</td>";
+                    }
                 ?>
 
                 <th>Modify School</th>
@@ -86,11 +107,31 @@ if(isset($viewform)){
                     </td>
                 <?php endif; ?>
 
-                <?php if(($role['level']==2) && ($stateEOPAccess=='write' || $stateEOPAccess=='read')){
-                        /*if($value['state_permission']){
-                            echo "<td>View</td>";
-                        }*/
+                <?php 
+                    if($role['level']==2){
+                        $viewEOP = false;
+                        if($stateEOPAccess=='write' || $stateEOPAccess=='read'){
+                            $dpermission = NULL;
+                            foreach($districts as $dkey=>$dvalue){
+                                if($value['district_id'] == $dvalue['id']){
+                                    $dpermission = $dvalue['state_permission'];
+                                    break;
+                                }
+                            }
 
+                            if(null!=$dpermission && $dpermission=='write'){
+                                $viewEOP = true;
+                            }
+                            elseif(null==$dpermission && $value['state_permission']=='write'){
+                                $viewEOP = true;
+                            }
+                        }
+
+                        if($viewEOP){
+                             echo "<td>View</td>";
+                        }
+                    }else{
+                        echo "<td>View</td>";
                     }
                 ?>
 
@@ -117,11 +158,32 @@ if(isset($viewform)){
                         echo (" <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;District&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>");
                     }
                 ?>
-                <?php
-                if(($role['level']==2) && ($stateEOPAccess=='write' || $stateEOPAccess=='read')){
-                    echo "<th>EOP</th>";
+                <?php 
+                    if($role['level']==2){
+                        $viewEOP = false;
+                        if($stateEOPAccess=='write' || $stateEOPAccess=='read'){
+                            $dpermission = NULL;
+                            foreach($districts as $dkey=>$dvalue){
+                                if($value['district_id'] == $dvalue['id']){
+                                    $dpermission = $dvalue['state_permission'];
+                                    break;
+                                }
+                            }
 
-                }
+                            if(null!=$dpermission && $dpermission=='write'){
+                                $viewEOP = true;
+                            }
+                            elseif(null==$dpermission && $value['state_permission']=='write'){
+                                $viewEOP = true;
+                            }
+                        }
+
+                        if($viewEOP){
+                             echo "<td>View</td>";
+                        }
+                    }else{
+                        echo "<td>View</td>";
+                    }
                 ?>
                 <th>Modify School</th>
             </tr>

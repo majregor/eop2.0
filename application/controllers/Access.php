@@ -35,12 +35,25 @@ class Access extends CI_Controller{
         $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
         $stateWideStateAccess = $this->access_model->getStateWideStateAccess();
 
+        $district_val = $this->user_model->getUserDistrict($this->session->userdata('user_id'));
+        $school_val = $this->user_model->getUserSchool($this->session->userdata('user_id'));
+
+        if(is_array($district_val) && count($district_val)>=1)
+        $districtWideStateAccess = $this->access_model->getDistrictWideStateAccess($district_val[0]['did']);
+
+        if(is_array($school_val) && count($school_val)>=1)
+        $schoolWideStateAccess = $this->access_model->getSchoolWideStateAccess($school_val[0]['sid']);
+
+
         $templateData = array(
             'page'                  =>  'district',
             'page_title'            =>  'District Management',
             'step_title'            =>  'Districts',
             'role'                  =>  $role,
-            'stateWideStateAccess'  =>  $stateWideStateAccess
+            'stateWideStateAccess'  =>  $stateWideStateAccess,
+            'districtWideStateAccess'=> isset($districtWideStateAccess) ? $districtWideStateAccess : '',
+            'schoolWideStateAccess' =>  isset($schoolWideStateAccess) ? $schoolWideStateAccess : '',
+            'districtWideStateAccess'=>$districtWideStateAccess
         );
         $this->template->load('template', 'state_access_screen', $templateData);
     }
@@ -77,6 +90,87 @@ class Access extends CI_Controller{
         else{ // Do nothing
 
         }
+    }
+
+    public function grant_districtwide_access(){
+
+        if($this->input->post('ajax')){
+            $district_val = $this->user_model->getUserDistrict($this->session->userdata('user_id'));
+
+            if(is_array($district_val) && count($district_val)>=1){
+                $recs = $this->access_model->grantDistrictWideAccess($district_val[0]['did']);
+            }
+
+            if(isset($recs) && is_numeric($recs) && $recs>=1){ // We were successful
+                $this->output->set_output('1');
+            }else{
+                $this->output->set_output('0');
+            }
+
+        }
+        else{ // Do nothing
+
+        }
+    }
+
+    public function revoke_districtwide_access(){
+        if($this->input->post('ajax')){
+            $district_val = $this->user_model->getUserDistrict($this->session->userdata('user_id'));
+
+            if(is_array($district_val) && count($district_val)>=1){
+                $recs = $this->access_model->revokeDistrictWideAccess($district_val[0]['did']);
+            }
+
+            if(isset($recs) && is_numeric($recs) && $recs>=1){ // We were successful
+                $this->output->set_output('1');
+            }else{
+                $this->output->set_output('0');
+            }
+
+        }
+        else{ // Do nothing
+
+        }
+    }
+
+    public function grant_schoolwide_access(){
+        if($this->input->post('ajax')){
+            $school_val = $this->user_model->getUserSchool($this->session->userdata('user_id'));
+
+            if(is_array($school_val) && count($school_val)>=1){
+                $recs = $this->access_model->grantSchoolWideAccess($school_val[0]['sid']);
+            }
+
+            if(isset($recs) && is_numeric($recs) && $recs>=1){ // We were successful
+                $this->output->set_output('1');
+            }else{
+                $this->output->set_output('0');
+            }
+
+        }else{
+            // Do nothing
+        }
+    }
+
+    public function revoke_schoolwide_access(){
+
+        if($this->input->post('ajax')){
+            $school_val = $this->user_model->getUserSchool($this->session->userdata('user_id'));
+
+            if(is_array($school_val) && count($school_val)>=1){
+                $recs = $this->access_model->revokeSchoolWideAccess($school_val[0]['sid']);
+            }
+
+            if(isset($recs) && is_numeric($recs) && $recs>=1){ // We were successful
+                $this->output->set_output('1');
+            }else{
+                $this->output->set_output('0');
+            }
+
+        }else{
+            // Do nothing
+        }
+
     }
 
 }

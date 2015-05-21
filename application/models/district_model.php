@@ -34,6 +34,14 @@ class District_model extends CI_Model {
         return $this->db->affected_rows();
     }
 
+    function updateDistrict($did, $data){
+        
+        $this->db->where('id', $did);
+        $this->db->update('eop_district', $data);
+
+        return $this->db->affected_rows();
+    }
+
     /**
      * Function getDistricts
      * Returns all districts available in a particular state
@@ -71,7 +79,7 @@ class District_model extends CI_Model {
     function getDistrict($district_id){
         $conditions = array('id'=>$district_id);
 
-        $query = $this->get_where('eop_district', $conditions);
+        $query = $this->db->get_where('eop_district', $conditions);
 
         return $query->result_array();
 
