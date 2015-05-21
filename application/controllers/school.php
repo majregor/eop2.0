@@ -55,18 +55,26 @@ class School extends CI_Controller{
         // Get the EOP access setting to the state
         $stateEOPAccess = $this->access_model->getStateAccess();
 
-        $templateData = array(
-            'page'          =>  'school',
-            'page_title'    =>  'School Management',
-            'step_title'    =>  'Schools',
-            'users'          => $users,
-            'roles'         =>  $roles,
-            'districts'     =>  $districts,
-            'schools'       =>  $schools,
-            'role'          =>  $role,
-            'stateEOPAccess'=>  $stateEOPAccess
-        );
-        $this->template->load('template', 'school_screen', $templateData);
+        if($role['level']<4){ // If not a Super, State or District admin don't load
+            $templateData = array(
+                'page'          =>  'school',
+                'page_title'    =>  'School Management',
+                'step_title'    =>  'Schools',
+                'users'          => $users,
+                'roles'         =>  $roles,
+                'districts'     =>  $districts,
+                'schools'       =>  $schools,
+                'role'          =>  $role,
+                'stateEOPAccess'=>  $stateEOPAccess
+            );
+            $this->template->load('template', 'school_screen', $templateData);
+        }
+        else{ // Redirect to user management with error message
+            $this->session->set_flashdata('error', " Sorry you've been redirected here because you don't have access to School Management resource!");
+            redirect('/user');
+        }
+
+
     }
 
     /**
@@ -94,6 +102,11 @@ class School extends CI_Controller{
                 'screen_name'     =>  $this->input->post('screen_name'),
                 'district_id'     =>  $this->input->post('sltdistrict')
             );
+
+            if($this->session->userdata['role']['level'] == 3){ //District admin is adding school, make the default  district be the same as the district admin
+                $districtRow = $this->user_model->getUserDistrict($this->session->userdata('user_id'));
+                $data['district_id'] = $districtRow[0]['did'];
+            }
 
             $savedRecs = $this->school_model->addSchool($data);
 

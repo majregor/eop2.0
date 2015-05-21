@@ -46,7 +46,9 @@ if(isset($viewform)){
     include('forms/user.php');
 }
 ?>
+<?php if($role['level']<5): ?>
 <div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>user/add">Create New User</a></div>
+<?php endif; ?>
 <div>
     <!-- Hidden field used to store selected user id -->
     <input type="hidden" id="selectedUserId" value="" />
@@ -328,7 +330,14 @@ if(isset($viewform)){
                 $('#email_update').val(email);
                 $('#username_update').val(user_name);
                 $('#phone_update').val(phone);
+
+                if(role==<?php echo($role['role_id']); ?>){
+                    $('#slctuserrole_update').append($("<option></option>").attr("value", role).text("<?php echo($role['role']); ?>"));
+                    $('#slctuserrole_update').attr("disabled", true);
+                }
                 $('#slctuserrole_update').val(role);
+                $('#role_id_update').val(role);
+
                 $('#sltdistrict_update').val(district);
                 $('#sltschool_update').val(school);
                 $('#user_access_permission_update').val(access);
@@ -360,7 +369,7 @@ if(isset($viewform)){
                     email                   : $('#email_update').val(),
                     username                : $('#username_update').val(),
                     phone                   : $('#phone_update').val(),
-                    role_id                 : $('#slctuserrole_update').val(),
+                    role_id                 : ($('#role_id_update').val()== "<?php echo($role['role_id']); ?>") ? $('#role_id_update').val() :  $('#slctuserrole_update').val(),
                     school_id               : $('#slctschool_update').val(),
                     access                  : $('#user_access_permission_update').val(),
                     ajax                    : '1'
@@ -456,6 +465,8 @@ if(isset($viewform)){
             if($('select#slctuserrole').val() == 3){
                  $('#districtRow').css('display', 'table-row');
                  $('#schoolRow').css('display', 'none');
+                $('#sltdistrict').rules("add", "required");
+                $('#districtRow span').addClass("required");
             }
             if($('select#slctuserrole').val() == 2){
                  $('#schoolRow').css('display', 'none');
@@ -463,7 +474,10 @@ if(isset($viewform)){
             }
             if($('select#slctuserrole').val() == 4){
                  $('#schoolRow').css('display', 'table-row');
-                 $('#districtRow').css('display', 'none');
+                 $('#districtRow').css('display', 'table-row');
+                 $('#sltdistrict').attr("required", false);
+                 $('#sltdistrict').rules("remove", "required");
+                $('#districtRow span').removeClass("required");
             }
             if($('select#slctuserrole').val() == 5){
                  $('#schoolRow').css('display', 'table-row');
@@ -474,6 +488,8 @@ if(isset($viewform)){
                 if(this.value == 3){ // District Admin selected
                     $('#districtRow').css('display', 'table-row');
                     $('#schoolRow').css('display', 'none');
+                    $('#sltdistrict').rules("add", "required");
+                    $('#districtRow span').addClass("required");
                 }
                 else if(this.value==2){ // State Admin selected
                     $('#districtRow').css('display', 'none');
@@ -481,6 +497,10 @@ if(isset($viewform)){
                 }
                 else if(this.value == 4){ //School admin selected
                     $('#schoolRow').css('display', 'table-row');
+                    $('#districtRow').css('display', 'table-row');
+                    $('#sltdistrict').attr("required", false);
+                    $('#sltdistrict').rules("remove", "required");
+                    $('#districtRow span').removeClass("required");
                 }else if(this.value == 5){
                      $('#schoolRow').css('display', 'table-row');
                 }

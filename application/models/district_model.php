@@ -59,6 +59,7 @@ class District_model extends CI_Model {
             $conditions = array('state_val' => $state);
         }
 
+        //For District admin, School admin and School user, return districts associated with the user
         if($this->session->userdata['role']['level'] >= 3 ){
 
             $this->db->select('A.*, B.uid')
@@ -70,6 +71,7 @@ class District_model extends CI_Model {
 
             return $query->result_array();
         }
+        // For Super and State admins return all districts in the state or EOP installation
         else{
             $query = $this->db->get_where('eop_district', $conditions);
             return $query->result_array();

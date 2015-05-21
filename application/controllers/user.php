@@ -28,6 +28,7 @@ class User extends CI_Controller{
             $this->load->model('registry_model');
             // Load the user_model that will handle most database operations
             $this->load->model('user_model');
+            $this->load->model('school_model');
 
             $host_state = $this->registry_model->getValue('host_state');
             $this->session->set_userdata('host_state', $host_state);
@@ -46,7 +47,7 @@ class User extends CI_Controller{
         //Get the districts available in the state
         $districts = $this->user_model->getDistricts($this->session->userdata('host_state'));
         //Get the districts available in the state
-        $schools = $this->user_model->getSchools($this->session->userdata('host_state'));
+        $schools = $this->school_model->getSchools($this->session->userdata('host_state'));
         // Get all registered users
         $users = $this->user_model->getUsers();
          // Get the role access permissions for the logged in user
@@ -95,8 +96,18 @@ class User extends CI_Controller{
                 'password'      =>  md5($this->input->post('user_password')),
                 'phone'         =>  $this->input->post('phone'),
                 'district'      =>  ($this->input->post('sltdistrict') == FALSE) ? '' : $this->input->post('sltdistrict'),
-                'school'        =>  ($this->input->post('sltschool') == FALSE) ? '' : $this->input->post('sltschool')
+                'school'        =>  ($this->input->post('sltschool') == FALSE) ? '' : $this->input->post('sltschool'),
+                'read_only'     =>  $this->input->post('user_access_permission')
             );
+
+            if($this->session->userdata['role']['level'] == 3){ //District admin is adding user, make the default user district be the same as the district admin
+                $districtRow = $this->user_model->getUserDistrict($this->session->userdata('user_id'));
+                $data['district'] = $districtRow[0]['did'];
+            }
+            if($this->session->userdata['role']['level'] == 4){ //School admin is adding user, make the default user school be the same as the school admin's
+                $schoolRow = $this->user_model->getUserSchool($this->session->userdata('user_id'));
+                $data['school'] = $schoolRow[0]['sid'];
+            }
 
             $savedRecs = $this->user_model->addUser($data);
 
@@ -122,7 +133,7 @@ class User extends CI_Controller{
             //Get the districts available in the state
             $districts = $this->user_model->getDistricts($this->session->userdata('host_state'));
             //Get the districts available in the state
-            $schools = $this->user_model->getSchools($this->session->userdata('host_state'));
+            $schools = $this->school_model->getSchools($this->session->userdata('host_state'));
             // Get all registered users
             $users = $this->user_model->getUsers();
              // Get the role access permissions for the logged in user

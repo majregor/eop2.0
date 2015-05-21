@@ -63,34 +63,7 @@ if(isset($viewform)){
                         echo (" <th>&nbsp;&nbsp;&nbsp;&nbsp;District&nbsp;&nbsp;&nbsp;&nbsp;</th>");
                     }
                 ?>
-                <?php 
-                    if($role['level']==2){
-                        $viewEOP = false;
-                        if($stateEOPAccess=='write' || $stateEOPAccess=='read'){
-                            $dpermission = NULL;
-                            foreach($districts as $dkey=>$dvalue){
-                                if($value['district_id'] == $dvalue['id']){
-                                    $dpermission = $dvalue['state_permission'];
-                                    break;
-                                }
-                            }
-
-                            if(null!=$dpermission && $dpermission=='write'){
-                                $viewEOP = true;
-                            }
-                            elseif(null==$dpermission && $value['state_permission']=='write'){
-                                $viewEOP = true;
-                            }
-                        }
-
-                        if($viewEOP){
-                             echo "<td>View</td>";
-                        }
-                    }else{
-                        echo "<td>View</td>";
-                    }
-                ?>
-
+                <th>EOP</th>
                 <th>Modify School</th>
             </tr>
         </thead>
@@ -130,6 +103,9 @@ if(isset($viewform)){
                         if($viewEOP){
                              echo "<td>View</td>";
                         }
+                        else{
+                            echo "<td style='color:#BABABA;'><em>Not shared</em></td>";
+                        }
                     }else{
                         echo "<td>View</td>";
                     }
@@ -158,33 +134,7 @@ if(isset($viewform)){
                         echo (" <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;District&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>");
                     }
                 ?>
-                <?php 
-                    if($role['level']==2){
-                        $viewEOP = false;
-                        if($stateEOPAccess=='write' || $stateEOPAccess=='read'){
-                            $dpermission = NULL;
-                            foreach($districts as $dkey=>$dvalue){
-                                if($value['district_id'] == $dvalue['id']){
-                                    $dpermission = $dvalue['state_permission'];
-                                    break;
-                                }
-                            }
-
-                            if(null!=$dpermission && $dpermission=='write'){
-                                $viewEOP = true;
-                            }
-                            elseif(null==$dpermission && $value['state_permission']=='write'){
-                                $viewEOP = true;
-                            }
-                        }
-
-                        if($viewEOP){
-                             echo "<td>View</td>";
-                        }
-                    }else{
-                        echo "<td>View</td>";
-                    }
-                ?>
+                <th>EOP</th>
                 <th>Modify School</th>
             </tr>
         </tfoot>

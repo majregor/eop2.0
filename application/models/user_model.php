@@ -30,7 +30,6 @@ class User_model extends CI_Model {
 
     }
 
-
     function addUser($userData){
         $data = array(
             'role_id'       => isset($userData['role_id'])? $userData['role_id']: 1,
@@ -40,6 +39,7 @@ class User_model extends CI_Model {
             'username'      => isset($userData['username'])? $userData['username']:'',
             'password'      => isset($userData['password'])? $userData['password']:'',
             'phone'         => isset($userData['phone'])? $userData['phone'] : '',
+            'read_only'     => isset($userData['read_only'])? $userData['read_only'] : 'n',
             'status'        => 'active'
         );
 
@@ -110,9 +110,65 @@ class User_model extends CI_Model {
 
     function getUsers($data=''){
         if($data==''){ // No filter set return all users
-            $query = $this->db->get('eop_view_user');
 
-            return $query->result_array();
+            // For school admin return users associated with the school admin's school.
+            if($this->session->userdata['role']['level'] == 4 ){
+                $schoolDataRow = $this->getUserSchool($this->session->userdata('user_id'));
+                $schoolId = isset($schoolDataRow[0]['sid']) ? $schoolDataRow[0]['sid']:null;
+
+                if(null != $schoolId){
+                    $this->db->select('A.*')
+                        ->from('eop_view_user A')
+                        ->where(array('school_id'=> $schoolId));
+
+                    $query = $this->db->get();
+
+                    return $query->result_array();
+                }else{
+                    $emptyArray = array();
+                    return $emptyArray;
+                }
+            }
+            // For District admin return users associated with the district admin's district.
+            elseif($this->session->userdata['role']['level'] == 3 ){
+                $districtDataRow = $this->getUserDistrict($this->session->userdata('user_id'));
+                $districtId = isset($districtDataRow[0]['did']) ? $districtDataRow[0]['did']:null;
+
+                if(null != $districtId){
+                    $this->db->select('A.*')
+                        ->from('eop_view_user A')
+                        ->where(array('district_id'=> $districtId));
+
+                    $query = $this->db->get();
+
+                    return $query->result_array();
+                }else{
+                    $emptyArray = array();
+                    return $emptyArray;
+                }
+            }
+            // For School users return own user record
+            elseif($this->session->userdata['role']['level'] == 5 ){
+
+                $conditions = array('uid' => $this->session->userdata('user_id') );
+                $query = $this->db->get_where('eop_view_user', $conditions);
+
+                return $query->result_array();
+            }
+            //For State admin return all users except Super admin
+            elseif($this->session->userdata['role']['level'] == 2){
+                $condition = array('role_id !='=> '1');
+                $query = $this->db->get_where('eop_view_user', $condition);
+
+                return $query->result_array();
+            }
+            // For Super Admins return all users
+            else{
+                $query = $this->db->get('eop_view_user');
+
+                return $query->result_array();
+            }
+
         }
         elseif(is_array($data)){
             $query = $this->db->get_where('eop_view_user', $data);
@@ -150,7 +206,7 @@ class User_model extends CI_Model {
      * Function getAllRoles
      *  Function to returns array of all roles from the database
      */
-    function getAllRoles(){ 
+    function getAllRoles(){
 
         $query = $this->db->get('eop_user_roles');
 
@@ -272,7 +328,5 @@ class User_model extends CI_Model {
 
         return $permissionsData;
     }
-
-
 
 }

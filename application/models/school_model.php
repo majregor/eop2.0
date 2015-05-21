@@ -19,7 +19,19 @@ class School_model extends CI_Model {
             $schoolData['state_val'] =  $this->registry_model->getValue('host_state');
         }
         $this->db->insert('eop_school', $schoolData);
-        return $this->db->affected_rows();
+        $school_id = $this->db->insert_id();
+        $affected_rows = $this->db->affected_rows();
+
+
+        if($this->session->userdata['role']['level'] == 4){ // If school is being added by School admin, associate them to the school
+            $user2schoolData = array(
+                'uid'   =>  $this->session->userdata('user_id'),
+                'sid'   =>  $school_id
+            );
+            $this->db->insert('eop_user2school', $user2schoolData);
+        }
+
+        return $affected_rows;
     }
  
     function update($data=array()){
@@ -66,6 +78,7 @@ class School_model extends CI_Model {
     function getSchools($state){
         $conditions = array('state_val' => $state);
 
+        // For school admin and school user, return schools associated with an individual user
         if($this->session->userdata['role']['level'] > 3 ){
 
             $this->db->select('A.*, B.uid')
@@ -78,6 +91,18 @@ class School_model extends CI_Model {
             return $query->result_array();
 
         }
+        // For District administrators, return all schools associated to their district
+        elseif($this->session->userdata['role']['level'] == 3 ){
+
+            $this->db->select('A.*, B.uid')
+                        ->from('eop_view_school A')
+                        ->join('eop_user2district B', 'A.district_id = B.did')
+                        ->where(array('uid' => $this->session->userdata('user_id')));
+            $query = $this->db->get();
+
+            return $query->result_array();
+        }
+        //For Super user and district User, simply return all the schools in the state
         else{
             $query = $this->db->get_where('eop_view_school', $conditions);
             return $query->result_array();

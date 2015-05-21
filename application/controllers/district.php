@@ -50,16 +50,21 @@ class District extends CI_Controller{
          // Get the role access permissions for the logged in user
         $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
 
-        $templateData = array(
-            'page'          =>  'district',
-            'page_title'    =>  'District Management',
-            'step_title'    =>  'Districts',
-            'users'          => $users,
-            'roles'         =>  $roles,
-            'districts'     =>  $districts,
-            'role'          =>  $role
-        );
-        $this->template->load('template', 'district_screen', $templateData);
+        if($role['level']<4) { // If not a Super, State or District admin don't load
+            $templateData = array(
+                'page' => 'district',
+                'page_title' => 'District Management',
+                'step_title' => 'Districts',
+                'users' => $users,
+                'roles' => $roles,
+                'districts' => $districts,
+                'role' => $role
+            );
+            $this->template->load('template', 'district_screen', $templateData);
+        }else{
+            $this->session->set_flashdata('error', " Sorry you've been redirected here because you don't have access to District Management resource!");
+            redirect('/user');
+        }
     }
 
     /**

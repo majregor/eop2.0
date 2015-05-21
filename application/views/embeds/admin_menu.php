@@ -1,30 +1,24 @@
 <div class="adminMenu">
     <ul>
+        <?php if($role['level']<5): ?>
         <li>
             <a href="<?php echo base_url(); ?>user">User Management </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-            <!--<ul>
-                <li><a href="<?php /*echo base_url(); */?>user">View All</a></li>
-                <li><a href="<?php /*echo base_url(); */?>user/add">Create New User</a></li>
 
-            </ul>-->
         </li>
-        <li>
-            <a href="<?php echo base_url(); ?>school">School Management</a> &nbsp;&nbsp; | &nbsp;&nbsp;
-           <!-- <ul>
-                <li><a href="<?php /*echo base_url(); */?>school">View All</a></li>
-                <li><a href="<?php /*echo base_url(); */?>school/add">Add New School</a></li>
-            </ul>-->
-        </li>
-        <li>
-            <a href="<?php echo base_url(); ?>district">District Management</a> &nbsp;&nbsp;|&nbsp;&nbsp;
-           <!-- <ul>
-                <li><a href="<?php /*echo base_url(); */?>district">View All</a></li>
-                <li><a href="<?php /*echo base_url(); */?>district/add">Add New District</a></li>
-            </ul>-->
-        </li>
+            <?php if($role['level']<4): ?>
+                <li>
+                    <a href="<?php echo base_url(); ?>school">School Management</a> &nbsp;&nbsp; | &nbsp;&nbsp;
+
+                </li>
+                <li>
+                    <a href="<?php echo base_url(); ?>district">District Management</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+
+                </li>
+            <?php endif; ?>
         <li>
             <a href="<?php echo base_url(); ?>access">State Access</a>
         </li>
+        <?php endif; ?>
     </ul>
     <br style="clear: both;"/>
 </div>

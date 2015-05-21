@@ -9,6 +9,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 
 <fieldset>
     <input type="hidden" name="user_id_update" id="user_id_update" value="">
+    <input type="hidden" name="role_id_update" id="role_id_update" value="">
     <legend>Personal Information</legend>
     <p>
         <span class="required">*</span>
@@ -129,11 +130,11 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         ?>
     </p>
     <p>
-        <label for="user_access_permission_update">Access Permission:</label>
+        <label for="user_access_permission_update">View Only:</label>
         <?php
         $options = array(
-            'read'      => 'Yes',
-            'write'      =>  'No'
+            'y'      => 'Yes',
+            'n'      =>  'No'
         );
 
         $otherAttributes = 'id="user_access_permission_update" style=""';

@@ -139,7 +139,7 @@
         </tr>
        
         <tr id="districtRow" style="display:none;">
-            <td><span class="required">*</span>District:</td>
+            <td><span class="">*</span>District:</td>
             <td>
               <?php
                     $options = array();
@@ -179,8 +179,8 @@
             <td>
                 <?php
                     $options = array(
-                        'read'      => 'Yes',
-                        'write'      =>  'No'
+                        'y'      => 'Yes',
+                        'n'      =>  'No'
                     );
 
                      $otherAttributes = 'id="user_access_permission"  style=""';

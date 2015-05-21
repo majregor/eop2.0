@@ -61,9 +61,19 @@ include('embeds/admin_menu.php');
                     <div id="" class="approval-holder">
                         <?php if($stateWideStateAccess == 'write' || $stateWideStateAccess == 'read'): ?>
                             <button value="" class="btn-revoke"><em class="leftImage revoke"></em>Disable</button>
+                            <script>
+                                $(document).ready(function(){
+                                    $(".status").html('Enabled');
+                                });
+                            </script>
                         <?php endif; ?>
                         <?php if($stateWideStateAccess == 'deny'): ?>
                          <button value="" class="btn-approve"><em class="leftImage approve"></em>Enable</button>
+                            <script>
+                                $(document).ready(function(){
+                                    $(".status").html('Disabled');
+                                });
+                            </script>
                         <?php endif; ?>
 
                     </div>
@@ -81,9 +91,19 @@ include('embeds/admin_menu.php');
                     <div id="" class="approval-holder">
                         <?php if($districtWideStateAccess == 'write' || $districtWideStateAccess == 'read'): ?>
                             <button value="" class="btn-revoke"><em class="leftImage revoke"></em>Disable</button>
+                            <script>
+                                $(document).ready(function(){
+                                    $(".status").html('Enabled');
+                                });
+                            </script>
                         <?php endif; ?>
                         <?php if($districtWideStateAccess == 'deny'): ?>
                          <button value="" class="btn-approve"><em class="leftImage approve"></em>Enable</button>
+                            <script>
+                                $(document).ready(function(){
+                                    $(".status").html('Disabled');
+                                });
+                            </script>
                         <?php endif; ?>
 
                     </div>
@@ -101,9 +121,19 @@ include('embeds/admin_menu.php');
                     <div id="" class="approval-holder">
                         <?php if($schoolWideStateAccess == 'write' || $schoolWideStateAccess == 'read'): ?>
                             <button value="" class="btn-revoke"><em class="leftImage revoke"></em>Disable</button>
+                            <script>
+                                $(document).ready(function(){
+                                    $(".status").html('Disabled');
+                                });
+                            </script>
                         <?php endif; ?>
                         <?php if($schoolWideStateAccess == 'deny'): ?>
                          <button value="" class="btn-approve"><em class="leftImage approve"></em>Enable</button>
+                            <script>
+                                $(document).ready(function(){
+                                    $(".status").html('Disabled');
+                                });
+                            </script>
                         <?php endif; ?>
 
                     </div>
@@ -113,6 +143,30 @@ include('embeds/admin_menu.php');
         </tr>
     </table>
 </div>
+
+<?php if($role['level']==4): //School administrator ?>
+<div style="margin:20px auto; width:500px; font-weight: bold; font-size:12px;">
+    <p><em>State Administrator access to your school EOP is currently <span class="status"></span>.</em></p>
+</div>
+<?php endif; ?>
+
+<?php if($role['level']==3): //District administrator ?>
+    <div style="margin:20px auto; width:500px; font-weight: bold; font-size:12px;">
+        <p><em>State Administrator access to your school EOPs is currently <span class="status"></span>.</em></p>
+    </div>
+<?php endif; ?>
+
+<?php if($role['level']==2): //State Admins ?>
+    <div style="margin:20px auto; width:500px; font-weight: bold; font-size:12px;">
+        <p><em>State Administrator access to school EOPs in your state is currently <span class="status"></span>.</em></p>
+    </div>
+<?php endif; ?>
+
+<?php if($role['level']==1): //State Admins ?>
+    <div style="margin:20px auto; width:500px; font-weight: bold; font-size:12px;">
+        <p><em>State Administrator access to your school EOPs is currently <span clas="status"></span>.</em></p>
+    </div>
+<?php endif; ?>
 
 
 
@@ -146,6 +200,7 @@ include('embeds/admin_menu.php');
                        $('#state_access_icon').addClass('approved_button');
                         var btnString = "<button value='' class='btn-revoke'><em class='leftImage revoke'></em>Disable</button>";
                         $('.approval-holder').html(btnString);
+                        $('.status').html('Enabled');
                     }
                     else{
                         alert('Operation failed, Please refresh page and try again!')
@@ -179,6 +234,7 @@ include('embeds/admin_menu.php');
                         $('#state_access_icon').addClass('revoked_button');
                         var btnString = "<button value='' class='btn-approve'><em class='leftImage approve'></em>Enable</button>";
                         $('.approval-holder').html(btnString);
+                        $('.status').html('Disabled');
                     }
                     else{
                         alert('Operation failed, Please refresh page and try again!')

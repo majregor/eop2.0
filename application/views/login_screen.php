@@ -35,7 +35,6 @@
                     'id'        =>  'username',
                     'value'     =>  '',
                     'required'  =>  'required',
-                    'title'     =>  'User Name',
                     'onfocus'   =>  '',
                     'style'     =>  "color:#59B",
                      'minlength' =>  '3'
