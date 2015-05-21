@@ -164,7 +164,7 @@ include('embeds/admin_menu.php');
 
 <?php if($role['level']==1): //State Admins ?>
     <div style="margin:20px auto; width:500px; font-weight: bold; font-size:12px;">
-        <p><em>State Administrator access to your school EOPs is currently <span clas="status"></span>.</em></p>
+        <p><em>State Administrator access to your school EOPs is currently <span class="status"></span>.</em></p>
     </div>
 <?php endif; ?>
 
