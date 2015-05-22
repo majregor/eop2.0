@@ -73,7 +73,7 @@ class App extends CI_Controller {
 
             if(!$this->session->userdata('install_status')){ //Installation not started
                 //Load the initial install screen view and set the session data status to install_started
-                $this->template->set('title', 'EOP Assist Installation');
+                $this->template->set('title', 'EOP ASSIST Installation');
                 $data['screen']    =   'hosting_level';
                 $data['step']      =   'hosting_level';
                 $this->session->set_userdata(array(
@@ -110,7 +110,7 @@ class App extends CI_Controller {
                             else{
                                 $data['screen']     =   'hosting_level';
                                 $data['step']       =   'hosting_level';
-                                $this->template->set('title', 'EOP Assist Installation');
+                                $this->template->set('title', 'EOP ASSIST Installation');
                                 $this->template->load('install/template', 'install/install_screen', $data);
 
                             }
@@ -144,7 +144,7 @@ class App extends CI_Controller {
                             else{
                                 $data['screen']    =   'verify_requirements';
                                 $data['step']      =   'verify_requirements';
-                                $this->template->set('title', 'EOP Assist Installation');
+                                $this->template->set('title', 'EOP ASSIST Installation');
                                 $this->template->load('install/template', 'install/install_screen', $data);
                             }
                         }
@@ -209,7 +209,7 @@ class App extends CI_Controller {
                                 $data['screen']    =   'database_settings';
                                 $data['step']      =   'database_settings';
 
-                                $this->template->set('title', 'EOP Assist Installation');
+                                $this->template->set('title', 'EOP ASSIST Installation');
                                 $this->template->load('install/template', 'install/install_screen', $data);
                             }
                         }
@@ -292,7 +292,7 @@ class App extends CI_Controller {
                                 $data['screen']    =   'admin_account';
                                 $data['step']      =   'admin_account';
 
-                                $this->template->set('title', 'EOP Assist Installation');
+                                $this->template->set('title', 'EOP ASSIST Installation');
                                 $this->template->load('install/template', 'install/install_screen', $data);
                             }
                         }
@@ -333,7 +333,7 @@ class App extends CI_Controller {
             }
 
 
-            $this->template->set('title', 'EOP Assist Installation Resumed');
+            $this->template->set('title', 'EOP ASSIST Installation Resumed');
         }
     }
 

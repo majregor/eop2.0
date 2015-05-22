@@ -170,15 +170,6 @@ if(isset($viewform)){
          */
 
         $("#school_form").validate({
-            rules: {
-                phone:{
-                    phoneUS: true
-                },
-                user_password: "required",
-                user_password_conf: {
-                    equalTo: "#user_password"
-                }
-            }
         });
 
         $("#update_school_form").validate({

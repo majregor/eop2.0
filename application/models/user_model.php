@@ -47,24 +47,28 @@ class User_model extends CI_Model {
         $affected_rows = $this->db->affected_rows();
         $user_id = $this->db->insert_id();
 
+        if(isset($userData['district'])){
+            if($userData['district']!=''){ // Need to associate new user to the selected district
 
-        if($userData['district']!=''){ // Need to associate new user to the selected district
-
-            $user2districtData = array(
-                'uid'   => $user_id,
-                'did'   =>  $userData['district']
+                $user2districtData = array(
+                    'uid'   => $user_id,
+                    'did'   =>  $userData['district']
                 );
-            $this->db->insert('eop_user2district', $user2districtData);
+                $this->db->insert('eop_user2district', $user2districtData);
+            }
         }
 
-        if($userData['school']!=''){ // Need to associate new user to the selected school
+        if(isset($userData['school'])){
+            if($userData['school']!=''){ // Need to associate new user to the selected school
 
-            $user2schoolData = array(
-                'uid'   => $user_id,
-                'sid'   =>  $userData['school']
+                $user2schoolData = array(
+                    'uid'   => $user_id,
+                    'sid'   =>  $userData['school']
                 );
-            $this->db->insert('eop_user2school', $user2schoolData);
+                $this->db->insert('eop_user2school', $user2schoolData);
+            }
         }
+
 
         return $affected_rows;
     }
@@ -77,8 +81,34 @@ class User_model extends CI_Model {
             'last_name'     =>  $data['last_name'],
             'email'         =>  $data['email'],
             'username'      =>  $data['username'],
-            'phone'         =>  $data['phone']
+            'phone'         =>  $data['phone'],
+            'read_only'     =>  $data['access']
         );
+
+        if(isset($data['school_id'])){
+            if($data['school_id']){
+
+                $user2schoolData = array(
+                    'sid'   =>  $data['school_id']
+                );
+                $this->db->where('uid', $data['user_id']);
+                $this->db->update('eop_user2school', $user2schoolData);
+
+            }
+        }
+
+        if(isset($data['district_id'])){
+            if($data['district_id']){
+
+                $user2districtData = array(
+                    'did'   =>  $data['district_id']
+                );
+                $this->db->where('uid', $data['user_id']);
+                $this->db->update('eop_user2district', $user2districtData);
+
+            }
+        }
+
 
         $this->db->where('user_id', $data['user_id']);
         $this->db->update('eop_user', $updateData);
@@ -155,10 +185,11 @@ class User_model extends CI_Model {
 
                 return $query->result_array();
             }
-            //For State admin return all users except Super admin
+            //For State admin return all users except Super admin and school user
             elseif($this->session->userdata['role']['level'] == 2){
-                $condition = array('role_id !='=> '1');
-                $query = $this->db->get_where('eop_view_user', $condition);
+                $excludedRoles = array('1', '5' );
+                $this->db->where_not_in('role_id', $excludedRoles);
+                $query = $this->db->get('eop_view_user');
 
                 return $query->result_array();
             }
@@ -176,6 +207,14 @@ class User_model extends CI_Model {
         }
     }
 
+    function getStatus($username){
+        $this->db->select('status');
+        $query = $this->db->get_where('eop_user', array('username'=>$username));
+        $results = $query->result_array();
+
+        return  $results[0]['status'];
+
+    }
     function block($user_id){
 
         $data   = array('status' => 'blocked');
@@ -327,6 +366,32 @@ class User_model extends CI_Model {
         );
 
         return $permissionsData;
+    }
+
+    public function checkUsername($username){
+        $this->db->select('username');
+        $query = $this->db->get_where('eop_user', array('username'=>$username));
+        $recs = $query->num_rows();
+
+        if(is_numeric($recs) && $recs >0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function checkUseremail($email){
+        $this->db->select('email');
+        $query = $this->db->get_where('eop_user', array('email'=>$email));
+        $recs = $query->num_rows();
+
+        if(is_numeric($recs) && $recs >0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }

@@ -44,17 +44,28 @@ class Login extends CI_Controller{
 		$check	=	$this->user_model->validate($username, $password);
 
 		if($check){ // Login credentials match
-			$sessionData = array(
-				'is_logged_in'	=>	TRUE,
-				'username'		=>	$username,
-                'role'          => $this->user_model->getUserRoleByUsername($username)
-				);
 
-			$this->session->set_userdata($sessionData);
+            $userStatus = $this->user_model->getStatus($username);
 
-			//$this->template->load('template', 'home_screen');
-            //Redirect to the home page
-            redirect('/home');
+            if($userStatus == 'active'){ // User is active
+                $sessionData = array(
+                    'is_logged_in'	=>	TRUE,
+                    'username'		=>	$username,
+                    'role'          => $this->user_model->getUserRoleByUsername($username)
+                );
+
+                $this->session->set_userdata($sessionData);
+
+                //$this->template->load('template', 'home_screen');
+                //Redirect to the home page
+                redirect('/home');
+            }elseif($userStatus == 'blocked'){ // User is blocked
+
+                //Create flash error message and send back to login page
+                $this->session->set_flashdata('error', 'Your account has been blocked.');
+                $this->login_form();
+            }
+
 		}
 		else{ // Login failed
 

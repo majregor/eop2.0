@@ -18,6 +18,11 @@ class School_model extends CI_Model {
         if(!isset($schoolData['state_val'])){
             $schoolData['state_val'] =  $this->registry_model->getValue('host_state');
         }
+
+        if($schoolData['district_id'] == FALSE || !isset($schoolData['district_id']) || $schoolData['district_id']==''){
+            $schoolData['district_id'] = null;
+        }
+
         $this->db->insert('eop_school', $schoolData);
         $school_id = $this->db->insert_id();
         $affected_rows = $this->db->affected_rows();

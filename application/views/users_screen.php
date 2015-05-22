@@ -120,9 +120,9 @@ if(isset($viewform)){
                        param4="<?php echo($value['username']); ?>"
                        param5="<?php echo($value['phone']); ?>"
                        param6="<?php echo($value['role_id']); ?>"
-                       param7="district"
+                       param7="<?php echo($value['district_id']); ?>"
                        param8="<?php echo($value['school_id']); ?>"
-                       param9="access"
+                       param9="<?php echo($value['read_only']); ?>"
                        id="<?php echo($value['user_id']); ?>" href="/user">
                         Edit
                     </a>
@@ -179,10 +179,10 @@ if(isset($viewform)){
 </div>
 
 <div id="block-user-dialog" title="Block User">
-    <p>This action will block this user. Press OK to Continue.</p>
+    <p style="margin-top:20px;">Are you sure you want to block this user?</p>
 </div>
 <div id="unblock-user-dialog" title="Block User">
-    <p>This will activate the user. Press OK to Continue</p>
+    <p style="margin-top:20px;">Are you sure you want to activate this user?</p>
 </div>
 
 <script language="JavaScript" type="text/javascript">
@@ -225,6 +225,43 @@ if(isset($viewform)){
                 user_password: "required",
                 user_password_conf: {
                     equalTo: "#user_password"
+                },
+                username:{
+                    required: true,
+                    minlength:3,
+                    remote:{
+                        url: "<?php echo(base_url('user/checkusername')); ?>",
+                        type: "POST",
+                        data:{
+                            username: function(){
+                                var user = $("#username").val();
+                                return user;
+                            },
+                            ajax: '1'
+                        }
+
+                    }
+                },
+                email:{
+                    remote:{
+                        url: "<?php echo(base_url('user/checkuseremail')); ?>",
+                        type: "POST",
+                        data:{
+                            email: function(){
+                                return $("#email").val();
+                            },
+                            ajax: '1'
+                        }
+
+                    }
+                }
+            },
+            messages:{
+                username:{
+                    remote: "Username has already been used!"
+                },
+                email:{
+                    remote: "Email has already been used!"
                 }
             }
         });
@@ -338,8 +375,10 @@ if(isset($viewform)){
                 $('#slctuserrole_update').val(role);
                 $('#role_id_update').val(role);
 
+                <?php if($role['level']<2): ?>
                 $('#sltdistrict_update').val(district);
                 $('#sltschool_update').val(school);
+                <?php endif; ?>
                 $('#user_access_permission_update').val(access);
                 $('#user_id_update').val(id);
 
@@ -370,7 +409,10 @@ if(isset($viewform)){
                     username                : $('#username_update').val(),
                     phone                   : $('#phone_update').val(),
                     role_id                 : ($('#role_id_update').val()== "<?php echo($role['role_id']); ?>") ? $('#role_id_update').val() :  $('#slctuserrole_update').val(),
+                    <?php if($role['level']<3): ?>
                     school_id               : $('#slctschool_update').val(),
+                    district_id             : $('#sltdistrict_update').val(),
+                    <?php endif; ?>
                     access                  : $('#user_access_permission_update').val(),
                     ajax                    : '1'
                 };
@@ -414,7 +456,7 @@ if(isset($viewform)){
              autoOpen: false,
              modal: true,
              buttons: {
-                 "Block User": function(){
+                 "Yes": function(){
                     var form_data = {
                         ajax:       '1',
                         user_id:    $('#selectedUserId').val() 
@@ -438,7 +480,7 @@ if(isset($viewform)){
              autoOpen: false,
              modal: true,
              buttons: {
-                 "Activate User": function(){
+                 "Ok": function(){
                     
                     var form_data = {
                         ajax:       '1',

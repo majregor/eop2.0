@@ -6,6 +6,11 @@
 echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_user_form'));
 
 ?>
+<style type="text/css">
+    fieldset label{ display: inline-block; min-width: 120px;}
+    fieldset p{ margin:10px 0px;}
+
+</style>
 
 <fieldset>
     <input type="hidden" name="user_id_update" id="user_id_update" value="">
@@ -70,6 +75,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         ?>
     </p>
     <p>
+        <span>&nbsp;</span>
         <label for="phone_update">Phone Number:</label>
         <?php
         $inputAttributes = array(
@@ -99,6 +105,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         echo form_dropdown('slctuserrole_update', $options, "$first_key", $otherAttributes);
         ?>
     </p>
+    <?php if($role['level']<2): ?>
     <p>
         <label for="sltdistrict_update">District</label>
         <?php
@@ -114,21 +121,26 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         echo form_dropdown('sltdistrict_update', $options, "$first_key", $otherAttributes);
         ?>
     </p>
-    <p>
-        <label for="sltschool_update">School:</label>
-        <?php
-        $options = array();
-        $options['empty'] = '--Select--';
-        foreach($schools as $rowIndex => $row){
-            $options[$row['id']] = $row['name'];
-        }
 
-        $otherAttributes = 'id="sltschool_update" style=""';
-        reset($options);
-        $first_key = key($options);
-        echo form_dropdown('sltschool_update', $options, "$first_key", $otherAttributes);
-        ?>
-    </p>
+
+            <p>
+                <label for="sltschool_update">School:</label>
+                <?php
+                $options = array();
+                $options['empty'] = '--Select--';
+                foreach($schools as $rowIndex => $row){
+                    $options[$row['id']] = $row['name'];
+                }
+
+                $otherAttributes = 'id="sltschool_update" style=""';
+                reset($options);
+                $first_key = key($options);
+                echo form_dropdown('sltschool_update', $options, "$first_key", $otherAttributes);
+                ?>
+            </p>
+
+    <?php endif; ?>
+
     <p>
         <label for="user_access_permission_update">View Only:</label>
         <?php
@@ -138,7 +150,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         );
 
         $otherAttributes = 'id="user_access_permission_update" style=""';
-        echo form_dropdown('user_access_permission_update', $options, 'write', $otherAttributes);
+        echo form_dropdown('user_access_permission_update', $options, 'y', $otherAttributes);
         ?>
 
     </p>

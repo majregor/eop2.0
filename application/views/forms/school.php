@@ -45,11 +45,11 @@
         
         <?php if($role['create_district']=='y'): ?>
             <tr id="districtRow">
-                <td><span class="required">*</span>District:</td>
+                <td>District:</td>
                 <td>
                   <?php
                         $options = array();
-                        $options['empty'] = '--Select--';
+                        $options[''] = '--Select--';
                         $options['']    =   'None';
                         foreach($districts as $rowIndex => $row){
                             $options[$row['id']] = $row['name'];

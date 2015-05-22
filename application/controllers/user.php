@@ -5,7 +5,7 @@
  * Developed by Synergy Enterprises, Inc. for the U.S. Department of Education
  *
  * Controller Responsible for:
- * - Access control (login and logout)
+ *
  * - User registration and management
  * - Permissions management
  * - User role management
@@ -174,8 +174,11 @@ class User extends CI_Controller{
                 'phone'            =>   $this->input->post('phone'),
                 'role_id'          =>   $this->input->post('role_id'),
                 'school_id'        =>   $this->input->post('school_id'),
+                'district_id'      =>   $this->input->post('district_id'),
                 'access'           =>   $this->input->post('access')
             );
+
+
             $savedRecs = $this->user_model->update($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
@@ -269,6 +272,45 @@ class User extends CI_Controller{
         }
     }
 
+    /**
+     * Check existing username Action
+     * @method checkusername Action that will check for existing user names and return true or false
+     *
+     */
+
+    public function checkusername(){
+        if($this->input->post('ajax')){ //If it's a ajax request
+            $username = $this->input->post('username');
+
+            if($this->user_model->checkUsername($username)){
+                $this->output->set_output(json_encode(FALSE)); // Reject entry if username exists
+            }else{
+                $this->output->set_output(json_encode(TRUE)); // Accept entry of new username
+            }
+        }
+        else{
+            // Do nothing if its not an ajax request
+        }
+    }
+
+    /**
+     * Check for existing user email because no account should share an email
+     * @method checkuseremail Action that will check for existing user emails and return true or false
+     */
+    public function checkuseremail(){
+        if($this->input->post('ajax')){ //If it's a ajax request
+            $email = $this->input->post('email');
+
+            if($this->user_model->checkUseremail($email)){
+                $this->output->set_output(json_encode(FALSE)); // Reject entry if email exists
+            }else{
+                $this->output->set_output(json_encode(TRUE)); // Accept entry
+            }
+        }
+        else{
+            // Do nothing if its not an ajax request
+        }
+    }
 
 
 
