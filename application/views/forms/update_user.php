@@ -99,7 +99,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
             $options[$row['role_id']] = $row['title'];
         }
 
-        $otherAttributes = 'id="slctuserrole_update" style=""';
+        $otherAttributes = 'id="slctuserrole_update" disabled="disabled" style=""';
         reset($options);
         $first_key = key($options);
         echo form_dropdown('slctuserrole_update', $options, "$first_key", $otherAttributes);
