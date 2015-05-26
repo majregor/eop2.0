@@ -117,12 +117,27 @@ class User_model extends CI_Model {
         
     }
 
-    function getUser($id){
-        $conditions = array('user_id'=>$id);
-        $query = $this->db->get_where('eop_user', $conditions);
+    /**
+     * Function to return a user by either the user_id or username depending on whether the
+     * second parameter is passed or not.
+     *
+     * @method getUser
+     * @param $p The user_id or username passed to the function
+     * @param string $key This parameter signals request by user_id or username if blank, default is user_id
+     * @return mixed Returns an associative array of containing the user information from the database
+     */
+    function getUser($p, $key=''){
+        if($key=='username'){
+            $conditions = array('username'=>$p);
+        }else{
+            $conditions = array('user_id'=>$p);
+        }
+
+        $query = $this->db->get_where('eop_view_user', $conditions);
 
         return $query->result_array();
     }
+
 
     function getUserDistrict($id){
         $conditions = array('uid'=>$id);

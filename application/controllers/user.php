@@ -112,10 +112,10 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->addUser($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
-                $this->session->set_flashdata('success', ' New User Added Successfully');
+                $this->session->set_flashdata('success', ' New User Added Successfully!');
             }
             else{
-                $this->session->set_flashdata('error', ' Failed to save user');
+                $this->session->set_flashdata('error', ' Failed to save user!');
             }
 
             $templateData = array(
@@ -182,7 +182,7 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->update($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'User profile updated successfully');
+                $this->session->set_flashdata('success', 'User profile updated successfully!');
             }
             else{
                 $this->session->set_flashdata('error', ' User profile update failed!');
@@ -209,7 +209,7 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->resetPwd($user_id, $new_password);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'Password was reset Successfully');
+                $this->session->set_flashdata('success', 'Password was reset Successfully!');
             }
             else{
                 $this->session->set_flashdata('error', ' Password Reset Failed!');
@@ -234,7 +234,7 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->block($user_id);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'User Blocked');
+                $this->session->set_flashdata('success', 'User Blocked!');
             }
             else{
                 $this->session->set_flashdata('error', ' User blocking failed!');
@@ -259,7 +259,7 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->unblock($user_id);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'User Unblocked');
+                $this->session->set_flashdata('success', 'User Unblocked!');
             }
             else{
                 $this->session->set_flashdata('error', ' Operation failed!');
@@ -270,6 +270,29 @@ class User extends CI_Controller{
         else{ // Do nothing
 
         }
+    }
+
+    /**
+     * Show Profile Action
+     * This action loads the user account view for the user's profile
+     *
+     */
+    public function profile(){
+
+        // Get user's information
+        $user = $this->user_model->getUser($this->session->userdata('user_id'));
+        //Get the role access permissions for the logged in user
+        $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
+
+        $templateData = array(
+            'page'          =>  'account',
+            'page_title'    =>  $user[0]['first_name']. ' '.$user[0]['last_name']. '\'s Profile',
+            'step_title'    =>  'My Account',
+            'user'          => $user,
+            'role'          =>  $role
+
+        );
+        $this->template->load('template', 'account_screen', $templateData);
     }
 
     /**

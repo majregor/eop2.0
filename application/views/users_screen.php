@@ -203,8 +203,8 @@ if(isset($viewform)){
          *
          */
 
-        /** Remove School User if Super Admin or State Admin is logged in */
-        <?php if($this->session->userdata['role']['level'] < 3): ?>
+        /** Remove School User if State Admin is logged in */
+        <?php if($this->session->userdata['role']['level'] == 2): ?>
                 $("#slctuserrole option[value='5']").remove();
         <?php endif; ?>
 
@@ -368,17 +368,29 @@ if(isset($viewform)){
                 $('#username_update').val(user_name);
                 $('#phone_update').val(phone);
 
+
                 if(role==<?php echo($role['role_id']); ?>){
                     $('#slctuserrole_update').append($("<option></option>").attr("value", role).text("<?php echo($role['role']); ?>"));
                     $('#slctuserrole_update').attr("disabled", true);
                 }
                 $('#slctuserrole_update').val(role);
-                $('#role_id_update').val(role);
+
+
+                if(role>2){
+                    $('#SchoolInputHolder').hide();
+                }
+
 
                 <?php if($role['level']<2): ?>
                 $('#sltdistrict_update').val(district);
                 $('#sltschool_update').val(school);
+
                 <?php endif; ?>
+
+                if(role>3){
+                    $('#districtInputHolder').hide();
+                }
+
                 $('#user_access_permission_update').val(access);
                 $('#user_id_update').val(id);
 

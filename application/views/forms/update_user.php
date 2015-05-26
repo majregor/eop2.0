@@ -106,7 +106,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         ?>
     </p>
     <?php if($role['level']<2): ?>
-    <p>
+    <p id="districtInputHolder">
         <label for="sltdistrict_update">District</label>
         <?php
         $options = array();
@@ -123,21 +123,21 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
     </p>
 
 
-            <p>
-                <label for="sltschool_update">School:</label>
-                <?php
-                $options = array();
-                $options['empty'] = '--Select--';
-                foreach($schools as $rowIndex => $row){
-                    $options[$row['id']] = $row['name'];
-                }
+    <p id="SchoolInputHolder">
+        <label for="sltschool_update">School:</label>
+        <?php
+        $options = array();
+        $options['empty'] = '--Select--';
+        foreach($schools as $rowIndex => $row){
+            $options[$row['id']] = $row['name'];
+        }
 
-                $otherAttributes = 'id="sltschool_update" style=""';
-                reset($options);
-                $first_key = key($options);
-                echo form_dropdown('sltschool_update', $options, "$first_key", $otherAttributes);
-                ?>
-            </p>
+        $otherAttributes = 'id="sltschool_update" style=""';
+        reset($options);
+        $first_key = key($options);
+        echo form_dropdown('sltschool_update', $options, "$first_key", $otherAttributes);
+        ?>
+    </p>
 
     <?php endif; ?>
 

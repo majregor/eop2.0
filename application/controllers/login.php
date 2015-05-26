@@ -62,7 +62,7 @@ class Login extends CI_Controller{
             }elseif($userStatus == 'blocked'){ // User is blocked
 
                 //Create flash error message and send back to login page
-                $this->session->set_flashdata('error', 'Your account has been blocked.');
+                $this->session->set_flashdata('error', 'Your account has been blocked!');
                 $this->login_form();
             }
 
@@ -70,7 +70,7 @@ class Login extends CI_Controller{
 		else{ // Login failed
 
             //Create flash error message and send back to login page
-            $this->session->set_flashdata('error', 'Login Failed: Invalid User Id or Password.');
+            $this->session->set_flashdata('error', 'Login Failed: Invalid User Id or Password!');
             $this->login_form();
 		}
 	}

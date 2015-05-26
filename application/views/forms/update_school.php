@@ -26,13 +26,12 @@ echo form_open('school/update', array('class'=>'update_school_form', 'id'=>'upda
 
     </p>
     <p>
-        <span class="required">*</span>
+        <span class="required">&nbsp;</span>
         <label for="screen_name_update">Screen Name:</label>
         <?php
         $inputAttributes = array(
             'name'      =>  'screen_name_update',
             'id'        =>  'screen_name_update',
-            'required'  =>  'required',
             'minlength'  =>  '3',
             'size'      =>   '30'
         );

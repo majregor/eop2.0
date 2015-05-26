@@ -26,13 +26,13 @@ echo form_open('district/update', array('class'=>'update_district_form', 'id'=>'
         ?>
     </p>
     <p>
-        <span class="required">*</span>
+        <span class="required">&nbsp;</span>
         <label for="screen_name_update">Screen Name:</label>
         <?php
         $inputAttributes = array(
             'name'      =>  'screen_name_update',
             'id'        =>  'screen_name_update',
-            'required'  =>  'required',
+
             'minlength'  =>  '3',
             'size'      =>   '30'
         );

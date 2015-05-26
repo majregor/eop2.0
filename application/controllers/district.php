@@ -96,7 +96,7 @@ class District extends CI_Controller{
             $savedRecs = $this->district_model->addDistrict($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
-                $this->session->set_flashdata('success', ' New District Added Successfully');
+                $this->session->set_flashdata('success', ' New District Added Successfully!');
             }
             else{
                 $this->session->set_flashdata('error', ' District creation failed!');
@@ -147,7 +147,7 @@ class District extends CI_Controller{
             $savedRecs = $this->district_model->update($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
-                $this->session->set_flashdata('success', 'District profile updated successfully');
+                $this->session->set_flashdata('success', 'District profile updated successfully!');
             }
             else{
                 $this->session->set_flashdata('error', ' District profile update failed!');
