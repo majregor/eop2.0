@@ -78,7 +78,6 @@ class School_model extends CI_Model {
      * Returns all schools available in a particular state or district
      *
      * @param string $state   The state to which the schools belong
-     * @param string $district Optional to filter district
      */
     function getSchools($state){
         $conditions = array('state_val' => $state);
@@ -113,9 +112,21 @@ class School_model extends CI_Model {
             return $query->result_array();
         }
 
-
-
     }
 
+    /**
+     * Function getDistrictSchools
+     * Returns all schools available in a particular district
+     *
+     * @param string $district   The state to which the schools belong
+     */
+    function getDistrictSchools($district){
+        $conditions = array('district_id' => $district);
+
+        $query = $this->db->get_where('eop_view_school', $conditions);
+
+        return $query->result_array();
+
+    }
 
 }

@@ -46,9 +46,9 @@ class Access extends CI_Controller{
 
 
         $templateData = array(
-            'page'                  =>  'district',
-            'page_title'            =>  'District Management',
-            'step_title'            =>  'Districts',
+            'page'                  =>  'access',
+            'page_title'            =>  'EOP State Access',
+            'step_title'            =>  'EOP State Access',
             'role'                  =>  $role,
             'stateWideStateAccess'  =>  $stateWideStateAccess,
             'districtWideStateAccess'=> isset($districtWideStateAccess) ? $districtWideStateAccess : '',

@@ -61,10 +61,12 @@ div.jqi .jqibuttons button{
 	border-left: solid 1px #e4e4e4; 
 	color: #777; 
 	font-weight: bold; 
-	font-size: 12px; 
+	font-size: 12px;
+    height:auto;
 }
 div.jqi .jqibuttons button.jqidefaultbutton{
 	color: #489afe;
+
 }
 div.jqi .jqibuttons button:hover,
 div.jqi .jqibuttons button:focus{

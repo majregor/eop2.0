@@ -291,7 +291,8 @@ if(isset($viewform)){
         /**
          * Reset Password functionality
          */
-        $(".resetUserPasswordLink").click(function(){
+        $(document).on('click', '.resetUserPasswordLink', function(){
+
             var id = $(this).attr('id');
             var first_name = $(this).attr('param1');
             var last_name = $(this).attr('param2');
@@ -349,7 +350,9 @@ if(isset($viewform)){
          *
          * Update User Profile functionality
          */
-            $(".modifyUserProfileLink").click(function(){
+
+        //We use delegation here because of the jquery table pager
+        $(document).on('click', '.modifyUserProfileLink', function(){
                 var id = $(this).attr('id');
                 var first_name = $(this).attr('param1');
                 var last_name = $(this).attr('param2');
@@ -375,8 +378,11 @@ if(isset($viewform)){
                 $('#slctuserrole_update').val(role);
 
 
-                if(role>2){
+                if(role >= 2){
                     $('#SchoolInputHolder').hide();
+                }
+                else{
+                    $('#SchoolInputHolder').show();
                 }
 
 
@@ -386,8 +392,11 @@ if(isset($viewform)){
 
                 <?php endif; ?>
 
-                if(role>3){
+                if(role >3 || role==2){
                     $('#districtInputHolder').hide();
+                }
+                else{
+                    $('#districtInputHolder').show();
                 }
 
                 $('#user_access_permission_update').val(access);
@@ -440,12 +449,38 @@ if(isset($viewform)){
                 return false;
             }
 
+        // Change School list according to district selected
+        $(document).on('change','#sltdistrict', function(){
+
+          //  alert(this.value);
+            var form_data = {
+                ajax:           '1',
+                district_id:    this.value
+            };
+
+            $.ajax({
+                url: "<?php echo base_url('school/get_schools_in_district'); ?>",
+                type: 'POST',
+                data: form_data,
+                success: function(response){
+                    var schools = JSON.parse(response);
+                    var schoolElement = $("#sltschool");
+                    schoolElement.empty(); // remove the old options
+
+                    $.each(schools, function(key, value){
+                        schoolElement.append($("<option></option>")
+                            .attr("value", value.id)
+                            .text(value.name));
+                    });
+                }
+            });
+        });
 
             /**
             * Block User functionality
             */
+            $(document).on('click', '.blockUserLink', function(){
 
-            $('.blockUserLink').click(function(){
                 var id = $(this).attr('id');
                 $('#selectedUserId').val(id);
                 blockUserDialog.dialog('open');

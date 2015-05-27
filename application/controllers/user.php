@@ -53,18 +53,23 @@ class User extends CI_Controller{
          // Get the role access permissions for the logged in user
         $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
 
-        $templateData = array(
-            'page'          =>  'users',
-            'page_title'    =>  'User Management',
-            'step_title'    =>  'Users',
-            'users'          => $users,
-            'roles'         =>  $roles,
-            'districts'     =>  $districts,
-            'schools'       =>  $schools,
-            'role'          =>  $role
+        if($this->session->userdata['role']['level']<=4){ // Stop school users from accessing this section of the web app
+            $templateData = array(
+                'page'          =>  'users',
+                'page_title'    =>  'User Management',
+                'step_title'    =>  'Users',
+                'users'          => $users,
+                'roles'         =>  $roles,
+                'districts'     =>  $districts,
+                'schools'       =>  $schools,
+                'role'          =>  $role
 
-        );
-        $this->template->load('template', 'users_screen', $templateData);
+            );
+            $this->template->load('template', 'users_screen', $templateData);
+        }else{ // Redirect school users to the My Account section
+            redirect('/user/profile');
+        }
+
     }
 
     /**

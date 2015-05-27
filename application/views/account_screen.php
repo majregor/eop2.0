@@ -131,17 +131,22 @@ if((null != $this->session->flashdata('success'))):
                 <br/>
                 <input type="text" value="<?php echo($user[0]['role']); ?>" disabled="disabled" />
             </p>
+
+            <?php if($role['level']>=3): ?>
             <p>
                 <label>District:</label>
                 <br/>
                 <input type="text" value="<?php echo($user[0]['district']); ?>" disabled="disabled" />
             </p>
-            
+            <?php endif; ?>
+
+            <?php if($role['level']>3): ?>
             <p>
                 <label>School:</label>
                 <br/>
                 <input type="text" value="<?php echo($user[0]['school']); ?>" disabled="disabled" />
             </p>
+            <?php endif; ?>
             <p>
                 <?php
                 $attributes = array(

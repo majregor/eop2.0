@@ -75,6 +75,7 @@ class User_model extends CI_Model {
  
     function update($data=array()){
 
+
         $updateData = array(
             'role_id'       =>  $data['role_id'],
             'first_name'    =>  $data['first_name'],
@@ -93,7 +94,7 @@ class User_model extends CI_Model {
                 );
                 $this->db->where('uid', $data['user_id']);
                 $this->db->update('eop_user2school', $user2schoolData);
-
+                $updatedSchoolRecs = $this->db->affected_rows();
             }
         }
 
@@ -106,6 +107,7 @@ class User_model extends CI_Model {
                 $this->db->where('uid', $data['user_id']);
                 $this->db->update('eop_user2district', $user2districtData);
 
+                $updatedDistrictRecs = $this->db->affected_rows();
             }
         }
 
@@ -113,8 +115,17 @@ class User_model extends CI_Model {
         $this->db->where('user_id', $data['user_id']);
         $this->db->update('eop_user', $updateData);
 
-        return $this->db->affected_rows();
-        
+        $updatedRecs = $this->db->affected_rows();
+
+        if(isset($updatedSchoolRecs) && is_numeric($updatedSchoolRecs) && $updatedSchoolRecs>=1){
+            return $updatedRecs;
+        }
+        elseif(isset($updatedDistrictRecs) && is_numeric($updatedDistrictRecs) && $updatedDistrictRecs>=1){
+            return $updatedDistrictRecs;
+        }
+        else{
+            return $updatedRecs;
+        }
     }
 
     function updatePersonalAccount($userId, $data){
@@ -204,7 +215,7 @@ class User_model extends CI_Model {
             // For School users return own user record
             elseif($this->session->userdata['role']['level'] == 5 ){
 
-                $conditions = array('uid' => $this->session->userdata('user_id') );
+                $conditions = array('user_id' => $this->session->userdata('user_id') );
                 $query = $this->db->get_where('eop_view_user', $conditions);
 
                 return $query->result_array();
@@ -278,6 +289,11 @@ class User_model extends CI_Model {
 
         foreach($query->result_array() as $key=>$value){
             if($value['level'] >$userRole['level']){
+                array_push($cleanRoleData, $value);
+            }
+
+            //Add School Admin to list as an exception to enable school admins be able to add fellow school admins
+            if($userRole['level'] == 4 && $value['level']==4){
                 array_push($cleanRoleData, $value);
             }
         }

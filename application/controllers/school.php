@@ -181,5 +181,42 @@ class School extends CI_Controller{
         }
     }
 
+    /**
+     * AJAX Action returns schools in a requested district
+     * @method get_schools_in_district
+     */
+    public function get_schools_in_district(){
+        if($this->input->post('ajax')){ // If form was submitted using ajax
+
+            $district_id = $this->input->post('district_id');
+
+            $schools = $this->school_model->getDistrictSchools($district_id);
+
+            $this->output->set_output(json_encode($schools));
+        }
+        else{ // Do nothing
+
+        }
+    }
+
+    /**
+     * AJAX Action returns schools in a requested user's district
+     * @method get_schools_in_my_district
+     */
+    public function get_schools_in_my_district(){
+        if($this->input->post('ajax')){ // If form was submitted using ajax
+
+            $user_id = $this->input->post('user_id');
+            $district_id = $this->user_model->getUserDistrict($user_id)[0]['did'];
+
+            $schools = $this->school_model->getDistrictSchools($district_id);
+
+            $this->output->set_output(json_encode($schools));
+        }
+        else{ // Do nothing
+
+        }
+    }
+
 
 }

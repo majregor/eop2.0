@@ -148,7 +148,6 @@
                     foreach($districts as $rowIndex => $row){
                         $options[$row['id']] = $row['name'];
                     }
-
                     $otherAttributes = 'id="sltdistrict" required="required" style=""';
                     reset($options);
                     $first_key = key($options);
