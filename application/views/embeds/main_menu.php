@@ -16,7 +16,7 @@
         <div id="listdiv" style="padding-botton: 5px;">
             <ul class="ld">
                 <li><a href="home" >Home</a></li>
-                <li><a href="user/profile" >My Account</a></li>
+                <li><a href="<?php echo base_url(); ?>user/profile" >My Account</a></li>
                 <li><a href="calendar">Calendar</a></li>
                 <li><a href="plan">Planning Process</a></li>
                 <li><a href="report" id="reportManagementLink">My EOP</a></li>

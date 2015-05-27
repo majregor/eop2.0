@@ -181,7 +181,7 @@ class User extends CI_Controller{
 
             $savedRecs = $this->user_model->update($data);
 
-            if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
+            if(is_numeric($savedRecs) && $savedRecs>=1){ //User information saved successfully
                 $this->session->set_flashdata('success', 'User profile updated successfully!');
             }
             else{
@@ -190,8 +190,56 @@ class User extends CI_Controller{
 
             $this->output->set_output($this->ajax_reload());
         }
-        else{ // Do nothing
+        else{ // Update account profile of currently logged in user from the My Account page
 
+            $form_name = $this->input->post('form_name');
+            if($form_name){
+
+                if($form_name == "account_form"){
+                    $data = array(
+                        'first_name'        =>  $this->input->post('fname'),
+                        'last_name'         =>  $this->input->post('last_name'),
+                        'phone'             =>  $this->input->post('phone')
+                        );
+
+                    $savedRecs = $this->user_model->updatePersonalAccount($this->session->userdata('user_id'), $data);
+
+                    if(is_numeric($savedRecs) && $savedRecs>=1){ //User profile updated successfully
+                        $this->session->set_flashdata('success', 'User profile updated successfully!');
+                    }
+                    else{
+                        $this->session->set_flashdata('error', ' User profile update failed!');
+                    }
+
+                    redirect('/user/profile');
+                }
+                elseif($form_name == "pwd_form"){
+                    $oldPwd = $this->input->post('user_password_current');
+
+                    $check  =   $this->user_model->validate($this->session->userdata('username'), $oldPwd);
+
+                    if($check){
+                        $newPwd  = $this->input->post('user_password_reset');
+                        $savedRecs = $this->user_model->resetPwd($this->session->userdata('user_id'), md5($newPwd));
+
+                        if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
+                            $this->session->set_flashdata('success', 'Password was reset Successfully!');
+                        }
+                        else{
+                            $this->session->set_flashdata('error', ' Password Reset Failed!');
+                        }
+                    }
+                    else{
+                         $this->session->set_flashdata('error', 'The value you entered for the current password was not correct!');
+                    }
+
+                    redirect('/user/profile');
+                }
+            }else{
+
+                $this->session->set_flashdata('error', ' Form not submitted properly');
+                redirect('user/profile');
+            }
         }
     }
 
@@ -334,10 +382,4 @@ class User extends CI_Controller{
             // Do nothing if its not an ajax request
         }
     }
-
-
-
-
-
-
 }

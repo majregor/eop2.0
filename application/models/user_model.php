@@ -117,6 +117,15 @@ class User_model extends CI_Model {
         
     }
 
+    function updatePersonalAccount($userId, $data){
+
+        $this->db->where('user_id', $userId);
+        $this->db->update('eop_user', $data);
+
+        return $this->db->affected_rows();
+        
+    }
+
     /**
      * Function to return a user by either the user_id or username depending on whether the
      * second parameter is passed or not.

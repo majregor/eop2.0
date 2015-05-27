@@ -1023,4 +1023,88 @@ em.revoke{background-image: url(../img/check_mark_cross.png);}
   margin: -3px 5px;
 }
 
+.boxed-group{
+    border-radius: 3px;
+    margin: 5px 15px;
+}
+.boxed-group h3{
+    background-color: #F5F5F5;
+    margin: 0px;
+    border-radius: 3px 3px 0px 0px;
+    border-width: 1px 1px 0px;
+    border-style: solid solid none;
+    border-color: #D8D8D8 #D8D8D8 -moz-use-text-color;
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+    padding: 9px 10px 10px;
+    font-size: 14px;
+    line-height: 17px;
+    display: block;
+}
+.boxed-group-inner{
+    padding: 0px;
+    background: none repeat scroll 0% 0% #FFF;
+    border: 1px solid #D8D8D8;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    color: #666;
+    font-size: 13px;
+}
+.clearfix:before{
+    display:table;
+    content:"";
+}
+.clearfix:after{
+    display:table;
+    clear:both;content:"";
+}
+.boxed-group.left{
+  width:25%;
+  max-width: 25%;
+  float: left;
+}
+.boxed-group.right{
+  width:65%;
+  max-width:70%;
+  float: left;
+}
+.boxed-group-inner ul{
+  list-style: none;
+  list-style-type: none;
+  margin: 0px;
+}
+.boxed-group-inner ul li{
+  list-style-type: none;
+  list-style: none;
+  margin:0px;
+  width: auto; 
+}
+.boxed-group-inner ul li a, .boxed-group-inner ul li a:link,  .boxed-group-inner ul li a:visited{
+  padding:10px 0px 10px 15px;
+  display: block;
+  width: auto; 
+  border-bottom: 1px solid #EEE;
+  color: #0172B8;
+}
+.boxed-group-inner ul li a:hover{
+  background-color: #F5F5F5;
+}
+.boxed-group-inner p{
+  float: left;
+  width: 48%;
+
+}
+a.current{
+  color:#000 !important;
+  font-weight: bold;
+  border-left: 2px solid #BBB;
+}
+.padded-content{
+  padding: 20px;
+}
+
+
 

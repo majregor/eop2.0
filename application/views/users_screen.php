@@ -289,7 +289,6 @@ if(isset($viewform)){
 
 
         /**
-         *
          * Reset Password functionality
          */
         $(".resetUserPasswordLink").click(function(){
