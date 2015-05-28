@@ -15,21 +15,29 @@
     <div id="rightcontain">
         <div id="listdiv" style="padding-botton: 5px;">
             <ul class="ld">
+                <?php if($this->session->userdata['role']['level']==3):  ?>
                 <li>
                     <span id="subDistrictSelectionDiv">
+                        <label for="slctsubdistrictselection"><a href="#">School:</a>  </label>
                                 <select name="slctsubdistrictselection" id="slctsubdistrictselection" style="width:15%">
-                                    <label>School: </label>
                                     <option value="" selected="selected">--Select--</option>
                                 </select>
                               </span>
                 </li>
-                <li><a href="home" >Home</a></li>
+                    <?php elseif($this->session->userdata['role']['level']>3):  ?>
+                    <li>
+                        <span><?php echo($this->session->userdata['loaded_school']['name']); ?></span>
+                    </li>
+                    <?php else: ?>
+
+                <?php endif; ?>
+                <li><a href="<?php echo base_url(); ?>home" >Home</a></li>
                 <li><a href="<?php echo base_url(); ?>user/profile" >My Account</a></li>
                 <li><a href="calendar">Calendar</a></li>
                 <li><a href="plan">Planning Process</a></li>
                 <li><a href="report" id="reportManagementLink">My EOP</a></li>
                 <?php if($this->session->userdata['role']['level']<5):  ?>
-                <li><a href="user" id="userManagementLink">Users</a></li>
+                <li><a href="<?php echo base_url(); ?>user" id="userManagementLink">Users</a></li>
                 <?php endif; ?>
                 <li><a href="<?php echo base_url(); ?>login/signout" id="logoutLink">Log Out</a></li>
             </ul>
