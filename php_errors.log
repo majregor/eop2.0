@@ -61,28 +61,3 @@
 [18-May-2015 18:12:57 UTC] PHP Fatal error:  Call to undefined function ajax_reload() in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 129
 [18-May-2015 18:47:51 UTC] PHP Parse error:  parse error, expecting `'('' in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 115
 [19-May-2015 20:53:55 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/district_model.php on line 53
-[20-May-2015 14:49:29 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/views/school_screen.php on line 106
-[20-May-2015 14:50:52 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/views/school_screen.php on line 217
-[20-May-2015 14:50:53 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/views/school_screen.php on line 217
-[20-May-2015 14:50:54 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/views/school_screen.php on line 217
-[20-May-2015 15:07:10 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 236
-[20-May-2015 20:51:25 UTC] PHP Fatal error:  Call to a member function getDistrict() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/access_model.php on line 23
-[21-May-2015 19:23:59 UTC] PHP Fatal error:  Call to a member function getSchools() on a non-object in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 135
-[21-May-2015 19:24:00 UTC] PHP Fatal error:  Call to a member function getSchools() on a non-object in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 135
-[21-May-2015 20:04:01 UTC] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/views/school_screen.php on line 107
-[22-May-2015 13:21:11 UTC] PHP Fatal error:  Call to undefined method User::post() in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 177
-[22-May-2015 13:21:28 UTC] PHP Fatal error:  Call to undefined method User::post() in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 177
-[22-May-2015 13:21:50 UTC] PHP Fatal error:  Call to undefined method User::post() in /Users/GMajwega/Sites/eop2.0/application/controllers/user.php on line 177
-[22-May-2015 17:24:58 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 386
-[22-May-2015 17:25:54 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 386
-[22-May-2015 17:30:03 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 386
-[22-May-2015 17:30:33 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 386
-[22-May-2015 17:30:53 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 386
-[22-May-2015 17:32:08 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 386
-[22-May-2015 17:32:10 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 386
-[22-May-2015 17:32:10 UTC] PHP Fatal error:  Call to a member function num_rows() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 386
-[22-May-2015 19:29:58 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 193
-[27-May-2015 13:57:13 UTC] PHP Fatal error:  Call to a member function result_array() on a non-object in /Users/GMajwega/Sites/eop2.0/application/models/user_model.php on line 210
-[27-May-2015 16:46:08 UTC] PHP Fatal error:  Call to undefined method CI_Output::setoutput() in /Users/GMajwega/Sites/eop2.0/application/controllers/school.php on line 195
-[28-May-2015 20:06:19 UTC] PHP Fatal error:  Call to a member function attach_to_session() on a non-object in /Users/GMajwega/Sites/eop2.0/application/controllers/login.php on line 61
-[28-May-2015 20:06:58 UTC] PHP Fatal error:  Call to undefined function getSchool() in /Users/GMajwega/Sites/eop2.0/application/models/school_model.php on line 170

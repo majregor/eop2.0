@@ -7,96 +7,12 @@
     </database-info>
     <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper"/>
     <schema name="" catalog="eop2_db1"/>
-    <table name="eop_access_log" schema="" catalog="eop2_db1" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="uid" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="timestamp" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <column name="body" sqlType="VARCHAR" precision="256" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="eop_activity_log" schema="" catalog="eop2_db1" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="timestamp" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <column name="uid" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="entity_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="field_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="activity" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12" remarks="Y3JlYXRlCmVkaXQKZGVsZXRlCm90aGVy"/>
-      <column name="body" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
-      <column name="description" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="eop_district" schema="" catalog="eop2_db1" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
-      <column name="screen_name" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <column name="description" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <column name="state_val" sqlType="VARCHAR" precision="8" scale="0" nullable="true" jdbcType="12"/>
-      <column name="modified_date" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <column name="owner" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="state_permission" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12" def="J2Rlbnkn"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="eop_entity" schema="" catalog="eop2_db1" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <column name="title" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <column name="type" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
-      <column name="owner" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="parent" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="weight" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="created" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <column name="timestamp" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <column name="description" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="eop_field" schema="" catalog="eop2_db1" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="entity_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="name" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <column name="title" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <column name="weight" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="created" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <column name="timestamp" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <column name="type" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
-      <column name="body" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
     <table name="eop_registry" schema="" catalog="eop2_db1" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="key" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
       <column name="value" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
       <column name="timestamp" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
       <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="eop_role_permission" schema="" catalog="eop2_db1" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="rid" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="uid" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="entity_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="field_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="permissions" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="eop_school" schema="" catalog="eop2_db1" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="district_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="state_val" sqlType="VARCHAR" precision="8" scale="0" nullable="true" jdbcType="12"/>
-      <column name="name" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <column name="screen_name" sqlType="VARCHAR" precision="256" scale="0" nullable="true" jdbcType="12"/>
-      <column name="description" sqlType="VARCHAR" precision="256" scale="0" nullable="true" jdbcType="12"/>
-      <column name="created_date" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <column name="modified_date" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <column name="owner" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="state_permission" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12" def="J2Rlbnkn"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="eop_state" schema="" catalog="eop2_db1" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="val" sqlType="VARCHAR" precision="8" scale="0" nullable="false" jdbcType="12"/>
-      <column name="name" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
-      <column name="screen_name" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <index name="val_UNIQUE" unique="true" columns="val"/>
     </table>
     <table name="eop_user" schema="" catalog="eop2_db1" type="TABLE">
       <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -110,85 +26,19 @@
       <column name="status" sqlType="VARCHAR" precision="24" scale="0" nullable="true" jdbcType="12" remarks="YWN0aXZlCmJsb2NrZWQ="/>
       <column name="join_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
       <column name="modified" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="read_only" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1" def="J24n"/>
       <primary-key name="PRIMARY" columns="user_id"/>
       <index name="email_UNIQUE" unique="true" columns="email"/>
       <index name="username_UNIQUE" unique="true" columns="username"/>
     </table>
-    <table name="eop_user2district" schema="" catalog="eop2_db1" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="uid" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="did" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="timestamp" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="eop_user2school" schema="" catalog="eop2_db1" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="uid" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="sid" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="timestamp" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="eop_user_access" schema="" catalog="eop2_db1" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="uid" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="entity_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="field_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="permissions" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
     <table name="eop_user_roles" schema="" catalog="eop2_db1" type="TABLE">
       <column name="role_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="title" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12" remarks="U3VwZXIgQWRtaW4KU3RhdGUgQWRtaW5pc3RyYXRvcgpEaXN0cmljdCBBZG1pbmlzdHJhdG9yClNjaG9vbCBBZG1pbmlzdHJhdG9yClNjaG9vbCBVc2VyClVzZXIKQW5vbnltb3Vz"/>
-      <column name="screen_name" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
       <column name="description" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
       <column name="is_locked" sqlType="CHAR" precision="1" scale="0" nullable="false" jdbcType="1" def="J24n"/>
       <column name="can_view" sqlType="CHAR" precision="1" scale="0" nullable="false" jdbcType="1" def="J3kn"/>
       <column name="can_edit" sqlType="CHAR" precision="1" scale="0" nullable="false" jdbcType="1" def="J3kn"/>
-      <column name="create_district" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1" def="J24n"/>
-      <column name="edit_district" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1" def="J24n"/>
-      <column name="create_school" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1" def="J24n"/>
-      <column name="edit_school" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1" def="J24n"/>
-      <column name="create_user" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1" def="J3kn"/>
-      <column name="edit_user" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1" def="J3kn"/>
-      <column name="alter_state_access" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1" def="J24n"/>
-      <column name="edit_entity" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1" def="J3kn"/>
-      <column name="level" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="MSAtIHN1cGVyIGFkbWluCjIgLSBzdGF0ZSBhZG1pbgozIC0gZGlzdHJpY3QgYWRtaW4KNCAtIHNjaG9vbCBhZG1pbgo1IC0gc2Nob29sIHVzZXI="/>
       <primary-key name="PRIMARY" columns="role_id"/>
       <index name="title_UNIQUE" unique="true" columns="title"/>
-    </table>
-    <table name="eop_view_school" schema="" catalog="eop2_db1" type="VIEW">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
-      <column name="district_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="state_val" sqlType="VARCHAR" precision="8" scale="0" nullable="true" jdbcType="12"/>
-      <column name="name" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <column name="screen_name" sqlType="VARCHAR" precision="256" scale="0" nullable="true" jdbcType="12"/>
-      <column name="description" sqlType="VARCHAR" precision="256" scale="0" nullable="true" jdbcType="12"/>
-      <column name="created_date" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="modified_date" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="owner" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="state_permission" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12" def="J2Rlbnkn"/>
-      <column name="district" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <column name="state" sqlType="VARCHAR" precision="64" scale="0" nullable="true" jdbcType="12"/>
-    </table>
-    <table name="eop_view_user" schema="" catalog="eop2_db1" type="VIEW">
-      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
-      <column name="role_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="first_name" sqlType="VARCHAR" precision="96" scale="0" nullable="true" jdbcType="12"/>
-      <column name="last_name" sqlType="VARCHAR" precision="96" scale="0" nullable="true" jdbcType="12"/>
-      <column name="email" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
-      <column name="username" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
-      <column name="password" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
-      <column name="phone" sqlType="VARCHAR" precision="30" scale="0" nullable="true" jdbcType="12"/>
-      <column name="status" sqlType="VARCHAR" precision="24" scale="0" nullable="true" jdbcType="12" remarks="YWN0aXZlCmJsb2NrZWQ="/>
-      <column name="join_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
-      <column name="modified" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="read_only" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1" def="J24n"/>
-      <column name="role" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12" remarks="U3VwZXIgQWRtaW4KU3RhdGUgQWRtaW5pc3RyYXRvcgpEaXN0cmljdCBBZG1pbmlzdHJhdG9yClNjaG9vbCBBZG1pbmlzdHJhdG9yClNjaG9vbCBVc2VyClVzZXIKQW5vbnltb3Vz"/>
-      <column name="school" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
-      <column name="school_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
-      <column name="district_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
-      <column name="district" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
     </table>
   </data-source>
 </component>

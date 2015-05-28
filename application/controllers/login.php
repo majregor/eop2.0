@@ -15,7 +15,6 @@ class Login extends CI_Controller{
 		parent::__construct();
         $this->load->model('registry_model');
         $this->load->model('user_model');
-        $this->load->model('school_model');
 	}
 
 	public function index(){
@@ -55,17 +54,9 @@ class Login extends CI_Controller{
                     'role'          => $this->user_model->getUserRoleByUsername($username)
                 );
 
-                // Load user's school into session object for school users and school administrators
-                if($sessionData['role']['level']>3){
-
-                    $userRow = $this->user_model->getUser($username, 'username');
-                    $this->school_model->attach_to_session($userRow[0]['school_id']);
-
-                }
-
-
                 $this->session->set_userdata($sessionData);
 
+                //$this->template->load('template', 'home_screen');
                 //Redirect to the home page
                 redirect('/home');
             }elseif($userStatus == 'blocked'){ // User is blocked

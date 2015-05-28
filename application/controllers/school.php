@@ -99,7 +99,7 @@ class School extends CI_Controller{
 
                 'name'            =>  $this->input->post('school_name'),
                 'screen_name'     =>  $this->input->post('screen_name'),
-                'district_id'     =>  $this->input->post('sltdistrict'),
+                'district_id'     =>  $this->input->post('sltdistrict')
             );
 
             if($this->session->userdata['role']['level'] == 3){ //District admin is adding school, make the default  district be the same as the district admin
@@ -214,49 +214,6 @@ class School extends CI_Controller{
             $this->output->set_output(json_encode($schools));
         }
         else{ // Do nothing
-
-        }
-    }
-
-    /**
-     *  AJAX Action attaches a school to the session object
-     * @method attach_to_session
-     */
-    public function attach_to_session(){
-        if($this->input->post('ajax')) { // If form was submitted using ajax
-
-            //Clear loaded_school session data
-            $this->session->unset_userdata('loaded_school');
-
-            $school_id = $this->input->post('school_id');
-
-            $schoolData = $this->school_model->getSchool($school_id);
-            $data = array(
-                'loaded_school' => array(
-                    'id'                =>  $schoolData[0]['id'],
-                    'district_id'       =>  $schoolData[0]['district_id'],
-                    'state_val'         =>  $schoolData[0]['state_val'],
-                    'name'              =>  $schoolData[0]['name'],
-                    'screen_name'       =>  $schoolData[0]['screen_name'],
-                    'description'       =>  $schoolData[0]['description'],
-                    'created_date'      =>  $schoolData[0]['created_date'],
-                    'modified_date'     =>  $schoolData[0]['modified_date'],
-                    'owner'             =>  $schoolData[0]['owner'],
-                    'state_permission'  =>  $schoolData[0]['state_permission'],
-                    'district'          =>  $schoolData[0]['district'],
-                    'state'             =>  $schoolData[0]['state']
-                )
-
-            );
-
-            $this->session->set_userdata($data);
-
-            $this->output->set_output(json_encode(array(
-                'loaded'    =>  TRUE,
-                'school_id' =>  $school_id
-                )));
-
-        }else{ // Do nothing at the moment
 
         }
     }
