@@ -3,3 +3,15 @@ php_errors.log
 .idea/workspace.xml
 application/config/config.php
 *.log
+
+*.sublime-workspace
+
+.idea/workspace.xml
+
+.idea/dataSources.xml
+
+.idea/dataSources.local.xml
+
+.idea/dataSources.ids
+
+.htaccess

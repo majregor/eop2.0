@@ -1007,10 +1007,10 @@ em.revoke{background-image: url(../img/check_mark_cross.png);}
 .adminTable tr:nth-child(even) {background: #EEE}
 .adminTable tr:nth-child(odd) {background: #CCC}
 
-.approved_button { 
-  background-image: url("../img/accept.png"); 
-  width:16px; 
-  height: 16px; 
+.approved_button {
+  background-image: url("../img/accept.png");
+  width:16px;
+  height: 16px;
   display: inline-block;
   margin:-3px 5px;
 }
@@ -1080,12 +1080,12 @@ em.revoke{background-image: url(../img/check_mark_cross.png);}
   list-style-type: none;
   list-style: none;
   margin:0px;
-  width: auto; 
+  width: auto;
 }
 .boxed-group-inner ul li a, .boxed-group-inner ul li a:link,  .boxed-group-inner ul li a:visited{
   padding:10px 0px 10px 15px;
   display: block;
-  width: auto; 
+  width: auto;
   border-bottom: 1px solid #EEE;
   color: #0172B8;
 }

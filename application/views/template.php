@@ -55,9 +55,9 @@
                 <div id="dtool" class="5dcontain">
                     <?php include('embeds/main_menu.php'); ?>
                     <?php include('embeds/sub_menu.php'); ?>
-                    <div class="content" id='introOneContent'>
+
                         <?= $contents ?>
-                    </div>
+                    
                 </div>
                 <div id="footer">
                     <?php include('embeds/footer.php'); ?>

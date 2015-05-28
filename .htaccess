@@ -1,4 +1,0 @@
-RewriteEngine on
-RewriteBase /eop2.0/
-RewriteCond $1 !^(index\.php|images|robots\.txt|assets)
-RewriteRule ^(.*)$ index.php/$1 [L]
