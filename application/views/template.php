@@ -49,7 +49,6 @@
 
 
 
-
         <title>EOP Assist <?php echo isset($page_title)?': '.$page_title :'';?></title>
 
         <script language="JavaScript" type="text/javascript">
