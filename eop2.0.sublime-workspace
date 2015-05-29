@@ -4,6 +4,58 @@
 		"selected_items":
 		[
 			[
+				"dis",
+				"district_val"
+			],
+			[
+				"view",
+				"viewEOP"
+			],
+			[
+				"bac",
+				"background-image"
+			],
+			[
+				"appr",
+				"approved_button"
+			],
+			[
+				"inl",
+				"inline-block"
+			],
+			[
+				"re",
+				"registry_model"
+			],
+			[
+				"pass",
+				"password"
+			],
+			[
+				"role",
+				"role_id"
+			],
+			[
+				"eop_user",
+				"eop_user_roles"
+			],
+			[
+				"sele",
+				"selectedUserId"
+			],
+			[
+				"save",
+				"savedRecs"
+			],
+			[
+				"user",
+				"username"
+			],
+			[
+				"retu",
+				"returnMsg"
+			],
+			[
 				"mar",
 				"margin-left"
 			],
@@ -18,10 +70,6 @@
 			[
 				"text",
 				"textarea	Tag"
-			],
-			[
-				"bac",
-				"background-color"
 			],
 			[
 				"entr",
@@ -132,10 +180,6 @@
 				"getRewiewers"
 			],
 			[
-				"re",
-				"reviewers"
-			],
-			[
 				"json",
 				"json_encode"
 			],
@@ -204,18 +248,10 @@
 	"buffers":
 	[
 		{
-			"file": "application/config/config.php",
+			"file": "application/views/forms/update_user.php",
 			"settings":
 			{
-				"buffer_size": 12964,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "application/config/database.php",
-			"settings":
-			{
-				"buffer_size": 3229,
+				"buffer_size": 4945,
 				"line_ending": "Unix"
 			}
 		}
@@ -231,10 +267,7 @@
 	},
 	"console":
 	{
-		"height": 126.0,
-		"history":
-		[
-		]
+		"height": 126.0
 	},
 	"distraction_free":
 	{
@@ -245,16 +278,49 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-		"/Users/GMajwega/Sites/eop2.0",
-		"/Users/GMajwega/Sites/eop2.0/application",
-		"/Users/GMajwega/Sites/eop2.0/application/config",
-		"/Users/GMajwega/Sites/eop2.0/system",
-		"/Users/GMajwega/Sites/eop2.0/system/libraries"
-	],
 	"file_history":
 	[
+		"/Users/godfreymajwega/Sites/eop2.0/application/controllers/home.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/controllers/school.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/school_screen.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/models/school_model.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/controllers/access.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/models/district_model.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/models/access_model.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/state_access_screen.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/models/registry_model.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/forms/user.php",
+		"/Users/godfreymajwega/Sites/eop2.0/assets/css/style.css",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/users_screen.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/models/user_model.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/controllers/user.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/controllers/login.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/controllers/app.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/forms/district.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/district_screen.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/embeds/finished.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/forms/school.php",
+		"/Users/godfreymajwega/Sites/eop2.0/assets/js/standard.js",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/embeds/main_menu.php",
+		"/Users/godfreymajwega/Sites/y4y/calendar/admin/embeds/show_events.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/embeds/admin_menu.php",
+		"/Applications/XAMPP/xamppfiles/etc/my.cnf",
+		"/Applications/XAMPP/xamppfiles/logs/error_log",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/login_screen.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/install_screen.php",
+		"/Users/godfreymajwega/Downloads/ci_series/application/models/membership_model.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/embeds/admin_account.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/template.php",
+		"/Users/godfreymajwega/Sites/eop2.0/assets/js/login.js",
+		"/Users/godfreymajwega/Sites/eop2.0/assets/css/front_cool.css",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/template.php",
+		"/Users/godfreymajwega/Sites/eop2.0/system/helpers/file_helper.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/views/install/embeds/database_settings.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/config/settings.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/config/autoload.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/config/database.php",
+		"/Users/godfreymajwega/Sites/eop2.0/application/config/config.php",
+		"/Users/godfreymajwega/Sites/eop2.0/assets/css/cpstyle.css",
 		"/Users/GMajwega/Sites/eop2.0/application/config/config.php",
 		"/Volumes/dev.y4y/uploadify/moderate.php",
 		"/Volumes/dev.y4y/uploadify/export-xlsx.php",
@@ -349,9 +415,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
+			"/Users/godfreymajwega/Sites/eop2.0",
 			"/Volumes/dev.y4y/uploadify/Classes",
 			"/Volumes/dev.y4y/uploadify"
 		]
@@ -361,6 +428,15 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"freeform_approved_button",
+			"logoutLink",
+			"login",
+			"saveRecs",
+			"log",
+			"passwordDescription",
+			"error",
+			"finished_form",
+			"hidden",
 			"errorMsg",
 			"queue",
 			"PCLZIP_TEMPORARY_DIR",
@@ -460,63 +536,34 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "application/config/config.php",
-					"semi_transient": false,
+					"file": "application/views/forms/update_user.php",
 					"settings":
 					{
-						"buffer_size": 12964,
+						"buffer_size": 4945,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1027,
-								1037
+								2991,
+								2991
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
-						"translation.y": 0.0,
+						"translation.x": 0.0,
+						"translation.y": 1133.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "application/config/database.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3229,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2853,
-								2853
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": -0.0,
-						"translation.y": 96.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -557,7 +604,6 @@
 	{
 		"height": 0.0
 	},
-	"project": "eop2.0.sublime-project",
 	"replace":
 	{
 		"height": 42.0
@@ -579,25 +625,10 @@
 		],
 		"width": 0.0
 	},
-	"select_symbol":
-	{
-		"height": 0.0,
-		"selected_items":
-		[
-		],
-		"width": 0.0
-	},
-	"selected_group": 0,
-	"settings":
-	{
-	},
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
 	"side_bar_width": 458.0,
-	"status_bar_visible": true,
-	"template_settings":
-	{
-	}
+	"status_bar_visible": true
 }

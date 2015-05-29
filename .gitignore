@@ -1,0 +1,16 @@
+php_errors.log
+.htaccess
+.idea/workspace.xml
+*.log
+
+*.sublime-workspace
+
+.idea/workspace.xml
+
+.idea/dataSources.xml
+
+.idea/dataSources.local.xml
+
+.idea/dataSources.ids
+
+.htaccess

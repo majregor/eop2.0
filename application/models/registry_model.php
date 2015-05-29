@@ -14,8 +14,21 @@ class Registry_model extends CI_Model {
     public function __construct(){
         parent::__construct();
     }
-
+ 
     function addVariable($key, $value){
+
+    }
+
+    function addVariables($data){
+        $recordsArray=array();
+        foreach($data as $key=>$value){
+            array_push($recordsArray, array(
+                'key'       =>  $key,
+                'value'     =>  $value));
+        }
+
+        $this->db->insert_batch('eop_registry', $recordsArray);
+        return $this->db->affected_rows();
 
     }
 
@@ -50,6 +63,14 @@ class Registry_model extends CI_Model {
 
     function update($key, $value){
 
+        $updateData = array(
+            'value'    =>  $value
+        );
+
+        $this->db->where('key', $key);
+        $this->db->update('eop_registry', $updateData);
+
+        return $this->db->affected_rows();
     }
 
     function updateValue($value){

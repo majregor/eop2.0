@@ -272,7 +272,7 @@ ul.sq {
     background:url(../img/step_right.jpg) top right no-repeat;
     min-height: 35px;
 }
-.active5 {
+.active {
     background:url(../img/step_bg.png) bottom center no-repeat;
 }
 .stepNav a {
@@ -310,11 +310,12 @@ ul.sq {
   left:45%;
 }*/
 
-#step1 .active1 a:hover, #step2 .active2 a:hover, #step3 .active3 a:hover, #step4 .active4 a:hover, #step5 .active5 a:hover, #step6 .active6 a:hover {
+#steps .active a:hover {
     color:#fff;
     background: #4CA6DB;
 }
-#step1 .active1 a:hover:after, #step2 .active2 a:hover:after, #step3 .active3 a:hover:after, #step4 .active4 a:hover:after, #step5 .active5 a:hover:after, #step6 .active6 a:hover:after {
+
+#steps .active a:hover:after{
     position: absolute;
     display: block;
     content: "";
@@ -327,14 +328,13 @@ ul.sq {
     bottom:-18px;
     left:45%;
 }
-#step1 .active1 a, #step2 .active2 a, #step3 .active3 a, #step4 .active4 a, #step5 .active5 a, #step6 .active6 a {
+
+#steps .active a{
     color:#FFFFFF;
     background: #0072B8;
 }
-/*#step1 .active1 a:hover, #step2 .active2 a:hover, #step3 .active3 a:hover, #step4 .active4 a:hover, #step5 .active5 a:hover, #step6 .active6 a:hover {
-        color:#5A5A5A;
-}*/
-#step1 .active1 a:after, #step2 .active2 a:after, #step3 .active3 a:after, #step4 .active4 a:after, #step5 .active5 a:after, #step6 .active6 a:after {
+
+#steps .active a:after{
     position: absolute;
     display: block;
     content: "";
@@ -417,7 +417,7 @@ li.active6 {
 .left {
     float: left;
 }
-input[type=button] {
+input[type=button], input[type=submit] {
     position: relative;
     display: block;
     color:#fff;
@@ -429,7 +429,7 @@ input[type=button] {
     font-size: .9em;
     outline: none !important;
 }
-input[type=button]:hover {
+input[type=button]:hover,input[type=submit]:hover  {
     background: #4CA6DB;
 }
 
@@ -861,3 +861,250 @@ background: url(bubble.gif) no-repeat bottom;
 .content{
     overflow-x: hidden;
 }
+
+/**
+**** Added by Godfrey as part of 2.0 Major upgrade
+*/
+/* Users management
+*/
+.adminMenu{
+    background-color:#eee;
+    padding:4px;
+    margin:10px 0px;
+}
+
+.adminMenu ul{
+    list-style: none;
+    list-style-type: none;
+    margin:0;
+    padding:0;
+    position:relative;
+    float:left;
+}
+.adminMenu ul li{
+    list-style: none;
+    list-style-type: none;
+    margin:0;
+    padding:0
+    position:relative;
+    float:left;
+
+}
+
+.adminMenu ul a
+    {
+        display:inline-block;
+        text-decoration:none;
+        font-weight:700;
+        font-size:12px;
+        line-height:32px;
+        padding:0 15px;
+    }
+.adminMenu ul a:hover{
+    color:#333;
+}
+.adminMenu ul ul
+    {
+        display:none;
+        position:absolute;
+        top:100%;
+        /*left:0;*/
+        background:#fff;
+        padding:0;
+      z-index: 1000;
+    }
+
+
+.adminMenu ul li:hover
+{
+    background:#f6f6f6;
+}
+
+.adminMenu ul li:hover > ul
+{
+    display:block
+}
+
+
+.adminMenu ul ul li
+{
+    float:none;
+    width:auto;
+}
+
+.adminMenu ul ul a
+{
+    line-height:120%;
+    padding:10px 15px
+}
+
+.adminMenu ul ul ul
+{
+    top:0;
+    left:100%
+}
+.required{
+    color: #CC0000;
+}
+.info,.success,.error,.warning
+{
+    margin: 0px;
+    padding:5px 2px 5px 25px;
+    border-radius: 3px;
+    box-shadow: 4px 4px #dfe1d8;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -moz-box-shadow: 4px 4px #dfe1d8;
+    -webkit-box-shadow: 4px 4px #dfe1d8;
+}
+label.error{
+    z-index: 10;
+    display: inline-block;
+}
+.error{
+    border:1px solid #641f1a;
+    color:#641f1a;
+    background:#ffd2d4 url('../img/unchecked.gif') no-repeat;
+    background-position:3px 5px;
+}
+
+button{
+    margin: 0px auto;
+    padding: 0px 5px;
+    color: #000;
+    white-space:nowrap;
+    width:auto;
+    overflow:visible;
+    height:28px;
+    background-repeat: no-repeat;
+}
+
+button em{
+    vertical-align:middle;
+    margin:0 2px;
+    display:inline-block;
+    width:16px;
+    height:16px;
+}
+
+button em.leftImage{
+    background-position: -96px -112px;
+}
+
+button em.rightImage{
+    background-position: -64px -16px;
+}
+
+em.approve{background-image: url(../img/check_mark.png); }
+em.revoke{background-image: url(../img/check_mark_cross.png);}
+.approval-holder span{ width:100%; display: block; background-position: center; max-width:72px; margin: 5px 0px;}
+
+.adminTable td{
+    padding:10px;
+}
+
+
+.adminTable tr:nth-child(even) {background: #EEE}
+.adminTable tr:nth-child(odd) {background: #CCC}
+
+.approved_button {
+  background-image: url("../img/accept.png");
+  width:16px;
+  height: 16px;
+  display: inline-block;
+  margin:-3px 5px;
+}
+
+.revoked_button{
+  background-image: url("../img/check_mark_cross.png");
+  width:16px;
+  height: 16px;
+  display: inline-block;
+  margin: -3px 5px;
+}
+
+.boxed-group{
+    border-radius: 3px;
+    margin: 5px 15px;
+}
+.boxed-group h3{
+    background-color: #F5F5F5;
+    margin: 0px;
+    border-radius: 3px 3px 0px 0px;
+    border-width: 1px 1px 0px;
+    border-style: solid solid none;
+    border-color: #D8D8D8 #D8D8D8 -moz-use-text-color;
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+    padding: 9px 10px 10px;
+    font-size: 14px;
+    line-height: 17px;
+    display: block;
+}
+.boxed-group-inner{
+    padding: 0px;
+    background: none repeat scroll 0% 0% #FFF;
+    border: 1px solid #D8D8D8;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    color: #666;
+    font-size: 13px;
+}
+.clearfix:before{
+    display:table;
+    content:"";
+}
+.clearfix:after{
+    display:table;
+    clear:both;content:"";
+}
+.boxed-group.left{
+  width:25%;
+  max-width: 25%;
+  float: left;
+}
+.boxed-group.right{
+  width:65%;
+  max-width:70%;
+  float: left;
+}
+.boxed-group-inner ul{
+  list-style: none;
+  list-style-type: none;
+  margin: 0px;
+}
+.boxed-group-inner ul li{
+  list-style-type: none;
+  list-style: none;
+  margin:0px;
+  width: auto;
+}
+.boxed-group-inner ul li a, .boxed-group-inner ul li a:link,  .boxed-group-inner ul li a:visited{
+  padding:10px 0px 10px 15px;
+  display: block;
+  width: auto;
+  border-bottom: 1px solid #EEE;
+  color: #0172B8;
+}
+.boxed-group-inner ul li a:hover{
+  background-color: #F5F5F5;
+}
+.boxed-group-inner p{
+  float: left;
+  width: 48%;
+
+}
+a.current{
+  color:#000 !important;
+  font-weight: bold;
+  border-left: 2px solid #BBB;
+}
+.padded-content{
+  padding: 20px;
+}
+
+
+

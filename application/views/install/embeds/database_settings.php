@@ -1,18 +1,36 @@
 <?php
-echo form_open('app/install', array('class'=>'database_settings_form', 'id'=>'database_settings_form'));
+    echo form_open('app/install', array('class'=>'database_settings_form', 'id'=>'database_settings_form'));
 ?>
     <h3 class="title">Database Setup</h3>
+    <?php if(isset($error)): ?>
+        <h3 class='error'><?php echo ($error); ?></h3>
+    <?php endif; ?>
+   
     <p>
         <label><span class="inputlabel">Database Type</span> &nbsp; <span class="required">*</span></label><br>
                 The type of database where your EOP Data will be stored in.
     </p>
 
     <p>
-        <?php echo form_radio('database_type', 'mysql', TRUE); ?> MySQL
+        <?php echo form_radio('database_type', 'mysqli', TRUE); ?> MySQL
         <?php echo form_radio('database_type', 'sqlite', FALSE); ?> SQLite
         <?php echo form_radio('database_type', 'psql', FALSE); ?> PostgreSQL
         <?php echo form_radio('database_type', 'sqlserver', FALSE); ?>SQL Server
 
+    </p>
+    <p>
+        <label><span class="inputlabel">Database Host</span> <span class="required">*</span> </label><br>
+        <?php
+            $databaseHostInput = array(
+                'name'      =>  'host_name',
+                'id'        =>  'host_name',
+                'value'     =>  'localhost',
+                'required'  =>  'required',
+                'minlength'  =>  '3'
+            );
+        echo form_input($databaseHostInput);
+        ?>
+        The name or ip address of the database host. 
     </p>
     <p>
         <label><span class="inputlabel">Database Name</span> <span class="required">*</span> </label><br>

@@ -131,7 +131,7 @@ a.signin.menu-open span {
 .signin_submit {
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
-	background:#39d;
+	background:#39d !important;
 	border:1px solid #39D;
 	color:#fff;
 	text-shadow:0 -1px 0 #39d;
@@ -139,6 +139,7 @@ a.signin.menu-open span {
 	font-size:11px;
 	margin:0 5px 0 0;
 	font-weight:bold;
+    display: inline !important;
 }
 .signin_submit::-moz-focus-inner {
 padding:0;
@@ -175,19 +176,19 @@ p { font-size:11px; color:#000; margin:5px 5px 5px 80px; }
 	text-align:left;
 }
 .tipsy-north {
-	background-image:url(img/tipsy-north.gif);
+	background-image:url(../img/tipsy-north.gif);
 	background-position:top center;
 }
 .tipsy-south {
-	background-image:url(img/tipsy-south.gif);
+	background-image:url(../img/tipsy-south.gif);
 	background-position:bottom center;
 }
 .tipsy-east {
-	background-image:url(img/tipsy-east.gif);
+	background-image:url(../img/tipsy-east.gif);
 	background-position:right center;
 }
 .tipsy-west {
-	background-image:url(img/tipsy-west.gif);
+	background-image:url(../img/tipsy-west.gif);
 	background-position:left center;
 }
 
@@ -232,9 +233,8 @@ p { font-size:11px; color:#000; margin:5px 5px 5px 80px; }
 /*Setup all boxes*/
 .info,.success,.error,.warning,.tip,.secure,.message,.download,.purchase,.print
 {
-    min-height: 40px;
-    margin: 20px 50px;
-    padding: 10px;
+    margin: 0px;
+    padding:20px 10px;
     border-radius: 3px;
     box-shadow: 4px 4px #dfe1d8;
     -webkit-border-radius: 3px;
@@ -242,22 +242,25 @@ p { font-size:11px; color:#000; margin:5px 5px 5px 80px; }
     -moz-box-shadow: 4px 4px #dfe1d8;
     -webkit-box-shadow: 4px 4px #dfe1d8;
 }
-
+label.error{
+	z-index: 10;
+	display: inline-block;
+}
 /*Styling for text inside boxes*/
 h4 { margin:5px 5px 5px 80px;padding:0; font-size:16px; }
 /*p { font-size:10px; color:#000; margin:5px 5px 5px 80px; }*/
 
 /*Boxes*/
-.info{border:1px solid #0e7fad;color:#0e7fad;background:#c0e9fa url('img/info.png') no-repeat; background-position:10px 3px;}
-.success{border:1px solid #4f8746;color:#4f8746;background:#d4ffcd url('img/success.png') no-repeat; background-position:10px 3px;}
-.error{border:1px solid #641f1a;color:#641f1a;background:#ffd2d4 url('img/error.png') no-repeat; background-position:10px 3px;}
-.warning{border:1px solid #9d9c49;color:#9d9c49;background:#fdfdcb url('img/warning.png') no-repeat; background-position:10px 3px;}
-.tip{border:1px solid #c77d10;color:#c77d10;background:#f9d69e url('img/tip.png') no-repeat; background-position:10px 3px;}
-.secure{border:1px solid #9638f1;color:#9638f1;background:#e5cefc url('img/secure.png') no-repeat; background-position:10px 3px;}
-.message{border:1px solid #000;color:#000;background:#efefef url('img/message.png') no-repeat; background-position:10px 3px;}
-.download{border:1px solid #04b5eb;color:#04b5eb;background:#f7f7f7 url('img/download.png') no-repeat; background-position:10px 3px;}
-.purchase{border:1px solid #426164;color:#426164;background:#c2e1e3 url('img/purchase.png') no-repeat; background-position:10px 3px;}
-.print{border:1px solid #3c4b5e;color:#3c4b5e;background:#c8d9e3 url('img/print.png') no-repeat; background-position:10px 3px;}
+.info{border:1px solid #0e7fad;color:#0e7fad;background:#c0e9fa url('../img/info.png') no-repeat; background-position:10px 3px;}
+.success{border:1px solid #4f8746;color:#4f8746;background:#d4ffcd url('../img/success.png') no-repeat; background-position:10px 3px;}
+.error{border:1px solid #641f1a;color:#641f1a;background:#ffd2d4 url('../img/error.png') no-repeat; background-position:10px 3px;}
+.warning{border:1px solid #9d9c49;color:#9d9c49;background:#fdfdcb url('../img/warning.png') no-repeat; background-position:10px 3px;}
+.tip{border:1px solid #c77d10;color:#c77d10;background:#f9d69e url('../img/tip.png') no-repeat; background-position:10px 3px;}
+.secure{border:1px solid #9638f1;color:#9638f1;background:#e5cefc url('../img/secure.png') no-repeat; background-position:10px 3px;}
+.message{border:1px solid #000;color:#000;background:#efefef url('../img/message.png') no-repeat; background-position:10px 3px;}
+.download{border:1px solid #04b5eb;color:#04b5eb;background:#f7f7f7 url('../img/download.png') no-repeat; background-position:10px 3px;}
+.purchase{border:1px solid #426164;color:#426164;background:#c2e1e3 url('../img/purchase.png') no-repeat; background-position:10px 3px;}
+.print{border:1px solid #3c4b5e;color:#3c4b5e;background:#c8d9e3 url('../img/print.png') no-repeat; background-position:10px 3px;}
 
 
 /*------------------------

@@ -482,25 +482,40 @@ if(! function_exists('make_config_file')){
 
     function make_config_file($data="", $file="", $mode="w"){
 
-        $data = 'Oyo Majwega yemubbi... FoDDO';
+    	$returnMsg = array();
+     
         $fileInformation = get_file_info('./application/config/settings.php');
 
         if($fileInformation !== FALSE){
-            print_r($fileInformation);
-            if ( ! write_file('./application/config/settings.php', $data, $mode))
-            {
-                echo 'Unable to write the file: '. $fileInformation['server_path'];
-            }
-            else
-            {
+          
+            if($data!=""){ // Check if there is Data to write to the config file
+            	$configOutput = generateConfigOutput($data);
 
-
-                echo 'File written! '. $fileInformation['server_path'];
+	            if ( ! write_file('./application/config/settings.php', $configOutput, $mode))
+	            {
+	                $returnMsg['msg'] = 'Unable to write the file: '. $fileInformation['server_path'] . ' Make sure its writable!';
+	                $returnMsg['error'] = true;
+	            }
+	            else
+	            {
+	                $returnMsg['msg'] = 'File written!';
+	                $returnMsg['error'] = false;
+	            }
             }
+            else{ // There is no data to write
+
+            	$returnMsg['msg'] = 'No config settings sent for writing';
+	            $returnMsg['error'] = true;
+            }
+            
         }
-        else{
-            echo 'File not found';
+        else{ // The settings.php file or the custom file name stated does not exist
+            
+            $returnMsg['msg'] = 'The file: '.$fileInformation['server_path'] . ' does not exist!';
+	        $returnMsg['error'] = true;
         }
+
+        return $returnMsg;
     }
 }
 
@@ -514,9 +529,24 @@ if(! function_exists('generateConfigOutput')){
         /**
          * First deal with the database settings
          */
+        $data .=    "/*\n";
+        $data .=    "|---------------------------------------------------------------------\n";
+        $data .=    "|----------------   DATABASE CONNECTIVITY SETTINGS  ------------------\n";
+        $data .=    "|---------------------------------------------------------------------\n";
+        $data .=    "|\n";
+        $data .=    "| These are the settings needed to access your database.\n";
+        $data .=    "| For complete instructions please consult comments in the 'database.php' file under the config directory\n";
+        $data .=    "|\n";
+        $data .=    "*/\n";
+        $data .=    "\n";
+        $data .=    "\$config['db']['hostname'] = '"   . (isset($parsedArray['database']['hostname'])? $parsedArray['database']['hostname'] :  '')  					."';\n";
+        $data .=    "\$config['db']['username'] = '"   . (isset($parsedArray['database']['username'])? $parsedArray['database']['username'] :  '')     				."';\n";
+        $data .=    "\$config['db']['password'] = '"   . (isset($parsedArray['database']['password'])? $parsedArray['database']['password'] :  '')      				."';\n";
+        $data .=    "\$config['db']['database'] = '"   . (isset($parsedArray['database']['database'])? $parsedArray['database']['database'] :  '')    					."';\n";
+        $data .=    "\$config['db']['dbdriver'] = '"   . (isset($parsedArray['database']['dbdriver'])? $parsedArray['database']['dbdriver'] :  'mysqli')   			."';\n";
+       
 
-        //Last line output
-        $data .= "\n\n?>";
+        return $data;
     }
 }
 
