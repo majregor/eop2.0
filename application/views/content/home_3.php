@@ -1,4 +1,4 @@
-<div class="content" id='introTwoContent'>
+
     <!--to be replaced when the next button is clicked-->
     <div id="topcontain">
         <div id="titlearea">
@@ -35,7 +35,7 @@
         <p align="center"><img src="<?php echo base_url(); ?>assets/img/intro3_clip_image002.png" alt="" width="966" height="452" /><strong> </strong></p>
     </div><!-- /col-half --><!-- /col-half -->
     <!--end to be replaced content-->
-</div> <!-- /content -->
+
 <script type='text/javascript'>
     $(document).ready(function(){
 

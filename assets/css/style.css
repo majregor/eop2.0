@@ -272,7 +272,7 @@ ul.sq {
     background:url(../img/step_right.jpg) top right no-repeat;
     min-height: 35px;
 }
-.active5 {
+.active {
     background:url(../img/step_bg.png) bottom center no-repeat;
 }
 .stepNav a {
@@ -310,11 +310,12 @@ ul.sq {
   left:45%;
 }*/
 
-#step1 .active1 a:hover, #step2 .active2 a:hover, #step3 .active3 a:hover, #step4 .active4 a:hover, #step5 .active5 a:hover, #step6 .active6 a:hover {
+#steps .active a:hover {
     color:#fff;
     background: #4CA6DB;
 }
-#step1 .active1 a:hover:after, #step2 .active2 a:hover:after, #step3 .active3 a:hover:after, #step4 .active4 a:hover:after, #step5 .active5 a:hover:after, #step6 .active6 a:hover:after {
+
+#steps .active a:hover:after{
     position: absolute;
     display: block;
     content: "";
@@ -327,14 +328,13 @@ ul.sq {
     bottom:-18px;
     left:45%;
 }
-#step1 .active1 a, #step2 .active2 a, #step3 .active3 a, #step4 .active4 a, #step5 .active5 a, #step6 .active6 a {
+
+#steps .active a{
     color:#FFFFFF;
     background: #0072B8;
 }
-/*#step1 .active1 a:hover, #step2 .active2 a:hover, #step3 .active3 a:hover, #step4 .active4 a:hover, #step5 .active5 a:hover, #step6 .active6 a:hover {
-        color:#5A5A5A;
-}*/
-#step1 .active1 a:after, #step2 .active2 a:after, #step3 .active3 a:after, #step4 .active4 a:after, #step5 .active5 a:after, #step6 .active6 a:after {
+
+#steps .active a:after{
     position: absolute;
     display: block;
     content: "";

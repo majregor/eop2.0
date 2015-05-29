@@ -1,4 +1,4 @@
-<div class="content" id='introOneContent'>
+
     <!--to be replaced when the next button is clicked-->
     <div id="topcontain">
         <div id="titlearea">
@@ -41,7 +41,7 @@
         </ul>
     </div><!-- /col-half --><!-- /col-half -->
     <!--end to be replaced content-->
-</div> <!-- /content -->
+
 
 <script type='text/javascript'>
     $(document).ready(function(){

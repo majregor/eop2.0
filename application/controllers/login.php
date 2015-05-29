@@ -55,6 +55,9 @@ class Login extends CI_Controller{
                     'role'          => $this->user_model->getUserRoleByUsername($username)
                 );
 
+                //Get the host state and add to session
+                $this->session->set_userdata('host_state', $this->registry_model->getValue('host_state'));
+
                 // Load user's school into session object for school users and school administrators
                 if($sessionData['role']['level']>3){
 

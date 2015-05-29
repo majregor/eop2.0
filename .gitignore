@@ -15,3 +15,5 @@ application/config/config.php
 .idea/dataSources.ids
 
 .htaccess
+
+application/config/config.php

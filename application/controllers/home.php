@@ -17,7 +17,8 @@ class Home extends CI_Controller{
             $this->template->set('page_title', 'Home');
             $this->template->set('step_title', 'Getting Started');
             $data = array(
-                'step'  =>  1
+                'step'  =>  1,
+                'page'  =>  'home'
             );
             $this->template->load('template', 'home_screen', $data);
         }
@@ -41,7 +42,8 @@ class Home extends CI_Controller{
             $this->template->set('page_title', 'Home');
             $this->template->set('step_title', 'Getting Started');
             $data = array(
-                'step'  =>  $step
+                'step'  =>  $step,
+                'page'  =>  'home'
             );
             $this->template->load('template', 'home_screen', $data);
         }
