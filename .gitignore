@@ -1,6 +1,7 @@
 php_errors.log
 .htaccess
 .idea/workspace.xml
+application/config/config.php
 *.log
 
 *.sublime-workspace
@@ -12,3 +13,7 @@ php_errors.log
 .idea/dataSources.local.xml
 
 .idea/dataSources.ids
+
+.htaccess
+
+application/config/config.php
