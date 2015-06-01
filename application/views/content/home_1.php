@@ -50,7 +50,5 @@
 
         $("a#leftArrowButton").attr("href", "<?php echo(base_url('home/step/1')); ?>");
 
-
-
     });
 </script>

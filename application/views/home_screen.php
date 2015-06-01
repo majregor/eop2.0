@@ -18,8 +18,10 @@ if($this->session->userdata['role']['level']==3 && $this->session->userdata('loa
         </p>
     </div>
 <?php
-}else{
+}elseif($this->session->userdata['role']['level']<3){
 
+    $content_file_to_load = "home_". $step . ".php";
+    include("content/".$content_file_to_load);
 }
 
 
