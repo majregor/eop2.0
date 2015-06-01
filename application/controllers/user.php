@@ -105,6 +105,8 @@ class User extends CI_Controller{
                 'read_only'     =>  $this->input->post('user_access_permission')
             );
 
+
+
             if($this->input->post('sltschool')){ // If there is a school selected, get the school's district if it's under one and associate it to the user
                 $school_id = $this->input->post('sltschool');
                 $district_id = $this->school_model->getSchoolDistrict($school_id);
@@ -121,6 +123,16 @@ class User extends CI_Controller{
             if($this->session->userdata['role']['level'] == 4){ //School admin is adding user, make the default user school be the same as the school admin's
                 $schoolRow = $this->user_model->getUserSchool($this->session->userdata('user_id'));
                 $data['school'] = $schoolRow[0]['sid'];
+            }
+
+            if($data['role_id'] <= 3 ){ //If we are adding a district, or state admin or super user, remove school association
+                if($data['role_id']<=2){ // The state admin and super, remove school and district association
+                    $data['school'] = '';
+                    $data['district'] = '';
+                }
+                else{
+                    $data['school'] = '';
+                }
             }
 
             $savedRecs = $this->user_model->addUser($data);

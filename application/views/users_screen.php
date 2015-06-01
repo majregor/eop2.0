@@ -436,6 +436,7 @@ if(isset($viewform)){
                     access                  : $('#user_access_permission_update').val(),
                     ajax                    : '1'
                 };
+
                 $.ajax({
                     url: "<?php echo base_url('user/update'); ?>",
                     type: 'POST',
@@ -486,12 +487,16 @@ if(isset($viewform)){
                 blockUserDialog.dialog('open');
                 return false;
             });
+            /**
+             * Unblock User functionality
+             * */
+             $(document).on('click', '.unblockUserLink', function(){
 
-            $('.unblockUserLink').click(function(){
                 var id = $(this).attr('id');
                 $('#selectedUserId').val(id);
                 unblockUserDialog.dialog('open');
                 return false;
+
             });
 
             function getSelectedId(){
@@ -553,12 +558,15 @@ if(isset($viewform)){
             if($('select#slctuserrole').val() == 3){
                  $('#districtRow').css('display', 'table-row');
                  $('#schoolRow').css('display', 'none');
+                $('#sltschool').val(null);
                 $('#sltdistrict').rules("add", "required");
                 $('#districtRow span').addClass("required");
             }
             if($('select#slctuserrole').val() == 2){
                  $('#schoolRow').css('display', 'none');
                  $('#districtRow').css('display', 'none');
+                $('#sltschool').val(null);
+                $('#sltdistrict').val(null);
             }
             if($('select#slctuserrole').val() == 4){
                  $('#schoolRow').css('display', 'table-row');
@@ -576,12 +584,15 @@ if(isset($viewform)){
                 if(this.value == 3){ // District Admin selected
                     $('#districtRow').css('display', 'table-row');
                     $('#schoolRow').css('display', 'none');
+                    $('#sltschool').val(null);
                     $('#sltdistrict').rules("add", "required");
                     $('#districtRow span').addClass("required");
                 }
                 else if(this.value==2){ // State Admin selected
                     $('#districtRow').css('display', 'none');
                     $('#schoolRow').css('display', 'none');
+                    $('#sltdistrict').val(null);
+                    $('#sltschool').val(null);
                 }
                 else if(this.value == 4){ //School admin selected
                     $('#schoolRow').css('display', 'table-row');
