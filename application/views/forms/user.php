@@ -156,7 +156,7 @@
 
             </td>
         </tr> 
-        <tr id="schoolRow">
+        <tr id="schoolRow" style="display: none;">
             <td><span class="required">*</span>School:</td>
             <td>
                 <?php

@@ -35,7 +35,6 @@ class Plan extends CI_Controller{
     }
 
 
-
     /**
      * Function checks if user is logged in, redirects to login page if not.
      * @method authenticate

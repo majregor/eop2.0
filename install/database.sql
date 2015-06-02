@@ -86,7 +86,7 @@ CREATE TABLE `eop_district` (
   `owner` int(32) DEFAULT NULL,
   `state_permission` varchar(45) DEFAULT 'deny',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +95,7 @@ CREATE TABLE `eop_district` (
 
 LOCK TABLES `eop_district` WRITE;
 /*!40000 ALTER TABLE `eop_district` DISABLE KEYS */;
-INSERT INTO `eop_district` VALUES (2,'First District','My First District',NULL,'MD','2015-05-20 04:33:20',NULL,'deny'),(3,'Second Districts','My Second Districts',NULL,'MD','2015-05-20 04:36:17',NULL,'deny');
+INSERT INTO `eop_district` VALUES (4,'Frst Districts','First Districts',NULL,'MD','2015-05-21 15:12:47',NULL,'deny'),(5,'uiyuioyiuy','jfjhgfj',NULL,'MD','2015-05-21 20:09:16',NULL,'deny');
 /*!40000 ALTER TABLE `eop_district` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,7 +173,7 @@ CREATE TABLE `eop_registry` (
   `value` varchar(128) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,7 +182,7 @@ CREATE TABLE `eop_registry` (
 
 LOCK TABLES `eop_registry` WRITE;
 /*!40000 ALTER TABLE `eop_registry` DISABLE KEYS */;
-INSERT INTO `eop_registry` VALUES (19,'install_status','completed','2015-05-20 04:21:11'),(20,'dbtype','mysqli','2015-05-20 04:21:11'),(21,'host_level','state','2015-05-20 04:21:11'),(22,'state_permission','deny','2015-05-20 15:37:30'),(23,'host_state','MD','2015-05-20 13:22:34');
+INSERT INTO `eop_registry` VALUES (39,'install_status','completed','2015-05-26 16:31:31'),(40,'dbtype','mysqli','2015-05-26 16:31:31'),(41,'host_level','state','2015-05-26 16:31:31'),(42,'host_state','MD','2015-05-26 16:31:31'),(43,'state_permission','deny','2015-05-27 17:42:31');
 /*!40000 ALTER TABLE `eop_registry` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,7 +232,7 @@ CREATE TABLE `eop_school` (
   `owner` int(32) DEFAULT NULL,
   `state_permission` varchar(45) DEFAULT 'deny',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +241,7 @@ CREATE TABLE `eop_school` (
 
 LOCK TABLES `eop_school` WRITE;
 /*!40000 ALTER TABLE `eop_school` DISABLE KEYS */;
-INSERT INTO `eop_school` VALUES (2,2,'MD','School 1','First School',NULL,'2015-05-20 08:42:07','2015-05-20 12:42:07',NULL,'deny'),(3,3,'MD','School 2','ssss',NULL,'2015-05-20 11:40:07','2015-05-20 15:40:07',NULL,'deny'),(4,NULL,NULL,NULL,NULL,NULL,'2015-05-20 17:24:24','2015-05-20 21:24:24',NULL,'deny');
+INSERT INTO `eop_school` VALUES (5,4,'MD','First School','School 1',NULL,'2015-05-21 11:13:09','2015-05-21 15:13:09',NULL,'deny'),(6,0,'MD','ggg','gggggg',NULL,'2015-05-21 12:06:17','2015-05-21 16:06:17',NULL,'deny'),(7,0,'MD','ssds','sdsdsds',NULL,'2015-05-21 12:50:14','2015-05-21 16:50:14',NULL,'deny'),(8,4,'MD','dadadad','adasdad',NULL,'2015-05-21 14:25:44','2015-05-21 18:25:44',NULL,'deny'),(9,0,'MD','cccccc2','ccccccc',NULL,'2015-05-21 14:58:01','2015-05-21 18:58:01',NULL,'deny'),(10,4,'MD','kol','fffffff',NULL,'2015-05-21 15:09:06','2015-05-21 19:09:06',NULL,'deny'),(11,5,'MD','hpoijpopo','hjhhjjhjh',NULL,'2015-05-21 16:09:47','2015-05-21 20:09:47',NULL,'deny'),(12,4,'MD','goddie','gogino',NULL,'2015-05-22 10:14:08','2015-05-22 14:14:08',NULL,'deny'),(13,NULL,'MD','Independent School','',NULL,'2015-05-22 15:15:28','2015-05-22 19:15:28',NULL,'deny'),(14,NULL,'MD','My School','Me School',NULL,'2015-05-28 12:15:50','2015-05-28 16:15:50',17,'deny'),(15,5,'MD','My School2','',NULL,'2015-05-28 12:16:09','2015-05-28 16:16:09',17,'deny');
 /*!40000 ALTER TABLE `eop_school` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,6 +273,39 @@ INSERT INTO `eop_state` VALUES (2,'MD','Maryland','Maryland'),(3,'AL','Alabama',
 UNLOCK TABLES;
 
 --
+-- Table structure for table `eop_team`
+--
+
+DROP TABLE IF EXISTS `eop_team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `eop_team` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `organization` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(32) DEFAULT NULL,
+  `interest` varchar(255) DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `owner` int(32) NOT NULL,
+  `sid` int(32) DEFAULT NULL,
+  `did` int(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `eop_team`
+--
+
+LOCK TABLES `eop_team` WRITE;
+/*!40000 ALTER TABLE `eop_team` DISABLE KEYS */;
+/*!40000 ALTER TABLE `eop_team` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `eop_user`
 --
 
@@ -295,7 +328,7 @@ CREATE TABLE `eop_user` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -304,7 +337,7 @@ CREATE TABLE `eop_user` (
 
 LOCK TABLES `eop_user` WRITE;
 /*!40000 ALTER TABLE `eop_user` DISABLE KEYS */;
-INSERT INTO `eop_user` VALUES (17,1,'Super','Administrator','majregor@glydenet.com','admin','7ce8bcd42b1efa29518674ec4a99fa60','','active','2015-05-20 00:21:11',NULL,'n'),(19,2,'state','administrator','majregor2@glydenet.com','sadmin','7ce8bcd42b1efa29518674ec4a99fa60','2407056739','active','2015-05-20 00:30:15',NULL,'n'),(21,3,'District','Administrator','monaly15@yahoo.com','dadmin','7ce8bcd42b1efa29518674ec4a99fa60','2407056739','active','2015-05-20 00:38:23',NULL,'n'),(22,3,'District','Administrator2','majregor22@gmail.com','dadmin2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','2407056739','active','2015-05-20 01:10:37',NULL,'n'),(24,3,'District','Administrator by State Admin','dd@sd.com','dadmin3','96e79218965eb72c92a549dd5a330112','2407056739','active','2015-05-20 08:33:34',NULL,'n'),(25,4,'School','Administrator by State Admin','dslkdsk@dc.com','schooladmin1','96e79218965eb72c92a549dd5a330112','2407056739','active','2015-05-20 09:41:57',NULL,'n');
+INSERT INTO `eop_user` VALUES (17,1,'Super','Administrator','majregor@glydenet.com','admin','7ce8bcd42b1efa29518674ec4a99fa60','2407056738','active','2015-05-20 00:21:11',NULL,'n'),(26,4,'School','Administrator','darius.f.yaghoubi@nasa.gov','schooladmin','980ac217c6b51e7dc41040bec1edfec8','2407056739','active','2015-05-21 11:21:50',NULL,'n'),(27,5,'School','User','qqq@ss.com','schooluser','96e79218965eb72c92a549dd5a330112','2407056739','active','2015-05-21 12:17:49',NULL,'n'),(28,5,'School','User2','dsdsd@aa.com','schooluser2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','2407056739','active','2015-05-21 12:38:58',NULL,'n'),(29,3,'District','Administrator','sasasas@sss.com','distadmin','128e61891b7bf0cfafbbc589a65ce5f6','2407056739','active','2015-05-21 12:42:35',NULL,'n'),(31,4,'wasasasa','asasas','asasasas@sss.com','sddddd','343b1c4a3ea721b2d640fc8700db0f36','2407056739','active','2015-05-21 15:26:55',NULL,'y'),(32,5,'School','User','fhfgh@ddd.c','schooluser1','128e61891b7bf0cfafbbc589a65ce5f6','2407056739','active','2015-05-21 15:33:18',NULL,'n'),(33,2,'State','Administrator','bgds@dd.com','sadmin','128e61891b7bf0cfafbbc589a65ce5f6','2407056739','active','2015-05-21 15:37:27',NULL,'n'),(34,4,'bvvb','vbvb','svb@ss.c','vbb','4559cf8128dc0cf064a064b83ceee957','2407056739','active','2015-05-21 15:52:23',NULL,'y'),(35,1,'Super','Administrator','adminss@ss.com','admin3','0192023a7bbd73250516f069df18b500','','active','2015-05-22 10:31:19',NULL,'n'),(36,1,'Super','Administrator','drerer@dd.com','admin4','7ce8bcd42b1efa29518674ec4a99fa60','','active','2015-05-22 10:41:19',NULL,'n'),(37,4,'sdfafs','afafafa','asfdsaf@dsd','admins','0b4e7a0e5fe84ad35fb5f95b9ceeac79','2407056739','active','2015-05-22 12:40:49',NULL,'n'),(38,1,'Super','Administrator','asaklk@sdsd.com','superadmin','128e61891b7bf0cfafbbc589a65ce5f6','','active','2015-05-26 10:18:48',NULL,'n'),(39,1,'Super','Administrator','asDSA@sa.com','adminsss','128e61891b7bf0cfafbbc589a65ce5f6','','active','2015-05-26 12:31:31',NULL,'n'),(40,5,'Godd','Freyy','adasf@dd.com','goddfree','0b4e7a0e5fe84ad35fb5f95b9ceeac79','','active','2015-05-28 10:06:23',NULL,'n'),(41,5,'Goddino','Number 2','asdfa@erer.com','goddino2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','','active','2015-05-28 10:34:31',NULL,'n'),(42,3,'june','user1','asfa@sds.com','juneuser','af15d5fdacd5fdfea300e88a8e253e82','12312312233','blocked','2015-06-01 17:09:08',NULL,'n'),(43,3,'user','June1','adfas@ere.com','juneuser2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','12356709873','active','2015-06-01 17:15:38',NULL,'n'),(44,3,'June','User3','user2@macomen.com','juneuser3','af15d5fdacd5fdfea300e88a8e253e82','2407056739','active','2015-06-01 17:22:10',NULL,'n'),(45,3,'june','user4','asdf@gr.com','juneuser5','af15d5fdacd5fdfea300e88a8e253e82','2407056739','active','2015-06-01 17:23:22',NULL,'n'),(46,3,'june','user6','user6@hotmail.com','juneuser6','0b4e7a0e5fe84ad35fb5f95b9ceeac79','12323489673','active','2015-06-01 17:31:22',NULL,'n'),(47,4,'june','user7','user7@hotmail.com','user7','af15d5fdacd5fdfea300e88a8e253e82','2407056739','active','2015-06-01 17:32:39',NULL,'n');
 /*!40000 ALTER TABLE `eop_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,7 +354,7 @@ CREATE TABLE `eop_user2district` (
   `did` int(32) DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -330,7 +363,7 @@ CREATE TABLE `eop_user2district` (
 
 LOCK TABLES `eop_user2district` WRITE;
 /*!40000 ALTER TABLE `eop_user2district` DISABLE KEYS */;
-INSERT INTO `eop_user2district` VALUES (1,22,2,'2015-05-20 05:10:37'),(2,21,3,'2015-05-20 05:34:25'),(3,0,2,'2015-05-20 12:32:46'),(4,24,2,'2015-05-20 12:33:34');
+INSERT INTO `eop_user2district` VALUES (5,29,4,'2015-05-21 16:42:35'),(7,31,4,'2015-05-21 19:26:55'),(8,32,4,'2015-05-21 19:33:18'),(9,37,4,'2015-05-22 16:40:50'),(10,41,4,'2015-05-28 14:34:31'),(11,42,4,'2015-06-01 21:09:09'),(12,43,4,'2015-06-01 21:15:38'),(13,44,4,'2015-06-01 21:22:10'),(14,45,5,'2015-06-01 21:23:22'),(15,46,4,'2015-06-01 21:31:22'),(16,47,4,'2015-06-01 21:32:39');
 /*!40000 ALTER TABLE `eop_user2district` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -347,7 +380,7 @@ CREATE TABLE `eop_user2school` (
   `sid` int(32) DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -356,7 +389,7 @@ CREATE TABLE `eop_user2school` (
 
 LOCK TABLES `eop_user2school` WRITE;
 /*!40000 ALTER TABLE `eop_user2school` DISABLE KEYS */;
-INSERT INTO `eop_user2school` VALUES (1,22,0,'2015-05-20 05:10:37'),(2,25,2,'2015-05-20 13:41:57');
+INSERT INTO `eop_user2school` VALUES (4,26,5,'2015-05-21 15:21:50'),(5,27,5,'2015-05-21 16:17:49'),(6,28,5,'2015-05-21 16:38:58'),(10,31,5,'2015-05-21 19:26:55'),(11,32,5,'2015-05-21 19:33:18'),(12,34,5,'2015-05-21 19:52:24'),(13,37,5,'2015-05-22 16:40:50'),(14,40,5,'2015-05-28 14:06:23'),(15,41,5,'2015-05-28 14:34:31'),(16,42,5,'2015-06-01 21:09:09'),(17,43,5,'2015-06-01 21:15:38'),(18,44,5,'2015-06-01 21:22:10'),(19,47,8,'2015-06-01 21:32:39');
 /*!40000 ALTER TABLE `eop_user2school` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -521,4 +554,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-20 17:39:51
+-- Dump completed on 2015-06-02 16:14:35

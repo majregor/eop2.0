@@ -106,7 +106,6 @@ class User extends CI_Controller{
             );
 
 
-
             if($this->input->post('sltschool')){ // If there is a school selected, get the school's district if it's under one and associate it to the user
                 $school_id = $this->input->post('sltschool');
                 $district_id = $this->school_model->getSchoolDistrict($school_id);
