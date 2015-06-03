@@ -91,11 +91,12 @@ echo form_open('team/update', array('class'=>'updateTeamForm', 'id'=>'updateTeam
                                         'name'      =>  'updateinterests[]',
                                         'value'     =>  'School District/LEA',
                                         'checked'   =>  FALSE,
+                                        'id'        =>  'ucheckbox1',
                                         'class'     =>  'updateinterestChkBox'
                                     );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                School District/LEA
+                                <label for="ucheckbox1">School District/LEA</label>
                             </td>
                         </tr>
                         <tr>
@@ -105,11 +106,12 @@ echo form_open('team/update', array('class'=>'updateTeamForm', 'id'=>'updateTeam
                                     'name'      =>  'updateinterests[]',
                                     'value'     =>  'School Community',
                                     'checked'   =>  FALSE,
+                                    'id'        =>  'ucheckbox2',
                                     'class'     =>  'updateinterestChkBox'
                                 );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                School Community
+                                <label for="ucheckbox2">School Community</label>
                             </td>
                         </tr>
                         <tr>
@@ -119,11 +121,12 @@ echo form_open('team/update', array('class'=>'updateTeamForm', 'id'=>'updateTeam
                                 'name'      =>  'updateinterests[]',
                                 'value'     =>  'Diverse Interests of Whole School Community',
                                 'checked'   =>  FALSE,
+                                'id'        =>  'ucheckbox3',
                                 'class'     =>  'updateinterestChkBox'
                             );
                             echo form_checkbox($inputAttributes);
                             ?>
-                            Diverse Interests of Whole School Community
+                            <label for="ucheckbox3"> Diverse Interests of Whole School Community</label>
                         </td>
                         </tr>
                         <tr>
@@ -133,11 +136,12 @@ echo form_open('team/update', array('class'=>'updateTeamForm', 'id'=>'updateTeam
                                     'name'      =>  'updateinterests[]',
                                     'value'     =>  'Local Community Partner',
                                     'checked'   =>  FALSE,
+                                    'id'        =>  'ucheckbox4',
                                     'class'     =>  'updateinterestChkBox'
                                 );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                Local Community Partner
+                                <label for="ucheckbox4"> Local Community Partner</label>
                             </td>
                         </tr>
                         <tr>
@@ -147,11 +151,12 @@ echo form_open('team/update', array('class'=>'updateTeamForm', 'id'=>'updateTeam
                                     'name'      =>  'updateinterests[]',
                                     'value'     =>  'State Department of Education/SEA',
                                     'checked'   =>  FALSE,
+                                    'id'        =>  'ucheckbox5',
                                     'class'     =>  'updateinterestChkBox'
                                 );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                State Department of Education/SEA
+                                <label for="ucheckbox5"> State Department of Education/SEA</label>
                             </td>
                         </tr>
                         <tr>
@@ -161,11 +166,12 @@ echo form_open('team/update', array('class'=>'updateTeamForm', 'id'=>'updateTeam
                                     'name'      =>  'updateinterests[]',
                                     'value'     =>  'State Community Partner',
                                     'checked'   =>  FALSE,
+                                    'id'        =>  'ucheckbox6',
                                     'class'     =>  'updateinterestChkBox'
                                 );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                State Community Partner
+                                <label for="ucheckbox6"> State Community Partner</label>
                             </td>
                         </tr>
                         <tr>
@@ -175,11 +181,12 @@ echo form_open('team/update', array('class'=>'updateTeamForm', 'id'=>'updateTeam
                                     'name'      =>  'updateinterests[]',
                                     'value'     =>  'Additional Partner',
                                     'checked'   =>  FALSE,
+                                    'id'        =>  'ucheckbox7',
                                     'class'     =>  'updateinterestChkBox'
                                 );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                Additional Partner
+                                <label for="ucheckbox7"> Additional Partner</label>
                             </td>
                         </tr>
                     </table>

@@ -35,6 +35,19 @@ class Plan extends CI_Controller{
     }
 
 
+    public function step2($step=1){
+
+        $this->authenticate();
+
+        $templateData = array(
+            'page'          =>  'step2',
+            'step'          =>  $step,
+            'page_title'    =>  'step2',
+            'step_title'    =>  'Planning Process',
+        );
+        $this->template->load('template', 'plan_screen', $templateData);
+    }
+
     /**
      * Function checks if user is logged in, redirects to login page if not.
      * @method authenticate

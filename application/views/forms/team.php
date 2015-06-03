@@ -100,11 +100,12 @@ echo form_open('team/add', array('class'=>'teamManagementForm', 'id'=>'teamManag
                                         'name'      =>  'interests[]',
                                         'value'     =>  'School District/LEA',
                                         'checked'   =>  FALSE,
+                                        'id'        =>  'checkbox1',
                                         'class'     =>  'interestChkBox'
                                     );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                School District/LEA
+                                <label for="checkbox1">School District/LEA</label>
                             </td>
                         </tr>
                         <tr>
@@ -114,11 +115,12 @@ echo form_open('team/add', array('class'=>'teamManagementForm', 'id'=>'teamManag
                                     'name'      =>  'interests[]',
                                     'value'     =>  'School Community',
                                     'checked'   =>  FALSE,
+                                    'id'        =>  'checkbox2',
                                     'class'     =>  'interestChkBox'
                                 );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                School Community
+                                <label for="checkbox2">School Community</label>
                             </td>
                         </tr>
                         <tr>
@@ -128,11 +130,12 @@ echo form_open('team/add', array('class'=>'teamManagementForm', 'id'=>'teamManag
                                 'name'      =>  'interests[]',
                                 'value'     =>  'Diverse Interests of Whole School Community',
                                 'checked'   =>  FALSE,
+                                'id'        =>  'checkbox3',
                                 'class'     =>  'interestChkBox'
                             );
                             echo form_checkbox($inputAttributes);
                             ?>
-                            Diverse Interests of Whole School Community
+                            <label for="checkbox3"> Diverse Interests of Whole School Community</label>
                         </td>
                         </tr>
                         <tr>
@@ -142,11 +145,12 @@ echo form_open('team/add', array('class'=>'teamManagementForm', 'id'=>'teamManag
                                     'name'      =>  'interests[]',
                                     'value'     =>  'Local Community Partner',
                                     'checked'   =>  FALSE,
+                                    'id'        =>  'checkbox4',
                                     'class'     =>  'interestChkBox'
                                 );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                Local Community Partner
+                               <label for="checkbox4"> Local Community Partner</label>
                             </td>
                         </tr>
                         <tr>
@@ -156,11 +160,12 @@ echo form_open('team/add', array('class'=>'teamManagementForm', 'id'=>'teamManag
                                     'name'      =>  'interests[]',
                                     'value'     =>  'State Department of Education/SEA',
                                     'checked'   =>  FALSE,
+                                    'id'        =>  'checkbox5',
                                     'class'     =>  'interestChkBox'
                                 );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                State Department of Education/SEA
+                                <label for="checkbox5"> State Department of Education/SEA</label>
                             </td>
                         </tr>
                         <tr>
@@ -170,11 +175,12 @@ echo form_open('team/add', array('class'=>'teamManagementForm', 'id'=>'teamManag
                                     'name'      =>  'interests[]',
                                     'value'     =>  'State Community Partner',
                                     'checked'   =>  FALSE,
+                                    'id'        =>  'checkbox6',
                                     'class'     =>  'interestChkBox'
                                 );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                State Community Partner
+                                <label for="checkbox6"> State Community Partner</label>
                             </td>
                         </tr>
                         <tr>
@@ -184,11 +190,12 @@ echo form_open('team/add', array('class'=>'teamManagementForm', 'id'=>'teamManag
                                     'name'      =>  'interests[]',
                                     'value'     =>  'Additional Partner',
                                     'checked'   =>  FALSE,
+                                    'id'        =>  'checkbox7',
                                     'class'     =>  'interestChkBox'
                                 );
                                 echo form_checkbox($inputAttributes);
                                 ?>
-                                Additional Partner
+                                <label for="checkbox7"> Additional Partner</label>
                             </td>
                         </tr>
                     </table>

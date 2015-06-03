@@ -16,22 +16,22 @@ $mangementPages = array('users' , 'school', 'district', 'access' ,'account');
         <?php elseif(in_array($page, $planPages)): ?>
         <div id="steps">
             <ul>
-                <li class="stepNav active">
+                <li class="stepNav <?php echo ( ($page=="step1")? 'active':'' ); ?>">
                     <a href="step1.php">Step 1</a>
                 </li>
-                <li class="stepNav">
+                <li class="stepNav <?php echo ( ($page=="step2")? 'active':'' ); ?>">
                     <a href="step2.php">Step 2</a>
                 </li>
-                <li class="stepNav">
+                <li class="stepNav <?php echo ( ($page=="step3")? 'active':'' ); ?>">
                     <a href="step3.php">Step 3</a>
                 </li>
-                <li class="stepNav">
+                <li class="stepNav <?php echo ( ($page=="step4")? 'active':'' ); ?>">
                     <a href="step4.php">Step 4</a>
                 </li>
-                <li class="stepNav">
+                <li class="stepNav <?php echo ( ($page=="step5")? 'active':'' ); ?>">
                     <a href="step5.php">Step 5</a>
                 </li>
-                <li class="stepNav">
+                <li class="stepNav <?php echo ( ($page=="step6")? 'active':'' ); ?>">
                     <a href="step6.php">Step 6</a>
                 </li>
             </ul>
