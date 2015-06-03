@@ -9,66 +9,23 @@ class Team_model extends CI_Model {
 
     function addMember($data){
 
-
         $this->db->insert('eop_team', $data);
         $affected_rows = $this->db->affected_rows();
 
         return $affected_rows;
     }
+
+    function deleteMember($id){
+        $this->db->delete('eop_team', array('id'=>$id));
+        return $this->db->affected_rows();
+    }
  
-    function update($data=array()){
+    function update($id, $data){
+        $this->db->where('id', $id);
+        $this->db->update('eop_team', $data);
 
+        return $this->db->affected_rows();
 
-        $updateData = array(
-            'role_id'       =>  $data['role_id'],
-            'first_name'    =>  $data['first_name'],
-            'last_name'     =>  $data['last_name'],
-            'email'         =>  $data['email'],
-            'username'      =>  $data['username'],
-            'phone'         =>  $data['phone'],
-            'read_only'     =>  $data['access']
-        );
-
-        if(isset($data['school_id'])){
-            if($data['school_id']){
-
-                $user2schoolData = array(
-                    'sid'   =>  $data['school_id']
-                );
-                $this->db->where('uid', $data['user_id']);
-                $this->db->update('eop_user2school', $user2schoolData);
-                $updatedSchoolRecs = $this->db->affected_rows();
-            }
-        }
-
-        if(isset($data['district_id'])){
-            if($data['district_id']){
-
-                $user2districtData = array(
-                    'did'   =>  $data['district_id']
-                );
-                $this->db->where('uid', $data['user_id']);
-                $this->db->update('eop_user2district', $user2districtData);
-
-                $updatedDistrictRecs = $this->db->affected_rows();
-            }
-        }
-
-
-        $this->db->where('user_id', $data['user_id']);
-        $this->db->update('eop_user', $updateData);
-
-        $updatedRecs = $this->db->affected_rows();
-
-        if(isset($updatedSchoolRecs) && is_numeric($updatedSchoolRecs) && $updatedSchoolRecs>=1){
-            return $updatedRecs;
-        }
-        elseif(isset($updatedDistrictRecs) && is_numeric($updatedDistrictRecs) && $updatedDistrictRecs>=1){
-            return $updatedDistrictRecs;
-        }
-        else{
-            return $updatedRecs;
-        }
     }
 
 

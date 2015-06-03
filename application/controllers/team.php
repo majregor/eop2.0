@@ -50,11 +50,11 @@ class Team extends CI_Controller{
 
 
 
-            if(null != $this->session->userdata['loaded_school']['id'] && isset($this->session->userdata['loaded_school']['id'])){
+            if(isset($this->session->userdata['loaded_school']['id']) && null != $this->session->userdata['loaded_school']['id']){
                 $data['sid']    = $this->session->userdata['loaded_school']['id'];
             }
 
-            if(null != $this->session->userdata['loaded_school']['district_id'] && isset($this->session->userdata['loaded_school']['district_id'])){
+            if(isset($this->session->userdata['loaded_school']['district_id']) && null != $this->session->userdata['loaded_school']['district_id']){
                 $data['did']    = $this->session->userdata['loaded_school']['district_id'];
             }
 
@@ -76,6 +76,28 @@ class Team extends CI_Controller{
         }
 
 
+    }
+
+    public function delete(){
+        if($this->input->post('ajax')){
+            $id = $this->input->post('id');
+            $affectedRecs = $this->team_model->deleteMember($id);
+
+            if(is_numeric($affectedRecs) && $affectedRecs>0){
+                $this->session->set_flashdata('success','Team member deleted successfully!');
+                $this->output->set_output(json_encode(array(
+                    'deleted' =>  TRUE
+                )));
+            }
+            else{
+                $this->session->set_flashdata('error','Operation failed!');
+                $this->output->set_output(json_encode(array(
+                    'deleted' =>  FALSE
+                )));
+            }
+        }else{
+            redirect('plan/step1/2');
+        }
     }
 
     /**
@@ -117,6 +139,26 @@ class Team extends CI_Controller{
      */
   
     public function update(){
+
+        $data = array(
+            'name'          =>  $this->input->post('updatetxtname'),
+            'title'         =>  $this->input->post('updatetxttitle'),
+            'organization'  =>  $this->input->post('updatetxtorganization'),
+            'email'         =>  $this->input->post('updatetxtemail'),
+            'phone'         =>  $this->input->post('updatetxtphone'),
+            'interest'      =>  implode(", ", $this->input->post('updateinterests'))
+        );
+
+        $recs = $this->team_model->update($this->input->post('updateid'), $data);
+
+        if(is_numeric($recs) && $recs>0){
+            $this->session->set_flashdata('success','Team member information updated successfully!');
+            redirect('plan/step1/2');
+        }
+        else{
+            $this->session->set_flashdata('error','Update failed!');
+            redirect('plan/step1/2');
+        }
 
     }
 

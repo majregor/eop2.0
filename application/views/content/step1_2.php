@@ -249,7 +249,26 @@
     </div>
 
     <div class="col-half left">
+        <?php
+        if((null != $this->session->flashdata('success'))):
+            ?>
+            <div id="errorDiv">
+                <div class="notify notify-green">
+                    <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+                </div>
+            </div>
 
+        <?php endif; ?>
+        <?php
+        if((null != $this->session->flashdata('error'))):
+            ?>
+            <div id="errorDiv">
+                <div class="notify notify-red">
+                    <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+                </div>
+            </div>
+
+        <?php endif; ?>
         <?php
             $this->load->view("forms/team.php");
         ?>
@@ -327,6 +346,7 @@
                 data: formData,
                 type:'POST',
                 success:function(response){
+                    //alert(response);
                     var res = JSON.parse(response);
                     if(res.saved==true){
 
