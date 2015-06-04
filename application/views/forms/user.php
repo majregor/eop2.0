@@ -144,7 +144,7 @@
               <?php
                     $options = array();
                     $options[''] = '--Select--';
-                    $options['']    =   'None';
+                    //$options['']    =   'None';
                     foreach($districts as $rowIndex => $row){
                         $options[$row['id']] = $row['name'];
                     }

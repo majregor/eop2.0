@@ -29,6 +29,7 @@ class User extends CI_Controller{
             // Load the user_model that will handle most database operations
             $this->load->model('user_model');
             $this->load->model('school_model');
+            $this->load->model('district_model');
 
             $host_state = $this->registry_model->getValue('host_state');
             $this->session->set_userdata('host_state', $host_state);
@@ -156,7 +157,7 @@ class User extends CI_Controller{
             //Get the User roles available
             $roles = $this->user_model->getAllRoles();
             //Get the districts available in the state
-            $districts = $this->user_model->getDistricts($this->session->userdata('host_state'));
+            $districts = $this->district_model->getDistricts($this->session->userdata('host_state'));
             //Get the districts available in the state
             $schools = $this->school_model->getSchools($this->session->userdata('host_state'));
             // Get all registered users

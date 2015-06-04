@@ -377,9 +377,19 @@ if(isset($viewform)){
                 }
                 $('#slctuserrole_update').val(role);
 
-
                 if(role >= 2){
-                    $('#SchoolInputHolder').hide();
+
+                    <?php if($role['level']==3): ?> // If logged in as a district admin, show the school to enable schoo changes
+                        if(role >3){
+                            $('#SchoolInputHolder').show();
+                            $('#sltschool_update').val(school);
+                        }else{
+                            $('#SchoolInputHolder').hide();
+                        }
+                    <?php endif; ?>
+                    <?php if($role['level']!=3): ?>
+                        $('#SchoolInputHolder').hide();
+                    <?php endif; ?>
                 }
                 else{
                     $('#SchoolInputHolder').show();
@@ -430,8 +440,11 @@ if(isset($viewform)){
                     phone                   : $('#phone_update').val(),
                     role_id                 : ($('#role_id_update').val()== "<?php echo($role['role_id']); ?>") ? $('#role_id_update').val() :  $('#slctuserrole_update').val(),
                     <?php if($role['level']<3): ?>
-                    school_id               : $('#slctschool_update').val(),
-                    district_id             : $('#sltdistrict_update').val(),
+                        school_id               : $('#sltschool_update').val(),
+                        district_id             : $('#sltdistrict_update').val(),
+                    <?php endif; ?>
+                    <?php if($role['level']==3): ?>
+                        school_id               : $('#sltschool_update').val(),
                     <?php endif; ?>
                     access                  : $('#user_access_permission_update').val(),
                     ajax                    : '1'
@@ -556,28 +569,37 @@ if(isset($viewform)){
             * Load District dropdown when district admin is selected 
             */
             if($('select#slctuserrole').val() == 3){
-                 $('#districtRow').css('display', 'table-row');
-                 $('#schoolRow').css('display', 'none');
+                $('#districtRow').css('display', 'table-row');
+                $('#schoolRow').css('display', 'none');
                 $('#sltschool').val(null);
                 $('#sltdistrict').rules("add", "required");
                 $('#districtRow span').addClass("required");
             }
             if($('select#slctuserrole').val() == 2){
-                 $('#schoolRow').css('display', 'none');
-                 $('#districtRow').css('display', 'none');
+                $('#schoolRow').css('display', 'none');
+                $('#districtRow').css('display', 'none');
                 $('#sltschool').val(null);
                 $('#sltdistrict').val(null);
             }
             if($('select#slctuserrole').val() == 4){
-                 $('#schoolRow').css('display', 'table-row');
-                 $('#districtRow').css('display', 'table-row');
-                 $('#sltdistrict').attr("required", false);
-                 $('#sltdistrict').rules("remove", "required");
+                $('#schoolRow').css('display', 'table-row');
+                $('#districtRow').css('display', 'table-row');
+                $('#sltdistrict').attr("required", false);
+                $('#sltdistrict').rules("remove", "required");
                 $('#districtRow span').removeClass("required");
             }
-            if($('select#slctuserrole').val() == 5){
-                 $('#schoolRow').css('display', 'table-row');
-                 $('#districtRow').css('display', 'table-row');
+            if($('select#slctuserrole').val() == 5){ // if School user
+                $('#schoolRow').css('display', 'table-row');
+
+                <?php if($role['level']>=3): ?>// if logged in as District or School admin, remove the district
+                    $('#sltdistrict').val(null);
+                    $('#sltdistrict').attr("required", false);
+                    $('#sltdistrict').rules("remove", "required");
+                <?php else: ?>//Else show the district as optional for State and Super admins
+                    $('#districtRow').css('display', 'table-row');
+                    $('#sltdistrict').attr("required", false);
+                    $('#sltdistrict').rules("remove", "required");
+                <?php endif; ?>
             }
 
             $('select#slctuserrole').on('change', function() {
@@ -600,8 +622,16 @@ if(isset($viewform)){
                     $('#sltdistrict').attr("required", false);
                     $('#sltdistrict').rules("remove", "required");
                     $('#districtRow span').removeClass("required");
-                }else if(this.value == 5){
-                     $('#schoolRow').css('display', 'table-row');
+                }else if(this.value == 5){ //School User selected
+                    $('#schoolRow').css('display', 'table-row');
+
+                    //if user is being added by district or school admin, remove the district
+                    <?php if($role['level']>=3): ?>
+                    $('#districtRow').css('display', 'none');
+                    $('#sltdistrict').val(null);
+                    $('#sltdistrict').attr("required", false);
+                    $('#sltdistrict').rules("remove", "required");
+                    <?php endif; ?>
                 }
                 
 

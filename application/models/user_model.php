@@ -117,8 +117,9 @@ class User_model extends CI_Model {
 
         $updatedRecs = $this->db->affected_rows();
 
+
         if(isset($updatedSchoolRecs) && is_numeric($updatedSchoolRecs) && $updatedSchoolRecs>=1){
-            return $updatedRecs;
+            return $updatedSchoolRecs;
         }
         elseif(isset($updatedDistrictRecs) && is_numeric($updatedDistrictRecs) && $updatedDistrictRecs>=1){
             return $updatedDistrictRecs;
