@@ -1,6 +1,6 @@
 <?php
 /**
- * ajax view lists team members in a table form
+ * ajax view, lists team members in a table form
  * variable returned by controller: $memberData
  */
 

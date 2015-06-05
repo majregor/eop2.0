@@ -125,6 +125,37 @@
     <p>If your team has already recorded threats and hazards and wishes to modify the information, please click the Edit button for the respective threat or hazard. A pre-populated field will appear with previously saved information. After editing the available field, click the Update button. Repeat this process, as needed.</p>
 </div><!-- /col-half --><!-- /col-half -->
 
+<div class="col-half left">
+    <?php
+    if((null != $this->session->flashdata('success'))):
+        ?>
+        <div id="errorDiv">
+            <div class="notify notify-green">
+                <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+            </div>
+        </div>
+
+    <?php endif; ?>
+    <?php
+    if((null != $this->session->flashdata('error'))):
+        ?>
+        <div id="errorDiv">
+            <div class="notify notify-red">
+                <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+            </div>
+        </div>
+
+    <?php endif; ?>
+    <?php
+    $this->load->view("forms/th.php");
+    ?>
+
+    <hr/>
+
+    <div id="subDetailDiv"></div>
+
+</div>
+
 <script type='text/javascript'>
     $(document).ready(function() {
 
@@ -142,6 +173,35 @@
             $(".accordion-content").not($(this).next()).slideUp('fast');
         });
 
-    });
+
+        // Threat and Hazard Management Functionality
+
+        //Load list of available threats and hazards
+        loadThreatsAndHazards();
+
+
+        function loadThreatsAndHazards(){
+
+            var formData = {
+                ajax    :   '1',
+                param   :   'all'
+            };
+
+            $.ajax({
+                url: '<?php echo(base_url('teamxx/show')); ?>',
+                data: formData,
+                type:'POST',
+                success:function(response){
+
+                    $('#subDetailDiv').html(response);
+
+                },
+                error:function(error){
+                    //alert(error);
+                }
+            });
+        }
+
+    }); // End $(document).ready function
 
 </script>
