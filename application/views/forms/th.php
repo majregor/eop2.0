@@ -12,7 +12,7 @@
     <!-- <a href="#.php" id="hideTeamManagementFormLinkId"></a> -->
 
 <?php
-echo form_open('plan/add', array('class'=>'thManagementForm', 'id'=>'thManagementForm'));
+echo form_open('plan/add/entity/th', array('class'=>'thManagementForm', 'id'=>'thManagementForm'));
 ?>
     <fieldset>
 

@@ -179,6 +179,44 @@
         //Load list of available threats and hazards
         loadThreatsAndHazards();
 
+        function submit_thManagementForm(){
+            var formData ={
+                ajax        :       '1',
+                thname      :       $('#txtth').val()
+            };
+
+            $.ajax({
+                url: '<?php echo(base_url('plan/add/entity/th')); ?>',
+                data: formData,
+                type:'POST',
+                success:function(response){
+                    alert(response);
+                    try {
+                        var res = JSON.parse(response);
+                        if (res.saved == true) {
+
+                            clearFormInputFields(); // Clear form data from the fields
+                            loadThreatsAndHazards();
+                        }
+                        else {
+                            alert("Error creating New Team Member!");
+                        }
+                    }catch(err){
+                        alert('Error: '+err);
+                    }
+                },
+                error:function(error){
+                    alert(error);
+                }
+            });
+
+            return false;
+        }
+
+        $("#thManagementForm").validate({
+            submitHandler: submit_thManagementForm
+        });
+
 
         function loadThreatsAndHazards(){
 
@@ -188,7 +226,7 @@
             };
 
             $.ajax({
-                url: '<?php echo(base_url('teamxx/show')); ?>',
+                url: '<?php echo(base_url('plan/showTh')); ?>',
                 data: formData,
                 type:'POST',
                 success:function(response){
@@ -200,6 +238,10 @@
                     //alert(error);
                 }
             });
+        }
+
+        function clearFormInputFields(){
+            $('#txtth').val('');
         }
 
     }); // End $(document).ready function

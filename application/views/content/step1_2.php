@@ -350,7 +350,7 @@
                     var res = JSON.parse(response);
                     if(res.saved==true){
 
-                        clearFormInputFields(); // Clear from data from the fields
+                        clearFormInputFields(); // Clear form data from the fields
                         $('#teamManagementForm').hide('slow');
                         loadTeams();
                     }
