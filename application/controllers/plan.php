@@ -65,8 +65,8 @@ class Plan extends CI_Controller{
                 'name'      =>      $this->input->post('thname'),
                 'title'     =>      $this->input->post('thname'),
                 'owner'     =>      $this->session->userdata('user_id'),
-                'sid'       =>      $this->session->userdata['loaded_school']['id']
-                //'type_id'   =>      $this->plan_model->getEntityTypeId('th', 'name')
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'type_id'   =>      $this->plan_model->getEntityTypeId('th', 'name')
             );
 
             $savedRecs = $this->plan_model->addThreadAndHazard($data);
@@ -95,21 +95,21 @@ class Plan extends CI_Controller{
             $param = $this->input->post('param');
 
             if($param=='all' || $param==''){
-                $memberData = $this->plan_model->getMembers();
+                $thData = $this->plan_model->getEntities('th');
             }else{
                 $p = array('id' =>$param);
-                $memberData = $this->plan_model->getMembers($p);
+                $thData = $this->plan_model->getEntities('th', $p);
             }
 
             $data= array(
-                'memberData' => $memberData
+                'thData' => $thData
             );
 
-            $this->load->view('ajax/team_members', $data);
+            $this->load->view('ajax/th', $data);
 
 
         }else{
-            redirect('plan/step1/2');
+            redirect('plan/step2/2');
         }
     }
     /**

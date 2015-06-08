@@ -265,8 +265,13 @@ a#showTeamManagementFormLinkId {
 }
 
 fieldset, form {
-	border: none;
-/*	background-color: #eee;*/
+    		border: none;
+    /* background-color: #eee;*/
+    margin: 5px 0px;
+}
+
+fieldset#updatethform  {
+    border:1px solid gainsboro;
 }
 
 /*------------------------------------------------------------

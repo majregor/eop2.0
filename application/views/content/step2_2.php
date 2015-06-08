@@ -190,7 +190,7 @@
                 data: formData,
                 type:'POST',
                 success:function(response){
-                    alert(response);
+
                     try {
                         var res = JSON.parse(response);
                         if (res.saved == true) {
@@ -199,7 +199,7 @@
                             loadThreatsAndHazards();
                         }
                         else {
-                            alert("Error creating New Team Member!");
+                            alert("Error creating Threat and Hazard, check your network connection and try again!");
                         }
                     }catch(err){
                         alert('Error: '+err);

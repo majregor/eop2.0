@@ -29,4 +29,27 @@ class Plan_model extends CI_Model {
 
         return $resultsArray[0]['id'];
     }
+
+    /**
+     * @method getEntities
+     * @param $type the type of the entity to retrieve
+     * @param string $data array of criteria
+     * @return associative array of entities
+     */
+    public function getEntities($type, $data=''){
+        $conditions = array();
+
+        if($type!='' || $type !='all'){
+            $conditions['type_id'] = $this->getEntityTypeId($type);
+        }
+
+        if($data !='' && is_array($data)){
+            $conditions = array_merge($conditions, $data);
+        }
+
+        $query = $this->db->get_where('eop_entity', $conditions);
+        $resultsArray = $query->result_array();
+
+        return $resultsArray;
+    }
 }
