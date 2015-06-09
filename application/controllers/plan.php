@@ -29,7 +29,7 @@ class Plan extends CI_Controller{
             'page'          =>  'step1',
             'step'          =>  $step,
             'page_title'    =>  'step1',
-            'step_title'    =>  'Planning Process',
+            'step_title'    =>  'Planning Process'
         );
         $this->template->load('template', 'plan_screen', $templateData);
     }
@@ -43,7 +43,36 @@ class Plan extends CI_Controller{
             'page'          =>  'step2',
             'step'          =>  $step,
             'page_title'    =>  'step2',
+            'step_title'    =>  'Planning Process'
+        );
+        $this->template->load('template', 'plan_screen', $templateData);
+    }
+
+    public function step3($step=1){
+
+        $this->authenticate();
+
+        $data = array();
+
+        if($step==2){
+            $thData = $this->plan_model->getEntities('th');
+            if(is_array($thData)){
+                $data = array_merge($data, $thData);
+            }
+        }
+        elseif($step==3){
+            $thData = $this->plan_model->getEntities('th',null,true);
+            if(is_array($thData)){
+                $data = array_merge($data, $thData);
+            }
+        }
+
+        $templateData = array(
+            'page'          =>  'step3',
+            'step'          =>  $step,
+            'page_title'    =>  'step3',
             'step_title'    =>  'Planning Process',
+            'page_vars'     =>  $data
         );
         $this->template->load('template', 'plan_screen', $templateData);
     }
@@ -141,6 +170,20 @@ class Plan extends CI_Controller{
         }
         else{
             redirect('/login');
+        }
+    }
+
+    public function sessionSetSelectedTHs(){
+        $this->session->unset_userdata('selected_ths');
+
+        if($this->input->post('ajax') && $this->input->post('THids')){
+            $THids = $this->input->post('THids');
+
+            $this->session->set_userdata('selected_ths', $THids);
+
+            $this->output->set_output(json_encode(array(
+                'set' =>  TRUE
+            )));
         }
     }
 }

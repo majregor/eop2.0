@@ -37,3 +37,6 @@ $this->session->userdata['loaded_school']['owner']
 $this->session->userdata['loaded_school']['state_permission']
 $this->session->userdata['loaded_school']['district']
 $this->session->userdata['loaded_school']['state']
+
+**** Available after selecting Threats and Hazards to address on Step 3/2
+$this->session->userdata['selected_ths'] //array of id elements, selected threats and hazards

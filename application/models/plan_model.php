@@ -34,9 +34,10 @@ class Plan_model extends CI_Model {
      * @method getEntities
      * @param $type the type of the entity to retrieve
      * @param string $data array of criteria
+     * @param bool $recursive Defines whether to return entities recursively structured or to return simple entities list
      * @return associative array of entities
      */
-    public function getEntities($type, $data=''){
+    public function getEntities($type, $data='', $recursive=false){
         $conditions = array();
 
         if($type!='' || $type !='all'){
@@ -50,7 +51,33 @@ class Plan_model extends CI_Model {
         $query = $this->db->get_where('eop_entity', $conditions);
         $resultsArray = $query->result_array();
 
-        return $resultsArray;
+
+
+        if($recursive){ // If recursive entity requested
+
+            if(is_array($resultsArray) && count($resultsArray) >0){
+                $detailedEntityArray = $this->getDetailedEntities($resultsArray);
+            }
+
+        }else{ // Return simple array list of entities
+            return $resultsArray;
+        }
+
+    }
+
+    /**
+     * @param array $entityRowsArray simple list array of entities
+     * @return array recursively structured array of entities
+     */
+    private function getDetailedEntities($entityRowsArray){
+
+        $returnArray = array();
+
+        //For each Entity record, get its children and organise array into proper hierarchy
+        //Recursively arrange the directory structure of elements...
+
+
+        return $returnArray;
     }
 
     public function update($id, $data){
