@@ -2,7 +2,7 @@
 
 class Plan extends CI_Controller{
 
-    public function __contruct(){
+    public function __construct(){
         parent::__construct();
 
         if($this->session->userdata('is_logged_in')){
@@ -12,7 +12,6 @@ class Plan extends CI_Controller{
         else{
             redirect('/login');
         }
-
     }
 
     public function index(){
@@ -58,7 +57,6 @@ class Plan extends CI_Controller{
      */
     public function add($param='entity', $param2=''){
         $this->authenticate();
-        $this->load->model('plan_model');
 
         if($this->input->post('ajax')){
             $data = array(
@@ -89,7 +87,6 @@ class Plan extends CI_Controller{
 
     public function showTh(){
         if($this->input->post('ajax')){
-            $this->load->model('plan_model');
 
             $thData =null;
             $param = $this->input->post('param');
@@ -110,6 +107,27 @@ class Plan extends CI_Controller{
 
         }else{
             redirect('plan/step2/2');
+        }
+    }
+
+    public function update($param='entity', $param2){
+
+        if($param2=='th'){
+            $id = $this->input->post('updateid');
+            $data = array(
+                'name'          =>  $this->input->post('updatetxtname')
+            );
+
+            $recs = $this->plan_model->update($id, $data);
+
+            if(is_numeric($recs) && $recs>0){
+                $this->session->set_flashdata('success','Record updated successfully!');
+                redirect('plan/step2/2#errorDiv');
+            }
+            else{
+                $this->session->set_flashdata('error','Update failed!');
+                redirect('plan/step2/2#errorDiv');
+            }
         }
     }
     /**

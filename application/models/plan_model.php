@@ -52,4 +52,12 @@ class Plan_model extends CI_Model {
 
         return $resultsArray;
     }
+
+    public function update($id, $data){
+        $this->db->where('id', $id);
+        $this->db->update('eop_entity', $data);
+
+        return $this->db->affected_rows();
+
+    }
 }
