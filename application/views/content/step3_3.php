@@ -1,3 +1,6 @@
+<?php
+$entities = $page_vars['entities'];
+?>
 <div id="topcontain">
     <div id="titlearea">
         <h1 id='currentPageTag'>Step 3-3</h1>
@@ -28,12 +31,20 @@
                 <th scope="col">Threats and Hazards</th>
                 <th scope="col">Goals and Objectives</th>
             </tr>
-            <?php foreach($page_vars as $key=>$value): ?>
+            <?php foreach($entities as $key=>$value): ?>
                 <tr>
                     <td><?php echo $value['name']; ?></td>
                     <td align="center">
-                        <a href="#" id="<?php echo $value['id'];?>" >Add</a>
-                        <a href="#" id="<?php echo $value['id'];?>">Edit</a>
+                        <?php if(isset($value['fields']) && count($value['fields'])>0): ?>
+                            <a href="#" id="<?php echo $value['id'];?>">Edit</a>
+                        <?php else: ?>
+                            <a href="#" id="<?php echo $value['id'];?>" class="addFieldsLink">Add</a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="container-<?php echo $value['id'];?>"></div>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -50,43 +61,14 @@
 
         $("#rightArrowButton").click(function(){
 
-            var data = $.map($("input:checkbox.checkBoxSelection:checked"), function(value, index) {
-                return [$(value).val()];
-            });
 
-            setSelectedThs(data);
-            //return false;
         });
 
-        function setSelectedThs(data){
+        $(".addFieldsLink").click(function(){
+            //alert($(this).attr('id'));
 
-            var formData = {
-                'ajax'  :       '1',
-                'THids' :       data
-            }
 
-            $.ajax({
-                url: '<?php echo(base_url('plan/sessionSetSelectedTHs')); ?>',
-                data: formData,
-                type:'POST',
-                async: false, // Prevents page from navigating to other page before ajax call completes
-                success:function(response){
-                    try{
-                        var res = JSON.parse(response);
-                         if(res.set==true){
-                             //alert(response);
-                         }
-                         else{
-                            alert("No Threats and Hazards Selected");
-                         }
-                    }
-                    catch(err){
-                        alert("Remote Server error! " + err.message);
-                    }
-                }
-            });
-        }
-
+        });
 
     }); // End $(document).ready function
 

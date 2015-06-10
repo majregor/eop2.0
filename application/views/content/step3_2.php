@@ -25,11 +25,16 @@
                 <th scope="col">Threats and Hazards</th>
                 <th scope="col">Address in the School EOP</th>
             </tr>
-            <?php foreach($page_vars as $key=>$value): ?>
+            <?php foreach($page_vars['entities'] as $key=>$value): ?>
                 <tr>
                     <td><?php echo $value['name']; ?></td>
                     <td align="center">
-                        <?php $attr = (in_array($value['id'], $this->session->userdata['selected_ths'] )) ? "checked='checked'": ""; ?>
+                        <?php
+                            $attr="";
+                            if(isset($this->session->userdata['selected_ths'])){
+                                $attr = (in_array($value['id'], $this->session->userdata['selected_ths'] )) ? "checked='checked'": "";
+                            }
+                        ?>
                         <input type="checkbox" class="checkBoxSelection" <?php echo $attr; ?> name="<?php echo $value['id'];?>" id="<?php echo $value['id'];?>" value="<?php echo $value['id']; ?>"/>
                     </td>
                 </tr>

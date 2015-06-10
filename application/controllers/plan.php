@@ -57,13 +57,13 @@ class Plan extends CI_Controller{
         if($step==2){
             $thData = $this->plan_model->getEntities('th');
             if(is_array($thData)){
-                $data = array_merge($data, $thData);
+                $data['entities'] = $thData;
             }
         }
         elseif($step==3){
             $thData = $this->plan_model->getEntities('th',null,true);
             if(is_array($thData)){
-                $data = array_merge($data, $thData);
+                $data['entities'] = $thData;
             }
         }
 
@@ -75,6 +75,12 @@ class Plan extends CI_Controller{
             'page_vars'     =>  $data
         );
         $this->template->load('template', 'plan_screen', $templateData);
+    }
+
+    public function test(){
+        $thData = $this->plan_model->getEntities('th',null,true);
+        $data =array('dump' => $thData);
+        $this->load->view('test', $data);
     }
 
     /**

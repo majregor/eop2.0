@@ -48,7 +48,7 @@ class Plan_model extends CI_Model {
             $conditions = array_merge($conditions, $data);
         }
 
-        $query = $this->db->get_where('eop_entity', $conditions);
+        $query = $this->db->get_where('eop_view_entities', $conditions);
         $resultsArray = $query->result_array();
 
 
@@ -56,7 +56,9 @@ class Plan_model extends CI_Model {
         if($recursive){ // If recursive entity requested
 
             if(is_array($resultsArray) && count($resultsArray) >0){
-                $detailedEntityArray = $this->getDetailedEntities($resultsArray);
+                 return $this->arrangeEntities($resultsArray);
+            }else{
+                return array();
             }
 
         }else{ // Return simple array list of entities
@@ -69,15 +71,51 @@ class Plan_model extends CI_Model {
      * @param array $entityRowsArray simple list array of entities
      * @return array recursively structured array of entities
      */
-    private function getDetailedEntities($entityRowsArray){
+    private function arrangeEntities(&$entityRowsArray){
 
-        $returnArray = array();
 
         //For each Entity record, get its children and organise array into proper hierarchy
         //Recursively arrange the directory structure of elements...
+        foreach($entityRowsArray as $key => &$entityRow){
+            $children = $this->getChildren($entityRow['id']);
+            $fields = $this->getFields($entityRow['id']);
 
+            if(!array_key_exists('children', $entityRow)){
+                $entityRow['children'] = $children;
+            }
+            if(!array_key_exists('fields', $entityRow)){
+                $entityRow['fields'] = $fields;
+            }else{
+                $entityRow['fields'] .= $fields;
+            }
+        }
+        return $entityRowsArray;
+    }
 
-        return $returnArray;
+    private function getChildren($id){
+        $children = array();
+
+        $query = $this->db->get('eop_view_entities');
+
+        $resultArray = $query->result_array();
+
+        foreach($resultArray as $value){
+            if($value['parent']==$id){
+
+                if(!array_key_exists('children', $value)){
+                    $value['children'] = $this->getChildren($value['id']);
+                }
+                array_push($children, $value);
+            }
+        }
+
+        return $children;
+    }
+
+    public function getFields($id){
+
+        $query = $this->db->get_where('eop_field', array('entity_id'=>$id));
+        return $query->result_array();
     }
 
     public function update($id, $data){
