@@ -165,6 +165,28 @@ class Plan extends CI_Controller{
             }
         }
     }
+
+    public function loadTHCtls(){
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+            $id     = $this->input->post('id');
+
+            switch($action){
+                case 'add':
+                    $fnData = $this->plan_model->getEntities('fn', null, false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
+                    $thData = $this->plan_model->getEntities('th',null,true);
+                    $data = array(
+                        'functions'                 =>  $fnData,
+                        'threats_and_hazards'       =>  $thData
+                    );
+
+                    $this->load->view('ajax/step3_th_goals', $data);
+                    break;
+            }
+        }else{
+            redirect('plan/step3/3');
+        }
+    }
     /**
      * Function checks if user is logged in, redirects to login page if not.
      * @method authenticate

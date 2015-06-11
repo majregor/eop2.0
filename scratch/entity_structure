@@ -14,6 +14,7 @@ Structure of recursive entity array
 				[timestamp]=>2015-06-08 16:47:21
 				[description]=>
 				[type]=>th
+				[type_title]=>
 				[school]=>
 				[school screen name]=>
 				[children]=>Array (
@@ -30,9 +31,23 @@ Structure of recursive entity array
 													[timestamp] => 2015-06-10 10:26:29
 													[description] =>
 													[type] => g1
+													[type_title]=>
 													[school] =>
 													[school screen name] =>
 													[children] => Array ( )
+													[fields]    => Array(
+													                        [0]=> Array(
+                                                                                            [id]=>
+                                                                                            [entity_id]=>
+                                                                                            [name]=>
+                                                                                            [title]=>
+                                                                                            [weight]=>
+                                                                                            [created]=>
+                                                                                            [timestamp]=>
+                                                                                            [type]=>
+                                                                                            [body]=>
+                                                                                        )
+													                    )
 												)
 								    )
 				[fields]=>Array (

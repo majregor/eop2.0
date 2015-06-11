@@ -65,10 +65,36 @@ $entities = $page_vars['entities'];
         });
 
         $(".addFieldsLink").click(function(){
-            //alert($(this).attr('id'));
+
+            var selectedId = $(this).attr('id');
+            var divContainer = $("#container-"+selectedId);
 
 
+            var formData = {
+                ajax:   '1',
+                id:     selectedId,
+                action: 'add'
+
+            }
+            $.ajax({
+                url:    '<?php echo(base_url('plan/loadTHCtls')); ?>',
+                data:   formData,
+                type:   'POST',
+                success: function(response){
+
+                    try{
+                        $(divContainer).html(response);
+                        $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                    }catch(err){
+                        alert('Problem loading controls ' + err.message());
+                    }
+                }
+
+            });
         });
+
+
 
     }); // End $(document).ready function
 

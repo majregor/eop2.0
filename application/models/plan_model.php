@@ -37,7 +37,7 @@ class Plan_model extends CI_Model {
      * @param bool $recursive Defines whether to return entities recursively structured or to return simple entities list
      * @return associative array of entities
      */
-    public function getEntities($type, $data='', $recursive=false){
+    public function getEntities($type, $data='', $recursive=false, $sortOrder=array()){
         $conditions = array();
 
         if($type!='' || $type !='all'){
@@ -46,6 +46,12 @@ class Plan_model extends CI_Model {
 
         if($data !='' && is_array($data)){
             $conditions = array_merge($conditions, $data);
+        }
+
+        if(count($sortOrder)>0){
+            $orderBy = $sortOrder['orderby'];
+            $sortType = $sortOrder['type'];
+            $this->db->order_by($orderBy, $sortType);
         }
 
         $query = $this->db->get_where('eop_view_entities', $conditions);
@@ -104,7 +110,9 @@ class Plan_model extends CI_Model {
 
                 if(!array_key_exists('children', $value)){
                     $value['children'] = $this->getChildren($value['id']);
+                    $value['fields'] = $this->getFields($value['id']);
                 }
+
                 array_push($children, $value);
             }
         }

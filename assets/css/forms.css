@@ -189,10 +189,10 @@ table.editOne tr, table.editTwo tr, table.editThree tr {
 
 /*-----------text fields-------*/
 table.editOne tr td, table.editTwo tr td, table.editThree tr td {
-	vertical-align: text-top;
+	vertical-align: middle;
 	border: none;
 	/*float: left;*/
-	width: 75%;
+	/*width: 75%;*/
 	margin: 2px;
 	text-align: left;
 }
@@ -203,16 +203,16 @@ table.editOne tr.add table tbody{
 
 
 table.editOne td.txtb, table.editTwo td.txtb, table.editThree td.txtb {
-	vertical-align: text-top;
+	vertical-align: middle;
 	font-weight: 800;
-	/*width: 15%;*/
-	float: left;
+	/*width: 15%;
+	float: left;*/
 }
 
 table.editOne td.txtnorm, table.editTwo td.txtnorm, table.editThree td.txtnorm {
-	vertical-align: text-top;
+	vertical-align: middle;
 	width: 15%;
-	float: left;
+	/*float: left;*/
 }
 
 table.editOne tr#addMoreG1ObjFn td, table.editTwo tr#addMoreG2ObjFn td, table.editThree tr#addMoreG3ObjFn td {
