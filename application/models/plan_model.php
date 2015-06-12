@@ -119,6 +119,9 @@ class Plan_model extends CI_Model {
 
         return $children;
     }
+        foreach($entityRowsArray as $key=>$value){
+
+        }
 
     public function getFields($id){
 
