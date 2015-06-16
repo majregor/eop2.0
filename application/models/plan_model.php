@@ -9,7 +9,19 @@ class Plan_model extends CI_Model {
     public function addThreadAndHazard($data){
 
         $this->db->insert('eop_entity', $data);
+        $insertedId = $this->db->insert_id();
         $affected_rows = $this->db->affected_rows();
+
+        /**
+         * Add the default goal 1, 2 and 3 objectives as children to the new Threat & Hazard
+         */
+        $data = array(
+            'name'      =>      'Goal 1',
+            'title'     =>      'Goal 1 (Before)',
+            'owner'     =>      $this->session->userdata('user_id'),
+            'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+            'type_id'   =>      $this->getEntityTypeId('g1', 'name')
+        );
 
         return $affected_rows;
 
@@ -119,9 +131,6 @@ class Plan_model extends CI_Model {
 
         return $children;
     }
-        foreach($entityRowsArray as $key=>$value){
-
-        }
 
     public function getFields($id){
 
