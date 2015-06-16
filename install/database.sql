@@ -161,7 +161,7 @@ CREATE TABLE `eop_entity` (
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `description` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,6 +170,7 @@ CREATE TABLE `eop_entity` (
 
 LOCK TABLES `eop_entity` WRITE;
 /*!40000 ALTER TABLE `eop_entity` DISABLE KEYS */;
+INSERT INTO `eop_entity` VALUES (1,NULL,NULL,'macregor','macregor',17,NULL,NULL,'2015-06-08 16:42:39','2015-06-08 20:42:39',NULL),(2,3,NULL,'macregors','macregor',17,NULL,NULL,'2015-06-08 16:47:21','2015-06-08 20:47:21',NULL),(3,3,NULL,'sdsdsd','sdsdsd',17,NULL,NULL,'2015-06-08 17:46:47','2015-06-08 21:46:47',NULL),(4,7,NULL,'sdddsdsd','sdddsdsd',17,5,NULL,'2015-06-08 17:46:58','2015-06-08 21:46:58',NULL),(5,4,NULL,'goal 1','goal 1',17,2,NULL,'2015-06-10 10:26:29','2015-06-10 14:26:29',NULL),(6,2,NULL,'Communications and Warning',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(7,2,NULL,'Evacuation',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(8,2,NULL,'Shelter-in-Place',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(9,2,NULL,'Lockdown',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(10,2,NULL,'Accounting for All Persons',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(11,2,NULL,'Family Reunification',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(12,2,NULL,'Continuity of Operations (COOP)',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(13,2,NULL,'Security',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(14,2,NULL,'Recovery',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(15,2,NULL,'Public Health, Medical, and Mental Health',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(16,2,NULL,'None',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL);
 /*!40000 ALTER TABLE `eop_entity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,7 +186,7 @@ CREATE TABLE `eop_entity_types` (
   `name` varchar(64) DEFAULT NULL,
   `title` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +195,7 @@ CREATE TABLE `eop_entity_types` (
 
 LOCK TABLES `eop_entity_types` WRITE;
 /*!40000 ALTER TABLE `eop_entity_types` DISABLE KEYS */;
-INSERT INTO `eop_entity_types` VALUES (1,'bp','Basic Plan'),(2,'fn','Functional Annexes'),(3,'th','Threat- and Hazard-Specific Annexes'),(4,'g1','Goal1 (Before)'),(5,'g2','Goal2 (During)'),(6,'g3','Goal3 (After)');
+INSERT INTO `eop_entity_types` VALUES (1,'bp','Basic Plan'),(2,'fn','Functional Annex'),(3,'th','Threat- and Hazard-Specific Annex'),(4,'g1','Goal1 (Before)'),(5,'g2','Goal2 (During)'),(6,'g3','Goal3 (After)'),(7,'obj','Objective');
 /*!40000 ALTER TABLE `eop_entity_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -406,7 +407,7 @@ CREATE TABLE `eop_user` (
 
 LOCK TABLES `eop_user` WRITE;
 /*!40000 ALTER TABLE `eop_user` DISABLE KEYS */;
-INSERT INTO `eop_user` VALUES (17,1,'Supers','Administrator','majregor@glydenet.com','admin','7ce8bcd42b1efa29518674ec4a99fa60','2407056738','active','2015-05-20 00:21:11',NULL,'n'),(26,4,'School','Administrator','darius.f.yaghoubi@nasa.gov','schooladmin','980ac217c6b51e7dc41040bec1edfec8','2407056739','active','2015-05-21 11:21:50',NULL,'n'),(27,5,'School','User','qqq@ss.com','schooluser','96e79218965eb72c92a549dd5a330112','2407056739','active','2015-05-21 12:17:49',NULL,'n'),(28,5,'School','User2','dsdsd@aa.com','schooluser2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','2407056739','active','2015-05-21 12:38:58',NULL,'n'),(29,3,'District','Administrator','sasasas@sss.com','distadmin','128e61891b7bf0cfafbbc589a65ce5f6','2407056739','active','2015-05-21 12:42:35',NULL,'n'),(31,4,'wasasasa','asasas','asasasas@sss.com','sddddd','343b1c4a3ea721b2d640fc8700db0f36','2407056739','active','2015-05-21 15:26:55',NULL,'y'),(32,5,'Schoolnn','User','fhfgh@ddd.c','schooluser1','128e61891b7bf0cfafbbc589a65ce5f6','2407056739','active','2015-05-21 15:33:18',NULL,'n'),(33,2,'State','Administrator','bgds@dd.com','sadmin','128e61891b7bf0cfafbbc589a65ce5f6','2407056739','active','2015-05-21 15:37:27',NULL,'n'),(34,4,'bvvb','vbvb','svb@ss.c','vbb','4559cf8128dc0cf064a064b83ceee957','2407056739','active','2015-05-21 15:52:23',NULL,'y'),(35,1,'Super','Administrator','adminss@ss.com','admin3','0192023a7bbd73250516f069df18b500','','active','2015-05-22 10:31:19',NULL,'n'),(36,1,'Super','Administrator','drerer@dd.com','admin4','7ce8bcd42b1efa29518674ec4a99fa60','','active','2015-05-22 10:41:19',NULL,'n'),(37,4,'sdfafs','afafafa','asfdsaf@dsd','admins','0b4e7a0e5fe84ad35fb5f95b9ceeac79','2407056739','active','2015-05-22 12:40:49',NULL,'n'),(38,1,'Super','Administrator','asaklk@sdsd.com','superadmin','128e61891b7bf0cfafbbc589a65ce5f6','','active','2015-05-26 10:18:48',NULL,'n'),(39,1,'Super','Administrator','asDSA@sa.com','adminsss','128e61891b7bf0cfafbbc589a65ce5f6','','active','2015-05-26 12:31:31',NULL,'n'),(40,5,'Godd','Freyy','adasf@dd.com','goddfree','0b4e7a0e5fe84ad35fb5f95b9ceeac79','','active','2015-05-28 10:06:23',NULL,'n'),(41,5,'Goddino','Number 2','asdfa@erer.com','goddino2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','','active','2015-05-28 10:34:31',NULL,'n'),(42,3,'june','user1','asfa@sds.com','juneuser','af15d5fdacd5fdfea300e88a8e253e82','12312312233','active','2015-06-01 17:09:08',NULL,'n'),(43,3,'user','June1','adfas@ere.com','juneuser2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','12356709873','active','2015-06-01 17:15:38',NULL,'n'),(44,3,'June','User3','user2@macomen.com','juneuser3','af15d5fdacd5fdfea300e88a8e253e82','2407056739','active','2015-06-01 17:22:10',NULL,'n'),(45,3,'june','user4','asdf@gr.com','juneuser5','af15d5fdacd5fdfea300e88a8e253e82','2407056739','active','2015-06-01 17:23:22',NULL,'n'),(46,3,'june','user6','user6@hotmail.com','juneuser6','0b4e7a0e5fe84ad35fb5f95b9ceeac79','12323489673','active','2015-06-01 17:31:22',NULL,'n'),(47,4,'june','user7','user7@hotmail.com','user7','af15d5fdacd5fdfea300e88a8e253e82','2407056739','active','2015-06-01 17:32:39',NULL,'n');
+INSERT INTO `eop_user` VALUES (17,1,'Supers','Administrator','majregor@glydenet.com','admin','7ce8bcd42b1efa29518674ec4a99fa60','2407056738','active','2015-05-20 00:21:11',NULL,'n'),(26,4,'School','Administrator','darius.f.yaghoubi@nasa.gov','schooladmin','980ac217c6b51e7dc41040bec1edfec8','2407056739','active','2015-05-21 11:21:50',NULL,'n'),(27,5,'School','User','qqq@ss.com','schooluser','96e79218965eb72c92a549dd5a330112','2407056739','active','2015-05-21 12:17:49',NULL,'n'),(28,5,'School','User2','dsdsd@aa.com','schooluser2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','2407056739','active','2015-05-21 12:38:58',NULL,'n'),(29,3,'District','Administrator','sasasas@sss.com','distadmin','128e61891b7bf0cfafbbc589a65ce5f6','2407056739','active','2015-05-21 12:42:35',NULL,'n'),(31,4,'wasasasa','asasas','asasasas@sss.com','sddddd','343b1c4a3ea721b2d640fc8700db0f36','2407056739','active','2015-05-21 15:26:55',NULL,'y'),(32,5,'Schoolnn','User','fhfgh@ddd.c','schooluser1','128e61891b7bf0cfafbbc589a65ce5f6','2407056739','active','2015-05-21 15:33:18',NULL,'n'),(33,2,'State','Administrator','bgds@dd.com','sadmin','128e61891b7bf0cfafbbc589a65ce5f6','2407056739','active','2015-05-21 15:37:27',NULL,'n'),(34,4,'bvvb','vbvb','svb@ss.c','vbb','4559cf8128dc0cf064a064b83ceee957','2407056739','active','2015-05-21 15:52:23',NULL,'y'),(35,1,'Super','Administrator','adminss@ss.com','admin3','0192023a7bbd73250516f069df18b500','','active','2015-05-22 10:31:19',NULL,'n'),(36,1,'Super','Administrator','drerer@dd.com','admin4','7ce8bcd42b1efa29518674ec4a99fa60','','active','2015-05-22 10:41:19',NULL,'n'),(37,4,'sdfafs','afafafa','asfdsaf@dsd','admins','0b4e7a0e5fe84ad35fb5f95b9ceeac79','2407056739','active','2015-05-22 12:40:49',NULL,'n'),(38,1,'Super','Administrator','asaklk@sdsd.com','superadmin','128e61891b7bf0cfafbbc589a65ce5f6','','active','2015-05-26 10:18:48',NULL,'n'),(39,1,'Super','Administrator','asDSA@sa.com','adminsss','128e61891b7bf0cfafbbc589a65ce5f6','','active','2015-05-26 12:31:31',NULL,'n'),(40,5,'Godd','Freyy','adasf@dd.com','goddfree','0b4e7a0e5fe84ad35fb5f95b9ceeac79','','active','2015-05-28 10:06:23',NULL,'n'),(41,5,'Goddino','Number 2','asdfa@erer.com','goddino2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','','active','2015-05-28 10:34:31',NULL,'n'),(42,3,'june','user1','asfa@sds.com','juneuser','af15d5fdacd5fdfea300e88a8e253e82','12312312233','active','2015-06-01 17:09:08',NULL,'n'),(43,3,'user','June1','adfas@ere.com','juneuser2','0b4e7a0e5fe84ad35fb5f95b9ceeac79','12356709873','active','2015-06-01 17:15:38',NULL,'n'),(44,3,'June','User3','user2@macomen.com','juneuserpp','af15d5fdacd5fdfea300e88a8e253e82','2407056739','active','2015-06-01 17:22:10',NULL,'n'),(45,3,'june','user4','asdf@gr.com','juneuser5','af15d5fdacd5fdfea300e88a8e253e82','2407056739','active','2015-06-01 17:23:22',NULL,'n'),(46,3,'june','user6','user6@hotmail.com','juneuser6','0b4e7a0e5fe84ad35fb5f95b9ceeac79','12323489673','active','2015-06-01 17:31:22',NULL,'n'),(47,4,'june','user7','user7@hotmail.com','user7','af15d5fdacd5fdfea300e88a8e253e82','2407056739','active','2015-06-01 17:32:39',NULL,'n');
 /*!40000 ALTER TABLE `eop_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -528,6 +529,32 @@ INSERT INTO `eop_user_roles` VALUES (1,'Super Admin',NULL,'Super Administrator',
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `eop_view_entities`
+--
+
+DROP TABLE IF EXISTS `eop_view_entities`;
+/*!50001 DROP VIEW IF EXISTS `eop_view_entities`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `eop_view_entities` AS SELECT 
+ 1 AS `id`,
+ 1 AS `type_id`,
+ 1 AS `sid`,
+ 1 AS `name`,
+ 1 AS `title`,
+ 1 AS `owner`,
+ 1 AS `parent`,
+ 1 AS `weight`,
+ 1 AS `created`,
+ 1 AS `timestamp`,
+ 1 AS `description`,
+ 1 AS `type`,
+ 1 AS `type_title`,
+ 1 AS `school`,
+ 1 AS `school screen name`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `eop_view_school`
 --
 
@@ -579,6 +606,24 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Final view structure for view `eop_view_entities`
+--
+
+/*!50001 DROP VIEW IF EXISTS `eop_view_entities`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `eop_view_entities` AS select `A`.`id` AS `id`,`A`.`type_id` AS `type_id`,`A`.`sid` AS `sid`,`A`.`name` AS `name`,`A`.`title` AS `title`,`A`.`owner` AS `owner`,`A`.`parent` AS `parent`,`A`.`weight` AS `weight`,`A`.`created` AS `created`,`A`.`timestamp` AS `timestamp`,`A`.`description` AS `description`,`B`.`name` AS `type`,`B`.`title` AS `type_title`,`C`.`name` AS `school`,`C`.`screen_name` AS `school screen name` from ((`eop_entity` `A` left join `eop_entity_types` `B` on((`A`.`type_id` = `B`.`id`))) left join `eop_school` `C` on((`A`.`sid` = `C`.`id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `eop_view_school`
 --
 
@@ -623,4 +668,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-05 16:56:36
+-- Dump completed on 2015-06-16 15:55:20
