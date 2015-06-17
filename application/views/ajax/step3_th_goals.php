@@ -16,11 +16,14 @@
                 <tr>
                     <td class="txtb" ><?php echo($thChild['type_title']); ?>:</td>
                     <td>
-                        <textarea
-                            name="txt<?php echo($thChild['type']);?>"
-                            id="txt<?php echo($thChild['type']);?>"
-                            style="width:100%"
-                            rows="4"></textarea>
+                        <?php foreach($thChild['fields'] as $field): ?>
+                            <textarea
+                                name="txt<?php echo($thChild['type']);?>"
+                                id="txt<?php echo($thChild['type']);?>"
+                                data-id="<?php echo($thChild['id']);?>"
+                                style="width:100%"
+                                rows="4"><?php echo($field['body']); ?></textarea>
+                        <?php endforeach; ?>
                     </td>
                 </tr>
                 <tr>
@@ -42,41 +45,46 @@
                 </tr>
 
                 <?php foreach($thChild['children'] as $key => $grandChild): ?>
-                    <tr>
-                        <td class="txnorm">Objective</td>
-                        <td>
-                            <textarea
-                                name="txt<?php  echo($thChild['type']);?>obj<?php echo($key);?>"
-                                id="txt<?php    echo($thChild['type']);?>obj<?php echo($key);?>"
-                                class="<?php    echo($thChild['type']);?>Obj"
-                                style="width:100%" rows="4"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="txtnorm">Function:</td>
-                        <td>
-                            <select
-                                name="slct<?php echo($thChild['type']);?>fn<?php echo($key);?>"
-                                id="slct<?php echo($thChild['type']);?>fn<?php echo($key);?>"
-                                style="width: 65%"
-                                class="<?php    echo($thChild['type']);?>fn">
-                                <option value="" selected="selected">--Select--</option>
-                                <?php foreach($functions as $key=>$value): ?>
-                                    <option value="<?php echo($value['id']);?>"><?php echo($value['name']);?></option>
+                    <?php if($grandChild['type']=="obj"): // Get only grandchildren of type obj ?>
+                        <tr>
+                            <td class="txnorm">Objective</td>
+                            <td>
+                                <?php foreach($grandChild['fields'] as $field): ?>
+                                    <textarea
+                                        name="txt<?php  echo($thChild['type']);?>obj<?php echo($key);?>"
+                                        id="txt<?php    echo($thChild['type']);?>obj<?php echo($key);?>"
+                                        class="<?php    echo($thChild['type']);?>Obj"
+                                        data-id="<?php echo($grandChild['id']);?>"
+                                        style="width:100%" rows="4"><?php echo($field['body']); ?></textarea>
                                 <?php endforeach; ?>
-                                <option value="other">Other</option>
-                            </select>
-                            <a href="" class="fnRefreshSpin" title="" id="refreshBtn">
-                                <img src="<?php echo base_url(); ?>assets/img/spin.png" border="0" align="absmiddle"/>
-                            </a>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="txtnorm">Function:</td>
+                            <td>
+                                <select
+                                    name="slct<?php echo($thChild['type']);?>fn<?php echo($key);?>"
+                                    id="slct<?php echo($thChild['type']);?>fn<?php echo($key);?>"
+                                    style="width: 65%"
+                                    class="<?php    echo($thChild['type']);?>fn">
+                                    <option value="" selected="selected">--Select--</option>
+                                    <?php foreach($functions as $key=>$value): ?>
+                                        <option value="<?php echo($value['id']);?>"><?php echo($value['name']);?></option>
+                                    <?php endforeach; ?>
+                                    <option value="other">Other</option>
+                                </select>
+                                <a href="" class="fnRefreshSpin" title="" id="refreshBtn">
+                                    <img src="<?php echo base_url(); ?>assets/img/spin.png" border="0" align="absmiddle"/>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                 <?php endforeach; ?>
 
-                <tr id="addMoreG1ObjFn1" style=" border-top: 2px solid #DDD;">
+                <tr id="addMore<?php echo($thChild['type']);?>ObjFnRow" style=" border-top: 2px solid #DDD;">
                     <td colspan="2" align="right">
-                        <a href="" id="addMoreG1ObjFnLink">[Add More]</a> |
-                        <a href="" id="removeG1ThRowLink">[Remove]</a>
+                        <a href="" id="addMore<?php echo($thChild['type']);?>ObjFnLink">[Add More]</a> |
+                        <a href="" id="remove<?php echo($thChild['type']);?>ThRowLink">[Remove]</a>
                     </td>
                 </tr>
 
@@ -85,40 +93,67 @@
     <?php endforeach; ?>
 <?php endforeach; ?>
 
-<script>
-    var g1Items=0;
-    var g1Elements = [];
+<table class="editUpdate">
+    <tbody>
+        <tr>
+            <td align="right" colspan="2">
+                <div align="left">
+                    <input type="hidden" id="entity_identifier" value="<?php echo($entity_id);?>" />
+                    <input id="saveBtn" type="button" value="Save"/>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
-    var g1ObjData = $.map($(".g1Obj"), function(value, index) {
-        return [$(value).val()];
-    });
+<script>
+    var g1Items= 0, g2Items= 0, g3Items=0;
+    var g1Elements = [], g2Elements = [], g3Elements = [];
+
+    <?php for($i=1; $i<=3; $i++): ?>
+
+        var g<?php echo($i);?>ObjData = $.map($(".g<?php echo($i);?>Obj"), function(value, index) {
+            return [$(value).val()];
+        });
+
+        g<?php echo($i);?>Items = g<?php echo($i);?>ObjData.length - 1;
+
+
+    <?php endfor; ?>
+
 
     $(document).ready(function(){
 
         //Add More and Remove controls
-        $("#addMoreG1ObjFnLink").click(function(){
+        <?php for($i=1; $i<=3; $i++): ?>
+            $("#addMoreg<?php echo($i);?>ObjFnLink").click(function(){
 
-            if(g1Items == 0){
-                g1Items ++;
-                $("#addMoreG1ObjFn1").after(mkObjectiveCtl(1, g1Items));
-            }else{
-                g1Items ++;
-                $("#g1Item"+(g1Items-1)+"Fn").after(mkObjectiveCtl(1, g1Items));
-            }
-            return false;
-        });
+                if(g<?php echo($i);?>Items == 0){
+                    g<?php echo($i);?>Items ++;
+                    $("#addMoreg<?php echo($i);?>ObjFnRow").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
+                }else{
+                    g<?php echo($i);?>Items ++;
+                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items-1)+"Fn").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
+                }
+                return false;
+            });
 
-        $("#removeG1ThRowLink").click(function(){
+            $("#removeg<?php echo($i);?>ThRowLink").click(function(){
 
-            if(g1Items > 0){
-                $("#g1Item"+(g1Items)+"Fn").remove();
-                $("#g1Item"+(g1Items)).remove();
+                if(g<?php echo($i);?>Items > 0){
+                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items)+"Fn").remove();
+                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items)).remove();
 
-                g1Items --;
-            }
-            return false;
-        });
+                    g<?php echo($i);?>Items --;
+                }
+                return false;
+            });
+        <?php endfor; ?>
+
+
     });
+
+
 
     function mkObjectiveCtl( goal, items ){
         var data="";

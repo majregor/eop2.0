@@ -190,7 +190,33 @@ if(isset($viewform)){
 
     $(document).ready(function(){
 
-        
+
+        var selectedDistrict = $('#sltdistrict').val();
+        var form_data = {
+            ajax:           '1',
+            district_id:    (selectedDistrict != 'Null') ? selectedDistrict : -1
+        };
+        $.ajax({
+            url: "<?php echo base_url('school/get_schools_in_district'); ?>",
+            type: 'POST',
+            data: form_data,
+            success: function (response) {
+                var schools = JSON.parse(response);
+                var schoolElement = $("#sltschool");
+                schoolElement.empty(); // remove the old options
+                schoolElement.append($("<option></option>")
+                    .attr("value", "Null")
+                    .text("--Select--"));
+
+                $.each(schools, function (key, value) {
+                    schoolElement.append($("<option></option>")
+                        .attr("value", value.id)
+                        .text(value.name));
+                });
+            }
+        });
+
+
 
         $('#userManagementTbl').DataTable({
             "bFilter": true, // For the search text box
@@ -469,25 +495,27 @@ if(isset($viewform)){
           //  alert(this.value);
             var form_data = {
                 ajax:           '1',
-                district_id:    this.value
+                district_id:    (this.value != 'Null') ? this.value : -1
             };
+
 
             $.ajax({
                 url: "<?php echo base_url('school/get_schools_in_district'); ?>",
                 type: 'POST',
                 data: form_data,
-                success: function(response){
+                success: function (response) {
                     var schools = JSON.parse(response);
                     var schoolElement = $("#sltschool");
                     schoolElement.empty(); // remove the old options
 
-                    $.each(schools, function(key, value){
+                    $.each(schools, function (key, value) {
                         schoolElement.append($("<option></option>")
                             .attr("value", value.id)
                             .text(value.name));
                     });
                 }
             });
+
         });
 
             /**

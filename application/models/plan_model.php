@@ -6,7 +6,7 @@ class Plan_model extends CI_Model {
         parent::__construct();
     }
 
-    public function addThreadAndHazard($data){
+    public function addThreatAndHazard($data){
 
         $this->db->insert('eop_entity', $data);
         $insertedId = $this->db->insert_id();
@@ -15,13 +15,7 @@ class Plan_model extends CI_Model {
         /**
          * Add the default goal 1, 2 and 3 objectives as children to the new Threat & Hazard
          */
-        $data = array(
-            'name'      =>      'Goal 1',
-            'title'     =>      'Goal 1 (Before)',
-            'owner'     =>      $this->session->userdata('user_id'),
-            'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-            'type_id'   =>      $this->getEntityTypeId('g1', 'name')
-        );
+        $this->saveDefaultTHGoals($insertedId);
 
         return $affected_rows;
 
@@ -128,7 +122,6 @@ class Plan_model extends CI_Model {
                 array_push($children, $value);
             }
         }
-
         return $children;
     }
 
@@ -143,6 +136,86 @@ class Plan_model extends CI_Model {
         $this->db->update('eop_entity', $data);
 
         return $this->db->affected_rows();
+
+    }
+
+    /**
+     * Saves the default TH Goals and their respective Objectives
+     * @method saveDefaultTHGoals
+     * @param int parent entity ID
+     * @return void
+     */
+    private function saveDefaultTHGoals($parent_id){
+        $goalData = array(
+            array(
+                'name'      =>      'Goal 1',
+                'title'     =>      'Goal 1 (Before)',
+                'owner'     =>      $this->session->userdata('user_id'),
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'type_id'   =>      $this->getEntityTypeId('g1', 'name'),
+                'parent'    =>      $parent_id,
+                'weight'    =>      1
+            ),
+            array(
+                'name'      =>      'Goal 2',
+                'title'     =>      'Goal 2 (During)',
+                'owner'     =>      $this->session->userdata('user_id'),
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'type_id'   =>      $this->getEntityTypeId('g2', 'name'),
+                'parent'    =>      $parent_id,
+                'weight'    =>      2
+            ),
+            array(
+                'name'      =>      'Goal 3',
+                'title'     =>      'Goal 3 (After)',
+                'owner'     =>      $this->session->userdata('user_id'),
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'type_id'   =>      $this->getEntityTypeId('g3', 'name'),
+                'parent'    =>      $parent_id,
+                'weight'    =>      3
+            )
+        );
+
+        foreach($goalData as $key=> $goal){
+            $this->db->insert('eop_entity', $goal);
+            $inserted_id = $this->db->insert_id();
+            $count = $key +1;
+
+            $objectiveData = array(
+                'name'      =>      'Goal '.$count.' Objective',
+                'title'     =>      'Objective',
+                'owner'     =>      $this->session->userdata('user_id'),
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'type_id'   =>      $this->getEntityTypeId('obj', 'name'),
+                'parent'    =>      $inserted_id,
+                'weight'    =>      $key
+            );
+            $fieldData = array( //Field for the goal item
+                'entity_id' =>      $inserted_id,
+                'name'      =>      'Goal '.$count.' Field',
+                'title'     =>      'Goal '.$count.' Field',
+                'weight'    =>      1,
+                'type'      =>      'text',
+                'body'      =>      ''
+            );
+
+            $this->db->insert('eop_field', $fieldData);
+            $this->db->insert('eop_entity', $objectiveData);
+
+            $insertedObjective_id = $this->db->insert_id();
+
+            $fieldData = array( //Field for the goal's objective item
+                'entity_id' =>      $insertedObjective_id,
+                'name'      =>      'Goal '.$count.' Objective Field',
+                'title'     =>      'Goal '.$count.' Objective Field',
+                'weight'    =>      1,
+                'type'      =>      'text',
+                'body'      =>      ''
+            );
+            $this->db->insert('eop_field', $fieldData);
+
+
+        }
 
     }
 }

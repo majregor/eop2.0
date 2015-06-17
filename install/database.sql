@@ -161,7 +161,7 @@ CREATE TABLE `eop_entity` (
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `description` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,7 +170,7 @@ CREATE TABLE `eop_entity` (
 
 LOCK TABLES `eop_entity` WRITE;
 /*!40000 ALTER TABLE `eop_entity` DISABLE KEYS */;
-INSERT INTO `eop_entity` VALUES (1,NULL,NULL,'macregor','macregor',17,NULL,NULL,'2015-06-08 16:42:39','2015-06-08 20:42:39',NULL),(2,3,NULL,'macregors','macregor',17,NULL,NULL,'2015-06-08 16:47:21','2015-06-08 20:47:21',NULL),(3,3,NULL,'sdsdsd','sdsdsd',17,NULL,NULL,'2015-06-08 17:46:47','2015-06-08 21:46:47',NULL),(4,7,NULL,'sdddsdsd','sdddsdsd',17,5,NULL,'2015-06-08 17:46:58','2015-06-08 21:46:58',NULL),(5,4,NULL,'goal 1','goal 1',17,2,NULL,'2015-06-10 10:26:29','2015-06-10 14:26:29',NULL),(6,2,NULL,'Communications and Warning',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(7,2,NULL,'Evacuation',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(8,2,NULL,'Shelter-in-Place',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(9,2,NULL,'Lockdown',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(10,2,NULL,'Accounting for All Persons',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(11,2,NULL,'Family Reunification',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(12,2,NULL,'Continuity of Operations (COOP)',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(13,2,NULL,'Security',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(14,2,NULL,'Recovery',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(15,2,NULL,'Public Health, Medical, and Mental Health',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL),(16,2,NULL,'None',NULL,17,NULL,NULL,'2015-06-11 11:14:28','2015-06-11 15:14:28',NULL);
+INSERT INTO `eop_entity` VALUES (1,3,NULL,'TH1&','TH1&',17,NULL,NULL,'2015-06-17 11:29:36','2015-06-17 15:29:36',NULL),(2,4,NULL,'Goal 1','Goal 1 (Before)',17,1,1,'2015-06-17 11:29:36','2015-06-17 15:29:36',NULL),(3,7,NULL,'Goal $key Objective','Objective',17,2,0,'2015-06-17 11:29:36','2015-06-17 15:29:36',NULL),(4,5,NULL,'Goal 2','Goal 2 (During)',17,1,2,'2015-06-17 11:29:36','2015-06-17 15:29:36',NULL),(5,7,NULL,'Goal $key Objective','Objective',17,4,1,'2015-06-17 11:29:36','2015-06-17 15:29:36',NULL),(6,6,NULL,'Goal 3','Goal 3 (After)',17,1,3,'2015-06-17 11:29:36','2015-06-17 15:29:36',NULL),(7,7,NULL,'Goal $key Objective','Objective',17,6,2,'2015-06-17 11:29:36','2015-06-17 15:29:36',NULL),(8,2,NULL,'Communications and Warning',NULL,17,NULL,NULL,'2015-06-17 11:48:55','2015-06-17 15:48:55',NULL),(9,2,NULL,'Evacuation',NULL,17,NULL,NULL,'2015-06-17 11:48:55','2015-06-17 15:48:55',NULL),(10,2,NULL,'Shelter-in-Place',NULL,17,NULL,NULL,'2015-06-17 11:48:55','2015-06-17 15:48:55',NULL),(11,2,NULL,'Lockdown',NULL,17,NULL,NULL,'2015-06-17 11:48:55','2015-06-17 15:48:55',NULL),(12,2,NULL,'Accounting for All Persons',NULL,17,NULL,NULL,'2015-06-17 11:48:55','2015-06-17 15:48:55',NULL),(13,2,NULL,'Family Reunification',NULL,17,NULL,NULL,'2015-06-17 11:48:55','2015-06-17 15:48:55',NULL),(14,2,NULL,'Continuity of Operations (COOP)',NULL,17,NULL,NULL,'2015-06-17 11:48:55','2015-06-17 15:48:55',NULL),(15,2,NULL,'Security',NULL,17,NULL,NULL,'2015-06-17 11:48:55','2015-06-17 15:48:55',NULL),(17,2,NULL,'Public Health, Medical, and Mental Health',NULL,17,NULL,NULL,'2015-06-17 11:48:55','2015-06-17 15:48:55',NULL),(18,2,NULL,'None',NULL,17,NULL,NULL,'2015-06-17 11:48:55','2015-06-17 15:48:55',NULL),(19,2,NULL,'Sample Function',NULL,17,NULL,NULL,'2015-06-17 11:56:11','2015-06-17 15:56:11',NULL),(20,2,NULL,'Recovery',NULL,17,NULL,NULL,'2015-06-17 12:04:35','2015-06-17 16:04:35',NULL),(21,3,NULL,'TH2','TH2',17,NULL,NULL,'2015-06-17 12:23:42','2015-06-17 16:23:42',NULL),(22,4,NULL,'Goal 1','Goal 1 (Before)',17,21,1,'2015-06-17 12:23:42','2015-06-17 16:23:42',NULL),(23,7,NULL,'Goal $key Objective','Objective',17,22,0,'2015-06-17 12:23:42','2015-06-17 16:23:42',NULL),(24,3,NULL,'TH3','TH3',17,NULL,NULL,'2015-06-17 12:26:44','2015-06-17 16:26:44',NULL),(25,4,NULL,'Goal 1','Goal 1 (Before)',17,24,1,'2015-06-17 12:26:44','2015-06-17 16:26:44',NULL),(26,7,NULL,'Goal $key Objective','Objective',17,25,0,'2015-06-17 12:26:44','2015-06-17 16:26:44',NULL),(27,5,NULL,'Goal 2','Goal 2 (During)',17,24,2,'2015-06-17 12:26:44','2015-06-17 16:26:44',NULL),(28,7,NULL,'Goal $key Objective','Objective',17,27,1,'2015-06-17 12:26:44','2015-06-17 16:26:44',NULL),(29,6,NULL,'Goal 3','Goal 3 (After)',17,24,3,'2015-06-17 12:26:44','2015-06-17 16:26:44',NULL),(30,7,NULL,'Goal $key Objective','Objective',17,29,2,'2015-06-17 12:26:44','2015-06-17 16:26:44',NULL),(31,3,NULL,'TH4','TH4',17,NULL,NULL,'2015-06-17 12:28:18','2015-06-17 16:28:18',NULL),(32,4,NULL,'Goal 1','Goal 1 (Before)',17,31,1,'2015-06-17 12:28:18','2015-06-17 16:28:18',NULL),(33,7,NULL,'Goal 0 Objective','Objective',17,32,0,'2015-06-17 12:28:18','2015-06-17 16:28:18',NULL),(34,5,NULL,'Goal 2','Goal 2 (During)',17,31,2,'2015-06-17 12:28:18','2015-06-17 16:28:18',NULL),(35,7,NULL,'Goal 1 Objective','Objective',17,34,1,'2015-06-17 12:28:18','2015-06-17 16:28:18',NULL),(36,6,NULL,'Goal 3','Goal 3 (After)',17,31,3,'2015-06-17 12:28:18','2015-06-17 16:28:18',NULL),(37,7,NULL,'Goal 2 Objective','Objective',17,36,2,'2015-06-17 12:28:18','2015-06-17 16:28:18',NULL),(38,3,NULL,'TH5','TH5',17,NULL,NULL,'2015-06-17 12:29:57','2015-06-17 16:29:57',NULL),(39,4,NULL,'Goal 1','Goal 1 (Before)',17,38,1,'2015-06-17 12:29:57','2015-06-17 16:29:57',NULL),(40,7,NULL,'Goal 1 Objective','Objective',17,39,0,'2015-06-17 12:29:57','2015-06-17 16:29:57',NULL),(41,5,NULL,'Goal 2','Goal 2 (During)',17,38,2,'2015-06-17 12:29:57','2015-06-17 16:29:57',NULL),(42,7,NULL,'Goal 2 Objective','Objective',17,41,1,'2015-06-17 12:29:57','2015-06-17 16:29:57',NULL),(43,6,NULL,'Goal 3','Goal 3 (After)',17,38,3,'2015-06-17 12:29:57','2015-06-17 16:29:57',NULL),(44,7,NULL,'Goal 3 Objective','Objective',17,43,2,'2015-06-17 12:29:57','2015-06-17 16:29:57',NULL);
 /*!40000 ALTER TABLE `eop_entity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,7 +217,7 @@ CREATE TABLE `eop_field` (
   `type` varchar(45) DEFAULT NULL,
   `body` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -226,6 +226,7 @@ CREATE TABLE `eop_field` (
 
 LOCK TABLES `eop_field` WRITE;
 /*!40000 ALTER TABLE `eop_field` DISABLE KEYS */;
+INSERT INTO `eop_field` VALUES (1,22,'Goal $key Field','Goal $key Field',1,'2015-06-17 12:23:42','2015-06-17 16:23:42','text',''),(2,25,'Goal $key Field','Goal $key Field',1,'2015-06-17 12:26:44','2015-06-17 16:26:44','text',''),(3,26,'Goal $key Objective Field','Goal $key Objective Field',1,'2015-06-17 12:26:44','2015-06-17 16:26:44','text',''),(4,27,'Goal $key Field','Goal $key Field',1,'2015-06-17 12:26:44','2015-06-17 16:26:44','text',''),(5,28,'Goal $key Objective Field','Goal $key Objective Field',1,'2015-06-17 12:26:44','2015-06-17 16:26:44','text',''),(6,29,'Goal $key Field','Goal $key Field',1,'2015-06-17 12:26:44','2015-06-17 16:26:44','text',''),(7,30,'Goal $key Objective Field','Goal $key Objective Field',1,'2015-06-17 12:26:44','2015-06-17 16:26:44','text',''),(8,32,'Goal 0 Field','Goal 0 Field',1,'2015-06-17 12:28:18','2015-06-17 16:28:18','text',''),(9,33,'Goal 0 Objective Field','Goal 0 Objective Field',1,'2015-06-17 12:28:18','2015-06-17 16:28:18','text',''),(10,34,'Goal 1 Field','Goal 1 Field',1,'2015-06-17 12:28:18','2015-06-17 16:28:18','text',''),(11,35,'Goal 1 Objective Field','Goal 1 Objective Field',1,'2015-06-17 12:28:18','2015-06-17 16:28:18','text',''),(12,36,'Goal 2 Field','Goal 2 Field',1,'2015-06-17 12:28:18','2015-06-17 16:28:18','text',''),(13,37,'Goal 2 Objective Field','Goal 2 Objective Field',1,'2015-06-17 12:28:18','2015-06-17 16:28:18','text',''),(14,39,'Goal 1 Field','Goal 1 Field',1,'2015-06-17 12:29:57','2015-06-17 16:29:57','text','sample'),(15,40,'Goal 1 Objective Field','Goal 1 Objective Field',1,'2015-06-17 12:29:57','2015-06-17 16:29:57','text','obj1'),(16,41,'Goal 2 Field','Goal 2 Field',1,'2015-06-17 12:29:57','2015-06-17 16:29:57','text','sample2'),(17,42,'Goal 2 Objective Field','Goal 2 Objective Field',1,'2015-06-17 12:29:57','2015-06-17 16:29:57','text','obj2'),(18,43,'Goal 3 Field','Goal 3 Field',1,'2015-06-17 12:29:57','2015-06-17 16:29:57','text','sample3'),(19,44,'Goal 3 Objective Field','Goal 3 Objective Field',1,'2015-06-17 12:29:57','2015-06-17 16:29:57','text','obj3');
 /*!40000 ALTER TABLE `eop_field` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -291,7 +292,7 @@ DROP TABLE IF EXISTS `eop_school`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eop_school` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `district_id` int(32) DEFAULT NULL,
+  `district_id` int(32) NOT NULL DEFAULT '0',
   `state_val` varchar(8) DEFAULT NULL,
   `name` varchar(128) DEFAULT NULL,
   `screen_name` varchar(256) DEFAULT NULL,
@@ -310,7 +311,7 @@ CREATE TABLE `eop_school` (
 
 LOCK TABLES `eop_school` WRITE;
 /*!40000 ALTER TABLE `eop_school` DISABLE KEYS */;
-INSERT INTO `eop_school` VALUES (5,4,'MD','First School','School 1',NULL,'2015-05-21 11:13:09','2015-05-21 15:13:09',NULL,'deny'),(6,0,'MD','ggg','gggggg',NULL,'2015-05-21 12:06:17','2015-05-21 16:06:17',NULL,'deny'),(7,0,'MD','ssds','sdsdsds',NULL,'2015-05-21 12:50:14','2015-05-21 16:50:14',NULL,'deny'),(8,4,'MD','dadadad','adasdad',NULL,'2015-05-21 14:25:44','2015-05-21 18:25:44',NULL,'deny'),(9,0,'MD','cccccc2','ccccccc',NULL,'2015-05-21 14:58:01','2015-05-21 18:58:01',NULL,'deny'),(10,4,'MD','kol','fffffff',NULL,'2015-05-21 15:09:06','2015-05-21 19:09:06',NULL,'deny'),(11,5,'MD','hpoijpopo','hjhhjjhjh',NULL,'2015-05-21 16:09:47','2015-05-21 20:09:47',NULL,'deny'),(12,4,'MD','goddie','gogino',NULL,'2015-05-22 10:14:08','2015-05-22 14:14:08',NULL,'deny'),(13,NULL,'MD','Independent School','',NULL,'2015-05-22 15:15:28','2015-05-22 19:15:28',NULL,'deny'),(14,NULL,'MD','My School','Me School',NULL,'2015-05-28 12:15:50','2015-05-28 16:15:50',17,'deny'),(15,5,'MD','My School2','',NULL,'2015-05-28 12:16:09','2015-05-28 16:16:09',17,'deny');
+INSERT INTO `eop_school` VALUES (5,4,'MD','First School','School 1',NULL,'2015-05-21 11:13:09','2015-05-21 15:13:09',NULL,'deny'),(6,0,'MD','ggg','gggggg',NULL,'2015-05-21 12:06:17','2015-05-21 16:06:17',NULL,'deny'),(7,0,'MD','ssds','sdsdsds',NULL,'2015-05-21 12:50:14','2015-05-21 16:50:14',NULL,'deny'),(8,4,'MD','dadadad','adasdad',NULL,'2015-05-21 14:25:44','2015-05-21 18:25:44',NULL,'deny'),(9,0,'MD','cccccc2','ccccccc',NULL,'2015-05-21 14:58:01','2015-05-21 18:58:01',NULL,'deny'),(10,4,'MD','kol','fffffff',NULL,'2015-05-21 15:09:06','2015-05-21 19:09:06',NULL,'deny'),(11,5,'MD','hpoijpopo','hjhhjjhjh',NULL,'2015-05-21 16:09:47','2015-05-21 20:09:47',NULL,'deny'),(12,4,'MD','goddie','gogino',NULL,'2015-05-22 10:14:08','2015-05-22 14:14:08',NULL,'deny'),(13,0,'MD','Independent School','',NULL,'2015-05-22 15:15:28','2015-05-22 19:15:28',NULL,'deny'),(14,0,'MD','My School','Me School',NULL,'2015-05-28 12:15:50','2015-05-28 16:15:50',17,'deny'),(15,5,'MD','My School2','',NULL,'2015-05-28 12:16:09','2015-05-28 16:16:09',17,'deny');
 /*!40000 ALTER TABLE `eop_school` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -574,6 +575,7 @@ SET character_set_client = utf8;
  1 AS `owner`,
  1 AS `state_permission`,
  1 AS `district`,
+ 1 AS `district_screen_name`,
  1 AS `state`*/;
 SET character_set_client = @saved_cs_client;
 
@@ -636,7 +638,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `eop_view_school` AS select `A`.`id` AS `id`,`A`.`district_id` AS `district_id`,`A`.`state_val` AS `state_val`,`A`.`name` AS `name`,`A`.`screen_name` AS `screen_name`,`A`.`description` AS `description`,`A`.`created_date` AS `created_date`,`A`.`modified_date` AS `modified_date`,`A`.`owner` AS `owner`,`A`.`state_permission` AS `state_permission`,`B`.`name` AS `district`,`C`.`name` AS `state` from ((`eop_school` `A` left join `eop_district` `B` on((`A`.`district_id` = `B`.`id`))) left join `eop_state` `C` on((`A`.`state_val` = `C`.`val`))) */;
+/*!50001 VIEW `eop_view_school` AS select `A`.`id` AS `id`,`A`.`district_id` AS `district_id`,`A`.`state_val` AS `state_val`,`A`.`name` AS `name`,`A`.`screen_name` AS `screen_name`,`A`.`description` AS `description`,`A`.`created_date` AS `created_date`,`A`.`modified_date` AS `modified_date`,`A`.`owner` AS `owner`,`A`.`state_permission` AS `state_permission`,`B`.`name` AS `district`,`B`.`screen_name` AS `district_screen_name`,`C`.`name` AS `state` from ((`eop_school` `A` left join `eop_district` `B` on((`A`.`district_id` = `B`.`id`))) left join `eop_state` `C` on((`A`.`state_val` = `C`.`val`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -668,4 +670,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-16 15:55:20
+-- Dump completed on 2015-06-17 17:13:48

@@ -44,7 +44,7 @@ $entities = $page_vars['entities'];
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <div id="container-<?php echo $value['id'];?>"></div>
+                        <div class="fieldsContainer" id="container-<?php echo $value['id'];?>"></div>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -53,6 +53,9 @@ $entities = $page_vars['entities'];
 </div>
 
 <script type='text/javascript'>
+
+    var selectedId;
+
     $(document).ready(function() {
 
         $("a#rightArrowButton").attr("href", "<?php echo(base_url('plan/step3/4')); ?>"); //Next
@@ -66,7 +69,9 @@ $entities = $page_vars['entities'];
 
         $(".addFieldsLink").click(function(){
 
-            var selectedId = $(this).attr('id');
+             selectedId = $(this).attr('id');
+            $(".fieldsContainer").html('');
+
             var divContainer = $("#container-"+selectedId);
 
 
@@ -75,7 +80,7 @@ $entities = $page_vars['entities'];
                 id:     selectedId,
                 action: 'add'
 
-            }
+            };
             $.ajax({
                 url:    '<?php echo(base_url('plan/loadTHCtls')); ?>',
                 data:   formData,
@@ -92,6 +97,69 @@ $entities = $page_vars['entities'];
                 }
 
             });
+        });
+
+
+        $(document).on('click','#saveBtn', function(){
+
+            <?php for($i=1; $i<=3; $i++): ?>
+                var g<?php echo($i);?>ObjData = $.map($(".g<?php echo($i);?>Obj"), function(value, index) {
+                    return [$(value).val()];
+                });
+                var g<?php echo($i);?>ObjIds = $.map($(".g<?php echo($i);?>Obj"), function(value, index) {
+                    return [$(value).attr('data-id')];
+                });
+                var g<?php echo($i);?>fnData = $.map($(".g<?php echo($i);?>fn"), function(value, index) {
+                    return [$(value).val()];
+                });
+            <?php endfor; ?>
+
+            selectedId = $('#entity_identifier').val();
+
+            var formData = {
+                ajax:       '1',
+                id:         selectedId,
+                action:     'save',
+                g1ObjData:  g1ObjData,
+                g2ObjData:  g2ObjData,
+                g3ObjData:  g3ObjData,
+                g1ObjIds:   g1ObjIds,
+                g2ObjIds:   g2ObjIds,
+                g3ObjIds:   g3ObjIds,
+                g1Id:       $('#txtg1').attr('data-id'),
+                g2Id:       $('#txtg2').attr('data-id'),
+                g3Id:       $('#txtg3').attr('data-id'),
+                g1:         $('#txtg1').val(),
+                g2:         $('#txtg2').val(),
+                g3:         $('#txtg3').val(),
+                fn1:        $('#slctg1fn').val(),
+                fn2:        $('#slctg2fn').val(),
+                fn3:        $('#slctg3fn').val(),
+                g1fnData:   g1fnData,
+                g2fnData:   g2fnData,
+                g3fnData:   g3fnData
+
+            };
+
+            $.ajax({
+                url:    '<?php echo(base_url('plan/manageTHGoals')); ?>',
+                data:   formData,
+                type:   'POST',
+                success: function(response){
+
+                    try{
+                        $(divContainer).html(response);
+                        $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                    }catch(err){
+                        alert('Problem loading controls ' + err.message());
+                    }
+                }
+
+            });
+
+
+            return false;
         });
 
 

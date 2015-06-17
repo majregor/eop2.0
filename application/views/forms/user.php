@@ -139,12 +139,12 @@
         </tr>
        
         <tr id="districtRow" style="display:none;">
-            <td><span class="">*</span>District:</td>
+            <td><span class="">*</span> District:</td>
             <td>
               <?php
                     $options = array();
-                    $options[''] = '--Select--';
-                    //$options['']    =   'None';
+                    $options['Null'] = '--Select--';
+                    $options['']    =   'None';
                     foreach($districts as $rowIndex => $row){
                         $options[$row['id']] = $row['name'];
                     }
@@ -157,14 +157,14 @@
             </td>
         </tr> 
         <tr id="schoolRow" style="display: none;">
-            <td><span class="required">*</span>School:</td>
+            <td><span class="required">*</span> School:</td>
             <td>
                 <?php
                 $options = array();
                 $options[''] = '--Select--';
-                foreach($schools as $rowIndex => $row){
+                /*foreach($schools as $rowIndex => $row){
                     $options[$row['id']] = $row['name'];
-                }
+                }*/
 
                 $otherAttributes = 'id="sltschool" required="required" style=""';
                 reset($options);
@@ -174,12 +174,13 @@
             </td>
         </tr>
         <tr>
-            <td><span class="required">*</span>View-Only:</td>
+            <td><span class="required">*</span> View-Only:</td>
             <td>
                 <?php
                     $options = array(
-                        'y'      => 'Yes',
-                        'n'      =>  'No'
+
+                        'n'      =>  'No',
+                        'y'      => 'Yes'
                     );
 
                      $otherAttributes = 'id="user_access_permission"  style=""';

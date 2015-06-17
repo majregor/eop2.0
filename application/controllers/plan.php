@@ -102,7 +102,7 @@ class Plan extends CI_Controller{
                 'type_id'   =>      $this->plan_model->getEntityTypeId('th', 'name')
             );
 
-            $savedRecs = $this->plan_model->addThreadAndHazard($data);
+            $savedRecs = $this->plan_model->addThreatAndHazard($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
                 $this->output->set_output(json_encode(array(
@@ -119,6 +119,8 @@ class Plan extends CI_Controller{
             redirect('plan/step2/2');
         }
     }
+
+
 
     public function showTh(){
         if($this->input->post('ajax')){
@@ -174,8 +176,9 @@ class Plan extends CI_Controller{
             switch($action){
                 case 'add':
                     $fnData = $this->plan_model->getEntities('fn', null, false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
-                    $thData = $this->plan_model->getEntities('th',null,true);
+                    $thData = $this->plan_model->getEntities('th', array('id'=>$id), true);
                     $data = array(
+                        'entity_id'                 =>  $id,
                         'functions'                 =>  $fnData,
                         'threats_and_hazards'       =>  $thData
                     );
@@ -187,6 +190,27 @@ class Plan extends CI_Controller{
             redirect('plan/step3/3');
         }
     }
+
+    /**
+     * @todo Finalise the saving operation
+     */
+    public function manageTHGoals(){
+        if($this->input->post('ajax')){
+
+            $action = $this->input->post('action');
+            $id     = $this->input->post('id');
+
+            switch($action){
+                case 'save':
+
+                    break;
+            }
+
+        }else{
+            redirect('plan/step3/3');
+        }
+    }
+
     /**
      * Function checks if user is logged in, redirects to login page if not.
      * @method authenticate
