@@ -6,6 +6,13 @@ class Plan_model extends CI_Model {
         parent::__construct();
     }
 
+
+    public function addEntity($data){
+
+        $this->db->insert('eop_entity', $data);
+        return $this->db->insert_id();
+    }
+
     public function addThreatAndHazard($data){
 
         $this->db->insert('eop_entity', $data);
@@ -16,6 +23,15 @@ class Plan_model extends CI_Model {
          * Add the default goal 1, 2 and 3 objectives as children to the new Threat & Hazard
          */
         $this->saveDefaultTHGoals($insertedId);
+
+        return $affected_rows;
+
+    }
+
+    public function addTHFn($data){
+
+        $this->db->insert('eop_entity', $data);
+        $affected_rows = $this->db->affected_rows();
 
         return $affected_rows;
 
@@ -137,6 +153,43 @@ class Plan_model extends CI_Model {
 
         return $this->db->affected_rows();
 
+    }
+
+
+    public function exists($entity_id){
+        $query = $this->db->get_where('eop_entity', array('id'=>$entity_id));
+        $result = $query->result_array();
+
+        if(count($result)>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function fieldExists($id){
+        $query = $this->db->get_where('eop_field', array('id'=>$id));
+        $result = $query->result_array();
+
+        if(count($result)>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function updateField($id, $data){
+        $this->db->where('id', $id);
+        $this->db->update('eop_field', $data);
+
+        return $this->db->affected_rows();
+    }
+
+    public function addField($data){
+        $this->db->insert('eop_field', $data);
+        $affected_rows = $this->db->affected_rows();
+
+        return $affected_rows;
     }
 
     /**

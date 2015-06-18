@@ -21,6 +21,7 @@
                                 name="txt<?php echo($thChild['type']);?>"
                                 id="txt<?php echo($thChild['type']);?>"
                                 data-id="<?php echo($thChild['id']);?>"
+                                data-field-id="<?php echo($field['id']);?>"
                                 style="width:100%"
                                 rows="4"><?php echo($field['body']); ?></textarea>
                         <?php endforeach; ?>
@@ -55,6 +56,7 @@
                                         id="txt<?php    echo($thChild['type']);?>obj<?php echo($key);?>"
                                         class="<?php    echo($thChild['type']);?>Obj"
                                         data-id="<?php echo($grandChild['id']);?>"
+                                        data-field-id="<?php echo($field['id']);?>"
                                         style="width:100%" rows="4"><?php echo($field['body']); ?></textarea>
                                 <?php endforeach; ?>
                             </td>
@@ -160,10 +162,10 @@
         data+="<tr id='g"+goal+"Item"+items+"'>";
         data+="<td class='txnorm'>Objective</td>";
         data+="<td>";
-        data+="<textarea class='g"+goal+"Obj'  style='width:100%' rows='4'></textarea>";
+        data+="<textarea class='g" + goal + "ObjNew'  style='width:100%' rows='4'></textarea>";
         data+="</td></tr>";
         data+="<tr id='g"+goal+"Item"+items+"Fn'>  <td class='txtnorm'>Function:</td>";
-        data+="<td>  <select  style='width: 65%' class='g"+goal+"fn'>";
+        data+="<td>  <select  style='width: 65%' class='g"+goal+"fnNew'>";
         data+="<option value='' selected='selected'>--Select--</option>";
         <?php foreach($functions as $key=>$value): ?>
             data+="<option value='<?php echo($value['id']);?>'><?php echo($value['name']);?></option>";

@@ -199,9 +199,232 @@ class Plan extends CI_Controller{
 
             $action = $this->input->post('action');
             $id     = $this->input->post('id');
+            $recs = null;
 
             switch($action){
                 case 'save':
+                    //Update the defaul goals and objectives
+
+                    $g1Id       =   $this->input->post('g1Id');
+                    $g2Id       =   $this->input->post('g2Id');
+                    $g3Id       =   $this->input->post('g3Id');
+                    $g1         =   $this->input->post('g1');
+                    $g2         =   $this->input->post('g2');
+                    $g3         =   $this->input->post('g3');
+                    $g1FieldId  =   $this->input->post('g1FieldId');
+                    $g2FieldId  =   $this->input->post('g2FieldId');
+                    $g3FieldId  =   $this->input->post('g3FieldId');
+                    $fn1Txt     =   $this->input->post('fn1Txt');
+                    $fn2Txt     =   $this->input->post('fn2Txt');
+                    $fn3Txt     =   $this->input->post('fn3Txt');
+                    $g1ObjData  =   $this->input->post('g1ObjData');
+                    $g2ObjData  =   $this->input->post('g2ObjData');
+                    $g3ObjData  =   $this->input->post('g3ObjData');
+                    $g1fnData   =   $this->input->post('g1fnData');
+                    $g2fnData   =   $this->input->post('g2fnData');
+                    $g3fnData   =   $this->input->post('g3fnData');
+                    $g1ObjIds   =   $this->input->post('g1ObjIds');
+                    $g2ObjIds   =   $this->input->post('g2ObjIds');
+                    $g3ObjIds   =   $this->input->post('g3ObjIds');
+                    $g1ObjFieldIds = $this->input->post('g1ObjFieldIds');
+                    $g2ObjFieldIds = $this->input->post('g2ObjFieldIds');
+                    $g3ObjFieldIds = $this->input->post('g3ObjFieldIds');
+                    $g1ObjDataNew   =   ($this->input->post('g1ObjDataNew'))? $this->input->post('g1ObjDataNew'): array();
+                    $g2ObjDataNew   =   ($this->input->post('g2ObjDataNew'))? $this->input->post('g2ObjDataNew'): array();
+                    $g3ObjDataNew   =   ($this->input->post('g3ObjDataNew'))? $this->input->post('g3ObjDataNew'): array();
+                    $g1fnDataNew    =   ($this->input->post('g1fnDataNew'))? $this->input->post('g1fnDataNew'): array();
+                    $g2fnDataNew    =   ($this->input->post('g2fnDataNew'))? $this->input->post('g2fnDataNew'): array();
+                    $g3fnDataNew    =   ($this->input->post('g3fnDataNew'))? $this->input->post('g3fnDataNew'): array();
+
+
+                    // Update the default goal 1, 2 and 3 entities fields
+                    $recs = $this->plan_model->updateField($g1FieldId, array('body'=>$g1));
+                    $recs = $this->plan_model->updateField($g2FieldId, array('body'=>$g2));
+                    $recs = $this->plan_model->updateField($g3FieldId, array('body'=>$g3));
+
+                    //Save goal level functions
+                    $fn1data = array(
+                        'name'      =>      $fn1Txt,
+                        'title'     =>      $fn1Txt,
+                        'parent'    =>      $g1Id,
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                    );
+                    $fn2data = array(
+                        'name'      =>      $fn2Txt,
+                        'title'     =>      $fn2Txt,
+                        'parent'    =>      $g2Id,
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                    );
+                    $fn3data = array(
+                        'name'      =>      $fn3Txt,
+                        'title'     =>      $fn3Txt,
+                        'parent'    =>      $g3Id,
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                    );
+
+                    $recs = $this->plan_model->addTHFn($fn1data);
+                    $recs = $this->plan_model->addTHFn($fn2data);
+                    $recs = $this->plan_model->addTHFn($fn3data);
+
+                    foreach($g1ObjFieldIds as $key=>$value){
+                        if($this->plan_model->fieldExists($value)){
+                            $this->plan_model->updateField($value, array('body'=>$g1ObjData[$key]));
+
+                            $fnData = array(
+                                'name'      =>  $g1fnData[$key],
+                                'title'     =>  $g1fnData[$key],
+                                'parent'    =>  $g1ObjIds[$key],
+                                'owner'     =>      $this->session->userdata('user_id'),
+                                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                                'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                            );
+                            $this->plan_model->addTHFn($fnData);
+                        }
+                    }
+
+                    foreach($g2ObjFieldIds as $key=>$value){
+                        if($this->plan_model->fieldExists($value)){
+                            $this->plan_model->updateField($value, array('body'=>$g2ObjData[$key]));
+
+                            $fnData = array(
+                                'name'      =>  $g2fnData[$key],
+                                'title'     =>  $g2fnData[$key],
+                                'parent'    =>  $g2ObjIds[$key],
+                                'owner'     =>      $this->session->userdata('user_id'),
+                                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                                'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                            );
+                            $this->plan_model->addTHFn($fnData);
+                        }
+                    }
+
+                    foreach($g3ObjFieldIds as $key=>$value){
+                        if($this->plan_model->fieldExists($value)){
+                            $this->plan_model->updateField($value, array('body'=>$g3ObjData[$key]));
+
+                            $fnData = array(
+                                'name'      =>  $g3fnData[$key],
+                                'title'     =>  $g3fnData[$key],
+                                'parent'    =>  $g3ObjIds[$key],
+                                'owner'     =>      $this->session->userdata('user_id'),
+                                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                                'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                            );
+                            $this->plan_model->addTHFn($fnData);
+                        }
+                    }
+
+                    foreach($g1ObjDataNew as $key =>$value){
+                        //Create new entity and field
+                        $entityData = array(
+                            'name'      =>      'Goal 1 Objective',
+                            'title'     =>      'Objective',
+                            'owner'     =>      $this->session->userdata('user_id'),
+                            'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                            'type_id'   =>      $this->getEntityTypeId('obj', 'name'),
+                            'parent'    =>      $g1Id,
+                            'weight'    =>      count($g1ObjData)+$key+1
+                        );
+                        $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                        $fieldData = array(
+                            'entity_id' =>      $insertedEntityId,
+                            'name'      =>      'Objective Field',
+                            'title'     =>      'Objective',
+                            'weight'    =>      1,
+                            'type'      =>      'text',
+                            'body'      =>      $value
+                        );
+                        $this->plan_model->addField($fieldData);
+
+                        $fndata = array(
+                            'name'      =>      $g1fnDataNew[$key],
+                            'title'     =>      $g1fnDataNew[$key],
+                            'parent'    =>      $insertedEntityId,
+                            'owner'     =>      $this->session->userdata('user_id'),
+                            'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                            'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                        );
+                        $this->plan_model->addTHFn($fndata);
+                    }
+
+                    foreach($g2ObjDataNew as $key =>$value){
+                        //Create new entity and field
+                        $entityData = array(
+                            'name'      =>      'Goal 2 Objective',
+                            'title'     =>      'Objective',
+                            'owner'     =>      $this->session->userdata('user_id'),
+                            'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                            'type_id'   =>      $this->getEntityTypeId('obj', 'name'),
+                            'parent'    =>      $g1Id,
+                            'weight'    =>      count($g2ObjData)+$key+1
+                        );
+                        $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                        $fieldData = array(
+                            'entity_id' =>      $insertedEntityId,
+                            'name'      =>      'Goal 2 Objective Field',
+                            'title'     =>      'Goal 2 Objective Field',
+                            'weight'    =>      1,
+                            'type'      =>      'text',
+                            'body'      =>      $value
+                        );
+                        $this->plan_model->addField($fieldData);
+
+                        $fndata = array(
+                            'name'      =>      $g2fnDataNew[$key],
+                            'title'     =>      $g2fnDataNew[$key],
+                            'parent'    =>      $insertedEntityId,
+                            'owner'     =>      $this->session->userdata('user_id'),
+                            'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                            'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                        );
+                        $this->plan_model->addTHFn($fndata);
+                    }
+
+                    foreach($g3ObjDataNew as $key =>$value){
+                        //Create new entity and field
+                        $entityData = array(
+                            'name'      =>      'Goal 3 Objective',
+                            'title'     =>      'Objective',
+                            'owner'     =>      $this->session->userdata('user_id'),
+                            'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                            'type_id'   =>      $this->getEntityTypeId('obj', 'name'),
+                            'parent'    =>      $g1Id,
+                            'weight'    =>      count($g3ObjData)+$key+1
+                        );
+                        $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                        $fieldData = array(
+                            'entity_id' =>      $insertedEntityId,
+                            'name'      =>      'Goal 3 Objective Field',
+                            'title'     =>      'Goal 3 Objective Field',
+                            'weight'    =>      1,
+                            'type'      =>      'text',
+                            'body'      =>      $value
+                        );
+                        $this->plan_model->addField($fieldData);
+
+                        $fndata = array(
+                            'name'      =>      $g3fnDataNew[$key],
+                            'title'     =>      $g3fnDataNew[$key],
+                            'parent'    =>      $insertedEntityId,
+                            'owner'     =>      $this->session->userdata('user_id'),
+                            'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                            'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                        );
+                        $this->plan_model->addTHFn($fndata);
+                    }
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
 
                     break;
             }

@@ -86,13 +86,12 @@ $entities = $page_vars['entities'];
                 data:   formData,
                 type:   'POST',
                 success: function(response){
-
                     try{
                         $(divContainer).html(response);
                         $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
 
                     }catch(err){
-                        alert('Problem loading controls ' + err.message());
+                        alert('Problem loading controls ' + err);
                     }
                 }
 
@@ -109,12 +108,27 @@ $entities = $page_vars['entities'];
                 var g<?php echo($i);?>ObjIds = $.map($(".g<?php echo($i);?>Obj"), function(value, index) {
                     return [$(value).attr('data-id')];
                 });
-                var g<?php echo($i);?>fnData = $.map($(".g<?php echo($i);?>fn"), function(value, index) {
+                var g<?php echo($i);?>ObjFieldIds = $.map($(".g<?php echo($i);?>Obj"), function(value, index) {
+                    return [$(value).attr('data-field-id')];
+                });
+                var g<?php echo($i);?>fnData = $.map($("select.g<?php echo($i);?>fn option:selected"), function(value, index) {
+                    return [$(value).text().trim()];
+                });
+
+            //New Data
+                var g<?php echo($i);?>fnDataNew = $.map($("select.g<?php echo($i);?>fnNew option:selected"), function(value, index) {
+                    return [$(value).text().trim()];
+                });
+                var g<?php echo($i);?>ObjDataNew = $.map($(".g<?php echo($i);?>ObjNew"), function(value, index) {
                     return [$(value).val()];
                 });
             <?php endfor; ?>
 
             selectedId = $('#entity_identifier').val();
+            var g1TxtCtl = $('#txtg1');
+            var g2TxtCtl = $('#txtg2');
+            var g3TxtCtl = $('#txtg3');
+
 
             var formData = {
                 ajax:       '1',
@@ -126,18 +140,33 @@ $entities = $page_vars['entities'];
                 g1ObjIds:   g1ObjIds,
                 g2ObjIds:   g2ObjIds,
                 g3ObjIds:   g3ObjIds,
-                g1Id:       $('#txtg1').attr('data-id'),
-                g2Id:       $('#txtg2').attr('data-id'),
-                g3Id:       $('#txtg3').attr('data-id'),
-                g1:         $('#txtg1').val(),
-                g2:         $('#txtg2').val(),
-                g3:         $('#txtg3').val(),
+                g1ObjFieldIds: g1ObjFieldIds,
+                g2ObjFieldIds: g2ObjFieldIds,
+                g3ObjFieldIds: g3ObjFieldIds,
+                g1Id:       g1TxtCtl.attr('data-id'),
+                g2Id:       g2TxtCtl.attr('data-id'),
+                g3Id:       g3TxtCtl.attr('data-id'),
+                g1FieldId:  g1TxtCtl.attr('data-field-id'),
+                g2FieldId:  g2TxtCtl.attr('data-field-id'),
+                g3FieldId:  g3TxtCtl.attr('data-field-id'),
+                g1:         g1TxtCtl.val(),
+                g2:         g2TxtCtl.val(),
+                g3:         g3TxtCtl.val(),
                 fn1:        $('#slctg1fn').val(),
                 fn2:        $('#slctg2fn').val(),
                 fn3:        $('#slctg3fn').val(),
+                fn1Txt:     $('select#slctg1fn option:selected').text(),
+                fn2Txt:     $('select#slctg2fn option:selected').text(),
+                fn3Txt:     $('select#slctg3fn option:selected').text(),
                 g1fnData:   g1fnData,
                 g2fnData:   g2fnData,
-                g3fnData:   g3fnData
+                g3fnData:   g3fnData,
+                g1ObjDataNew:  g1ObjDataNew,
+                g2ObjDataNew:  g2ObjDataNew,
+                g3ObjDataNew:  g3ObjDataNew,
+                g1fnDataNew :   g1fnDataNew,
+                g2fnDataNew :   g2fnDataNew,
+                g3fnDataNew :   g3fnDataNew
 
             };
 
@@ -148,11 +177,10 @@ $entities = $page_vars['entities'];
                 success: function(response){
 
                     try{
-                        $(divContainer).html(response);
-                        $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+                        alert(response);
 
                     }catch(err){
-                        alert('Problem loading controls ' + err.message());
+                        alert('Problem loading controls '+err);
                     }
                 }
 
