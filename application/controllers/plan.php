@@ -66,6 +66,12 @@ class Plan extends CI_Controller{
                 $data['entities'] = $thData;
             }
         }
+        elseif($step==4){
+            $fnData = $this->plan_model->getEntities('fn', array('parent'=>null), false, array('orderby'=>'name', 'type'=>'ASC'));
+            if(is_array($fnData)){
+                $data['entities'] = $fnData;
+            }
+        }
 
         $templateData = array(
             'page'          =>  'step3',
@@ -117,6 +123,29 @@ class Plan extends CI_Controller{
 
         }else{ //Redirect to step2_2
             redirect('plan/step2/2');
+        }
+    }
+
+    public function addFn(){
+        $this->authenticate();
+
+        if($this->input->post('ajax')){
+            $fndata = array(
+                'name'      =>      $this->input->post('txtfn'),
+                'title'     =>      $this->input->post('txtfn'),
+                'parent'    =>      null,
+                'owner'     =>      $this->session->userdata('user_id'),
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+            );
+
+            //Add top level function entity (without parent)
+            $this->plan_model->addTHFn($fndata);
+
+            $data = $this->plan_model->getEntities('fn', array('parent'=>null), false, array('orderby'=>'name', 'type'=>'ASC'));
+
+            $this->output->set_output(json_encode($data));
+
         }
     }
 
@@ -175,16 +204,67 @@ class Plan extends CI_Controller{
 
             switch($action){
                 case 'add':
-                    $fnData = $this->plan_model->getEntities('fn', null, false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
+                    $fnData = $this->plan_model->getEntities('fn', array('parent'=>null), false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
                     $thData = $this->plan_model->getEntities('th', array('id'=>$id), true);
                     $data = array(
                         'entity_id'                 =>  $id,
                         'functions'                 =>  $fnData,
-                        'threats_and_hazards'       =>  $thData
+                        'threats_and_hazards'       =>  $thData,
+                        'action'                    =>  'add'
                     );
 
                     $this->load->view('ajax/step3_th_goals', $data);
                     break;
+                case 'edit':
+                    $fnData = $this->plan_model->getEntities('fn', array('parent'=>null), false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
+                    $thData = $this->plan_model->getEntities('th', array('id'=>$id), true);
+                    $data = array(
+                        'entity_id'                 =>  $id,
+                        'functions'                 =>  $fnData,
+                        'threats_and_hazards'       =>  $thData,
+                        'action'                    =>  'edit'
+                    );
+
+                    $this->load->view('ajax/step3_th_goals', $data);
+                    break;
+
+            }
+        }else{
+            redirect('plan/step3/3');
+        }
+    }
+
+    public function loadFNCtls(){
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+            $id     = $this->input->post('id');
+
+            switch($action){
+                case 'add':
+                    $fnData = $this->plan_model->getEntities('fn', array('parent'=>null), false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
+                    $thData = $this->plan_model->getEntities('th', array('id'=>$id), true);
+                    $data = array(
+                        'entity_id'                 =>  $id,
+                        'functions'                 =>  $fnData,
+                        'threats_and_hazards'       =>  $thData,
+                        'action'                    =>  'add'
+                    );
+
+                    $this->load->view('ajax/step3_fn_goals', $data);
+                    break;
+                case 'edit':
+                    $fnData = $this->plan_model->getEntities('fn', array('parent'=>null), false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
+                    $thData = $this->plan_model->getEntities('th', array('id'=>$id), true);
+                    $data = array(
+                        'entity_id'                 =>  $id,
+                        'functions'                 =>  $fnData,
+                        'threats_and_hazards'       =>  $thData,
+                        'action'                    =>  'edit'
+                    );
+
+                    $this->load->view('ajax/step3_fn_goals', $data);
+                    break;
+
             }
         }else{
             redirect('plan/step3/3');
@@ -198,6 +278,7 @@ class Plan extends CI_Controller{
         if($this->input->post('ajax')){
 
             $action = $this->input->post('action');
+            $mode = $this->input->post('mode');
             $id     = $this->input->post('id');
             $recs = null;
 
@@ -217,12 +298,22 @@ class Plan extends CI_Controller{
                     $fn1Txt     =   $this->input->post('fn1Txt');
                     $fn2Txt     =   $this->input->post('fn2Txt');
                     $fn3Txt     =   $this->input->post('fn3Txt');
+                    if($mode=='edit') {
+                        $fn1Val = $this->input->post('fn1Val');
+                        $fn2Val = $this->input->post('fn2Val');
+                        $fn3Val = $this->input->post('fn3Val');
+                    }
                     $g1ObjData  =   $this->input->post('g1ObjData');
                     $g2ObjData  =   $this->input->post('g2ObjData');
                     $g3ObjData  =   $this->input->post('g3ObjData');
                     $g1fnData   =   $this->input->post('g1fnData');
                     $g2fnData   =   $this->input->post('g2fnData');
                     $g3fnData   =   $this->input->post('g3fnData');
+                    if($mode=='edit'){
+                        $g1fnVal   =   $this->input->post('g1fnVal');
+                        $g2fnVal   =   $this->input->post('g2fnVal');
+                        $g3fnVal   =   $this->input->post('g3fnVal');
+                    }
                     $g1ObjIds   =   $this->input->post('g1ObjIds');
                     $g2ObjIds   =   $this->input->post('g2ObjIds');
                     $g3ObjIds   =   $this->input->post('g3ObjIds');
@@ -235,6 +326,20 @@ class Plan extends CI_Controller{
                     $g1fnDataNew    =   ($this->input->post('g1fnDataNew'))? $this->input->post('g1fnDataNew'): array();
                     $g2fnDataNew    =   ($this->input->post('g2fnDataNew'))? $this->input->post('g2fnDataNew'): array();
                     $g3fnDataNew    =   ($this->input->post('g3fnDataNew'))? $this->input->post('g3fnDataNew'): array();
+
+                    if($mode=='add') {
+                        //Add field to TH to indicate that it has been initiated
+                        $fieldData = array(
+                            'entity_id' => $id,
+                            'name' => 'TH Field',
+                            'title' => 'Threats and Hazards Default Field',
+                            'weight' => 1,
+                            'type' => 'text',
+                            'body' => ''
+                        );
+
+                        $recs = $this->plan_model->addField($fieldData);
+                    }
 
 
                     // Update the default goal 1, 2 and 3 entities fields
@@ -268,9 +373,15 @@ class Plan extends CI_Controller{
                         'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
                     );
 
-                    $recs = $this->plan_model->addTHFn($fn1data);
-                    $recs = $this->plan_model->addTHFn($fn2data);
-                    $recs = $this->plan_model->addTHFn($fn3data);
+                    if($mode=='add') {
+                        (trim(strtolower($fn1data['name'])) != "--select--") ? $recs = $this->plan_model->addTHFn($fn1data) : $recs = 0;
+                        (trim(strtolower($fn2data['name'])) != "--select--") ? $recs = $this->plan_model->addTHFn($fn2data) : $recs = 0;
+                        (trim(strtolower($fn3data['name'])) != "--select--") ? $recs = $this->plan_model->addTHFn($fn3data) : $recs = 0;
+                    }else{
+                       // (trim(strtolower($fn1data['name'])) != "--select--") ? $recs = $this->plan_model->update($fn1Val, $fn1data) : $recs = 0;
+                       // (trim(strtolower($fn2data['name'])) != "--select--") ? $recs = $this->plan_model->update($fn2Val, $fn2data) : $recs = 0;
+                       // (trim(strtolower($fn3data['name'])) != "--select--") ? $recs = $this->plan_model->update($fn3Val, $fn3data) : $recs = 0;
+                    }
 
                     foreach($g1ObjFieldIds as $key=>$value){
                         if($this->plan_model->fieldExists($value)){
@@ -284,7 +395,11 @@ class Plan extends CI_Controller{
                                 'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
                                 'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
                             );
-                            $this->plan_model->addTHFn($fnData);
+                            if($mode=='add') {
+                                (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->addTHFn($fnData) : '';
+                            }else{
+                               // (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->update($g1fnVal[$key], $fnData) : '';
+                            }
                         }
                     }
 
@@ -300,7 +415,11 @@ class Plan extends CI_Controller{
                                 'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
                                 'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
                             );
-                            $this->plan_model->addTHFn($fnData);
+                            if($mode=='add'){
+                                (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->addTHFn($fnData): '';
+                            }else{
+                               // (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->update($g2fnVal[$key], $fnData): '';
+                            }
                         }
                     }
 
@@ -316,7 +435,11 @@ class Plan extends CI_Controller{
                                 'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
                                 'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
                             );
-                            $this->plan_model->addTHFn($fnData);
+                            if($mode=='add'){
+                                (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->addTHFn($fnData): '';
+                            }else{
+                                //(trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->update($g3fnVal[$key], $fnData): '';
+                            }
                         }
                     }
 
@@ -327,7 +450,7 @@ class Plan extends CI_Controller{
                             'title'     =>      'Objective',
                             'owner'     =>      $this->session->userdata('user_id'),
                             'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                            'type_id'   =>      $this->getEntityTypeId('obj', 'name'),
+                            'type_id'   =>      $this->plan_model->getEntityTypeId('obj', 'name'),
                             'parent'    =>      $g1Id,
                             'weight'    =>      count($g1ObjData)+$key+1
                         );
@@ -351,7 +474,7 @@ class Plan extends CI_Controller{
                             'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
                             'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
                         );
-                        $this->plan_model->addTHFn($fndata);
+                        (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->addTHFn($fnData): '';
                     }
 
                     foreach($g2ObjDataNew as $key =>$value){
@@ -361,7 +484,7 @@ class Plan extends CI_Controller{
                             'title'     =>      'Objective',
                             'owner'     =>      $this->session->userdata('user_id'),
                             'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                            'type_id'   =>      $this->getEntityTypeId('obj', 'name'),
+                            'type_id'   =>      $this->plan_model->getEntityTypeId('obj', 'name'),
                             'parent'    =>      $g1Id,
                             'weight'    =>      count($g2ObjData)+$key+1
                         );
@@ -385,7 +508,7 @@ class Plan extends CI_Controller{
                             'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
                             'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
                         );
-                        $this->plan_model->addTHFn($fndata);
+                        (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->addTHFn($fnData): '';
                     }
 
                     foreach($g3ObjDataNew as $key =>$value){
@@ -395,7 +518,7 @@ class Plan extends CI_Controller{
                             'title'     =>      'Objective',
                             'owner'     =>      $this->session->userdata('user_id'),
                             'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                            'type_id'   =>      $this->getEntityTypeId('obj', 'name'),
+                            'type_id'   =>      $this->plan_model->getEntityTypeId('obj', 'name'),
                             'parent'    =>      $g1Id,
                             'weight'    =>      count($g3ObjData)+$key+1
                         );
@@ -419,7 +542,7 @@ class Plan extends CI_Controller{
                             'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
                             'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
                         );
-                        $this->plan_model->addTHFn($fndata);
+                        (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->addTHFn($fnData): '';
                     }
 
                     $this->output->set_output(json_encode(array(

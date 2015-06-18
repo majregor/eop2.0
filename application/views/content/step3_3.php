@@ -36,7 +36,7 @@ $entities = $page_vars['entities'];
                     <td><?php echo $value['name']; ?></td>
                     <td align="center">
                         <?php if(isset($value['fields']) && count($value['fields'])>0): ?>
-                            <a href="#" id="<?php echo $value['id'];?>">Edit</a>
+                            <a href="#" id="<?php echo $value['id'];?>" class="editFieldsLink">Edit</a>
                         <?php else: ?>
                             <a href="#" id="<?php echo $value['id'];?>" class="addFieldsLink">Add</a>
                         <?php endif; ?>
@@ -51,6 +51,12 @@ $entities = $page_vars['entities'];
         </table>
     </div>
 </div>
+
+<div id="new-fn-dialog" title="New Function">
+    <?php $this->load->view('forms/function'); ?>
+</div>
+
+
 
 <script type='text/javascript'>
 
@@ -98,6 +104,41 @@ $entities = $page_vars['entities'];
             });
         });
 
+        $(".editFieldsLink").click(function(){
+
+            selectedId = $(this).attr('id');
+
+            $(".fieldsContainer").html('');
+
+            var divContainer = $("#container-"+selectedId);
+
+
+            var formData = {
+                ajax:   '1',
+                id:     selectedId,
+                action: 'edit'
+
+            };
+            $.ajax({
+                url:    '<?php echo(base_url('plan/loadTHCtls')); ?>',
+                data:   formData,
+                type:   'POST',
+                success: function(response){
+                    try{
+                        $(divContainer).html(response);
+                        $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                    }catch(err){
+                        alert('Problem loading controls ' + err);
+                    }
+                }
+
+            });
+
+            $(divContainer).html('');
+            return false;
+        });
+
 
         $(document).on('click','#saveBtn', function(){
 
@@ -114,6 +155,9 @@ $entities = $page_vars['entities'];
                 var g<?php echo($i);?>fnData = $.map($("select.g<?php echo($i);?>fn option:selected"), function(value, index) {
                     return [$(value).text().trim()];
                 });
+                var g<?php echo($i);?>fnVal = $.map($("select.g<?php echo($i);?>fn option:selected"), function(value, index) {
+                    return [$(value).val()];
+                });
 
             //New Data
                 var g<?php echo($i);?>fnDataNew = $.map($("select.g<?php echo($i);?>fnNew option:selected"), function(value, index) {
@@ -125,6 +169,7 @@ $entities = $page_vars['entities'];
             <?php endfor; ?>
 
             selectedId = $('#entity_identifier').val();
+            var mode = $('#action_identifier').val();
             var g1TxtCtl = $('#txtg1');
             var g2TxtCtl = $('#txtg2');
             var g3TxtCtl = $('#txtg3');
@@ -133,6 +178,7 @@ $entities = $page_vars['entities'];
             var formData = {
                 ajax:       '1',
                 id:         selectedId,
+                mode:     mode,
                 action:     'save',
                 g1ObjData:  g1ObjData,
                 g2ObjData:  g2ObjData,
@@ -155,12 +201,18 @@ $entities = $page_vars['entities'];
                 fn1:        $('#slctg1fn').val(),
                 fn2:        $('#slctg2fn').val(),
                 fn3:        $('#slctg3fn').val(),
-                fn1Txt:     $('select#slctg1fn option:selected').text(),
-                fn2Txt:     $('select#slctg2fn option:selected').text(),
-                fn3Txt:     $('select#slctg3fn option:selected').text(),
+                fn1Txt:     $('select#slctg1fn option:selected').text().trim(),
+                fn2Txt:     $('select#slctg2fn option:selected').text().trim(),
+                fn3Txt:     $('select#slctg3fn option:selected').text().trim(),
+                fn1Val:     $('select#slctg1fn option:selected').val(),
+                fn2Val:     $('select#slctg2fn option:selected').val(),
+                fn3Val:     $('select#slctg3fn option:selected').val(),
                 g1fnData:   g1fnData,
                 g2fnData:   g2fnData,
                 g3fnData:   g3fnData,
+                g1fnVal:       g1fnVal,
+                g2fnVal:       g2fnVal,
+                g3fnVal:       g3fnVal,
                 g1ObjDataNew:  g1ObjDataNew,
                 g2ObjDataNew:  g2ObjDataNew,
                 g3ObjDataNew:  g3ObjDataNew,
@@ -169,6 +221,7 @@ $entities = $page_vars['entities'];
                 g3fnDataNew :   g3fnDataNew
 
             };
+
 
             $.ajax({
                 url:    '<?php echo(base_url('plan/manageTHGoals')); ?>',
@@ -186,10 +239,81 @@ $entities = $page_vars['entities'];
 
             });
 
-
+            $("#container-"+selectedId).html('');
             return false;
         });
 
+        $(document).on('change','select', function(){
+            if($(this).val().trim()=="other"){
+                $("#new-fn-dialog").dialog('open');
+                return false;
+            }
+
+        });
+
+        $("#new-fn-dialog").dialog({
+            resizable:      false,
+            minHeight:      150,
+            minWidth:       500,
+            modal:          true,
+            autoOpen:       false,
+            show:           {
+                effect:     'scale',
+                duration: 200
+            }
+        });
+
+        $("#newFnForm").validate({
+            submitHandler: submit_fn_form
+        });
+
+        function submit_fn_form(){
+            var form_data={
+                ajax: '1',
+                txtfn: $('#txtfn').val()
+            };
+            $.ajax({
+                url: "<?php echo base_url('plan/addFn'); ?>",
+                type: 'POST',
+                data: form_data,
+                success: function(response) {
+                    try{
+
+                        var functions = JSON.parse(response);
+
+                        var functionElements = $("select");
+                        $.each(functionElements, function(key, value){
+                            var myList =[];
+
+                            for(var i=0; i<value.options.length; i++){
+                                if(value.options[i].value) myList.push(value.options[i].value);
+                            }
+
+                            $.each(functions, function (k, v) {
+                                if($.inArray(v.id, myList) == -1){
+                                    $(value).append($("<option></option>")
+                                        .attr("value", v.id)
+                                        .text(v.name));
+                                }
+
+                            });
+
+
+
+                        });
+
+
+
+
+                    }catch(err){
+                        alert('Error adding function '+err);
+                    }
+                }
+            });
+
+            $("#new-fn-dialog").dialog("close");
+            return false;
+        }
 
 
     }); // End $(document).ready function

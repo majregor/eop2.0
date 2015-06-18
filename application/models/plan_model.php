@@ -30,8 +30,27 @@ class Plan_model extends CI_Model {
 
     public function addTHFn($data){
 
-        $this->db->insert('eop_entity', $data);
-        $affected_rows = $this->db->affected_rows();
+        //Check if there is a top level function with the same name, if not create one before adding the current function
+        $query = $this->db->get_where('eop_entity', array('type_id'=>$data['type_id'], 'name'=>$data['name'],'parent'=>null));
+        $result = $query->result_array();
+        $affected_rows =0;
+
+        if(count($result)<=0){
+            $fndata = array(
+                'name'      =>      $data['name'],
+                'title'     =>      $data['title'],
+                'owner'     =>      $data['owner'],
+                'sid'       =>      $data['sid'],
+                'type_id'   =>      $data['type_id']
+            );
+            $this->db->insert('eop_entity', $fndata);
+            $affected_rows = $this->db->affected_rows();
+        }
+
+        if($data['parent']!=null) {
+            $this->db->insert('eop_entity', $data);
+            $affected_rows = $this->db->affected_rows();
+        }
 
         return $affected_rows;
 
@@ -166,6 +185,7 @@ class Plan_model extends CI_Model {
             return false;
         }
     }
+
 
     public function fieldExists($id){
         $query = $this->db->get_where('eop_field', array('id'=>$id));

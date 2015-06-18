@@ -27,23 +27,34 @@
                         <?php endforeach; ?>
                     </td>
                 </tr>
-                <tr>
-                    <td class="txtnorm">Function:</td>
-                    <td>
-                        <select
-                            name="slct<?php echo($thChild['type']);?>fn"
-                            id="slct<?php echo($thChild['type']);?>fn"
-                            style="width: 65%"
-                            class="fnDropDown">
-                            <option value="" selected="selected">--Select--</option>
-                            <?php foreach($functions as $key=>$value): ?>
-                                <option value="<?php echo($value['id']);?>"><?php echo($value['name']);?></option>
-                            <?php endforeach; ?>
-                            <option value="other">Other</option>
-                        </select>
-                        <a href="" class="fnRefreshSpin" title="" id="<?php echo($thChild['type']);?>fn"><img src="<?php echo base_url(); ?>assets/img/spin.png" border="0" align="absmiddle"/></a>
-                    </td>
-                </tr>
+                <?php
+                        $fnValue="";
+                    foreach($thChild['children'] as $key => $grandChild){
+                        if($grandChild['type']=="fn"){
+                            $fnValue = $grandChild['name'];
+                        }
+                    }
+                ?>
+                        <tr>
+                            <td class="txtnorm">Function:</td>
+                            <td>
+                                <select
+                                    name="slct<?php echo($thChild['type']);?>fn"
+                                    id="slct<?php echo($thChild['type']);?>fn"
+                                    style="width: 65%"
+                                    class="fnDropDown">
+                                    <option value="" selected="selected">--Select--</option>
+                                    <?php foreach($functions as $key=>$value): ?>
+                                        <option value="<?php echo($value['id']);?>" <?php echo(($value['name'] == $fnValue)? "selected='selected'": "");?> >
+                                            <?php echo($value['name']);?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                    <option value="other">Other</option>
+                                </select>
+
+                            </td>
+                        </tr>
+
 
                 <?php foreach($thChild['children'] as $key => $grandChild): ?>
                     <?php if($grandChild['type']=="obj"): // Get only grandchildren of type obj ?>
@@ -61,6 +72,14 @@
                                 <?php endforeach; ?>
                             </td>
                         </tr>
+                        <?php
+                        $fnValue="";
+                        foreach($grandChild['children'] as $key => $greatGrandChild){
+                            if($greatGrandChild['type']=="fn"){
+                                $fnValue = $greatGrandChild['name'];
+                            }
+                        }
+                        ?>
                         <tr>
                             <td class="txtnorm">Function:</td>
                             <td>
@@ -71,13 +90,13 @@
                                     class="<?php    echo($thChild['type']);?>fn">
                                     <option value="" selected="selected">--Select--</option>
                                     <?php foreach($functions as $key=>$value): ?>
-                                        <option value="<?php echo($value['id']);?>"><?php echo($value['name']);?></option>
+                                        <option value="<?php echo($value['id']);?>" <?php echo(($value['name'] == $fnValue)? "selected='selected'": "");?>>
+                                            <?php echo($value['name']);?>
+                                        </option>
                                     <?php endforeach; ?>
                                     <option value="other">Other</option>
                                 </select>
-                                <a href="" class="fnRefreshSpin" title="" id="refreshBtn">
-                                    <img src="<?php echo base_url(); ?>assets/img/spin.png" border="0" align="absmiddle"/>
-                                </a>
+
                             </td>
                         </tr>
                     <?php endif; ?>
@@ -101,12 +120,22 @@
             <td align="right" colspan="2">
                 <div align="left">
                     <input type="hidden" id="entity_identifier" value="<?php echo($entity_id);?>" />
+                    <input type="hidden" id="action_identifier" value="<?php echo($action);?>" />
                     <input id="saveBtn" type="button" value="Save"/>
                 </div>
             </td>
         </tr>
     </tbody>
 </table>
+
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
+<script src="<?php echo base_url(); ?>assets/ckeditor/adapters/jquery.js"></script>
+
+<script type="text/javascript">
+    $( document ).ready( function() {
+        $( 'textarea' ).ckeditor();
+    } );
+</script>
 
 <script>
     var g1Items= 0, g2Items= 0, g3Items=0;
@@ -118,7 +147,7 @@
             return [$(value).val()];
         });
 
-        g<?php echo($i);?>Items = g<?php echo($i);?>ObjData.length - 1;
+        g<?php echo($i);?>Items = 0;/*g<?php echo($i);?>ObjData.length - 1;*/
 
 
     <?php endfor; ?>
@@ -133,9 +162,15 @@
                 if(g<?php echo($i);?>Items == 0){
                     g<?php echo($i);?>Items ++;
                     $("#addMoreg<?php echo($i);?>ObjFnRow").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
+                    var wdth = $("#g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"").width();
+                    CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
+
                 }else{
+
                     g<?php echo($i);?>Items ++;
                     $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items-1)+"Fn").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
+                    var wdth = $("#g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"").width();
+                    CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
                 }
                 return false;
             });
@@ -159,10 +194,10 @@
 
     function mkObjectiveCtl( goal, items ){
         var data="";
-        data+="<tr id='g"+goal+"Item"+items+"'>";
+        data+="<tr id='gpp"+goal+"Item"+items+"'>";
         data+="<td class='txnorm'>Objective</td>";
         data+="<td>";
-        data+="<textarea class='g" + goal + "ObjNew'  style='width:100%' rows='4'></textarea>";
+        data+="<textarea name='g"+goal+"Item"+items+"' id='g"+goal+"Item"+items+"' class='g" + goal + "ObjNew'  style='width:100%' rows='4'></textarea>";
         data+="</td></tr>";
         data+="<tr id='g"+goal+"Item"+items+"Fn'>  <td class='txtnorm'>Function:</td>";
         data+="<td>  <select  style='width: 65%' class='g"+goal+"fnNew'>";
@@ -172,9 +207,7 @@
         <?php endforeach; ?>
         data+="<option value='other'>Other</option>";
         data+="</select>";
-        data+="<a href='' class='fnRefreshSpin' title='' id='refreshBtn'>";
-        data+="<img src='<?php echo base_url(); ?>assets/img/spin.png' border='0' align='absmiddle'/>";
-        data+="</a> </td> </tr>";
+        data+="</td> </tr>";
 
         return data;
     }
