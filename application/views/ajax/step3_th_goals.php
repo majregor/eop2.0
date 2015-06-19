@@ -114,6 +114,21 @@
     <?php endforeach; ?>
 <?php endforeach; ?>
 
+<?php if(isset($showActions) && $showActions==true): ?>
+<table  class="editOne">
+    <tr>
+        <td class="txtb">
+            Courses of Action:</td>
+        <td>
+            <textarea name="th_action_txt" id="th_action_txt" data-field-id="<?php echo(isset($threats_and_hazards[0]['fields'][0]['id'])? $threats_and_hazards[0]['fields'][0]['id']:'0' );?>" rows="11" style="width:100%">
+                <?php echo(isset($threats_and_hazards[0]['fields'][0]['body'])? $threats_and_hazards[0]['fields'][0]['body']:'' );?>
+            </textarea>
+        </td>
+    </tr>
+</table>
+<?php endif; ?>
+
+
 <table class="editUpdate">
     <tbody>
         <tr>

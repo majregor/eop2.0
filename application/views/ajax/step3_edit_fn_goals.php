@@ -6,7 +6,7 @@
 ?>
 <!--
 ************************************************************************************************************************
-*************************************** STEP3_4 FUNCTIONAL GOALS AND OBJECTIVES CONTROLS *******************************
+*************************************** STEP3_4 EDIT FUNCTIONAL GOALS AND OBJECTIVES CONTROLS **************************
 ************************************************************************************************************************
 -->
 <?php foreach($functions as  $fnEntities): ?>
@@ -58,6 +58,20 @@
     <?php endforeach; ?>
 <?php endforeach; ?>
 
+<?php if(isset($showActions) && $showActions==true): ?>
+    <table  class="editOne">
+        <tr>
+            <td class="txtb">
+                Courses of Action:</td>
+            <td>
+            <textarea name="fn_action_txt" id="fn_action_txt" data-field-id="<?php echo(isset($functions[0]['fields'][0]['id'])? $functions[0]['fields'][0]['id']:'0' );?>" rows="11" style="width:100%">
+                <?php echo(isset($functions[0]['fields'][0]['body'])? $functions[0]['fields'][0]['body']:'' );?>
+            </textarea>
+            </td>
+        </tr>
+    </table>
+<?php endif; ?>
+
 <table class="editUpdate">
     <tbody>
         <tr>
@@ -65,7 +79,7 @@
                 <div align="left">
                     <input type="hidden" id="entity_identifier" value="<?php echo($entity_id);?>" />
                     <input type="hidden" id="action_identifier" value="<?php echo($action);?>" />
-                    <input id="saveBtn" type="button" value="Save"/>
+                    <input id="updateBtn" type="button" value="Update"/>
                 </div>
             </td>
         </tr>
@@ -106,14 +120,12 @@
                 if(g<?php echo($i);?>Items == 0){
                     g<?php echo($i);?>Items ++;
                     $("#addMoreg<?php echo($i);?>ObjFnRow").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
-                    var wdth = $("#g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"").width();
                     CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
 
                 }else{
 
                     g<?php echo($i);?>Items ++;
-                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items-1)+"Fn").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
-                    var wdth = $("#g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"").width();
+                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items-1)+"Row").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
                     CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
                 }
                 return false;
@@ -138,7 +150,7 @@
 
     function mkObjectiveCtl( goal, items ){
         var data="";
-        data+="<tr id='gpp"+goal+"Item"+items+"'>";
+        data+="<tr id='g"+goal+"Item"+items+"Row'>";
         data+="<td class='txnorm'>Objective</td>";
         data+="<td>";
         data+="<textarea name='g"+goal+"Item"+items+"' id='g"+goal+"Item"+items+"' class='g" + goal + "ObjNew'  style='width:100%' rows='4'></textarea>";

@@ -85,7 +85,7 @@ class Plan_model extends CI_Model {
             $conditions['type_id'] = $this->getEntityTypeId($type);
         }
 
-        if($data !='' && is_array($data)){
+        if(is_array($data) && count($data)>0){
             $conditions = array_merge($conditions, $data);
         }
 
@@ -97,8 +97,6 @@ class Plan_model extends CI_Model {
 
         $query = $this->db->get_where('eop_view_entities', $conditions);
         $resultsArray = $query->result_array();
-
-
 
         if($recursive){ // If recursive entity requested
 

@@ -3,21 +3,31 @@ $entities = $page_vars['entities'];
 ?>
 <div id="topcontain">
     <div id="titlearea">
-        <h1 id='currentPageTag'>Step 3-4</h1>
-        <h1>Develop Goals and Objectives for Functions</h1>
+        <h1 id='currentPageTag'>Step 5-3</h1>
+        <h1>Prepare the Draft EOP: Functional Annexes</h1>
         <h3></h3>
     </div>
     <div id="resourcearea">
         <ul>
-            <li class="sb-toggle-right" id="step3_4"><img src="<?php echo base_url(); ?>assets/img/resource_icon.png" alt="Resource Toolkit" /> Resource Toolkit</li>
+            <li class="sb-toggle-right" id="step5_3"><img src="<?php echo base_url(); ?>assets/img/resource_icon.png" alt="Resource Toolkit" /> Resource Toolkit</li>
         </ul>
     </div>
 </div>
+
+
 <div class="col-half left">
-    <p>After  identifying functions, the planning team should develop three&nbsp;goals&nbsp;and corresponding&nbsp;objectives&nbsp;for each function. As  with the goals already identified for threats and hazards, the three goals  should indicate the desired outcome for (1) before, (2) during, and (3) after  the function has been executed. The goals and objectives developed for these  functions will be carried forward to the next step in the planning process&mdash;Step  4&mdash;which will prompt your planning team to develop courses of action for  accomplishing the goals and objectives established here. Ultimately, the goals,  objectives, and courses of action developed for each function will form the  Functional Annexes section of your school EOP. &nbsp;</p>
-    <p>Please use the table below to develop <a href="#" class="bt" title="Goals are broad, general statements that indicate the desired outcome in response to a threat or hazard.">goals</a> and <a href="#" class="bt" title="Objectives are specific, measurable actions that are necessary to achieve the goals.">objectives</a> for each <a href="#" class="bt" title="Functions are activities that apply to more than one threat or hazard.">function</a>. If a function is not displayed below, then it has not been identified as a cross-cutting function on the previous page.</p>
-    <p>Begin by clicking the Add button for the respective function, which will display empty fields. Then, type your goals and objectives into the designated fields. Use the Add Objective button, if your team needs to develop multiple objectives in support of a single goal. After completing all fields for the selected function, click the Save button. Repeat this process for the remaining functions.</p>
-    <p>If your team wishes to edit goals and objectives that were previously entered, please click the Edit button for the respective function. Pre-populated fields will appear with previously saved information. After editing any of the available fields, click the Update button. Repeat this process, as needed.</p>
+    <p>Your  planning team already completed most of the work for the <a href="#" class="bt" title="The Functional Annexes section details the goals, objectives, and courses of action of functions (e.g., evacuation, lockdown, recovery) that apply across multiple threats or hazards. Functional annexes set forth how the school manages a function before, during, and after an emergency.">Functional Annexes</a> in  Step 3 and Step 4, when your team identified <a href="#" class="bt" title="Goals are broad, general statements that indicate the desired outcome in response to a threat or hazard."> goals</a>,<a href="#" class="bt" title="Objectives are specific, measurable actions that are necessary to achieve the goals."> objectives</a>,  and <a href="#" class="bt" title="Courses of action are the specific procedures used to accomplish goals and objectives. They address the what, who, when, where, why, and how for each threat, hazard, and function.">courses of action</a> for <a href="#" class="bt" title="Functions are activities that apply to more than one threat or hazard.">functions</a>. At this stage, your team will be prompted to edit the  text already developed for each function and and then format  accordingly for inclusion in the draft EOP.</p>
+    <p>A  recommended format for presenting information in each of the annexes is as  follows:</p>
+    <ul>
+        <ul>
+            <li>Title (the function)</li>
+            <li>Goal(s)</li>
+            <li>Objective(s)</li>
+            <li>Courses of Action (Describe the courses of  action you developed in Step 4 in the sequence in which they should occur.)</li>
+        </ul>
+    </ul>
+    <p><br/>
+        To edit and format the content for each of your annexes, please click on the corresponding Edit button. Revise the text as necessary in the designated fields and click the Update button to create a coherent Functional Annex.</p>
 </div>
 
 <div class="col-half left">
@@ -57,9 +67,9 @@ $entities = $page_vars['entities'];
 
     $(document).ready(function() {
 
-        $("a#rightArrowButton").attr("href", "<?php echo(base_url('plan/step4/1')); ?>"); //Next
+        $("a#rightArrowButton").attr("href", "<?php echo(base_url('plan/step5/4')); ?>"); //Next
 
-        $("a#leftArrowButton").attr("href", "<?php echo(base_url('plan/step3/3')); ?>"); //Previous
+        $("a#leftArrowButton").attr("href", "<?php echo(base_url('plan/step5/2')); ?>"); //Previous
 
         $("#rightArrowButton").click(function(){
 
@@ -77,8 +87,8 @@ $entities = $page_vars['entities'];
             var formData = {
                 ajax:   '1',
                 id:     selectedId,
-                action: 'add'
-
+                action: 'add',
+                showActions: '1'
             };
             $.ajax({
                 url:    '<?php echo(base_url('plan/loadFNCtls')); ?>',
@@ -109,7 +119,8 @@ $entities = $page_vars['entities'];
             var formData = {
                 ajax:   '1',
                 id:     selectedId,
-                action: 'edit'
+                action: 'edit',
+                showActions: '1'
 
             };
             $.ajax({
@@ -133,6 +144,7 @@ $entities = $page_vars['entities'];
         });
 
 
+        //@todo Make courses of action saveable at this step
         $(document).on('click','#saveBtn', function(){
 
             <?php for($i=1; $i<=3; $i++): ?>
