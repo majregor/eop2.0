@@ -297,6 +297,10 @@ class User_model extends CI_Model {
             if($userRole['level'] == 4 && $value['level']==4){
                 array_push($cleanRoleData, $value);
             }
+            //Add State admins to enable state admins add fellow state admins
+            if($userRole['level'] == 2 && $value['level']==2){
+                array_push($cleanRoleData, $value);
+            }
         }
         return $cleanRoleData;
     }

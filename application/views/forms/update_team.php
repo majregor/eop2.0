@@ -174,6 +174,7 @@ echo form_open('team/update', array('class'=>'updateTeamForm', 'id'=>'updateTeam
                                 <label for="ucheckbox6"> State Community Partner</label>
                             </td>
                         </tr>
+                        </tr>
                         <tr>
                             <td>
                                 <?php
@@ -197,15 +198,17 @@ echo form_open('team/update', array('class'=>'updateTeamForm', 'id'=>'updateTeam
             </tr>
             <tr>
                 <td colspan="2" align="left">
-                    <?php
-                    $attributes = array(
+                   <!-- <?php
+/*                    $attributes = array(
                         'name'  =>  'updatebtnsave',
                         'value' =>  'Save',
                         'id'    =>  'updatebtnsave',
                         'style' =>  ''
                     );
-                    ?>
-                    <?php echo form_submit($attributes); ?>
+                    */?>
+                    --><?php /*echo form_submit($attributes); */?>
+
+
                 </td>
             </tr>
         </table>

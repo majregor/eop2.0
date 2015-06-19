@@ -417,9 +417,9 @@ li.active6 {
 .left {
     float: left;
 }
-input[type=button], input[type=submit] {
+input[type=button], input[type=submit], input[type=reset] {
     position: relative;
-    display: block;
+    display: inline-block;
     color:#fff;
     background: #0172B8;
     border: none;

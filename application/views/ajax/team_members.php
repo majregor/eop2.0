@@ -144,6 +144,17 @@ if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
 
         $("#update-team-dialog").dialog({
             resizable:      false,
+            buttons: {
+                "Save": function(){
+
+                    $("#updateTeamForm").submit();
+
+                    $(this).dialog('close');
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            },
             minHeight:      300,
             minWidth:       500,
             modal:          true,

@@ -208,7 +208,7 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->update($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //User information saved successfully
-                $this->session->set_flashdata('success', 'User profile updated successfully!');
+                $this->session->set_flashdata('success', 'User profile has been updated successfully!');
             }
             else{
                 $this->session->set_flashdata('error', ' User profile update failed!');
@@ -231,7 +231,7 @@ class User extends CI_Controller{
                     $savedRecs = $this->user_model->updatePersonalAccount($this->session->userdata('user_id'), $data);
 
                     if(is_numeric($savedRecs) && $savedRecs>=1){ //User profile updated successfully
-                        $this->session->set_flashdata('success', 'User profile updated successfully!');
+                        $this->session->set_flashdata('success', 'User profile has been updated successfully!');
                     }
                     else{
                         $this->session->set_flashdata('error', ' User profile update failed!');
@@ -308,7 +308,7 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->block($user_id);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'User Blocked!');
+                $this->session->set_flashdata('success', 'User profile has been blocked!');
             }
             else{
                 $this->session->set_flashdata('error', ' User blocking failed!');
@@ -333,7 +333,7 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->unblock($user_id);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'User Unblocked!');
+                $this->session->set_flashdata('success', 'User profile has been activated!');
             }
             else{
                 $this->session->set_flashdata('error', ' Operation failed!');

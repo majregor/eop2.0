@@ -7,7 +7,7 @@
  */
 ?>
 
-<h1>Create User</h1>
+<h1>Create New User Profile</h1>
 <?php
     echo form_open('user/add', array('class'=>'user_form', 'id'=>'user_form'));
 ?>
@@ -139,7 +139,7 @@
         </tr>
        
         <tr id="districtRow" style="display:none;">
-            <td><span class="">*</span> District:</td>
+            <td><span class="required">*</span> District:</td>
             <td>
               <?php
                     $options = array();

@@ -388,7 +388,6 @@
                 data: formData,
                 type:'POST',
                 success:function(response){
-
                     $('#subDetailDiv').html(response);
 
                 },

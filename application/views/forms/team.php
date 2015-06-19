@@ -215,6 +215,7 @@ echo form_open('team/add', array('class'=>'teamManagementForm', 'id'=>'teamManag
                     );
                     ?>
                     <?php echo form_submit($attributes); ?>
+
                 </td>
             </tr>
         </table>

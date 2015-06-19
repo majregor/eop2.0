@@ -118,7 +118,7 @@
             $("#removeg<?php echo($i);?>ThRowLink").click(function(){
 
                 if(g<?php echo($i);?>Items > 0){
-                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items)+"Fn").remove();
+                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items)+"AddedRow").remove();
                     $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items)).remove();
 
                     g<?php echo($i);?>Items --;

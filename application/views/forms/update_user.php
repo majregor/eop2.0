@@ -62,7 +62,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
     </p>
     <p>
         <span class="required">*</span>
-        <label for="username_update">user ID:</label>
+        <label for="username_update">User ID:</label>
         <?php
         $inputAttributes = array(
             'name'      =>  'username_update',
@@ -91,7 +91,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 <fieldset>
     <legend for="slctuserrole_update">EOP Access</legend>
     <p>
-        <label for="slctuserrole_update">User's Role</label>
+        <label for="slctuserrole_update">User Role</label>
         <?php
         $options = array();
         $options['empty'] = '--Select--';

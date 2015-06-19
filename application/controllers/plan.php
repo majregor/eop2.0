@@ -166,6 +166,10 @@ class Plan extends CI_Controller{
                 $data['entities'] = $cleanedFns;
             }
         }
+        elseif($step==4){
+
+
+        }
 
         $templateData = array(
             'page'          =>  'step5',

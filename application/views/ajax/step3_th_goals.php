@@ -4,6 +4,31 @@
  *
  */
 ?>
+<style>
+    *[contenteditable="true"]
+    {
+        padding: 10px;
+    }
+    div.goalData, div.g1Obj, div.g2Obj, div.g3Obj{
+
+    }
+
+    /* Style a bit the inline editables. */
+    .cke_editable.cke_editable_inline
+    {
+        cursor: pointer;
+    }
+
+    /* Once an editable element gets focused, the "cke_focus" class is
+       added to it, so we can style it differently. */
+    .cke_editable.cke_editable_inline.cke_focus
+    {
+        box-shadow: inset 0px 0px 20px 3px #ddd, inset 0 0 1px #000;
+        outline: none;
+        background: #eee;
+        cursor: text;
+    }
+</style>
 <!--
 ************************************************************************************************************************
 *************************************** STEP3_3 GOALS AND OBJECTIVES CONTROLS ******************************************
@@ -27,6 +52,21 @@
                         <?php endforeach; ?>
                     </td>
                 </tr>
+                <!--<tr>
+                    <td class="txtb" ><?php /*echo($thChild['type_title']); */?>:</td>
+
+                    <td>
+                        <?php /*foreach($thChild['fields'] as $field): */?>
+                    <div class="goalData" contenteditable="true"  name="txt<?php /*echo($thChild['type']);*/?>"
+                         id="txt<?php /*echo($thChild['type']);*/?>"
+                         data-id="<?php /*echo($thChild['id']);*/?>"
+                         data-field-id="<?php /*echo($field['id']);*/?>"
+                         style="width:100%">
+                                <?php /*echo($field['body']); */?>
+                    </div>
+                        <?php /*endforeach; */?>
+                    </td>
+                </tr>-->
                 <?php
                         $fnValue="";
                     foreach($thChild['children'] as $key => $grandChild){
@@ -72,6 +112,22 @@
                                 <?php endforeach; ?>
                             </td>
                         </tr>
+                        <!--<tr>
+                            <td class="txnorm">Objective</td>
+                            <td>
+
+                                <?php /*foreach($grandChild['fields'] as $field): */?>
+                                    <div
+                                        contenteditable="true"
+                                        name="txt<?php /* echo($thChild['type']);*/?>obj<?php /*echo($key);*/?>"
+                                        id="txt<?php /*   echo($thChild['type']);*/?>obj<?php /*echo($key);*/?>"
+                                        class="<?php /*   echo($thChild['type']);*/?>Obj"
+                                        data-id="<?php /*echo($grandChild['id']);*/?>"
+                                        data-field-id="<?php /*echo($field['id']);*/?>"
+                                        style="width:100%" ><?php /*echo($field['body']); */?></div>
+                                <?php /*endforeach; */?>
+                            </td>
+                        </tr>-->
                         <?php
                         $fnValue="";
                         foreach($grandChild['children'] as $key => $greatGrandChild){
@@ -193,8 +249,9 @@
             $("#removeg<?php echo($i);?>ThRowLink").click(function(){
 
                 if(g<?php echo($i);?>Items > 0){
+
+                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items)+"ObjRow").remove();
                     $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items)+"Fn").remove();
-                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items)).remove();
 
                     g<?php echo($i);?>Items --;
                 }
@@ -209,7 +266,7 @@
 
     function mkObjectiveCtl( goal, items ){
         var data="";
-        data+="<tr id='gpp"+goal+"Item"+items+"'>";
+        data+="<tr id='g"+goal+"Item"+items+"ObjRow'>";
         data+="<td class='txnorm'>Objective</td>";
         data+="<td>";
         data+="<textarea name='g"+goal+"Item"+items+"' id='g"+goal+"Item"+items+"' class='g" + goal + "ObjNew'  style='width:100%' rows='4'></textarea>";

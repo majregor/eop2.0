@@ -47,7 +47,7 @@ if(isset($viewform)){
 }
 ?>
 <?php if($role['level']<5): ?>
-<div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>user/add">Create New User</a></div>
+<div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>user/add">Create New User Profile</a></div>
 <?php endif; ?>
 <div>
     <!-- Hidden field used to store selected user id -->
@@ -87,7 +87,7 @@ if(isset($viewform)){
                     <?php echo $value['username']; ?>
                 </td>
                 <td>
-                    <?php echo $value['status']; ?>
+                    <span style="text-transform: capitalize;"><?php echo $value['status']; ?></span>
                 </td>
                 <td>
                     <?php echo $value['role']; ?>
@@ -600,6 +600,9 @@ if(isset($viewform)){
                 $('#districtRow').css('display', 'table-row');
                 $('#schoolRow').css('display', 'none');
                 $('#sltschool').val(null);
+                $('#sltdistrict option[value=""]').each(function(){
+                    $(this).remove();
+                });
                 $('#sltdistrict').rules("add", "required");
                 $('#districtRow span').addClass("required");
             }
@@ -619,6 +622,7 @@ if(isset($viewform)){
             if($('select#slctuserrole').val() == 5){ // if School user
                 $('#schoolRow').css('display', 'table-row');
 
+
                 <?php if($role['level']>=3): ?>// if logged in as District or School admin, remove the district
                     $('#sltdistrict').val(null);
                     $('#sltdistrict').attr("required", false);
@@ -635,6 +639,9 @@ if(isset($viewform)){
                     $('#districtRow').css('display', 'table-row');
                     $('#schoolRow').css('display', 'none');
                     $('#sltschool').val(null);
+                    $('#sltdistrict option[value=""]').each(function(){
+                        $(this).remove();
+                    });
                     $('#sltdistrict').rules("add", "required");
                     $('#districtRow span').addClass("required");
                 }
@@ -659,6 +666,9 @@ if(isset($viewform)){
                     $('#sltdistrict').val(null);
                     $('#sltdistrict').attr("required", false);
                     $('#sltdistrict').rules("remove", "required");
+                    <?php else: ?> // Else show the district for State and Super admins
+                    $('#districtRow').css('display', 'table-row');
+                    $('#sltdistrict').attr("required", true);
                     <?php endif; ?>
                 }
                 
