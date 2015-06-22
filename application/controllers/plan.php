@@ -164,6 +164,7 @@ class Plan extends CI_Controller{
             }
             if(is_array($fnData)){
                 $data['entities'] = $cleanedFns;
+                $data['showActions']=true;
             }
         }
         elseif($step==4){
@@ -314,9 +315,12 @@ class Plan extends CI_Controller{
                     );
                     if($showActions){
                         $data['showActions']=true;
+                        $this->load->view('ajax/step5_th_goals', $data);
+                    }else{
+                        $data['showActions'] = false;
+                        $this->load->view('ajax/step3_th_goals', $data);
                     }
 
-                    $this->load->view('ajax/step3_th_goals', $data);
                     break;
                 case 'edit':
                     $fnData = $this->plan_model->getEntities('fn', array('parent'=>null), false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
@@ -329,9 +333,13 @@ class Plan extends CI_Controller{
                     );
                     if($showActions){
                         $data['showActions']=true;
+                        $this->load->view('ajax/step5_th_goals', $data);
+                    }
+                    else{
+                        $data['showActions']= false;
+                        $this->load->view('ajax/step3_th_goals', $data);
                     }
 
-                    $this->load->view('ajax/step3_th_goals', $data);
                     break;
 
             }
@@ -367,9 +375,6 @@ class Plan extends CI_Controller{
                         'functions'                 =>  $cleanedFns,
                         'action'                    =>  'add'
                     );
-                    if($showActions){
-                        $data['showActions']=true;
-                    }
 
                     $this->load->view('ajax/step3_add_fn_goals', $data);
                     break;
@@ -391,15 +396,18 @@ class Plan extends CI_Controller{
                     $data = array(
                         'entity_id'                 =>  $id,
                         'functions'                 =>  $cleanedFns,
-                        'action'                    =>  'add'
+                        'action'                    =>  'edit'
                     );
                     if($showActions){
                         $data['showActions']=true;
+                        $this->load->view('ajax/step5_edit_fn_goals', $data);
+                    }
+                    else{
+                        $data['showActions']=false;
+                        $this->load->view('ajax/step3_edit_fn_goals', $data);
                     }
 
-                    $this->load->view('ajax/step3_edit_fn_goals', $data);
                     break;
-
             }
         }else{
             redirect('plan/step3/3');
@@ -482,7 +490,7 @@ class Plan extends CI_Controller{
 
             switch($action){
                 case 'save':
-                    //Update the defaul goals and objectives
+                    //Update the default goals and objectives
 
                     $g1Id       =   $this->input->post('g1Id');
                     $g2Id       =   $this->input->post('g2Id');
@@ -524,6 +532,25 @@ class Plan extends CI_Controller{
                     $g1fnDataNew    =   ($this->input->post('g1fnDataNew'))? $this->input->post('g1fnDataNew'): array();
                     $g2fnDataNew    =   ($this->input->post('g2fnDataNew'))? $this->input->post('g2fnDataNew'): array();
                     $g3fnDataNew    =   ($this->input->post('g3fnDataNew'))? $this->input->post('g3fnDataNew'): array();
+
+                    if($this->input->post('coursesOfActions')){
+                        $g1CAFieldId        =   $this->input->post('g1CAFieldId');
+                        $g1CAData           =   $this->input->post('g1CAData');
+
+                        $g2CAFieldId        =   $this->input->post('g2CAFieldId');
+                        $g2CAData           =   $this->input->post('g2CAData');
+
+                        $g3CAFieldId        =   $this->input->post('g3CAFieldId');
+                        $g3CAData           =   $this->input->post('g3CAData');
+
+                        $CAfieldsArray = array(
+                            array('id'=>$g1CAFieldId, 'parent'=>$g1Id, 'data'=>$g1CAData),
+                            array('id'=>$g2CAFieldId, 'parent'=>$g2Id, 'data'=>$g2CAData),
+                            array('id'=>$g3CAFieldId, 'parent'=>$g3Id, 'data'=>$g3CAData)
+                        );
+
+                    }
+
 
                     if($mode=='add') {
                         //Add field to TH to indicate that it has been initiated
@@ -641,6 +668,26 @@ class Plan extends CI_Controller{
                         }
                     }
 
+
+                    //Edit courses of action
+                    foreach($CAfieldsArray as $key=>$fieldObj){
+                        if($this->plan_model->fieldExists($fieldObj['id'])){
+                            $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
+                        }else{
+                            $fieldData = array(
+                                'entity_id' =>      $fieldObj['parent'],
+                                'name'      =>      'Goal '.$key.'TH Course of Action Field',
+                                'title'     =>      'Goal '.$key.'TH Course of Action Field',
+                                'weight'    =>      1,
+                                'type'      =>      'text',
+                                'body'      =>      $fieldObj['data']
+                            );
+                            $this->plan_model->addField($fieldData);
+                        }
+                    }
+
+
+                    // Add new Objectives and Functions if necessary
                     foreach($g1ObjDataNew as $key =>$value){
                         //Create new entity and field
                         $entityData = array(
@@ -944,6 +991,41 @@ class Plan extends CI_Controller{
                     $g2ObjDataNew   =   ($this->input->post('g2ObjDataNew'))? $this->input->post('g2ObjDataNew'): array();
                     $g3ObjDataNew   =   ($this->input->post('g3ObjDataNew'))? $this->input->post('g3ObjDataNew'): array();
 
+                    if($this->input->post('coursesOfActions')){
+                        $g1CAFieldId        =   $this->input->post('g1CAFieldId');
+                        $g1CAData           =   $this->input->post('g1CAData');
+
+                        $g2CAFieldId        =   $this->input->post('g2CAFieldId');
+                        $g2CAData           =   $this->input->post('g2CAData');
+
+                        $g3CAFieldId        =   $this->input->post('g3CAFieldId');
+                        $g3CAData           =   $this->input->post('g3CAData');
+
+                        $CAfieldsArray = array(
+                            array('id'=>$g1CAFieldId, 'parent'=>$g1Id, 'data'=>$g1CAData),
+                            array('id'=>$g2CAFieldId, 'parent'=>$g2Id, 'data'=>$g2CAData),
+                            array('id'=>$g3CAFieldId, 'parent'=>$g3Id, 'data'=>$g3CAData)
+                        );
+
+                        //Edit courses of action
+                        foreach($CAfieldsArray as $key=>$fieldObj){
+                            if($this->plan_model->fieldExists($fieldObj['id'])){
+                                $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
+                            }else{
+                                $fieldData = array(
+                                    'entity_id' =>      $fieldObj['parent'],
+                                    'name'      =>      'Goal '.$key.'FN Course of Action Field',
+                                    'title'     =>      'Goal '.$key.'FN Course of Action Field',
+                                    'weight'    =>      1,
+                                    'type'      =>      'text',
+                                    'body'      =>      $fieldObj['data']
+                                );
+                                $this->plan_model->addField($fieldData);
+                            }
+                        }
+
+                    }
+
                     //Update the goal data
                     $this->plan_model->updateField($g1FieldId, array('body'=>$g1));
                     $this->plan_model->updateField($g2FieldId, array('body'=>$g2));
@@ -1062,24 +1144,40 @@ class Plan extends CI_Controller{
 
     public function manageTHActions(){
         if($this->input->post('ajax')){
-                $THid    = $this->input->post('THid');
-                $THData  = $this->input->post('THData');
-                $fieldId = $this->input->post('fieldId');
-                $mode    = $this->input->post('mode');
+                $THid           = $this->input->post('THid');
+
+                $mode           = $this->input->post('mode');
+                $g1Id           = $this->input->post('g1Id');
+                $g1FieldId      = $this->input->post('g1FieldId');
+                $g1CAData       = $this->input->post('g1CAData');
+                $g2Id           = $this->input->post('g2Id');
+                $g2FieldId      = $this->input->post('g2FieldId');
+                $g2CAData       = $this->input->post('g2CAData');
+                $g3Id           = $this->input->post('g3Id');
+                $g3FieldId      = $this->input->post('g3FieldId');
+                $g3CAData       = $this->input->post('g3CAData');
+
+            $fieldsArray = array(
+                array('id'=>$g1FieldId, 'parent'=>$g1Id, 'data'=>$g1CAData),
+                array('id'=>$g2FieldId, 'parent'=>$g2Id, 'data'=>$g2CAData),
+                array('id'=>$g3FieldId, 'parent'=>$g3Id, 'data'=>$g3CAData)
+            );
 
             if($mode == 'add'){
-                if($this->plan_model->fieldExists($fieldId)){
-                    $this->plan_model->updateField($fieldId, array('body'=>$THData));
-                }else{
-                    $fieldData = array(
-                        'entity_id' =>      $THid,
-                        'name'      =>      'Threat and Hazard Course of Action',
-                        'title'     =>      'Course of Action',
-                        'weight'    =>      1,
-                        'type'      =>      'text',
-                        'body'      =>      $THData
-                    );
-                    $this->plan_model->addField($fieldData);
+                foreach($fieldsArray as $key=>$fieldObj){
+                    if($this->plan_model->fieldExists($fieldObj['id'])){
+                        $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
+                    }else{
+                        $fieldData = array(
+                            'entity_id' =>      $fieldObj['parent'],
+                            'name'      =>      'Goal '.$key.'TH Course of Action Field',
+                            'title'     =>      'Goal '.$key.'TH Course of Action Field',
+                            'weight'    =>      1,
+                            'type'      =>      'text',
+                            'body'      =>      $fieldObj['data']
+                        );
+                        $this->plan_model->addField($fieldData);
+                    }
                 }
 
                 $this->output->set_output(json_encode(array(
@@ -1087,7 +1185,9 @@ class Plan extends CI_Controller{
                 )));
 
             }else{
-                $this->plan_model->updateField($fieldId, array('body'=>$THData));
+                foreach($fieldsArray as $key=>$fieldObj){
+                    $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
+                }
 
                 $this->output->set_output(json_encode(array(
                     'saved' =>  TRUE
@@ -1103,23 +1203,40 @@ class Plan extends CI_Controller{
     public function manageFNActions(){
         if($this->input->post('ajax')){
             $FNid    = $this->input->post('FNid');
-            $FNData  = $this->input->post('FNData');
-            $fieldId = $this->input->post('fieldId');
-            $mode    = $this->input->post('mode');
+
+            $mode           = $this->input->post('mode');
+            $g1Id           = $this->input->post('g1Id');
+            $g1FieldId      = ($this->input->post('g1FieldId')) ?$this->input->post('g1FieldId') :0;
+            $g1CAData       = $this->input->post('g1CAData');
+            $g2Id           = $this->input->post('g2Id');
+            $g2FieldId      = ($this->input->post('g2FieldId'))? $this->input->post('g2FieldId'):0;
+            $g2CAData       = $this->input->post('g2CAData');
+            $g3Id           = $this->input->post('g3Id');
+            $g3FieldId      = ($this->input->post('g3FieldId')) ? $this->input->post('g3FieldId') :0;
+            $g3CAData       = $this->input->post('g3CAData');
+
+            $fieldsArray = array(
+                array('id'=>$g1FieldId, 'parent'=>$g1Id, 'data'=>$g1CAData),
+                array('id'=>$g2FieldId, 'parent'=>$g2Id, 'data'=>$g2CAData),
+                array('id'=>$g3FieldId, 'parent'=>$g3Id, 'data'=>$g3CAData)
+            );
 
             if($mode == 'add'){
-                if($this->plan_model->fieldExists($fieldId)){
-                    $this->plan_model->updateField($fieldId, array('body'=>$FNData));
-                }else{
-                    $fieldData = array(
-                        'entity_id' =>      $FNid,
-                        'name'      =>      'Functional Course of Action',
-                        'title'     =>      'Course of Action',
-                        'weight'    =>      1,
-                        'type'      =>      'text',
-                        'body'      =>      $FNData
-                    );
-                    $this->plan_model->addField($fieldData);
+
+                foreach($fieldsArray as $key=>$fieldObj){
+                    if($this->plan_model->fieldExists($fieldObj['id'])){
+                        $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
+                    }else{
+                        $fieldData = array(
+                            'entity_id' =>      $fieldObj['parent'],
+                            'name'      =>      'Goal '.$key.'FN Course of Action Field',
+                            'title'     =>      'Goal '.$key.'FN Course of Action Field',
+                            'weight'    =>      1,
+                            'type'      =>      'text',
+                            'body'      =>      $fieldObj['data']
+                        );
+                        $this->plan_model->addField($fieldData);
+                    }
                 }
 
                 $this->output->set_output(json_encode(array(
@@ -1127,7 +1244,9 @@ class Plan extends CI_Controller{
                 )));
 
             }else{
-                $this->plan_model->updateField($fieldId, array('body'=>$FNData));
+                foreach($fieldsArray as $key=>$fieldObj){
+                    $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
+                }
 
                 $this->output->set_output(json_encode(array(
                     'saved' =>  TRUE
@@ -1135,7 +1254,7 @@ class Plan extends CI_Controller{
             }
 
         }else{
-            redirect('plan/step4/3');
+            redirect('plan/step4/4');
         }
     }
     /**

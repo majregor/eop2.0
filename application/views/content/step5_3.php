@@ -32,22 +32,42 @@ $entities = $page_vars['entities'];
 
 <div class="col-half left">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/forms.css"/>
-    <h1>Add/Edit Goals and Objectives for Functions</h1>
+    <h1>Edit Functional Annexes</h1>
     <div id="goalFirstDivToRefresh">
         <table class="results">
             <tr>
                 <th scope="col">Functions</th>
-                <th scope="col">Goals and Objectives</th>
+                <th scope="col">Annexes</th>
             </tr>
-            <?php foreach($entities as $key=>$value): ?>
+
+            <?php
+
+            $eligibleEntities = array();
+
+            foreach($entities as $key=>$value){
+                foreach($value['children'] as $child){
+                    if($child['type']=='g1' || $child['type']=='g2' || $child['type']=='g3'){
+                        foreach($child['children'] as $grandChild){
+                            foreach($grandChild['fields'] as $field){
+                                if(isset($field['body']) && !empty($field['body'])){
+                                    array_push($eligibleEntities, $value);
+                                    break 3;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            ?>
+
+            <?php foreach($eligibleEntities as $key=>$value): ?>
                 <tr>
                     <td><?php echo $value['name']; ?></td>
                     <td align="center">
-                        <?php if(isset($value['children']) && count($value['children'])>0): ?>
-                            <a href="#" id="<?php echo $value['id'];?>" class="editFieldsLink">Edit</a>
-                        <?php else: ?>
-                            <a href="#" id="<?php echo $value['id'];?>" class="addFieldsLink">Add</a>
-                        <?php endif; ?>
+                        <a href="#" id="<?php echo $value['id'];?>" class="editFieldsLink">Edit</a>
                     </td>
                 </tr>
                 <tr>
@@ -71,41 +91,7 @@ $entities = $page_vars['entities'];
 
         $("a#leftArrowButton").attr("href", "<?php echo(base_url('plan/step5/2')); ?>"); //Previous
 
-        $("#rightArrowButton").click(function(){
 
-
-        });
-
-        $(".addFieldsLink").click(function(){
-
-             selectedId = $(this).attr('id');
-            $(".fieldsContainer").html('');
-
-            var divContainer = $("#container-"+selectedId);
-
-
-            var formData = {
-                ajax:   '1',
-                id:     selectedId,
-                action: 'add',
-                showActions: '1'
-            };
-            $.ajax({
-                url:    '<?php echo(base_url('plan/loadFNCtls')); ?>',
-                data:   formData,
-                type:   'POST',
-                success: function(response){
-                    try{
-                        $(divContainer).html(response);
-                        $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
-
-                    }catch(err){
-                        alert('Problem loading controls ' + err);
-                    }
-                }
-
-            });
-        });
 
         $(".editFieldsLink").click(function(){
 
@@ -144,57 +130,6 @@ $entities = $page_vars['entities'];
         });
 
 
-        //@todo Make courses of action saveable at this step
-        $(document).on('click','#saveBtn', function(){
-
-            <?php for($i=1; $i<=3; $i++): ?>
-
-            //New Data
-                var g<?php echo($i);?>ObjData = $.map($(".g<?php echo($i);?>Obj"), function(value, index) {
-                    return [$(value).val()];
-                });
-            <?php endfor; ?>
-
-            selectedId = $('#entity_identifier').val();
-            var mode = $('#action_identifier').val();
-            var g1TxtCtl = $('#g1txt');
-            var g2TxtCtl = $('#g2txt');
-            var g3TxtCtl = $('#g3txt');
-
-
-            var formData = {
-                ajax:       '1',
-                id:         selectedId,
-                mode:     mode,
-                action:     'save',
-                g1ObjData:  g1ObjData,
-                g2ObjData:  g2ObjData,
-                g3ObjData:  g3ObjData,
-                g1:         g1TxtCtl.val(),
-                g2:         g2TxtCtl.val(),
-                g3:         g3TxtCtl.val()
-            };
-
-            $.ajax({
-                url:    '<?php echo(base_url('plan/manageFNGoals')); ?>',
-                data:   formData,
-                type:   'POST',
-                success: function(response){
-
-                    try{
-                        alert(response);
-
-                    }catch(err){
-                        alert('Problem loading controls '+err);
-                    }
-                }
-
-            });
-
-            $("#container-"+selectedId).html('');
-            return false;
-        });
-
         $(document).on('click','#updateBtn', function(){
 
             <?php for($i=1; $i<=3; $i++): ?>
@@ -222,11 +157,25 @@ $entities = $page_vars['entities'];
             var g2TxtCtl = $('#txtg2');
             var g3TxtCtl = $('#txtg3');
 
+            var g1Element       = $("#txtg1ca");
+            var g2Element       = $("#txtg2ca");
+            var g3Element       = $("#txtg3ca");
+
+            var g1CAFieldId     = g1Element.attr("data-field-id");
+            var g1CAData        = g1Element.val();
+
+            var g2CAFieldId     = g2Element.attr("data-field-id");
+            var g2CAData        = g2Element.val();
+
+            var g3CAFieldId     = g3Element.attr("data-field-id");
+            var g3CAData        = g3Element.val();
+
             var formData = {
                 ajax:       '1',
                 id:         selectedId,
                 mode:     mode,
                 action:     'update',
+                coursesOfActions: '1',
                 g1ObjDataNew:  g1ObjDataNew,
                 g2ObjDataNew:  g2ObjDataNew,
                 g3ObjDataNew:  g3ObjDataNew,
@@ -253,7 +202,16 @@ $entities = $page_vars['entities'];
 
                 g1ObjFieldIds: g1ObjFieldIds,
                 g2ObjFieldIds: g2ObjFieldIds,
-                g3ObjFieldIds: g3ObjFieldIds
+                g3ObjFieldIds: g3ObjFieldIds,
+
+                g1CAFieldId:    g1CAFieldId,
+                g1CAData:       g1CAData,
+
+                g2CAFieldId:    g2CAFieldId,
+                g2CAData:       g2CAData,
+
+                g3CAFieldId:    g3CAFieldId,
+                g3CAData:       g3CAData
 
             };
 

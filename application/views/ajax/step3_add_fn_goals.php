@@ -42,20 +42,6 @@
             </table>
 <?php endfor; ?>
 
-<?php if(isset($showActions) && $showActions==true): ?>
-    <table  class="editOne">
-        <tr>
-            <td class="txtb">
-                Courses of Action:</td>
-            <td>
-            <textarea name="fn_action_txt" id="fn_action_txt" data-field-id="<?php echo(isset($functions[0]['fields'][0]['id'])? $functions[0]['fields'][0]['id']:'0' );?>" rows="11" style="width:100%">
-                <?php echo(isset($functions[0]['fields'][0]['body'])? $functions[0]['fields'][0]['body']:'' );?>
-            </textarea>
-            </td>
-        </tr>
-    </table>
-<?php endif; ?>
-
 
 <table class="editUpdate">
     <tbody>

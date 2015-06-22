@@ -27,26 +27,47 @@ $entities = $page_vars['entities'];
     </ul>
     <p><br/>
         To edit and format the content for each of your annexes, please click on the corresponding Edit button. Revise the text as necessary in the designated fields. It is likely that some of your courses of action will reference cross-cutting functions. In those cases, it is recommended that you add a note that additional information on a particular function may be found in the corresponding Functional Annex. Click the Update button to create a coherent Threat- and Hazard-Specific Annex.</p>
-</div> /col-half --><!-- /col-half -->
+</div>
 
 <div class="col-half left">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/forms.css"/>
-    <h1>Add/Edit Goals and Objectives for Threats and Hazards</h1>
+    <h1>Edit Threat- and Hazard-Specific Annexes</h1>
     <div id="goalFirstDivToRefresh">
         <table class="results">
             <tr>
                 <th scope="col">Threats and Hazards</th>
-                <th scope="col">Goals and Objectives</th>
+                <th scope="col">Annexes</th>
             </tr>
-            <?php foreach($entities as $key=>$value): ?>
+
+            <?php
+
+                $eligibleEntities = array();
+
+                foreach($entities as $key=>$value){
+                    foreach($value['children'] as $child){
+                        if($child['type']=='g1' || $child['type']=='g2' || $child['type']=='g3'){
+                            foreach($child['children'] as $grandChild){
+                                foreach($grandChild['fields'] as $field){
+                                    if(isset($field['body']) && !empty($field['body'])){
+                                        array_push($eligibleEntities, $value);
+                                        break 3;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+            ?>
+
+
+            <?php foreach($eligibleEntities as $key=>$value): ?>
                 <tr>
                     <td><?php echo $value['name']; ?></td>
                     <td align="center">
-                        <?php if(isset($value['fields']) && count($value['fields'])>0): ?>
                             <a href="#" id="<?php echo $value['id'];?>" class="editFieldsLink">Edit</a>
-                        <?php else: ?>
-                            <a href="#" id="<?php echo $value['id'];?>" class="addFieldsLink">Add</a>
-                        <?php endif; ?>
                     </td>
                 </tr>
                 <tr>
@@ -75,36 +96,6 @@ $entities = $page_vars['entities'];
 
         $("a#leftArrowButton").attr("href", "<?php echo(base_url('plan/step5/1')); ?>"); //Previous
 
-        $(".addFieldsLink").click(function(){
-
-             selectedId = $(this).attr('id');
-            $(".fieldsContainer").html('');
-
-            var divContainer = $("#container-"+selectedId);
-
-
-            var formData = {
-                ajax:   '1',
-                id:     selectedId,
-                action: 'add',
-                showActions: '1'
-            };
-            $.ajax({
-                url:    '<?php echo(base_url('plan/loadTHCtls')); ?>',
-                data:   formData,
-                type:   'POST',
-                success: function(response){
-                    try{
-                        $(divContainer).html(response);
-                        $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
-
-                    }catch(err){
-                        alert('Problem loading controls ' + err);
-                    }
-                }
-
-            });
-        });
 
         $(".editFieldsLink").click(function(){
 
@@ -144,7 +135,6 @@ $entities = $page_vars['entities'];
 
 
 
-        //@todo Make courses of action saveable at this step
         $(document).on('click','#saveBtn', function(){
 
             <?php for($i=1; $i<=3; $i++): ?>
@@ -180,11 +170,26 @@ $entities = $page_vars['entities'];
             var g3TxtCtl = $('#txtg3');
 
 
+            var g1Element       = $("#txtg1ca");
+            var g2Element       = $("#txtg2ca");
+            var g3Element       = $("#txtg3ca");
+
+            var g1CAFieldId     = g1Element.attr("data-field-id");
+            var g1CAData        = g1Element.val();
+
+            var g2CAFieldId     = g2Element.attr("data-field-id");
+            var g2CAData        = g2Element.val();
+
+            var g3CAFieldId     = g3Element.attr("data-field-id");
+            var g3CAData        = g3Element.val();
+
+
             var formData = {
                 ajax:       '1',
                 id:         selectedId,
                 mode:     mode,
                 action:     'save',
+                coursesOfActions: '1',
                 g1ObjData:  g1ObjData,
                 g2ObjData:  g2ObjData,
                 g3ObjData:  g3ObjData,
@@ -223,10 +228,18 @@ $entities = $page_vars['entities'];
                 g3ObjDataNew:  g3ObjDataNew,
                 g1fnDataNew :   g1fnDataNew,
                 g2fnDataNew :   g2fnDataNew,
-                g3fnDataNew :   g3fnDataNew
+                g3fnDataNew :   g3fnDataNew,
+
+                g1CAFieldId:    g1CAFieldId,
+                g1CAData:       g1CAData,
+
+                g2CAFieldId:    g2CAFieldId,
+                g2CAData:       g2CAData,
+
+                g3CAFieldId:    g3CAFieldId,
+                g3CAData:       g3CAData
 
             };
-
 
             $.ajax({
                 url:    '<?php echo(base_url('plan/manageTHGoals')); ?>',

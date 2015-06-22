@@ -49,12 +49,35 @@ $entities = $page_vars['entities'];
                 <tr>
                     <td><?php echo $value['name']; ?></td>
                     <td align="center">
-                        <?php if(isset($value['fields']) && count($value['fields'])>0 && !empty($value['fields'][0]['body'])): ?>
 
-                            <a href="#" id="<?php echo $value['id'];?>" class="editFnActionLink">Edit</a>
-                        <?php else: ?>
+                        <?php
+                        $mode = 'add';
+                        ?>
+                        <?php foreach($value['children'] as $child): ?>
+                            <?php if($child['type']=='g1' || $child['type']=='g2' || $child['type']=='g3'): ?>
+                                <?php foreach($child['children'] as $grandChild): ?>
+                                    <?php if($grandChild['type']=="ca"): ?>
+                                        <?php foreach($grandChild['fields'] as $field): ?>
+                                            <?php if(isset($field['body']) && !empty($field['body'])): ?>
+                                                <?php
+                                                //Change the mode variable to edit and exit from all the loops
+                                                $mode = 'edit';
+                                                break 3;
+                                                ?>
+                                            <?php else: ?>
+                                                <?php //Don't alter the $mode variable ?>
+                                            <?php endif;?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <?php if($mode=='add'):?>
                             <a href="#" id="<?php echo $value['id'];?>" class="addFnActionLink">Add</a>
+                        <?php else: ?>
+                            <a href="#" id="<?php echo $value['id'];?>" class="editFnActionLink">Edit</a>
                         <?php endif; ?>
+
                     </td>
                 </tr>
                 <tr>
@@ -122,7 +145,8 @@ $entities = $page_vars['entities'];
             var formData = {
                 ajax:   '1',
                 id:     selectedId,
-                action: 'update'
+                action: 'update',
+
 
             };
             $.ajax({
@@ -144,18 +168,38 @@ $entities = $page_vars['entities'];
 
 
         $(document).on('click', '#saveBtn', function(){
-            var FNid = $('#entity_identifier').val();
-            var FNData = $('#fn_action_txt').val();
-            var fieldId = $('#fn_action_txt').attr('data-field-id');
+
+            var g1Element       = $("#txtg1ca");
+            var g2Element       = $("#txtg2ca");
+            var g3Element       = $("#txtg3ca");
+
+            var FNid            = $('#entity_identifier').val();
+            var g1Id            = g1Element.attr("data-goal-id");
+            var g1CAData        = g1Element.val();
+
+            var g2Id            = g2Element.attr("data-goal-id");
+            var g2CAData        = g2Element.val();
+
+            var g3Id            = g3Element.attr("data-goal-id");
+            var g3CAData        = g3Element.val();
+
             var mode = $('#action_identifier').val();
 
             var formData = {
                 ajax:   '1',
                 FNid:   FNid,
-                FNData: FNData,
-                fieldId:    fieldId,
-                mode:   mode
+                mode:   mode,
+
+                g1Id:       g1Id,
+                g1CAData:   g1CAData,
+
+                g2Id:       g2Id,
+                g2CAData:   g2CAData,
+
+                g3Id:       g3Id,
+                g3CAData:   g3CAData
             };
+            //@todo Begin here.....!!!!!
             $.ajax({
                 url:    '<?php echo(base_url('plan/manageFNActions')); ?>',
                 data:   formData,
@@ -177,17 +221,41 @@ $entities = $page_vars['entities'];
 
 
         $(document).on('click', '#updateBtn', function(){
-            var FNid = $('#entity_identifier').val();
-            var FNData = $('#fn_action_txt').val();
-            var fieldId = $('#fn_action_txt').attr('data-field-id');
+            var g1Element       = $("#txtg1ca");
+            var g2Element       = $("#txtg2ca");
+            var g3Element       = $("#txtg3ca");
+
+            var FNid            = $('#entity_identifier').val();
+            var g1Id            = g1Element.attr("data-goal-id");
+            var g1FieldId       = g1Element.attr("data-field-id");
+            var g1CAData        = g1Element.val();
+
+            var g2Id            = g2Element.attr("data-goal-id");
+            var g2FieldId       = g2Element.attr("data-field-id");
+            var g2CAData        = g2Element.val();
+
+            var g3Id            = g3Element.attr("data-goal-id");
+            var g3FieldId       = g3Element.attr("data-field-id");
+            var g3CAData        = g3Element.val();
+
             var mode = $('#action_identifier').val();
 
             var formData = {
                 ajax:   '1',
                 FNid:   FNid,
-                FNData: FNData,
-                fieldId:    fieldId,
-                mode:   mode
+                mode:   mode,
+
+                g1Id:       g1Id,
+                g1FieldId:  g1FieldId,
+                g1CAData:   g1CAData,
+
+                g2Id:       g2Id,
+                g2FieldId:  g2FieldId,
+                g2CAData:   g2CAData,
+
+                g3Id:       g3Id,
+                g3FieldId:  g3FieldId,
+                g3CAData:   g3CAData
             };
             $.ajax({
                 url:    '<?php echo(base_url('plan/manageFNActions')); ?>',

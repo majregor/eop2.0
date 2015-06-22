@@ -261,6 +261,17 @@ class Plan_model extends CI_Model {
                 'parent'    =>      $inserted_id,
                 'weight'    =>      $key
             );
+
+            $courseOfActionData = array(
+                'name'      =>      'Goal '.$count.' Course of Action',
+                'title'     =>      'Course of Action',
+                'owner'     =>      $this->session->userdata('user_id'),
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'type_id'   =>      $this->getEntityTypeId('ca', 'name'),
+                'parent'    =>      $inserted_id,
+                'weight'    =>      $key
+            );
+
             $fieldData = array( //Field for the goal item
                 'entity_id' =>      $inserted_id,
                 'name'      =>      'Goal '.$count.' Field',
@@ -271,10 +282,10 @@ class Plan_model extends CI_Model {
             );
 
             $this->db->insert('eop_field', $fieldData);
+
+            //Insert Objective Entity and field
             $this->db->insert('eop_entity', $objectiveData);
-
             $insertedObjective_id = $this->db->insert_id();
-
             $fieldData = array( //Field for the goal's objective item
                 'entity_id' =>      $insertedObjective_id,
                 'name'      =>      'Goal '.$count.' Objective Field',
@@ -285,6 +296,19 @@ class Plan_model extends CI_Model {
             );
             $this->db->insert('eop_field', $fieldData);
 
+
+            //Insert Course of Action Entity and field
+            $this->db->insert('eop_entity', $courseOfActionData);
+            $insertedCourseofAction_id = $this->db->insert_id();
+            $fieldData = array( //Field for the goal's objective item
+                'entity_id' =>      $insertedCourseofAction_id,
+                'name'      =>      'Goal '.$count.' TH Course of Action Field',
+                'title'     =>      'Goal '.$count.' TH Course of Action Field',
+                'weight'    =>      1,
+                'type'      =>      'text',
+                'body'      =>      ''
+            );
+            $this->db->insert('eop_field', $fieldData);
 
         }
 

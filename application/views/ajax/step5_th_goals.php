@@ -1,6 +1,6 @@
 <?php
 /**
- * AJAX loaded view for Step3/3 Develop Goals for Threats and Hazards
+ * AJAX loaded view for Step5/2 Edit Goals and Courses of Action for Threats and Hazards
  *
  */
 ?>
@@ -53,21 +53,7 @@
                         <?php endforeach; ?>
                     </td>
                 </tr>
-                <!--<tr>
-                    <td class="txtb" ><?php /*echo($thChild['type_title']); */?>:</td>
 
-                    <td>
-                        <?php /*foreach($thChild['fields'] as $field): */?>
-                    <div class="goalData" contenteditable="true"  name="txt<?php /*echo($thChild['type']);*/?>"
-                         id="txt<?php /*echo($thChild['type']);*/?>"
-                         data-id="<?php /*echo($thChild['id']);*/?>"
-                         data-field-id="<?php /*echo($field['id']);*/?>"
-                         style="width:100%">
-                                <?php /*echo($field['body']); */?>
-                    </div>
-                        <?php /*endforeach; */?>
-                    </td>
-                </tr>-->
                 <?php
                         $fnValue="";
                     foreach($thChild['children'] as $key => $grandChild){
@@ -113,22 +99,7 @@
                                 <?php endforeach; ?>
                             </td>
                         </tr>
-                        <!--<tr>
-                            <td class="txnorm">Objective</td>
-                            <td>
 
-                                <?php /*foreach($grandChild['fields'] as $field): */?>
-                                    <div
-                                        contenteditable="true"
-                                        name="txt<?php /* echo($thChild['type']);*/?>obj<?php /*echo($key);*/?>"
-                                        id="txt<?php /*   echo($thChild['type']);*/?>obj<?php /*echo($key);*/?>"
-                                        class="<?php /*   echo($thChild['type']);*/?>Obj"
-                                        data-id="<?php /*echo($grandChild['id']);*/?>"
-                                        data-field-id="<?php /*echo($field['id']);*/?>"
-                                        style="width:100%" ><?php /*echo($field['body']); */?></div>
-                                <?php /*endforeach; */?>
-                            </td>
-                        </tr>-->
                         <?php
                         $fnValue="";
                         foreach($grandChild['children'] as $key => $greatGrandChild){
@@ -176,13 +147,6 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
 
-                <tr id="addMore<?php echo($thChild['type']);?>ObjFnRow" style=" border-top: 2px solid #DDD;">
-                    <td colspan="2" align="right">
-                        <a href="" id="addMore<?php echo($thChild['type']);?>ObjFnLink">[Add More]</a> |
-                        <a href="" id="remove<?php echo($thChild['type']);?>ThRowLink">[Remove]</a>
-                    </td>
-                </tr>
-
             </table>
         <?php endif; ?>
     <?php endforeach; ?>
@@ -196,7 +160,7 @@
                 <div align="left">
                     <input type="hidden" id="entity_identifier" value="<?php echo($entity_id);?>" />
                     <input type="hidden" id="action_identifier" value="<?php echo($action);?>" />
-                    <input id="saveBtn" type="button" value="Save"/>
+                    <input id="saveBtn" type="button" value="Update"/>
                 </div>
             </td>
         </tr>
@@ -210,81 +174,4 @@
     $( document ).ready( function() {
         $( 'textarea' ).ckeditor();
     } );
-</script>
-
-<script>
-    var g1Items= 0, g2Items= 0, g3Items=0;
-    var g1Elements = [], g2Elements = [], g3Elements = [];
-
-    <?php for($i=1; $i<=3; $i++): ?>
-
-        var g<?php echo($i);?>ObjData = $.map($(".g<?php echo($i);?>Obj"), function(value, index) {
-            return [$(value).val()];
-        });
-
-        g<?php echo($i);?>Items = 0;/*g<?php echo($i);?>ObjData.length - 1;*/
-
-
-    <?php endfor; ?>
-
-
-    $(document).ready(function(){
-
-        //Add More and Remove controls
-        <?php for($i=1; $i<=3; $i++): ?>
-            $("#addMoreg<?php echo($i);?>ObjFnLink").click(function(){
-
-                if(g<?php echo($i);?>Items == 0){
-                    g<?php echo($i);?>Items ++;
-                    $("#addMoreg<?php echo($i);?>ObjFnRow").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
-                    var wdth = $("#g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"").width();
-                    CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
-
-                }else{
-
-                    g<?php echo($i);?>Items ++;
-                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items-1)+"Fn").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
-                    var wdth = $("#g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"").width();
-                    CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
-                }
-                return false;
-            });
-
-            $("#removeg<?php echo($i);?>ThRowLink").click(function(){
-
-                if(g<?php echo($i);?>Items > 0){
-
-                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items)+"ObjRow").remove();
-                    $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items)+"Fn").remove();
-
-                    g<?php echo($i);?>Items --;
-                }
-                return false;
-            });
-        <?php endfor; ?>
-
-
-    });
-
-
-
-    function mkObjectiveCtl( goal, items ){
-        var data="";
-        data+="<tr id='g"+goal+"Item"+items+"ObjRow'>";
-        data+="<td class='txnorm'>Objective</td>";
-        data+="<td>";
-        data+="<textarea name='g"+goal+"Item"+items+"' id='g"+goal+"Item"+items+"' class='g" + goal + "ObjNew'  style='width:100%' rows='4'></textarea>";
-        data+="</td></tr>";
-        data+="<tr id='g"+goal+"Item"+items+"Fn'>  <td class='txtnorm'>Function:</td>";
-        data+="<td>  <select  style='width: 65%' class='g"+goal+"fnNew'>";
-        data+="<option value='' selected='selected'>--Select--</option>";
-        <?php foreach($functions as $key=>$value): ?>
-            data+="<option value='<?php echo($value['id']);?>'><?php echo($value['name']);?></option>";
-        <?php endforeach; ?>
-        data+="<option value='other'>Other</option>";
-        data+="</select>";
-        data+="</td> </tr>";
-
-        return data;
-    }
 </script>

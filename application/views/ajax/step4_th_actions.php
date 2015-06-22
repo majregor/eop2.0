@@ -62,6 +62,26 @@
                             </td>
                         </tr>
                     <?php endif; ?>
+
+                    <?php if($grandChild['type']=="ca"): // Get only grandchildren of type ca (Course of Action) ?>
+
+                            <tr>
+                                <td class="txtb">Courses of Action:</td>
+                                <td>
+                                    <?php foreach($grandChild['fields'] as $field): ?>
+                                        <textarea
+                                            name="txt<?php    echo($thChild['type']);?>ca"
+                                            id="txt<?php  echo($thChild['type']);?>ca"
+                                            data-field-id="<?php echo($field['id']);?>"
+                                            data-goal-id="<?php echo($thChild['id']); ?>"
+                                            rows="11" style="width:100%">
+                                                <?php echo($field['body']); ?>
+                                            </textarea>
+                                    <?php endforeach; ?>
+                                </td>
+                            </tr>
+
+                    <?php endif; ?>
                 <?php endforeach; ?>
 
 
@@ -70,18 +90,6 @@
         <?php endif; ?>
     <?php endforeach; ?>
 <?php endforeach; ?>
-
-<table  class="editOne">
-    <tr>
-        <td class="txtb">
-            Courses of Action:</td>
-        <td>
-            <textarea name="th_action_txt" id="th_action_txt" data-field-id="<?php echo(isset($threats_and_hazards[0]['fields'][0]['id'])? $threats_and_hazards[0]['fields'][0]['id']:'0' );?>" rows="11" style="width:100%">
-                <?php echo(isset($threats_and_hazards[0]['fields'][0]['body'])? $threats_and_hazards[0]['fields'][0]['body']:'' );?>
-            </textarea>
-        </td>
-    </tr>
-</table>
 
 <table class="editUpdate">
     <tbody>

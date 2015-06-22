@@ -34,7 +34,41 @@
                             </td>
                         </tr>
                     <?php endif; ?>
+
+                    <?php if($grandChild['type']=="ca"): // Get only grandchildren of type ca (Course of Action) ?>
+
+                        <tr>
+                            <td class="txtb">Courses of Action:</td>
+                            <td>
+                                <?php foreach($grandChild['fields'] as $field): ?>
+                                    <textarea
+                                        name="txt<?php    echo($fnChild['type']);?>ca"
+                                        id="txt<?php  echo($fnChild['type']);?>ca"
+                                        data-field-id="<?php echo($field['id']);?>"
+                                        data-goal-id="<?php echo($fnChild['id']); ?>"
+                                        rows="11" style="width:100%">
+                                                <?php echo($field['body']); ?>
+                                            </textarea>
+                                <?php endforeach; ?>
+                            </td>
+                        </tr>
+
+                    <?php endif; ?>
                 <?php endforeach; ?>
+
+                <?php if($action=='add'): ?>
+                    <tr>
+                        <td class="txtb">Courses of Action:</td>
+                        <td>
+
+                                    <textarea
+                                        name="txt<?php echo($fnChild['type']);?>ca"
+                                        id="txt<?php  echo($fnChild['type']);?>ca"
+                                        data-goal-id="<?php echo($fnChild['id']); ?>"
+                                        rows="11" style="width:100%"></textarea>
+                        </td>
+                    </tr>
+                <?php endif; ?>
 
 
 
@@ -43,17 +77,6 @@
     <?php endforeach; ?>
 <?php endforeach; ?>
 
-<table  class="editOne">
-    <tr>
-        <td class="txtb">
-            Courses of Action:</td>
-        <td>
-            <textarea name="fn_action_txt" id="fn_action_txt" data-field-id="<?php echo(isset($functions[0]['fields'][0]['id'])? $functions[0]['fields'][0]['id']:'0' );?>" rows="11" style="width:100%">
-                <?php echo(isset($functions[0]['fields'][0]['body'])? $functions[0]['fields'][0]['body']:'' );?>
-            </textarea>
-        </td>
-    </tr>
-</table>
 
 <table class="editUpdate">
     <tbody>

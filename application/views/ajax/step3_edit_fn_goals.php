@@ -30,7 +30,7 @@
                 <?php foreach($fnChild['children'] as $key => $grandChild): ?>
                     <?php if($grandChild['type']=="obj"): // Get only grandchildren of type obj ?>
                         <tr>
-                            <td class="txnorm">Objective</td>
+                            <td class="txtnorm">Objective</td>
                             <td>
                                 <?php foreach($grandChild['fields'] as $field): ?>
                                     <textarea
@@ -39,7 +39,8 @@
                                         class="<?php    echo($fnChild['type']);?>Obj"
                                         data-id="<?php echo($grandChild['id']);?>"
                                         data-field-id="<?php echo($field['id']);?>"
-                                        style="width:100%" rows="4"><?php echo($field['body']); ?></textarea>
+                                        style="width:100%"
+                                        rows="4"><?php echo($field['body']); ?></textarea>
                                 <?php endforeach; ?>
                             </td>
                         </tr>
