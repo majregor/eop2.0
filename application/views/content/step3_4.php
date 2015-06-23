@@ -162,7 +162,6 @@ $entities = $page_vars['entities'];
                 g2:         g2TxtCtl.val(),
                 g3:         g3TxtCtl.val()
             };
-
             $.ajax({
                 url:    '<?php echo(base_url('plan/manageFNGoals')); ?>',
                 data:   formData,

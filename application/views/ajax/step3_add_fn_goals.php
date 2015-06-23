@@ -69,6 +69,7 @@
 <script>
     var g1Items= 0, g2Items= 0, g3Items=0;
 
+
     <?php for($i=1; $i<=3; $i++): ?>
 
         var g<?php echo($i);?>ObjData = $.map($(".g<?php echo($i);?>Obj"), function(value, index) {
@@ -90,13 +91,22 @@
                 if(g<?php echo($i);?>Items == 0){
                     g<?php echo($i);?>Items ++;
                     $("#addMoreg<?php echo($i);?>ObjFnRow").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
-                    CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
+                    var editor = CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
+                    editor.on( 'change', function( evt ) {
+
+                        //console.log( 'Total bytes: ' + evt.editor.getData().length );
+                        //alert(evt.editor.getData());
+                        editor.updateElement();
+                    });
 
                 }else{
 
                     g<?php echo($i);?>Items ++;
                     $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items-1)+"AddedRow").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
-                    CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
+                    var editor1 = CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
+                    editor1.on('change', function(evt){
+                        editor1.updateElement();
+                    });
                 }
                 return false;
             });

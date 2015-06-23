@@ -380,22 +380,11 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
-                    $fnData = $this->plan_model->getEntities('fn', array('parent is not null'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
-                    $topLevelFns = $this->plan_model->getEntities('fn', array('parent'=>Null), true, array('orderby'=>'name', 'type'=>'ASC'));
-                    $cleanedFns= array();
-                    foreach($topLevelFns as $key=>$value){
-
-                        foreach($fnData as $v){
-                            if($value['name'] == $v['name']){
-                                array_push($cleanedFns, $value);
-                                break;
-                            }
-                        }
-                    }
+                    $fnData = $this->plan_model->getEntities('fn', array('id'=>$id), true);
 
                     $data = array(
                         'entity_id'                 =>  $id,
-                        'functions'                 =>  $cleanedFns,
+                        'functions'                 =>  $fnData,
                         'action'                    =>  'edit'
                     );
                     if($showActions){
@@ -549,6 +538,37 @@ class Plan extends CI_Controller{
                             array('id'=>$g3CAFieldId, 'parent'=>$g3Id, 'data'=>$g3CAData)
                         );
 
+
+                        //Edit courses of action
+                        foreach($CAfieldsArray as $key=>$fieldObj){
+                            if($this->plan_model->fieldExists($fieldObj['id'])){
+                                $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
+                            }else{
+                                //Create Course of action entity
+                                $courseOfActionData = array(
+                                    'name'      =>      'Goal '.($key+1).' Course of Action',
+                                    'title'     =>      'Course of Action',
+                                    'owner'     =>      $this->session->userdata('user_id'),
+                                    'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                                    'type_id'   =>      $this->getEntityTypeId('ca', 'name'),
+                                    'parent'    =>      $fieldObj['parent'],
+                                    'weight'    =>      $key+1
+                                );
+
+                                $newCourseofActionId = $this->plan_model->addEntity($courseOfActionData);
+
+                                $fieldData = array(
+                                    'entity_id' =>      $newCourseofActionId,
+                                    'name'      =>      'Goal '.$key.'TH Course of Action Field',
+                                    'title'     =>      'Goal '.$key.'TH Course of Action Field',
+                                    'weight'    =>      1,
+                                    'type'      =>      'text',
+                                    'body'      =>      $fieldObj['data']
+                                );
+                                $this->plan_model->addField($fieldData);
+                            }
+                        }
+
                     }
 
 
@@ -665,24 +685,6 @@ class Plan extends CI_Controller{
                             }else{
                                 //(trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->update($g3fnVal[$key], $fnData): '';
                             }
-                        }
-                    }
-
-
-                    //Edit courses of action
-                    foreach($CAfieldsArray as $key=>$fieldObj){
-                        if($this->plan_model->fieldExists($fieldObj['id'])){
-                            $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
-                        }else{
-                            $fieldData = array(
-                                'entity_id' =>      $fieldObj['parent'],
-                                'name'      =>      'Goal '.$key.'TH Course of Action Field',
-                                'title'     =>      'Goal '.$key.'TH Course of Action Field',
-                                'weight'    =>      1,
-                                'type'      =>      'text',
-                                'body'      =>      $fieldObj['data']
-                            );
-                            $this->plan_model->addField($fieldData);
                         }
                     }
 
@@ -1012,8 +1014,21 @@ class Plan extends CI_Controller{
                             if($this->plan_model->fieldExists($fieldObj['id'])){
                                 $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
                             }else{
+                                //Add Course of action entity
+                                $courseOfActionData = array(
+                                    'name'      =>      'Goal '.($key +1).' FN Course of Action',
+                                    'title'     =>      'Course of Action',
+                                    'owner'     =>      $this->session->userdata('user_id'),
+                                    'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                                    'type_id'   =>      $this->getEntityTypeId('ca', 'name'),
+                                    'parent'    =>      $fieldObj['parent'],
+                                    'weight'    =>      $key+1
+                                );
+
+                                $newCourseofActionId = $this->plan_model->addEntity($courseOfActionData);
+
                                 $fieldData = array(
-                                    'entity_id' =>      $fieldObj['parent'],
+                                    'entity_id' =>      $newCourseofActionId,
                                     'name'      =>      'Goal '.$key.'FN Course of Action Field',
                                     'title'     =>      'Goal '.$key.'FN Course of Action Field',
                                     'weight'    =>      1,
@@ -1227,10 +1242,25 @@ class Plan extends CI_Controller{
                     if($this->plan_model->fieldExists($fieldObj['id'])){
                         $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
                     }else{
+
+                        //Insert new course of action entity first and field right after
+                        $courseOfActionData = array(
+                            'name'      =>      'Goal '.($key+1).' Course of Action',
+                            'title'     =>      'Course of Action',
+                            'owner'     =>      $this->session->userdata('user_id'),
+                            'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                            'type_id'   =>      $this->plan_model->getEntityTypeId('ca', 'name'),
+                            'parent'    =>      $fieldObj['parent'],
+                            'weight'    =>      $key
+                        );
+
+                        $insertedCourseofAction_id = $this->plan_model->addEntity($courseOfActionData);
+
+                        //Creating the field
                         $fieldData = array(
-                            'entity_id' =>      $fieldObj['parent'],
-                            'name'      =>      'Goal '.$key.'FN Course of Action Field',
-                            'title'     =>      'Goal '.$key.'FN Course of Action Field',
+                            'entity_id' =>      $insertedCourseofAction_id,
+                            'name'      =>      'Goal '.($key+1).'FN Course of Action Field',
+                            'title'     =>      'Goal '.($key+1).'FN Course of Action Field',
                             'weight'    =>      1,
                             'type'      =>      'text',
                             'body'      =>      $fieldObj['data']

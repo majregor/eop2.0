@@ -48,10 +48,12 @@ $entities = $page_vars['entities'];
                 foreach($value['children'] as $child){
                     if($child['type']=='g1' || $child['type']=='g2' || $child['type']=='g3'){
                         foreach($child['children'] as $grandChild){
-                            foreach($grandChild['fields'] as $field){
-                                if(isset($field['body']) && !empty($field['body'])){
-                                    array_push($eligibleEntities, $value);
-                                    break 3;
+                            if($grandChild['type']=='ca') {
+                                foreach ($grandChild['fields'] as $field) {
+                                    if (isset($field['body']) && !empty($field['body'])) {
+                                        array_push($eligibleEntities, $value);
+                                        break 3;
+                                    }
                                 }
                             }
                         }

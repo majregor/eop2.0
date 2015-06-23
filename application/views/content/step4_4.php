@@ -45,7 +45,30 @@ $entities = $page_vars['entities'];
                 <th scope="col">Functions</th>
                 <th scope="col">Courses of Action</th>
             </tr>
-            <?php foreach($entities as $key=>$value): ?>
+            <?php
+
+            $eligibleEntities = array();
+
+            foreach($entities as $key=>$value){
+                foreach($value['children'] as $child){
+                    if($child['type']=='g1' || $child['type']=='g2' || $child['type']=='g3'){
+                        foreach($child['children'] as $grandChild){
+                            foreach($grandChild['fields'] as $field){
+                                if(isset($field['body']) && !empty($field['body'])){
+                                    array_push($eligibleEntities, $value);
+                                    break 3;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            ?>
+
+            <?php foreach($eligibleEntities as $key=>$value): ?>
                 <tr>
                     <td><?php echo $value['name']; ?></td>
                     <td align="center">
@@ -145,9 +168,7 @@ $entities = $page_vars['entities'];
             var formData = {
                 ajax:   '1',
                 id:     selectedId,
-                action: 'update',
-
-
+                action: 'update'
             };
             $.ajax({
                 url:    '<?php echo(base_url('plan/loadFNActionCtrls')); ?>',
@@ -199,7 +220,6 @@ $entities = $page_vars['entities'];
                 g3Id:       g3Id,
                 g3CAData:   g3CAData
             };
-            //@todo Begin here.....!!!!!
             $.ajax({
                 url:    '<?php echo(base_url('plan/manageFNActions')); ?>',
                 data:   formData,

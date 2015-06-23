@@ -46,7 +46,30 @@ $entities = $page_vars['entities'];
                 <th scope="col">Courses of Action</th>
             </tr>
 
-            <?php foreach($entities as $key=>$value): ?>
+            <?php
+
+            $eligibleEntities = array();
+
+            foreach($entities as $key=>$value){
+                foreach($value['children'] as $child){
+                    if($child['type']=='g1' || $child['type']=='g2' || $child['type']=='g3'){
+                        foreach($child['children'] as $grandChild){
+                            foreach($grandChild['fields'] as $field){
+                                if(isset($field['body']) && !empty($field['body'])){
+                                    array_push($eligibleEntities, $value);
+                                    break 3;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            ?>
+
+            <?php foreach($eligibleEntities as $key=>$value): ?>
                 <tr>
                     <td><?php echo $value['name']; ?></td>
                     <td align="center">

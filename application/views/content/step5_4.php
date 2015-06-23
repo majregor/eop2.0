@@ -35,40 +35,7 @@
     <div class="bar" id="progress" style="display: block; width:0%; background-color:#9C0; padding:2px 5px; margin: 2px 0px; border:1px inset #446; border-radius:5px">
     </div>
 
-    <!-- JavaScript used to call the fileupload widget to upload files -->
-    <script type="text/javascript">
-        // When the server is ready...
-        $(function () {
-            'use strict';
 
-            // Define the url to send the image data to
-            var url = 'files/files.php';
-
-            // Call the fileupload widget and set some parameters
-            //$('#uploadLinkId').click(function(){
-            $('#fileupload').fileupload({
-                autoupload: true,
-                url: url,
-                done: function (e, data) {
-                    // Add each uploaded file name to the #files list
-                    $.each(data.files, function (index, file) {
-                        $('<li/>').text(file.name).appendTo('#files');
-                    });
-                },
-                progressall: function (e, data) {
-                    // Update the progress bar while files are being uploaded
-                    var progress = parseInt(data.loaded / data.total * 100, 10);
-                    $('#progress').css(
-                        'width',
-                        progress + '%'
-                    );
-                },
-                fail:function(e, data){
-                    alert("File Upload Failed");
-                }
-            });
-        });//end link click function
-    </script>
 </div>
 
 
