@@ -1,5 +1,5 @@
 <?php
-//$entities = $page_vars['entities'];
+$entities = $page_vars['entities'];
 ?>
 <div id="topcontain">
     <div id="titlearea">
@@ -22,21 +22,7 @@
 </div>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/forms.css"/>
-<div>
-    <!-- Button to select & upload files -->
-        <span class="btn btn-success fileinput-button">
-            <span><a href="#">Select files...</a></span>
-            <!-- The file input field used as target for the file upload widget -->
-            <input id="fileupload" type="file" name="files[]" multiple>
-        </span>
-    <!-- The list of files uploaded -->
-    <p>Files uploaded:</p>
-    <ul id="files"></ul>
-    <div class="bar" id="progress" style="display: block; width:0%; background-color:#9C0; padding:2px 5px; margin: 2px 0px; border:1px inset #446; border-radius:5px">
-    </div>
 
-
-</div>
 
 
 
@@ -70,10 +56,31 @@
         <td>1. Introductory Material</td>
         <td align="middle">
 
-                <a href="#.php" id="showForm1Link">Add</a>
+            <?php
+                $mode = 'add';
+                $entityId=null;
+                foreach($entities as $entity_key=>$entity){
+                    if($entity['name']=='form1') {
+                        foreach ($entity['children'] as $child_key => $child) {
+                            foreach($child['fields'] as $field){
+                                if(isset($field['body']) && !empty($field['body'])){
+                                    $entityId = $entity['id'];
+                                    $mode='edit';
+                                    break 3;
+                                }
+                            }
+                        }
+                    }
+                }
+            ?>
+            <?php if($mode=='add'): ?>
+                <a href="#" class="showAddForm" id="showForm1Link">Add</a>
+            <?php else: ?>
+                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm1Link">Edit</a>
+            <?php endif; ?>
 
 
-                <a href="#.php" id="editForm1Link">Edit</a>
+
 
 
         </td>
@@ -87,10 +94,26 @@
         <td>2. Purpose, Scope, Situation Overview, and Assumptions</td>
         <td align="middle">
 
-                <a href="#.php" id="showForm2Link">Add</a>
-
-
-                <a href="#.php" id="editForm2Link">Edit</a>
+            <?php
+            $mode = 'add';
+            foreach($entities as $entity_key=>$entity){
+                if($entity['name']=='form2') {
+                    foreach ($entity['children'] as $child_key => $child) {
+                        foreach($child['fields'] as $field){
+                            if(isset($field['body']) && !empty($field['body'])){
+                                $mode='edit';
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php if($mode=='add'): ?>
+                <a href="#" class="showAddForm" id="showForm2Link">Add</a>
+            <?php else: ?>
+                <a href="#" class="showEditForm" id="editForm2Link">Edit</a>
+            <?php endif; ?>
 
 
         </td>
@@ -104,10 +127,26 @@
         <td>3. Concept of Operations (CONOPS)</td>
         <td align="middle">
 
-                <a href="#.php" id="showForm3Link">Add</a>
-
-
-                <a href="#.php" id="editForm3Link">Edit</a>
+            <?php
+            $mode = 'add';
+            foreach($entities as $entity_key=>$entity){
+                if($entity['name']=='form3') {
+                    foreach ($entity['children'] as $child_key => $child) {
+                        foreach($child['fields'] as $field){
+                            if(isset($field['body']) && !empty($field['body'])){
+                                $mode='edit';
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php if($mode=='add'): ?>
+                <a href="#" class="showAddForm" id="showForm3Link">Add</a>
+            <?php else: ?>
+                <a href="#" class="showEditForm" id="editForm3Link">Edit</a>
+            <?php endif; ?>
 
 
         </td>
@@ -121,10 +160,26 @@
         <td>4. Organization and Assignment of Responsibilities </td>
         <td align="middle">
 
-                <a href="#.php" id="showForm4Link">Add</a>
-
-
-                <a href="#.php" id="editForm4Link">Edit</a>
+            <?php
+            $mode = 'add';
+            foreach($entities as $entity_key=>$entity){
+                if($entity['name']=='form4') {
+                    foreach ($entity['children'] as $child_key => $child) {
+                        foreach($child['fields'] as $field){
+                            if(isset($field['body']) && !empty($field['body'])){
+                                $mode='edit';
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php if($mode=='add'): ?>
+                <a href="#" class="showAddForm" id="showForm4Link">Add</a>
+            <?php else: ?>
+                <a href="#" class="showEditForm" id="editForm4Link">Edit</a>
+            <?php endif; ?>
 
 
         </td>
@@ -138,11 +193,26 @@
         <td>5. Direction, Control, and Coordination</td>
         <td align="middle">
 
-                <a href="#.php" id="showForm5Link">Add</a>
-
-
-                <a href="#.php" id="editForm5Link">Edit</a>
-
+            <?php
+            $mode = 'add';
+            foreach($entities as $entity_key=>$entity){
+                if($entity['name']=='form5') {
+                    foreach ($entity['children'] as $child_key => $child) {
+                        foreach($child['fields'] as $field){
+                            if(isset($field['body']) && !empty($field['body'])){
+                                $mode='edit';
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php if($mode=='add'): ?>
+                <a href="#" class="showAddForm" id="showForm5Link">Add</a>
+            <?php else: ?>
+                <a href="#" class="showEditForm" id="editForm5Link">Edit</a>
+            <?php endif; ?>
 
         </td>
     </tr>
@@ -155,10 +225,26 @@
         <td>6. Information Collection, Analysis, and Dissemination</td>
         <td align="middle">
 
-                <a href="#.php" id="showForm6Link">Add</a>
-
-
-                <a href="#.php" id="editForm6Link">Edit</a>
+            <?php
+            $mode = 'add';
+            foreach($entities as $entity_key=>$entity){
+                if($entity['name']=='form6') {
+                    foreach ($entity['children'] as $child_key => $child) {
+                        foreach($child['fields'] as $field){
+                            if(isset($field['body']) && !empty($field['body'])){
+                                $mode='edit';
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php if($mode=='add'): ?>
+                <a href="#" class="showAddForm" id="showForm6Link">Add</a>
+            <?php else: ?>
+                <a href="#" class="showEditForm" id="editForm6Link">Edit</a>
+            <?php endif; ?>
 
 
         </td>
@@ -172,10 +258,26 @@
         <td>7. Training and Exercises </td>
         <td align="middle">
 
-                <a href="#.php" id="showForm7Link">Add</a>
-
-
-                <a href="#.php" id="editForm7Link">Edit</a>
+            <?php
+            $mode = 'add';
+            foreach($entities as $entity_key=>$entity){
+                if($entity['name']=='form7') {
+                    foreach ($entity['children'] as $child_key => $child) {
+                        foreach($child['fields'] as $field){
+                            if(isset($field['body']) && !empty($field['body'])){
+                                $mode='edit';
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php if($mode=='add'): ?>
+                <a href="#" class="showAddForm" id="showForm7Link">Add</a>
+            <?php else: ?>
+                <a href="#" class="showEditForm" id="editForm7Link">Edit</a>
+            <?php endif; ?>
 
 
         </td>
@@ -189,10 +291,26 @@
         <td>8. Administration, Finance, and Logistics </td>
         <td align="middle">
 
-                <a href="#.php" id="showForm8Link">Add</a>
-
-
-                <a href="#.php" id="editForm8Link">Edit</a>
+            <?php
+            $mode = 'add';
+            foreach($entities as $entity_key=>$entity){
+                if($entity['name']=='form8') {
+                    foreach ($entity['children'] as $child_key => $child) {
+                        foreach($child['fields'] as $field){
+                            if(isset($field['body']) && !empty($field['body'])){
+                                $mode='edit';
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php if($mode=='add'): ?>
+                <a href="#" class="showAddForm" id="showForm8Link">Add</a>
+            <?php else: ?>
+                <a href="#" class="showEditForm" id="editForm8Link">Edit</a>
+            <?php endif; ?>
 
 
         </td>
@@ -206,9 +324,26 @@
         <td>9. Plan Development and Maintenance</td>
         <td align="middle">
 
-                <a href="#.php" id="showForm9Link">Add</a>
-
-                <a href="#.php" id="editForm9Link">Edit</a>
+            <?php
+            $mode = 'add';
+            foreach($entities as $entity_key=>$entity){
+                if($entity['name']=='form9') {
+                    foreach ($entity['children'] as $child_key => $child) {
+                        foreach($child['fields'] as $field){
+                            if(isset($field['body']) && !empty($field['body'])){
+                                $mode='edit';
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php if($mode=='add'): ?>
+                <a href="#" class="showAddForm" id="showForm9Link">Add</a>
+            <?php else: ?>
+                <a href="#" class="showEditForm" id="editForm9Link">Edit</a>
+            <?php endif; ?>
 
 
         </td>
@@ -222,10 +357,26 @@
         <td>10. Authorities and References</td>
         <td align="middle">
 
-                <a href="#.php" id="showForm10Link">Add</a>
-
-                <a href="#.php" id="editForm10Link">Edit</a>
-
+            <?php
+            $mode = 'add';
+            foreach($entities as $entity_key=>$entity){
+                if($entity['name']=='form10') {
+                    foreach ($entity['children'] as $child_key => $child) {
+                        foreach($child['fields'] as $field){
+                            if(isset($field['body']) && !empty($field['body'])){
+                                $mode='edit';
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php if($mode=='add'): ?>
+                <a href="#"class="showAddForm" id="showForm10Link">Add</a>
+            <?php else: ?>
+                <a href="#" class="showEditForm" id="editForm10Link">Edit</a>
+            <?php endif; ?>
 
         </td>
     </tr>
@@ -247,7 +398,56 @@
 
         $("a#leftArrowButton").attr("href", "<?php echo(base_url('plan/step5/3')); ?>"); //Previous
 
-
     }); // End $(document).ready function
+
+    $(document).on('click', '.showAddForm', function(){
+
+        var clickedBtn = $(this).attr('id');
+
+        if(clickedBtn =='showForm1Link'){
+            openForm1('add');
+        }else if(clickedBtn=='showForm2Link'){
+
+        }
+
+
+    }); // End click event for add forms
+
+    $(document).on('click', '.showEditForm', function(){
+        var clickedBtn = $(this).attr('id');
+
+        if(clickedBtn == 'editForm1Link'){
+            selectedEntityId = $(this).attr('data-entity-id');
+
+            openForm1('edit', selectedEntityId)
+        }
+    });
+
+    function openForm1(mode, id){
+
+        var entityId = (typeof id === 'undefined') ? null : id;
+        var divContainer = $("#form1Div");
+
+        var formData ={
+            ajax:           '1',
+            action:         mode,
+            entityId:       entityId
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('plan/loadForm1Ctls')); ?>',
+            data:   formData,
+            type:   'POST',
+            success: function(response){
+                try{
+                    $(divContainer).html(response);
+                    $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+    }
 
 </script>

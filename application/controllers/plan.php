@@ -169,6 +169,8 @@ class Plan extends CI_Controller{
         }
         elseif($step==4){
 
+            $basicPlanEntities = $this->plan_model->getEntities('bp',null, true, array('orderby'=>'weight', 'type'=>'ASC'));
+            $data['entities'] = $basicPlanEntities;
 
         }
 
@@ -184,8 +186,9 @@ class Plan extends CI_Controller{
     }
 
     public function test(){
-        $thData = $this->plan_model->getEntities('th',null,true);
-        $data =array('dump' => $thData);
+        //$thData = $this->plan_model->getEntities('th',null,true);
+        $ff = $this->input->post('q4Rows');
+        $data =array('dump' => $ff);
         $this->load->view('test', $data);
     }
 
@@ -402,7 +405,6 @@ class Plan extends CI_Controller{
             redirect('plan/step3/3');
         }
     }
-
 
     public function loadTHActionCtrls(){
 
@@ -1285,6 +1287,226 @@ class Plan extends CI_Controller{
 
         }else{
             redirect('plan/step4/4');
+        }
+    }
+
+    public function loadForm1Ctls(){
+
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+
+            switch($action){
+                case 'add':
+                    $data= array(
+                        'action'=>  'add'
+                    );
+                    $this->load->view('ajax/form1', $data);
+                    break;
+
+                case 'edit':
+                    $entityId = $this->input->post('entityId');
+                    $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
+
+                    $data = array(
+                        'action'        =>  'edit',
+                        'entities'      =>  $bpData,
+                        'entityId'      =>  $entityId
+                    );
+                    $this->load->view('ajax/form1', $data);
+
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+
+    }
+
+    public function manageForm1(){
+        if($this->input->post('ajax')){
+
+            $action             = $this->input->post('action');
+            $q3Rows             = $this->input->post('q3Rows');
+            $q4Rows             = $this->input->post('q4Rows');
+            $titleField         = $this->input->post('titleField');
+            $dateField          = $this->input->post('dateField');
+            $schoolsField       = $this->input->post('schoolsField');
+            $promulgationField  = $this->input->post('promulgationField');
+            $approvalField      = $this->input->post('approvalField');
+
+            switch($action){
+
+                case 'add':
+                    //Add form1 entity
+                    $entityData = array(
+                        'name'      =>      'form1',
+                        'title'     =>      'Introductory Material',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                    );
+
+                    $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                    /**
+                     * Add Children and their corresponding fields
+                     */
+                    //1.0
+                    $entityData = array(
+                        'name'      =>      '1.0',
+                        'title'     =>      'Cover Page',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      1
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //1.0 fields
+                            $fieldData = array(
+                                'entity_id' =>      $insertedChildEntityId,
+                                'name'      =>      'Title Field',
+                                'title'     =>      'Title of the plan',
+                                'weight'    =>      1,
+                                'type'      =>      'text',
+                                'body'      =>      $titleField
+                            );
+                            $this->plan_model->addField($fieldData);
+
+                            $fieldData = array(
+                                'entity_id' =>      $insertedChildEntityId,
+                                'name'      =>      'Date Field',
+                                'title'     =>      'Date',
+                                'weight'    =>      2,
+                                'type'      =>      'text',
+                                'body'      =>      $dateField
+                            );
+                            $this->plan_model->addField($fieldData);
+
+                            $fieldData = array(
+                                'entity_id' =>      $insertedChildEntityId,
+                                'name'      =>      'School Field',
+                                'title'     =>      'The school(s) covered by the plan',
+                                'weight'    =>      3,
+                                'type'      =>      'text',
+                                'body'      =>      $schoolsField
+                            );
+                            $this->plan_model->addField($fieldData);
+                    //1.1
+                    $entityData = array(
+                        'name'      =>      '1.1',
+                        'title'     =>      'Promulgation Document and Signatures',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      2
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //1.1 fields
+                            $fieldData = array(
+                                'entity_id' =>      $insertedChildEntityId,
+                                'name'      =>      'Promulgation Field',
+                                'title'     =>      'Promulgation Field',
+                                'weight'    =>      1,
+                                'type'      =>      'text',
+                                'body'      =>      $promulgationField
+                            );
+                            $this->plan_model->addField($fieldData);
+                    //1.2
+                    $entityData = array(
+                        'name'      =>      '1.2',
+                        'title'     =>      'Approval and Implementation',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      3
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //1.2 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Approval Field',
+                        'title'     =>      'Approval Field',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $approvalField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+                    //1.3
+                    $entityData = array(
+                        'name'      =>      '1.3',
+                        'title'     =>      'Record of Changes',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      3
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //1.3 fields
+                            $columns = array('Change Number', 'Date of Change', 'Name', 'Summary of Change');
+                            foreach($q3Rows as $row_key=>$row){
+                                foreach($row as $key=>$value ){
+                                    $fieldData = array(
+                                        'entity_id' =>      $insertedChildEntityId,
+                                        'name'      =>      $columns[$key],
+                                        'title'     =>      $columns[$key],
+                                        'weight'    =>      ($row_key+1),
+                                        'type'      =>      'text',
+                                        'body'      =>      $value
+                                    );
+                                    $this->plan_model->addField($fieldData);
+                                }
+
+                            }
+
+                    //1.4
+                    $entityData = array(
+                        'name'      =>      '1.4',
+                        'title'     =>      'Record of Distribution',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      4
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //1.4 fields
+                            $columns = array(
+                                'Title and name of person receiving the plan',
+                                'Agency (school office, government agency, or private-sector entity',
+                                'Date of delivery',
+                                'Number of copies delivered'
+                            );
+
+                            foreach($q4Rows as $row_key=>$row){
+                                foreach($row as $key=>$value ){
+                                    $fieldData = array(
+                                        'entity_id' =>      $insertedChildEntityId,
+                                        'name'      =>      $columns[$key],
+                                        'title'     =>      $columns[$key],
+                                        'weight'    =>      ($row_key+1),
+                                        'type'      =>      'text',
+                                        'body'      =>      $value
+                                    );
+                                    $this->plan_model->addField($fieldData);
+                                }
+                            }
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+
+                    break;
+
+                case 'edit':
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
         }
     }
     /**
