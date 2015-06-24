@@ -210,6 +210,14 @@ class Plan_model extends CI_Model {
         return $affected_rows;
     }
 
+    public function deleteFields($data){
+
+        $this->db->delete('eop_field', $data);
+        $affected_rows = $this->db->affected_rows();
+
+        return $affected_rows;
+    }
+
     /**
      * Saves the default TH Goals and their respective Objectives
      * @method saveDefaultTHGoals

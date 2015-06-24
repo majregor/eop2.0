@@ -1334,6 +1334,8 @@ class Plan extends CI_Controller{
             $promulgationField  = $this->input->post('promulgationField');
             $approvalField      = $this->input->post('approvalField');
 
+
+
             switch($action){
 
                 case 'add':
@@ -1503,6 +1505,68 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+
+                    $entityId             = $this->input->post('entityId');
+                    $q3EntityId           = $this->input->post('q3EntityId');
+                    $q4EntityId           = $this->input->post('q4EntityId');
+                    $titleFieldId         = $this->input->post('titleFieldId');
+                    $dateFieldId          = $this->input->post('dateFieldId');
+                    $schoolsFieldId       = $this->input->post('schoolsFieldId');
+                    $promulgationFieldId  = $this->input->post('promulgationFieldId');
+                    $approvalFieldId      = $this->input->post('approvalFieldId');
+
+                    $this->plan_model->updateField($titleFieldId, array('body'=>$titleField));
+                    $this->plan_model->updateField($dateFieldId, array('body'=>$dateField));
+                    $this->plan_model->updateField($schoolsFieldId, array('body'=>$schoolsField));
+                    $this->plan_model->updateField($promulgationFieldId, array('body'=>$promulgationField));
+                    $this->plan_model->updateField($approvalFieldId, array('body'=>$approvalField));
+
+                    //Delete fields table before adding new 1.3 and 1.4 fields
+                    $this->plan_model->deleteFields(array('entity_id'=>$q3EntityId));
+                    $this->plan_model->deleteFields(array('entity_id'=>$q4EntityId));
+
+                    //Add new 1.3 fields
+                    $columns = array('Change Number', 'Date of Change', 'Name', 'Summary of Change');
+                    foreach($q3Rows as $row_key=>$row){
+                        foreach($row as $key=>$value ){
+                            $fieldData = array(
+                                'entity_id' =>      $q3EntityId,
+                                'name'      =>      $columns[$key],
+                                'title'     =>      $columns[$key],
+                                'weight'    =>      ($row_key+1),
+                                'type'      =>      'text',
+                                'body'      =>      $value
+                            );
+                            $this->plan_model->addField($fieldData);
+                        }
+                    }
+
+
+
+                    //Add new 1.4 fields
+                    $columns = array(
+                        'Title and name of person receiving the plan',
+                        'Agency (school office, government agency, or private-sector entity',
+                        'Date of delivery',
+                        'Number of copies delivered'
+                    );
+                    foreach($q4Rows as $row_key=>$row){
+                        foreach($row as $key=>$value ){
+                            $fieldData = array(
+                                'entity_id' =>      $q4EntityId,
+                                'name'      =>      $columns[$key],
+                                'title'     =>      $columns[$key],
+                                'weight'    =>      ($row_key+1),
+                                'type'      =>      'text',
+                                'body'      =>      $value
+                            );
+                            $this->plan_model->addField($fieldData);
+                        }
+                    }
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
                     break;
             }
         }else{

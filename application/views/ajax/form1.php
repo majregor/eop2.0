@@ -68,7 +68,11 @@ if($action=='add'){
         <td colspan="2">The school(s) covered by the plan:</td>
     </tr>
     <tr>
-        <td colspan="2"><textarea name="schoolsField" id="schoolsField" style="width: 100%" rows="11"><?php echo(isset($child0['fields'][2]['body'])? $child0['fields'][2]['body'] : ''); ?></textarea></td>
+        <td colspan="2">
+            <textarea name="schoolsField" id="schoolsField" style="width: 100%" rows="11">
+                <?php echo(isset($child0['fields'][2]['body'])? $child0['fields'][2]['body'] : ''); ?>
+            </textarea>
+        </td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -81,7 +85,11 @@ if($action=='add'){
         <td colspan="2"><strong>In the field below, please cut and paste or write out the Promulgation Document and Signatures section of your school EOP.</strong></td>
     </tr>
     <tr>
-        <td colspan="2"><textarea name="promulgationField" id="promulgationField" style="width: 100%" rows="11"></textarea></td>
+        <td colspan="2">
+            <textarea name="promulgationField" id="promulgationField" style="width: 100%" rows="11">
+                <?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body'] : ''); ?>
+            </textarea>
+        </td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -94,7 +102,11 @@ if($action=='add'){
         <td colspan="2"><strong>In the field below, please cut and paste or write out your school&rsquo;s or district&rsquo;s statement formally recognizing and adopting the school EOP.</strong></td>
     </tr>
     <tr>
-        <td colspan="2"><textarea name="approvalField" id="approvalField" style="width: 100%" rows="11"></textarea></td>
+        <td colspan="2">
+            <textarea name="approvalField" id="approvalField" style="width: 100%" rows="11">
+                <?php echo(isset($child2['fields'][0]['body'])? $child2['fields'][0]['body'] : ''); ?>
+            </textarea>
+        </td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -110,6 +122,7 @@ if($action=='add'){
         <td>&nbsp;</td>
         <td><div align="center"><strong>Record of Changes</strong></div></td>
     </tr>
+    <?php if($action=='add'):?>
     <tr>
         <td>&nbsp;</td>
         <td>
@@ -134,6 +147,53 @@ if($action=='add'){
             </table>
         </td>
     </tr>
+    <?php else: ?>
+
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                <div style="text-align: right">
+                    <a href="#" id="addRowsQ3Link">Add Row</a>
+                    |
+                    <a href="#" id="removeRowsQ3Link">Remove Row</a>
+                </div>
+                <table border="0" width="100%">
+                    <tr style="background: #eee">
+                        <td><strong>Change Number</strong></td>
+                        <td><strong>Date of Change</strong></td>
+                        <td><strong>Name</strong></td>
+                        <td><strong>Summary of Change</strong></td>
+                    </tr>
+                    <?php
+                    $numFields = count($child3['fields']);
+                    for($i=1; $i<=$numFields; $i++){
+                        $column="";
+                        $columnNum=1;
+                        foreach($child3['fields'] as $field_key=>$field){
+                            if($field['weight'] == $i){
+                                if(strpos(strtolower($field['name']), 'date') === FALSE) {
+                                    $column .="<td><input type='text' name='txtrowq3".$i."".$columnNum."' id='txtrowq3".$i.$columnNum."' value='".$field['body']."' /></td>";
+                                }
+                                else{
+                                    $column .= "<td><input type='text' name='txtrowq3".$i."".$columnNum."' id='txtrowq3".$i.$columnNum."' class='datePickerWidget' value='".$field['body']."'/></td>";
+                                }
+                                $columnNum++;
+                            }
+                        }
+                        if(!empty($column)) {
+                            echo("<tr id='thRowQ3" . $i . "' class='thRowQ3'>");
+                            echo $column;
+                            echo("</tr>");
+                        }
+                    }
+                    ?>
+                </table>
+            </td>
+        </tr>
+
+
+
+    <?php endif; ?>
     <tr>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -164,12 +224,38 @@ if($action=='add'){
                     <td><strong>Date of delivery</strong></td>
                     <td><strong>Number of copies delivered</strong></td>
                 </tr>
-                <tr id="thRowQ41" class="thRowQ4">
-                    <td><input type="text" name="txtrowq411" id="txtrowq411" /></td>
-                    <td><input type="text" name="txtrowq412" id="txtrowq412" /></td>
-                    <td><input type="text" name="txtrowq413" id="txtrowq413" class="datePickerWidget"/></td>
-                    <td><input type="text" name="txtrowq414" id="txtrowq414" /></td>
-                </tr>
+                <?php if($action=='add'):?>
+                    <tr id="thRowQ41" class="thRowQ4">
+                        <td><input type="text" name="txtrowq411" id="txtrowq411" /></td>
+                        <td><input type="text" name="txtrowq412" id="txtrowq412" /></td>
+                        <td><input type="text" name="txtrowq413" id="txtrowq413" class="datePickerWidget"/></td>
+                        <td><input type="text" name="txtrowq414" id="txtrowq414" /></td>
+                    </tr>
+                    <?php else: ?>
+                        <?php
+                        $numFields = count($child4['fields']);
+                        for($i=1; $i<=$numFields; $i++){
+                            $column="";
+                            $columnNum=1;
+                            foreach($child4['fields'] as $field_key=>$field){
+                                if($field['weight'] == $i){
+                                    if(strpos(strtolower($field['name']), 'date') === FALSE) {
+                                        $column .="<td><input type='text' name='txtrowq4".$i."".$columnNum."' id='txtrowq4".$i.$columnNum."' value='".$field['body']."' /></td>";
+                                    }
+                                    else{
+                                        $column .= "<td><input type='text' name='txtrowq4".$i."".$columnNum."' id='txtrowq4".$i.$columnNum."' class='datePickerWidget' value='".$field['body']."'/></td>";
+                                    }
+                                    $columnNum++;
+                                }
+                            }
+                            if(!empty($column)) {
+                                echo("<tr id='thRowQ4" . $i . "' class='thRowQ4'>");
+                                echo $column;
+                                echo("</tr>");
+                            }
+                        }
+                        ?>
+                <?php endif; ?>
             </table>
         </td>
     </tr>
@@ -245,7 +331,6 @@ if($action=='add'){
             return false;
         });
 
-
         $('#removeRowsQ4Link').click(function(){
 
             var numRows = ($('.thRowQ4').length);
@@ -257,6 +342,8 @@ if($action=='add'){
             }
             return false;
         });
+
+
 
         $("#btnsaveform1").click(function(){
 
@@ -298,12 +385,20 @@ if($action=='add'){
             var formData ={
                 ajax:               '1',
                 action:             '<?php echo $action; ?>',
+                entityId:           '<?php echo(isset($entityId)? $entityId : null); ?>',
+                q3EntityId:         '<?php echo(isset($child3['id'])? $child3['id'] :null); ?>',
                 q3Rows:             q3Rows,
+                q4EntityId:         '<?php echo(isset($child4['id'])? $child4['id']:null); ?>',
                 q4Rows:             q4Rows,
+                titleFieldId:       '<?php echo(isset($child0['fields'][0]['id'])? $child0['fields'][0]['id'] : null); ?>',
                 titleField:         $("#titleField").val(),
+                dateFieldId:        '<?php echo(isset( $child0['fields'][1]['id'])?  $child0['fields'][1]['id']: null); ?>',
                 dateField:          $("#dateField").val(),
+                schoolsFieldId:     '<?php echo(isset( $child0['fields'][2]['id'])?  $child0['fields'][2]['id']: null); ?>',
                 schoolsField:       $("#schoolsField").val(),
+                promulgationFieldId:'<?php echo(isset($child1['fields'][0]['id'])? $child1['fields'][0]['id']: null); ?>',
                 promulgationField:  $("#promulgationField").val(),
+                approvalFieldId:    '<?php echo(isset($child2['fields'][0]['id'])? $child2['fields'][0]['id']:null); ?>',
                 approvalField:      $("#approvalField").val()
             };
             $.ajax({
