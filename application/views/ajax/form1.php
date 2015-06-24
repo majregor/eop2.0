@@ -261,7 +261,11 @@ if($action=='add'){
     </tr>
     <tr>
         <td colspan="2" align="left">
+            <?php if($action=='add'): ?>
             <input type="button" value="Save" id="btnsaveform1"/>
+            <?php else: ?>
+                <input type="button" value="Update" id="btnsaveform1"/>
+            <?php endif; ?>
         </td>
     </tr>
 </table>

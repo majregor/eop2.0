@@ -1322,6 +1322,38 @@ class Plan extends CI_Controller{
 
     }
 
+    public function loadForm2Ctls(){
+
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+
+            switch($action){
+                case 'add':
+                    $data= array(
+                        'action'=>  'add'
+                    );
+                    $this->load->view('ajax/form2', $data);
+                    break;
+
+                case 'edit':
+                    $entityId = $this->input->post('entityId');
+                    $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
+
+                    $data = array(
+                        'action'        =>  'edit',
+                        'entities'      =>  $bpData,
+                        'entityId'      =>  $entityId
+                    );
+                    $this->load->view('ajax/form2', $data);
+
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+
+    }
+
     public function manageForm1(){
         if($this->input->post('ajax')){
 
@@ -1563,6 +1595,154 @@ class Plan extends CI_Controller{
                             $this->plan_model->addField($fieldData);
                         }
                     }
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+    }
+
+    public function manageForm2(){
+        if($this->input->post('ajax')){
+
+            $action                 = $this->input->post('action');
+            $purposeField           = $this->input->post('purposeField');
+            $scopeField             = $this->input->post('scopeField');
+            $situationField         = $this->input->post('situationField');
+            $assumptionsField       = $this->input->post('assumptionsField');
+
+
+
+            switch($action){
+
+                case 'add':
+                    //Add form2 entity
+                    $entityData = array(
+                        'name'      =>      'form2',
+                        'title'     =>      'Purpose, Scope, Situation Overview, and Assumptions',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                    );
+
+                    $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                    /**
+                     * Add Children and their corresponding fields
+                     */
+                    //2.1
+                    $entityData = array(
+                        'name'      =>      '2.1',
+                        'title'     =>      'Purpose',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      1
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //2.1 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Purpose Field',
+                        'title'     =>      'Purpose',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $purposeField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+
+                    //2.2
+                    $entityData = array(
+                        'name'      =>      '2.2',
+                        'title'     =>      'Scope',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      2
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //2.2 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Scope',
+                        'title'     =>      'Scope',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $scopeField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+                    //2.3
+                    $entityData = array(
+                        'name'      =>      '2.3',
+                        'title'     =>      'Situation Overview',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      3
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //2.3 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Situation Overview',
+                        'title'     =>      'Situation Overview',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $situationField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+                    //2.4
+                    $entityData = array(
+                        'name'      =>      '2.4',
+                        'title'     =>      'Planning Assumptions',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      3
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //2.4 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Planning Assumptions',
+                        'title'     =>      'Planning Assumptions',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $assumptionsField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+
+                    break;
+
+                case 'edit':
+
+                    $entityId               = $this->input->post('entityId');
+                    $purposeFieldId         = $this->input->post('purposeFieldId');
+                    $scopeFieldId           = $this->input->post('scopeFieldId');
+                    $situationFieldId       = $this->input->post('situationFieldId');
+                    $assumptionsFieldId     = $this->input->post('assumptionsFieldId');
+
+                    $this->plan_model->updateField($purposeFieldId, array('body'=>$purposeField));
+                    $this->plan_model->updateField($scopeFieldId, array('body'=>$scopeField));
+                    $this->plan_model->updateField($situationFieldId, array('body'=>$situationField));
+                    $this->plan_model->updateField($assumptionsFieldId, array('body'=>$assumptionsField));
 
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE

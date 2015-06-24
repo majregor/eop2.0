@@ -96,11 +96,13 @@ $entities = $page_vars['entities'];
 
             <?php
             $mode = 'add';
+            $entityId=null;
             foreach($entities as $entity_key=>$entity){
                 if($entity['name']=='form2') {
                     foreach ($entity['children'] as $child_key => $child) {
                         foreach($child['fields'] as $field){
                             if(isset($field['body']) && !empty($field['body'])){
+                                $entityId = $entity['id'];
                                 $mode='edit';
                                 break 3;
                             }
@@ -112,7 +114,7 @@ $entities = $page_vars['entities'];
             <?php if($mode=='add'): ?>
                 <a href="#" class="showAddForm" id="showForm2Link">Add</a>
             <?php else: ?>
-                <a href="#" class="showEditForm" id="editForm2Link">Edit</a>
+                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm2Link">Edit</a>
             <?php endif; ?>
 
 
@@ -129,11 +131,13 @@ $entities = $page_vars['entities'];
 
             <?php
             $mode = 'add';
+            $entityId=null;
             foreach($entities as $entity_key=>$entity){
                 if($entity['name']=='form3') {
                     foreach ($entity['children'] as $child_key => $child) {
                         foreach($child['fields'] as $field){
                             if(isset($field['body']) && !empty($field['body'])){
+                                $entityId = $entity['id'];
                                 $mode='edit';
                                 break 3;
                             }
@@ -162,11 +166,13 @@ $entities = $page_vars['entities'];
 
             <?php
             $mode = 'add';
+            $entityId=null;
             foreach($entities as $entity_key=>$entity){
                 if($entity['name']=='form4') {
                     foreach ($entity['children'] as $child_key => $child) {
                         foreach($child['fields'] as $field){
                             if(isset($field['body']) && !empty($field['body'])){
+                                $entityId = $entity['id'];
                                 $mode='edit';
                                 break 3;
                             }
@@ -195,11 +201,13 @@ $entities = $page_vars['entities'];
 
             <?php
             $mode = 'add';
+            $entityId=null;
             foreach($entities as $entity_key=>$entity){
                 if($entity['name']=='form5') {
                     foreach ($entity['children'] as $child_key => $child) {
                         foreach($child['fields'] as $field){
                             if(isset($field['body']) && !empty($field['body'])){
+                                $entityId = $entity['id'];
                                 $mode='edit';
                                 break 3;
                             }
@@ -227,11 +235,13 @@ $entities = $page_vars['entities'];
 
             <?php
             $mode = 'add';
+            $entityId=null;
             foreach($entities as $entity_key=>$entity){
                 if($entity['name']=='form6') {
                     foreach ($entity['children'] as $child_key => $child) {
                         foreach($child['fields'] as $field){
                             if(isset($field['body']) && !empty($field['body'])){
+                                $entityId = $entity['id'];
                                 $mode='edit';
                                 break 3;
                             }
@@ -260,11 +270,13 @@ $entities = $page_vars['entities'];
 
             <?php
             $mode = 'add';
+            $entityId=null;
             foreach($entities as $entity_key=>$entity){
                 if($entity['name']=='form7') {
                     foreach ($entity['children'] as $child_key => $child) {
                         foreach($child['fields'] as $field){
                             if(isset($field['body']) && !empty($field['body'])){
+                                $entityId = $entity['id'];
                                 $mode='edit';
                                 break 3;
                             }
@@ -293,11 +305,13 @@ $entities = $page_vars['entities'];
 
             <?php
             $mode = 'add';
+            $entityId=null;
             foreach($entities as $entity_key=>$entity){
                 if($entity['name']=='form8') {
                     foreach ($entity['children'] as $child_key => $child) {
                         foreach($child['fields'] as $field){
                             if(isset($field['body']) && !empty($field['body'])){
+                                $entityId = $entity['id'];
                                 $mode='edit';
                                 break 3;
                             }
@@ -326,11 +340,13 @@ $entities = $page_vars['entities'];
 
             <?php
             $mode = 'add';
+            $entityId=null;
             foreach($entities as $entity_key=>$entity){
                 if($entity['name']=='form9') {
                     foreach ($entity['children'] as $child_key => $child) {
                         foreach($child['fields'] as $field){
                             if(isset($field['body']) && !empty($field['body'])){
+                                $entityId = $entity['id'];
                                 $mode='edit';
                                 break 3;
                             }
@@ -359,11 +375,13 @@ $entities = $page_vars['entities'];
 
             <?php
             $mode = 'add';
+            $entityId=null;
             foreach($entities as $entity_key=>$entity){
                 if($entity['name']=='form10') {
                     foreach ($entity['children'] as $child_key => $child) {
                         foreach($child['fields'] as $field){
                             if(isset($field['body']) && !empty($field['body'])){
+                                $entityId = $entity['id'];
                                 $mode='edit';
                                 break 3;
                             }
@@ -404,11 +422,15 @@ $entities = $page_vars['entities'];
 
         var clickedBtn = $(this).attr('id');
 
-        if(clickedBtn =='showForm1Link'){
-            openForm1('add');
-        }else if(clickedBtn=='showForm2Link'){
-
+        switch(clickedBtn){
+            case 'showForm1Link':
+                openForm1('add');
+                break;
+            case 'showForm2Link':
+                openForm2('add');
+                break;
         }
+
 
 
     }); // End click event for add forms
@@ -416,11 +438,18 @@ $entities = $page_vars['entities'];
     $(document).on('click', '.showEditForm', function(){
         var clickedBtn = $(this).attr('id');
 
-        if(clickedBtn == 'editForm1Link'){
-            selectedEntityId = $(this).attr('data-entity-id');
+        switch(clickedBtn){
+            case 'editForm1Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm1('edit', selectedEntityId)
+                break;
+            case 'editForm2Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm2('edit', selectedEntityId)
+                break;
 
-            openForm1('edit', selectedEntityId)
         }
+
     });
 
     function openForm1(mode, id){
@@ -435,6 +464,33 @@ $entities = $page_vars['entities'];
         };
         $.ajax({
             url:    '<?php echo(base_url('plan/loadForm1Ctls')); ?>',
+            data:   formData,
+            type:   'POST',
+            success: function(response){
+                try{
+                    $(divContainer).html(response);
+                    $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+    }
+
+    function openForm2(mode, id){
+
+        var entityId = (typeof id === 'undefined') ? null : id;
+        var divContainer = $("#form2Div");
+
+        var formData ={
+            ajax:           '1',
+            action:         mode,
+            entityId:       entityId
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('plan/loadForm2Ctls')); ?>',
             data:   formData,
             type:   'POST',
             success: function(response){
