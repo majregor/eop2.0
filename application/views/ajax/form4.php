@@ -80,7 +80,7 @@ $(document).ready(function(){
             ajax:               '1',
             action:             '<?php echo $action; ?>',
             entityId:           '<?php echo(isset($entityId)? $entityId : null); ?>',
-            orgFieldFieldId:     '<?php echo(isset($child1['fields'][0]['id'])? $child1['fields'][0]['id'] : null); ?>',
+            orgFieldId:     '<?php echo(isset($child1['fields'][0]['id'])? $child1['fields'][0]['id'] : null); ?>',
             orgField:       $("#orgField").val()
 
         };

@@ -149,7 +149,7 @@ $entities = $page_vars['entities'];
             <?php if($mode=='add'): ?>
                 <a href="#" class="showAddForm" id="showForm3Link">Add</a>
             <?php else: ?>
-                <a href="#" class="showEditForm" id="editForm3Link">Edit</a>
+                <a href="#" class="showEditForm"  data-entity-id="<?php echo($entityId); ?>" id="editForm3Link">Edit</a>
             <?php endif; ?>
 
 
@@ -184,7 +184,7 @@ $entities = $page_vars['entities'];
             <?php if($mode=='add'): ?>
                 <a href="#" class="showAddForm" id="showForm4Link">Add</a>
             <?php else: ?>
-                <a href="#" class="showEditForm" id="editForm4Link">Edit</a>
+                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm4Link">Edit</a>
             <?php endif; ?>
 
 
@@ -219,7 +219,7 @@ $entities = $page_vars['entities'];
             <?php if($mode=='add'): ?>
                 <a href="#" class="showAddForm" id="showForm5Link">Add</a>
             <?php else: ?>
-                <a href="#" class="showEditForm" id="editForm5Link">Edit</a>
+                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm5Link">Edit</a>
             <?php endif; ?>
 
         </td>
@@ -253,7 +253,7 @@ $entities = $page_vars['entities'];
             <?php if($mode=='add'): ?>
                 <a href="#" class="showAddForm" id="showForm6Link">Add</a>
             <?php else: ?>
-                <a href="#" class="showEditForm" id="editForm6Link">Edit</a>
+                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm6Link">Edit</a>
             <?php endif; ?>
 
 
@@ -288,7 +288,7 @@ $entities = $page_vars['entities'];
             <?php if($mode=='add'): ?>
                 <a href="#" class="showAddForm" id="showForm7Link">Add</a>
             <?php else: ?>
-                <a href="#" class="showEditForm" id="editForm7Link">Edit</a>
+                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm7Link">Edit</a>
             <?php endif; ?>
 
 
@@ -323,7 +323,7 @@ $entities = $page_vars['entities'];
             <?php if($mode=='add'): ?>
                 <a href="#" class="showAddForm" id="showForm8Link">Add</a>
             <?php else: ?>
-                <a href="#" class="showEditForm" id="editForm8Link">Edit</a>
+                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm8Link">Edit</a>
             <?php endif; ?>
 
 
@@ -358,7 +358,7 @@ $entities = $page_vars['entities'];
             <?php if($mode=='add'): ?>
                 <a href="#" class="showAddForm" id="showForm9Link">Add</a>
             <?php else: ?>
-                <a href="#" class="showEditForm" id="editForm9Link">Edit</a>
+                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm9Link">Edit</a>
             <?php endif; ?>
 
 
@@ -393,7 +393,7 @@ $entities = $page_vars['entities'];
             <?php if($mode=='add'): ?>
                 <a href="#"class="showAddForm" id="showForm10Link">Add</a>
             <?php else: ?>
-                <a href="#" class="showEditForm" id="editForm10Link">Edit</a>
+                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm10Link">Edit</a>
             <?php endif; ?>
 
         </td>

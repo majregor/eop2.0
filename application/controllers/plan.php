@@ -2009,6 +2009,575 @@ class Plan extends CI_Controller{
             redirect('plan/step5/4');
         }
     }
+
+    public function manageForm3(){
+        if($this->input->post('ajax')){
+
+            $action                 = $this->input->post('action');
+            $conceptField           = $this->input->post('conceptField');
+
+
+            switch($action){
+
+                case 'add':
+                    //Add form3 entity
+                    $entityData = array(
+                        'name'      =>      'form3',
+                        'title'     =>      'Concept of Operations (CONOPS)',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                    );
+
+                    $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                    /**
+                     * Add Children and their corresponding fields
+                     */
+                    //3.1
+                    $entityData = array(
+                        'name'      =>      '3.1',
+                        'title'     =>      'CONOPS',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      1
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //3.1 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'CONOPS Field',
+                        'title'     =>      'CONOPS',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $conceptField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+
+                    break;
+
+                case 'edit':
+
+                    $entityId               = $this->input->post('entityId');
+                    $conceptFieldId         = $this->input->post('conceptFieldId');
+
+
+                    $this->plan_model->updateField($conceptFieldId, array('body'=>$conceptField));
+
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+    }
+
+    public function manageForm4(){
+        if($this->input->post('ajax')){
+
+            $action                 = $this->input->post('action');
+            $orgField           = $this->input->post('orgField');
+
+
+            switch($action){
+
+                case 'add':
+                    //Add form4 entity
+                    $entityData = array(
+                        'name'      =>      'form4',
+                        'title'     =>      'Organization and Assignment of Responsibilities',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                    );
+
+                    $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                    /**
+                     * Add Children and their corresponding fields
+                     */
+                    //4.1
+                    $entityData = array(
+                        'name'      =>      '4.1',
+                        'title'     =>      'Organization and Assignment of Responsibilities',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      1
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //4.1 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Organization Field',
+                        'title'     =>      'Organization and Assignment of Responsibilities',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $orgField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+
+                    break;
+
+                case 'edit':
+
+                    $entityId               = $this->input->post('entityId');
+                    $orgFieldId         = $this->input->post('orgFieldId');
+
+
+                    $this->plan_model->updateField($orgFieldId, array('body'=>$orgField));
+
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+    }
+
+    public function manageForm5(){
+        if($this->input->post('ajax')){
+
+            $action                 = $this->input->post('action');
+            $directionField           = $this->input->post('directionField');
+
+
+            switch($action){
+
+                case 'add':
+                    //Add form5 entity
+                    $entityData = array(
+                        'name'      =>      'form5',
+                        'title'     =>      'Direction, Control and Coordination',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                    );
+
+                    $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                    /**
+                     * Add Children and their corresponding fields
+                     */
+                    //5.1
+                    $entityData = array(
+                        'name'      =>      '5.1',
+                        'title'     =>      'Direction, Control and Coordination',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      1
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //5.1 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Direction Field',
+                        'title'     =>      'Direction, Control and Coordination',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $directionField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+
+                    break;
+
+                case 'edit':
+
+                    $entityId               = $this->input->post('entityId');
+                    $directionFieldId         = $this->input->post('directionFieldId');
+
+
+                    $this->plan_model->updateField($directionFieldId, array('body'=>$directionField));
+
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+    }
+
+    public function manageForm6(){
+        if($this->input->post('ajax')){
+
+            $action                 = $this->input->post('action');
+            $infoField           = $this->input->post('infoField');
+
+
+            switch($action){
+
+                case 'add':
+                    //Add form6 entity
+                    $entityData = array(
+                        'name'      =>      'form6',
+                        'title'     =>      'Information Collection, Analysis and Dissemination',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                    );
+
+                    $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                    /**
+                     * Add Children and their corresponding fields
+                     */
+                    //6.1
+                    $entityData = array(
+                        'name'      =>      '6.1',
+                        'title'     =>      'Information Collection, Analysis and Dissemination',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      1
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //6.1 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Information Field',
+                        'title'     =>      'Information Collection, Analysis and Dissemination',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $infoField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+
+                    break;
+
+                case 'edit':
+
+                    $entityId               = $this->input->post('entityId');
+                    $infoFieldId         = $this->input->post('infoFieldId');
+
+
+                    $this->plan_model->updateField($infoFieldId, array('body'=>$infoField));
+
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+    }
+
+    public function manageForm7(){
+        if($this->input->post('ajax')){
+
+            $action                 = $this->input->post('action');
+            $trainingField           = $this->input->post('trainingField');
+
+
+            switch($action){
+
+                case 'add':
+                    //Add form7 entity
+                    $entityData = array(
+                        'name'      =>      'form7',
+                        'title'     =>      'Training Exercise',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                    );
+
+                    $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                    /**
+                     * Add Children and their corresponding fields
+                     */
+                    //7.1
+                    $entityData = array(
+                        'name'      =>      '7.1',
+                        'title'     =>      'Training Exercise',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      1
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //7.1 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Training Exercise Field',
+                        'title'     =>      'Training Exercise',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $trainingField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+
+                    break;
+
+                case 'edit':
+
+                    $entityId               = $this->input->post('entityId');
+                    $trainingFieldId         = $this->input->post('trainingFieldId');
+
+
+                    $this->plan_model->updateField($trainingFieldId, array('body'=>$trainingField));
+
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+    }
+
+    public function manageForm8(){
+        if($this->input->post('ajax')){
+
+            $action                 = $this->input->post('action');
+            $adminField           = $this->input->post('adminField');
+
+
+            switch($action){
+
+                case 'add':
+                    //Add form8 entity
+                    $entityData = array(
+                        'name'      =>      'form8',
+                        'title'     =>      'Administration, Finance, and Logistics',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                    );
+
+                    $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                    /**
+                     * Add Children and their corresponding fields
+                     */
+                    //8.1
+                    $entityData = array(
+                        'name'      =>      '8.1',
+                        'title'     =>      'Administration, Finance, and Logistics',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      1
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //8.1 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Administration, Finance, and Logistics Field',
+                        'title'     =>      'Administration, Finance, and Logistics',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $adminField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+
+                    break;
+
+                case 'edit':
+
+                    $entityId               = $this->input->post('entityId');
+                    $adminFieldId         = $this->input->post('adminFieldId');
+
+
+                    $this->plan_model->updateField($adminFieldId, array('body'=>$adminField));
+
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+    }
+
+    public function manageForm9(){
+        if($this->input->post('ajax')){
+
+            $action                 = $this->input->post('action');
+            $planField           = $this->input->post('planField');
+
+
+            switch($action){
+
+                case 'add':
+                    //Add form9 entity
+                    $entityData = array(
+                        'name'      =>      'form9',
+                        'title'     =>      'Plan Development and Maintenance',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                    );
+
+                    $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                    /**
+                     * Add Children and their corresponding fields
+                     */
+                    //9.1
+                    $entityData = array(
+                        'name'      =>      '9.1',
+                        'title'     =>      'Plan Development and Maintenance',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      1
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //9.1 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Plan Development and Maintenance Field',
+                        'title'     =>      'Plan Development and Maintenance',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $planField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+
+                    break;
+
+                case 'edit':
+
+                    $entityId               = $this->input->post('entityId');
+                    $planFieldId         = $this->input->post('planFieldId');
+
+
+                    $this->plan_model->updateField($planFieldId, array('body'=>$planField));
+
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+    }
+
+    public function manageForm10(){
+        if($this->input->post('ajax')){
+
+            $action                 = $this->input->post('action');
+            $authField           = $this->input->post('authField');
+
+
+            switch($action){
+
+                case 'add':
+                    //Add form10 entity
+                    $entityData = array(
+                        'name'      =>      'form10',
+                        'title'     =>      'Authorities and References',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                    );
+
+                    $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                    /**
+                     * Add Children and their corresponding fields
+                     */
+                    //10.1
+                    $entityData = array(
+                        'name'      =>      '10.1',
+                        'title'     =>      'Authorities and References',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      1
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                    //10.1 fields
+                    $fieldData = array(
+                        'entity_id' =>      $insertedChildEntityId,
+                        'name'      =>      'Authorities and References Field',
+                        'title'     =>      'Authorities and References',
+                        'weight'    =>      1,
+                        'type'      =>      'text',
+                        'body'      =>      $authField
+                    );
+                    $this->plan_model->addField($fieldData);
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+
+                    break;
+
+                case 'edit':
+
+                    $entityId               = $this->input->post('entityId');
+                    $authFieldId         = $this->input->post('authFieldId');
+
+
+                    $this->plan_model->updateField($authFieldId, array('body'=>$authField));
+
+
+                    $this->output->set_output(json_encode(array(
+                        'saved' =>  TRUE
+                    )));
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+    }
+
     /**
      * Function checks if user is logged in, redirects to login page if not.
      * @method authenticate
