@@ -408,7 +408,7 @@ $entities = $page_vars['entities'];
 
 <script type='text/javascript'>
 
-    var selectedId;
+    var selectedEntityId;
 
     $(document).ready(function() {
 
@@ -429,6 +429,30 @@ $entities = $page_vars['entities'];
             case 'showForm2Link':
                 openForm2('add');
                 break;
+            case 'showForm3Link':
+                openForm3('add');
+                break;
+            case 'showForm4Link':
+                openForm4('add');
+                break;
+            case 'showForm5Link':
+                openForm5('add');
+                break;
+            case 'showForm6Link':
+                openForm6('add');
+                break;
+            case 'showForm7Link':
+                openForm7('add');
+                break;
+            case 'showForm8Link':
+                openForm8('add');
+                break;
+            case 'showForm9Link':
+                openForm9('add');
+                break;
+            case 'showForm10Link':
+                openForm10('add');
+                break;
         }
 
 
@@ -446,6 +470,38 @@ $entities = $page_vars['entities'];
             case 'editForm2Link':
                 selectedEntityId = $(this).attr('data-entity-id');
                 openForm2('edit', selectedEntityId)
+                break;
+            case 'editForm3Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm3('edit', selectedEntityId)
+                break;
+            case 'editForm4Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm4('edit', selectedEntityId)
+                break;
+            case 'editForm5Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm5('edit', selectedEntityId)
+                break;
+            case 'editForm6Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm6('edit', selectedEntityId)
+                break;
+            case 'editForm7Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm7('edit', selectedEntityId)
+                break;
+            case 'editForm8Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm8('edit', selectedEntityId)
+                break;
+            case 'editForm9Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm9('edit', selectedEntityId)
+                break;
+            case 'editForm10Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm10('edit', selectedEntityId)
                 break;
 
         }
@@ -491,6 +547,222 @@ $entities = $page_vars['entities'];
         };
         $.ajax({
             url:    '<?php echo(base_url('plan/loadForm2Ctls')); ?>',
+            data:   formData,
+            type:   'POST',
+            success: function(response){
+                try{
+                    $(divContainer).html(response);
+                    $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+    }
+
+    function openForm3(mode, id){
+
+        var entityId = (typeof id === 'undefined') ? null : id;
+        var divContainer = $("#form3Div");
+
+        var formData ={
+            ajax:           '1',
+            action:         mode,
+            entityId:       entityId
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('plan/loadForm3Ctls')); ?>',
+            data:   formData,
+            type:   'POST',
+            success: function(response){
+                try{
+                    $(divContainer).html(response);
+                    $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+    }
+
+    function openForm4(mode, id){
+
+        var entityId = (typeof id === 'undefined') ? null : id;
+        var divContainer = $("#form4Div");
+
+        var formData ={
+            ajax:           '1',
+            action:         mode,
+            entityId:       entityId
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('plan/loadForm4Ctls')); ?>',
+            data:   formData,
+            type:   'POST',
+            success: function(response){
+                try{
+                    $(divContainer).html(response);
+                    $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+    }
+
+    function openForm5(mode, id){
+
+        var entityId = (typeof id === 'undefined') ? null : id;
+        var divContainer = $("#form5Div");
+
+        var formData ={
+            ajax:           '1',
+            action:         mode,
+            entityId:       entityId
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('plan/loadForm5Ctls')); ?>',
+            data:   formData,
+            type:   'POST',
+            success: function(response){
+                try{
+                    $(divContainer).html(response);
+                    $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+    }
+
+    function openForm6(mode, id){
+
+        var entityId = (typeof id === 'undefined') ? null : id;
+        var divContainer = $("#form6Div");
+
+        var formData ={
+            ajax:           '1',
+            action:         mode,
+            entityId:       entityId
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('plan/loadForm6Ctls')); ?>',
+            data:   formData,
+            type:   'POST',
+            success: function(response){
+                try{
+                    $(divContainer).html(response);
+                    $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+    }
+
+    function openForm7(mode, id){
+
+        var entityId = (typeof id === 'undefined') ? null : id;
+        var divContainer = $("#form7Div");
+
+        var formData ={
+            ajax:           '1',
+            action:         mode,
+            entityId:       entityId
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('plan/loadForm7Ctls')); ?>',
+            data:   formData,
+            type:   'POST',
+            success: function(response){
+                try{
+                    $(divContainer).html(response);
+                    $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+    }
+
+    function openForm8(mode, id){
+
+        var entityId = (typeof id === 'undefined') ? null : id;
+        var divContainer = $("#form8Div");
+
+        var formData ={
+            ajax:           '1',
+            action:         mode,
+            entityId:       entityId
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('plan/loadForm8Ctls')); ?>',
+            data:   formData,
+            type:   'POST',
+            success: function(response){
+                try{
+                    $(divContainer).html(response);
+                    $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+    }
+
+    function openForm9(mode, id){
+
+        var entityId = (typeof id === 'undefined') ? null : id;
+        var divContainer = $("#form9Div");
+
+        var formData ={
+            ajax:           '1',
+            action:         mode,
+            entityId:       entityId
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('plan/loadForm9Ctls')); ?>',
+            data:   formData,
+            type:   'POST',
+            success: function(response){
+                try{
+                    $(divContainer).html(response);
+                    $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+    }
+
+    function openForm10(mode, id){
+
+        var entityId = (typeof id === 'undefined') ? null : id;
+        var divContainer = $("#form10Div");
+
+        var formData ={
+            ajax:           '1',
+            action:         mode,
+            entityId:       entityId
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('plan/loadForm10Ctls')); ?>',
             data:   formData,
             type:   'POST',
             success: function(response){

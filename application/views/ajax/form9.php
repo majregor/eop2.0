@@ -9,24 +9,12 @@ if($action=='add'){
     //Do nothing right now
 }else{
     $child1=array();
-    $child2=array();
-    $child3=array();
-    $child4=array();
 
     foreach($entities as $entity_key=>$entity){
         foreach($entity['children'] as $child_key=>$child){
             switch($child['name']){
-                case '2.1':
+                case '9.1':
                     $child1 = $child;
-                    break;
-                case '2.2':
-                    $child2 = $child;
-                    break;
-                case '2.3':
-                    $child3 = $child;
-                    break;
-                case '2.4':
-                    $child4 = $child;
                     break;
             }
         }
@@ -35,63 +23,31 @@ if($action=='add'){
 ?>
 <table border="0" width="100%">
     <tr>
-        <td colspan="2"><p><u><p>2.1 Purpose</p></u>
-                The purpose sets the foundation for the rest of the school EOP. The basic plan&rsquo;s purpose is a general statement of what the school EOP is meant to do. The statement should be supported by a brief synopsis of the basic plan and annexes.</p></td>
+        <td colspan="2"><p>The Plan Development and Maintenance section describes the overall approach to planning and the assignment of plan development and maintenance responsibilities. This section:</p>
+            <ul>
+                <ul>
+                    <li>Describes the planning process, participants in that process, and how development and revision of different sections of the school EOP (basic plan and annexes) are coordinated before an emergency;</li>
+                    <li>Assigns responsibility for the overall planning and coordination to a specific position or person; and</li>
+                    <li>Provides for a regular cycle of training, evaluating, reviewing, and updating the school EOP.</li>
+                </ul>
+            </ul><br />
+            <p>The planning team may want to consider including a review timeline in this section of the plan.</p></td>
     </tr>
     <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste or write out the Purpose section of your school EOP.</strong></td>
+        <td colspan="2"><strong>In the field below, please cut and paste  or write out the Plan Development and Maintenance section of your school EOP.</strong></td>
     </tr>
     <tr>
-        <td colspan="2"><textarea name="purposeField" id="purposeField" style="width: 100%" rows="11"><?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body']: ''); ?></textarea>            </td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-    </tr>
-    <tr>
-        <td colspan="2"><p><u>2.2 Scope</u></p>
-            <p>
-                The EOP should explicitly state the scope of emergency and disaster response and the entities (e.g., departments, agencies, private sector, citizens) and geographic areas to which the plan applies.</p></td>
-    </tr>
-    <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste or write out the Scope section of your school EOP.</strong></td>
-    </tr>
-    <tr>
-        <td colspan="2"><textarea name="scopeField" id="scopeField" style="width: 100%" rows="11"><?php echo(isset($child2['fields'][0]['body'])? $child2['fields'][0]['body']: ''); ?></textarea>            </td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-    </tr>
-    <tr>
-        <td colspan="2"><p><u>2.3 Situation Overview</u></p>
-            <p>
-                The situation section explains why a school EOP is necessary and provides a general discussion of the threats and hazards that pose a risk to the school&#8212;and would result in a need to use this plan&#8212;as well as the dependencies on parties outside the school for critical resources.</p></td>
-    </tr>
-    <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste or write out the Situation Overview section of your school EOP.</strong></td>
-    </tr>
-    <tr>
-        <td colspan="2"><textarea name="situationField" id="situationField" style="width: 100%" rows="11"><?php echo(isset($child3['fields'][0]['body'])? $child3['fields'][0]['body']: ''); ?></textarea>            </td>
-    </tr>
-    <tr>
-        <td colspan="2"><p><u>2.4. Planning Assumptions</u></p>
-            <p>The Planning Assumptions section identifies what the planning team assumes to be facts for planning purposes in order to make it possible to execute the EOP. During operations, the assumptions indicate areas where adjustments to the plan have to be made as the facts of the incident become known. The aassumptions also provide the opportunity to communicate the intent of senior officials regarding emergency operations priorities.</p></td>
-    </tr>
-    <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste or write out the Planning Assumptions section of your school EOP.</strong></td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <textarea name="assumptionsField" id="assumptionsField" style="width: 100%" rows="11"><?php echo(isset($child4['fields'][0]['body'])? $child4['fields'][0]['body']: ''); ?></textarea>            </td>
+        <td colspan="2"><textarea name="planField" id="planField" style="width: 100%" rows="11">
+                <?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body']: ''); ?>
+            </textarea>            </td>
     </tr>
     <tr>
         <td colspan="2" align="right">
             <div align="left">
                 <?php if($action=='add'): ?>
-                    <input type="button" value="Save" id="btnsaveform2"/>
+                    <input type="button" value="Save" id="btnsaveform9"/>
                     <?php else: ?>
-                    <input type="button" value="Update" id="btnsaveform2"/>
+                    <input type="button" value="Update" id="btnsaveform9"/>
                 <?php endif; ?>
             </div></td>
     </tr>
@@ -107,24 +63,18 @@ $(document).ready(function(){
 
     $( 'textarea' ).ckeditor();
 
-    $("#btnsaveform2").click(function(){
+    $("#btnsaveform9").click(function(){
 
         var formData = {
             ajax:               '1',
             action:             '<?php echo $action; ?>',
             entityId:           '<?php echo(isset($entityId)? $entityId : null); ?>',
-            purposeFieldId:     '<?php echo(isset($child1['fields'][0]['id'])? $child1['fields'][0]['id'] : null); ?>',
-            purposeField:       $("#purposeField").val(),
-            scopeFieldId:       '<?php echo(isset( $child2['fields'][0]['id'])?  $child2['fields'][0]['id']: null); ?>',
-            scopeField:         $("#scopeField").val(),
-            situationFieldId:   '<?php echo(isset( $child3['fields'][0]['id'])?  $child3['fields'][0]['id']: null); ?>',
-            situationField:     $("#situationField").val(),
-            assumptionsFieldId: '<?php echo(isset($child4['fields'][0]['id'])? $child4['fields'][0]['id']: null); ?>',
-            assumptionsField:   $("#assumptionsField").val()
+            planFieldId:     '<?php echo(isset($child1['fields'][0]['id'])? $child1['fields'][0]['id'] : null); ?>',
+            planField:       $("#planField").val()
 
         };
         $.ajax({
-            url:    '<?php echo(base_url('plan/manageForm2')); ?>',
+            url:    '<?php echo(base_url('plan/manageForm9')); ?>',
             data:   formData,
             type:   'POST',
             success: function(response){
@@ -138,7 +88,7 @@ $(document).ready(function(){
 
         });
 
-        $("#form2Div").html('');
+        $("#form9Div").html('');
         return false;
     });
 

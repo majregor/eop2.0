@@ -1354,6 +1354,262 @@ class Plan extends CI_Controller{
 
     }
 
+    public function loadForm3Ctls(){
+
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+
+            switch($action){
+                case 'add':
+                    $data= array(
+                        'action'=>  'add'
+                    );
+                    $this->load->view('ajax/form3', $data);
+                    break;
+
+                case 'edit':
+                    $entityId = $this->input->post('entityId');
+                    $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
+
+                    $data = array(
+                        'action'        =>  'edit',
+                        'entities'      =>  $bpData,
+                        'entityId'      =>  $entityId
+                    );
+                    $this->load->view('ajax/form3', $data);
+
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+
+    }
+
+    public function loadForm4Ctls(){
+
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+
+            switch($action){
+                case 'add':
+                    $data= array(
+                        'action'=>  'add'
+                    );
+                    $this->load->view('ajax/form4', $data);
+                    break;
+
+                case 'edit':
+                    $entityId = $this->input->post('entityId');
+                    $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
+
+                    $data = array(
+                        'action'        =>  'edit',
+                        'entities'      =>  $bpData,
+                        'entityId'      =>  $entityId
+                    );
+                    $this->load->view('ajax/form4', $data);
+
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+
+    }
+
+    public function loadForm5Ctls(){
+
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+
+            switch($action){
+                case 'add':
+                    $data= array(
+                        'action'=>  'add'
+                    );
+                    $this->load->view('ajax/form5', $data);
+                    break;
+
+                case 'edit':
+                    $entityId = $this->input->post('entityId');
+                    $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
+
+                    $data = array(
+                        'action'        =>  'edit',
+                        'entities'      =>  $bpData,
+                        'entityId'      =>  $entityId
+                    );
+                    $this->load->view('ajax/form5', $data);
+
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+
+    }
+
+    public function loadForm6Ctls(){
+
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+
+            switch($action){
+                case 'add':
+                    $data= array(
+                        'action'=>  'add'
+                    );
+                    $this->load->view('ajax/form6', $data);
+                    break;
+
+                case 'edit':
+                    $entityId = $this->input->post('entityId');
+                    $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
+
+                    $data = array(
+                        'action'        =>  'edit',
+                        'entities'      =>  $bpData,
+                        'entityId'      =>  $entityId
+                    );
+                    $this->load->view('ajax/form6', $data);
+
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+
+    }
+
+    public function loadForm7Ctls(){
+
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+
+            switch($action){
+                case 'add':
+                    $data= array(
+                        'action'=>  'add'
+                    );
+                    $this->load->view('ajax/form7', $data);
+                    break;
+
+                case 'edit':
+                    $entityId = $this->input->post('entityId');
+                    $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
+
+                    $data = array(
+                        'action'        =>  'edit',
+                        'entities'      =>  $bpData,
+                        'entityId'      =>  $entityId
+                    );
+                    $this->load->view('ajax/form7', $data);
+
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+
+    }
+
+    public function loadForm8Ctls(){
+
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+
+            switch($action){
+                case 'add':
+                    $data= array(
+                        'action'=>  'add'
+                    );
+                    $this->load->view('ajax/form8', $data);
+                    break;
+
+                case 'edit':
+                    $entityId = $this->input->post('entityId');
+                    $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
+
+                    $data = array(
+                        'action'        =>  'edit',
+                        'entities'      =>  $bpData,
+                        'entityId'      =>  $entityId
+                    );
+                    $this->load->view('ajax/form8', $data);
+
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+
+    }
+
+    public function loadForm9Ctls(){
+
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+
+            switch($action){
+                case 'add':
+                    $data= array(
+                        'action'=>  'add'
+                    );
+                    $this->load->view('ajax/form9', $data);
+                    break;
+
+                case 'edit':
+                    $entityId = $this->input->post('entityId');
+                    $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
+
+                    $data = array(
+                        'action'        =>  'edit',
+                        'entities'      =>  $bpData,
+                        'entityId'      =>  $entityId
+                    );
+                    $this->load->view('ajax/form9', $data);
+
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+
+    }
+
+    public function loadForm10Ctls(){
+
+        if($this->input->post('ajax')){
+            $action = $this->input->post('action');
+
+            switch($action){
+                case 'add':
+                    $data= array(
+                        'action'=>  'add'
+                    );
+                    $this->load->view('ajax/form10', $data);
+                    break;
+
+                case 'edit':
+                    $entityId = $this->input->post('entityId');
+                    $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
+
+                    $data = array(
+                        'action'        =>  'edit',
+                        'entities'      =>  $bpData,
+                        'entityId'      =>  $entityId
+                    );
+                    $this->load->view('ajax/form10', $data);
+
+                    break;
+            }
+        }else{
+            redirect('plan/step5/4');
+        }
+
+    }
+
     public function manageForm1(){
         if($this->input->post('ajax')){
 

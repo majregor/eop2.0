@@ -9,9 +9,7 @@ if($action=='add'){
     //Do nothing right now
 }else{
     $child1=array();
-    $child2=array();
-    $child3=array();
-    $child4=array();
+
 
     foreach($entities as $entity_key=>$entity){
         foreach($entity['children'] as $child_key=>$child){
@@ -51,7 +49,7 @@ if($action=='add'){
         <td colspan="2"><strong>In the field below, please cut and paste  or write out the CONOPS section of your school EOP.</strong></td>
     </tr>
     <tr>
-        <td colspan="2"><textarea name="conceptField" id="conceptField" style="width: 100%" rows="11"></textarea>            </td>
+        <td colspan="2"><textarea name="conceptField" id="conceptField" style="width: 100%" rows="11"><?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body']: ''); ?></textarea>            </td>
     </tr>
     <tr>
         <td colspan="2" align="right">
@@ -78,12 +76,11 @@ $(document).ready(function(){
     $("#btnsaveform3").click(function(){
 
         var formData = {
-            ajax:               '1',//@todo stopped here....
+            ajax:               '1',
             action:             '<?php echo $action; ?>',
             entityId:           '<?php echo(isset($entityId)? $entityId : null); ?>',
             conceptFieldId:     '<?php echo(isset($child1['fields'][0]['id'])? $child1['fields'][0]['id'] : null); ?>',
             conceptField:       $("#conceptField").val()
-
         };
         $.ajax({
             url:    '<?php echo(base_url('plan/manageForm3')); ?>',
