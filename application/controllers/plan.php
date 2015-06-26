@@ -185,6 +185,24 @@ class Plan extends CI_Controller{
 
     }
 
+    public function step6($step=1){
+
+        $this->authenticate();
+
+        $data = array();
+
+
+        $templateData = array(
+            'page'          =>  'step6',
+            'step'          =>  $step,
+            'page_title'    =>  'step6',
+            'step_title'    =>  'Planning Process',
+            'page_vars'     =>  $data
+        );
+        $this->template->load('template', 'plan_screen', $templateData);
+
+    }
+
     public function test(){
         //$thData = $this->plan_model->getEntities('th',null,true);
         $ff = $this->input->post('q4Rows');

@@ -1,6 +1,6 @@
 <?php
 /**
- * Page footer embeded on all the app pages
+ * Page footer embedded on all the app pages
  */
 ?>
 <div id="logo">

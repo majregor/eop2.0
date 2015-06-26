@@ -35,7 +35,7 @@
                 <li><a href="<?php echo base_url(); ?>user/profile" >My Account</a></li>
                 <li><a href="calendar">Calendar</a></li>
                 <li><a href="<?php echo base_url(); ?>plan">Planning Process</a></li>
-                <li><a href="report" id="reportManagementLink">My EOP</a></li>
+                <li><a href="<?php echo base_url(); ?>report" id="reportManagementLink">My EOP</a></li>
                 <?php if($this->session->userdata['role']['level']<5):  ?>
                 <li><a href="<?php echo base_url(); ?>user" id="userManagementLink">Users</a></li>
                 <?php endif; ?>
