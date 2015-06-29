@@ -21,6 +21,13 @@ class Report extends CI_Controller{
         parent::__construct();
 
         if($this->session->userdata('is_logged_in')){
+            //Load Libraries
+            $this->load->library('simple_html_dom');
+            $this->load->library('h2d_htmlconverter');
+            $this->load->library('Html2Text');
+            $this->load->librart('support_functions');
+
+            //Load Models
             $this->load->model('school_model');
             $this->load->model('plan_model');
             $this->load->model('report_model');
@@ -48,7 +55,8 @@ class Report extends CI_Controller{
 
     public function makeReport(){
 
-        //@todo Integrate PHP Simple HTML DOM and h2d_htmlconverter
+        //@todo Integrate h2d_htmlconverter
+
     }
 
 
