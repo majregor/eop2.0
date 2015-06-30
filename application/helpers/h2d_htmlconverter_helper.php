@@ -733,3 +733,4 @@ function htmltodocx_url_encode_chars($url) {
   
   return $encoded_url;
 }
+

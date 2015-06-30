@@ -23,9 +23,11 @@ class Report extends CI_Controller{
         if($this->session->userdata('is_logged_in')){
             //Load Libraries
             $this->load->library('simple_html_dom');
-            $this->load->library('h2d_htmlconverter');
             $this->load->library('Html2Text');
-            $this->load->librart('support_functions');
+            $this->load->library('word');
+
+            //Load helper functions
+            $this->load->helper(array('h2d_htmlconverter', 'support_functions'));
 
             //Load Models
             $this->load->model('school_model');
