@@ -6,6 +6,10 @@ use PhpOffice\PhpWord\Autoloader as Autoloader;
 Autoloader::register();
 
 
-class Word extends Autoloader {
+class Word extends PhpOffice\PhpWord\PhpWord {
+
+    public function __construct(){
+        parent::__construct();
+    }
 
 }

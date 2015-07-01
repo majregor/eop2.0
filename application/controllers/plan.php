@@ -1651,7 +1651,8 @@ class Plan extends CI_Controller{
                         'title'     =>      'Introductory Material',
                         'owner'     =>      $this->session->userdata('user_id'),
                         'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'weight'    =>      1
                     );
 
                     $insertedEntityId = $this->plan_model->addEntity($entityData);
@@ -1900,7 +1901,8 @@ class Plan extends CI_Controller{
                         'title'     =>      'Purpose, Scope, Situation Overview, and Assumptions',
                         'owner'     =>      $this->session->userdata('user_id'),
                         'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'weight'    =>      1
                     );
 
                     $insertedEntityId = $this->plan_model->addEntity($entityData);
@@ -2044,7 +2046,8 @@ class Plan extends CI_Controller{
                         'title'     =>      'Concept of Operations (CONOPS)',
                         'owner'     =>      $this->session->userdata('user_id'),
                         'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'weight'    =>      1
                     );
 
                     $insertedEntityId = $this->plan_model->addEntity($entityData);
@@ -2115,7 +2118,8 @@ class Plan extends CI_Controller{
                         'title'     =>      'Organization and Assignment of Responsibilities',
                         'owner'     =>      $this->session->userdata('user_id'),
                         'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'weight'    =>      1
                     );
 
                     $insertedEntityId = $this->plan_model->addEntity($entityData);
@@ -2186,7 +2190,8 @@ class Plan extends CI_Controller{
                         'title'     =>      'Direction, Control and Coordination',
                         'owner'     =>      $this->session->userdata('user_id'),
                         'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'weight'    =>      1
                     );
 
                     $insertedEntityId = $this->plan_model->addEntity($entityData);
@@ -2257,7 +2262,8 @@ class Plan extends CI_Controller{
                         'title'     =>      'Information Collection, Analysis and Dissemination',
                         'owner'     =>      $this->session->userdata('user_id'),
                         'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'weight'    =>      1
                     );
 
                     $insertedEntityId = $this->plan_model->addEntity($entityData);
@@ -2328,7 +2334,8 @@ class Plan extends CI_Controller{
                         'title'     =>      'Training Exercise',
                         'owner'     =>      $this->session->userdata('user_id'),
                         'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'weight'    =>      1
                     );
 
                     $insertedEntityId = $this->plan_model->addEntity($entityData);
@@ -2399,7 +2406,8 @@ class Plan extends CI_Controller{
                         'title'     =>      'Administration, Finance, and Logistics',
                         'owner'     =>      $this->session->userdata('user_id'),
                         'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'weight'    =>      1
                     );
 
                     $insertedEntityId = $this->plan_model->addEntity($entityData);
@@ -2470,7 +2478,8 @@ class Plan extends CI_Controller{
                         'title'     =>      'Plan Development and Maintenance',
                         'owner'     =>      $this->session->userdata('user_id'),
                         'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'weight'    =>      1
                     );
 
                     $insertedEntityId = $this->plan_model->addEntity($entityData);
@@ -2541,7 +2550,8 @@ class Plan extends CI_Controller{
                         'title'     =>      'Authorities and References',
                         'owner'     =>      $this->session->userdata('user_id'),
                         'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name')
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'weight'    =>      1
                     );
 
                     $insertedEntityId = $this->plan_model->addEntity($entityData);
