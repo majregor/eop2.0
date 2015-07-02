@@ -225,7 +225,9 @@ class User extends CI_Controller{
                     $data = array(
                         'first_name'        =>  $this->input->post('fname'),
                         'last_name'         =>  $this->input->post('last_name'),
-                        'phone'             =>  $this->input->post('phone')
+                        'phone'             =>  $this->input->post('phone'),
+                        'email'             =>  $this->input->post('email'),
+                        'username'             =>  $this->input->post('username')
                         );
 
                     $savedRecs = $this->user_model->updatePersonalAccount($this->session->userdata('user_id'), $data);
@@ -399,6 +401,40 @@ class User extends CI_Controller{
             $email = $this->input->post('email');
 
             if($this->user_model->checkUseremail($email)){
+                $this->output->set_output(json_encode(FALSE)); // Reject entry if email exists
+            }else{
+                $this->output->set_output(json_encode(TRUE)); // Accept entry
+            }
+        }
+        else{
+            // Do nothing if its not an ajax request
+        }
+    }
+
+
+    public function checkusernameUpdate(){
+        if($this->input->post('ajax')){ //If it's a ajax request
+            $username = $this->input->post('username');
+            $uid      = $this->input->post('id');
+
+            if($this->user_model->checkUsernameUpdate($username, $uid)){
+                $this->output->set_output(json_encode(FALSE)); // Reject entry if username exists
+            }else{
+                $this->output->set_output(json_encode(TRUE)); // Accept entry of new username
+            }
+        }
+        else{
+            // Do nothing if its not an ajax request
+        }
+    }
+
+
+    public function checkuseremailUpdate(){
+        if($this->input->post('ajax')){ //If it's a ajax request
+            $email = $this->input->post('email');
+            $uid      = $this->input->post('id');
+
+            if($this->user_model->checkUseremailUpdate($email, $uid)){
                 $this->output->set_output(json_encode(FALSE)); // Reject entry if email exists
             }else{
                 $this->output->set_output(json_encode(TRUE)); // Accept entry

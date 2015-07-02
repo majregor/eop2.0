@@ -192,6 +192,8 @@ if(isset($viewform)){
 
 
         var selectedDistrict = $('#sltdistrict').val();
+        var toggleNone = false;
+
         var form_data = {
             ajax:           '1',
             district_id:    (selectedDistrict != 'Null') ? selectedDistrict : -1
@@ -508,6 +510,10 @@ if(isset($viewform)){
                     var schoolElement = $("#sltschool");
                     schoolElement.empty(); // remove the old options
 
+                    schoolElement.append($("<option></option>")
+                        .attr("value", "")
+                        .text("--Select--"));
+
                     $.each(schools, function (key, value) {
                         schoolElement.append($("<option></option>")
                             .attr("value", value.id)
@@ -603,14 +609,15 @@ if(isset($viewform)){
                 $('#sltdistrict option[value=""]').each(function(){
                     $(this).remove();
                 });
+                toggleNone = true;
                 $('#sltdistrict').rules("add", "required");
                 $('#districtRow span').addClass("required");
             }
             if($('select#slctuserrole').val() == 2){
                 $('#schoolRow').css('display', 'none');
                 $('#districtRow').css('display', 'none');
-                $('#sltschool').val(null);
-                $('#sltdistrict').val(null);
+                $('#sltschool').val('Null');
+                $('#sltdistrict').val('Null');
             }
             if($('select#slctuserrole').val() == 4){
                 $('#schoolRow').css('display', 'table-row');
@@ -638,24 +645,35 @@ if(isset($viewform)){
                 if(this.value == 3){ // District Admin selected
                     $('#districtRow').css('display', 'table-row');
                     $('#schoolRow').css('display', 'none');
-                    $('#sltschool').val(null);
-                    $('#sltdistrict option[value=""]').each(function(){
-                        $(this).remove();
-                    });
+                    $('#sltschool').val('Null');
+
+                        $('#sltdistrict option[value=""]').each(function(){
+                            $(this).remove();
+                        });
+                        toggleNone = true;
+
                     $('#sltdistrict').rules("add", "required");
                     $('#districtRow span').addClass("required");
                 }
                 else if(this.value==2){ // State Admin selected
                     $('#districtRow').css('display', 'none');
                     $('#schoolRow').css('display', 'none');
-                    $('#sltdistrict').val(null);
-                    $('#sltschool').val(null);
+                    $('#sltdistrict').val('Null');
+                    $('#sltschool').val('Null');
                 }
                 else if(this.value == 4){ //School admin selected
                     $('#schoolRow').css('display', 'table-row');
+                    $('#sltschool').val('Null');
                     $('#districtRow').css('display', 'table-row');
                     $('#sltdistrict').attr("required", false);
                     $('#sltdistrict').rules("remove", "required");
+                    if(toggleNone == true){
+                        $('#sltdistrict').prepend($("<option></option>")
+                            .attr("value","")
+                            .text("None"));
+                        toggleNone = false;
+                    }
+                    $('#sltdistrict').val('Null');
                     $('#districtRow span').removeClass("required");
                 }else if(this.value == 5){ //School User selected
                     $('#schoolRow').css('display', 'table-row');
@@ -666,6 +684,13 @@ if(isset($viewform)){
                     $('#sltdistrict').val(null);
                     $('#sltdistrict').attr("required", false);
                     $('#sltdistrict').rules("remove", "required");
+                    if(toggleNone == true){
+                        $('#sltdistrict').prepend($("<option></option>")
+                            .attr("value", "")
+                            .text("None"));
+                        toggleNone = false;
+                    }
+                    $('#sltdistrict').val('Null');
                     <?php else: ?> // Else show the district for State and Super admins
                     $('#districtRow').css('display', 'table-row');
                     $('#sltdistrict').attr("required", true);

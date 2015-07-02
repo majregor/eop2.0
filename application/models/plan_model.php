@@ -76,7 +76,7 @@ class Plan_model extends CI_Model {
      * @param $type the type of the entity to retrieve
      * @param string $data array of criteria
      * @param bool $recursive Defines whether to return entities recursively structured or to return simple entities list
-     * @return associative array of entities
+     * @return associative array of entities array('orderby'=>'column_name', 'type'=>'ASC|DESC')
      */
     public function getEntities($type, $data='', $recursive=false, $sortOrder=array()){
         $conditions = array();

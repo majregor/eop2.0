@@ -161,7 +161,7 @@
             <td>
                 <?php
                 $options = array();
-                $options[''] = '--Select--';
+                $options['Null'] = '--Select--';
                 /*foreach($schools as $rowIndex => $row){
                     $options[$row['id']] = $row['name'];
                 }*/

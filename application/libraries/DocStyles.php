@@ -3,11 +3,11 @@
 class DocStyles {
 
     var $titleStyles = array(
-        array('size'=>16, 'color'=>'333333', 'bold'=>true, 'allCaps' => true),
-        array('size'=>14, 'color'=>'666666', 'bold'=>true),
-        array('size'=>12, 'color'=>'666666', 'bold'=>true),
-        array('size'=>12, 'color'=>'666666'),
-        array('size'=>8, 'color'=>'666666')
+        1 =>    array('size'=>16, 'color'=>'333333', 'bold'=>true, 'allCaps' => true),
+        2 =>    array('size'=>14, 'color'=>'666666', 'bold'=>true),
+        3 =>    array('size'=>12, 'color'=>'666666', 'bold'=>true),
+        4 =>    array('size'=>12, 'color'=>'666666'),
+        5 =>    array('size'=>8, 'color'=>'666666')
     );
 
     var  $fontStyles = array(
@@ -20,8 +20,11 @@ class DocStyles {
     );
 
     var  $paragraphStyles = array(
-        'docTitleParagraph'=> array('align' => 'center', 'spaceAfter' => 300),
-        'cover'=> array( 'size'=>12,'align' => 'center', 'spaceAfter' => 100)
+        'docTitleParagraph'         => array('align' => 'center', 'spaceAfter' => 300),
+        'cover'                     => array( 'size'=>12,'align' => 'center', 'spaceAfter' => 100),
+        'standardParagraph'         => array('size'=>12,'align' => 'left', 'spaceAfter' => 100, 'hanging'=>0),
+        'objectiveParagraph'        => array('size'=>12,'align' => 'left', 'spaceAfter' => 100,'indent' =>  .5, 'hanging'=>0),
+        'actionParagraph'           => array('size'=>12,'align' => 'left', 'spaceAfter' => 100)
     );
 
     var $linkStyles = array(

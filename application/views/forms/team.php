@@ -8,11 +8,11 @@
 <?php
 echo form_open('team/add', array('class'=>'teamManagementForm', 'id'=>'teamManagementForm'));
 ?>
+    <p>Please  use the form below to identify members of your school&rsquo;s   collaborative planning  team as well as the stakeholder category or   categories which they represent. If  your school&rsquo;s planning team does   not include sufficient representation from  various stakeholder groups   in the community (that may be involved in an  emergency before, during,   or after an incident), the core planning team may  want to consider   adding additional members to the collaborative planning team. </p>
+    <p>You will need to add  each team member one by one into   the form below. To add a team member into EOP  ASSIST, please type that person&rsquo;s name and contact information into the corresponding  fields and   then check the appropriate boxes designating the stakeholder categories that the team member represents. You may check more than one   box for  each team member. Click the Save button to record information for each   team member, and  then repeat this process as many times as necessary to   add all members of the  planning team into EOP ASSIST.</p>
 
     <fieldset>
 
-        <p>Please  use the form below to identify members of your school&rsquo;s   collaborative planning  team as well as the stakeholder category or   categories which they represent. If  your school&rsquo;s planning team does   not include sufficient representation from  various stakeholder groups   in the community (that may be involved in an  emergency before, during,   or after an incident), the core planning team may  want to consider   adding additional members to the collaborative planning team. </p>
-        <p>You will need to add  each team member one by one into   the form below. To add a team member into EOP  ASSIST, please type that person&rsquo;s name and contact information into the corresponding  fields and   then check the appropriate boxes designating the stakeholder categories that the team member represents. You may check more than one   box for  each team member. Click the Save button to record information for each   team member, and  then repeat this process as many times as necessary to   add all members of the  planning team into EOP ASSIST.</p>
         <table class="tmform">
             <tr>
                 <td class="txtb">Name:</td>

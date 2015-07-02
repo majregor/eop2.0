@@ -22,6 +22,11 @@ if($this->session->userdata['role']['level']==3 && $this->session->userdata('loa
 
     $content_file_to_load = "home_". $step . ".php";
     include("content/".$content_file_to_load);
+    
+}elseif($this->session->userdata['role']['level']>3 && $this->session->userdata['loaded_school']){
+
+    $content_file_to_load = "home_". $step . ".php";
+    include("content/".$content_file_to_load);
 }
 
 

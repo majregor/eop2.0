@@ -157,6 +157,16 @@ if((null != $this->session->flashdata('success'))):
                 );
                 ?>
                 <?php echo form_submit($attributes); ?>
+
+                <?php
+                $attributes = array(
+                    'name'  =>  'form_reset',
+                    'value' =>  'Cancel',
+                    'id'    =>  'form_reset_btn',
+                    'style' =>  ''
+                );
+                ?>
+                <?php echo form_reset($attributes); ?>
             </p>
             <?php echo form_close(); ?>
         </div>
@@ -277,12 +287,19 @@ $(document).ready(function(){
         }
     });
 
+    $("#form_reset_btn").on("click", function(){
+
+        $("#form_submit_btn").val("Update Profile");
+        lockControls();
+    });
+
     function lockControls(){
 
         $("#fname")     .attr("disabled", "disabled");
         $("#last_name") .attr("disabled", "disabled");
         $("#phone")     .attr("disabled", "disabled");
         $("#email")     .attr("disabled", "disabled");
+        $("#username")     .attr("disabled", "disabled");
 
     }
 
@@ -291,6 +308,8 @@ $(document).ready(function(){
         $("#fname")     .removeAttr('disabled');
         $("#last_name") .removeAttr('disabled');
         $("#phone")     .removeAttr("disabled");
+        $("#email")     .removeAttr("disabled");
+        $("#username")     .removeAttr("disabled");
 
     }
 
@@ -298,9 +317,48 @@ $(document).ready(function(){
         rules:{
             phone:{
                     phoneUS: true
+                },
+            username:{
+                required: true,
+                minlength:3,
+                remote:{
+                    url: "<?php echo(base_url('user/checkusernameUpdate')); ?>",
+                    type: "POST",
+                    data:{
+                        username: function(){
+                            var user = $("#username").val();
+                            return user;
+                        },
+                        ajax: '1',
+                        id: '<?php echo($user[0]['user_id']); ?>'
+                    }
+
                 }
+            },
+            email:{
+                remote:{
+                    url: "<?php echo(base_url('user/checkuseremailUpdate')); ?>",
+                    type: "POST",
+                    data:{
+                        email: function(){
+                            return $("#email").val();
+                        },
+                        ajax: '1',
+                        id: '<?php echo($user[0]['user_id']); ?>'
+                    }
+
+                }
+            }
+        },
+        messages:{
+            username:{
+                remote: "Username has already been used!"
+            },
+            email:{
+                remote: "Email has already been used!"
+            }
         }
-        });
+    });
 
     $("#pwd_form").validate({
         rules: {

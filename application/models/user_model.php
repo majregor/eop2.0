@@ -439,4 +439,32 @@ class User_model extends CI_Model {
         }
     }
 
+
+    public function checkUsernameUpdate($username, $id){
+        $this->db->select('username');
+        $query = $this->db->get_where('eop_user', array('username'=>$username, 'user_id !='=>$id));
+        $recs = $query->num_rows();
+
+        if(is_numeric($recs) && $recs >0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+
+    public function checkUseremailUpdate($email, $id){
+        $this->db->select('email');
+        $query = $this->db->get_where('eop_user', array('email'=>$email, 'user_id !='=>$id));
+        $recs = $query->num_rows();
+
+        if(is_numeric($recs) && $recs >0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 }
