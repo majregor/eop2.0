@@ -22,7 +22,7 @@ class Team extends CI_Controller{
 
         if($this->session->userdata('is_logged_in')){
             $this->load->model('team_model');
-            
+
         }
         else{
             redirect('/login');
@@ -112,9 +112,14 @@ class Team extends CI_Controller{
 
             $memberData =null;
             $param = $this->input->post('param');
+            $schoolCondition = '';
 
             if($param=='all' || $param==''){
-                $memberData = $this->team_model->getMembers();
+                if(isset($this->session->userdata['loaded_school']['id'])){
+                    $schoolCondition = array('sid'=>$this->session->userdata['loaded_school']['id']);
+                }
+
+                $memberData = $this->team_model->getMembers($schoolCondition);
             }else{
                 $p = array('id' =>$param);
                 $memberData = $this->team_model->getMembers($p);

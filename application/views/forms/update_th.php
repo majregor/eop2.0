@@ -34,7 +34,7 @@ echo form_open('plan/update/entity/th', array('class'=>'updateThForm', 'id'=>'up
         ?>
 
 
-<?php echo form_submit($attributes); ?>
+<?php //echo form_submit($attributes); ?>
 
 <?php
 echo form_close();

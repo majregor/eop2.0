@@ -16,6 +16,7 @@
 
 class Report extends CI_Controller{
 
+    var $school_id = null;
 
     public function __construct(){
         parent::__construct();
@@ -43,9 +44,11 @@ class Report extends CI_Controller{
     public function index(){
 
         $this->authenticate();
-        $this->makeReport();
+        //$this->make();
 
-        $data = array();
+        $data = array(
+            //@todo get schools that have plan data...
+        );
 
         $templateData = array(
             'page'          =>  'myeop',
@@ -56,22 +59,29 @@ class Report extends CI_Controller{
         $this->template->load('template', 'report_screen', $templateData);
     }
 
-    public function makeReport(){
+    public function make($school_id = ''){
+
+        if($school_id==''){
+            $this->school_id = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : Null;
+        }else{
+            $this->school_id = $school_id;
+        }
+
 
         //Get plan data from database
-        $form1Data      = $this->plan_model->getEntities('bp', array('name'=>'form1'), true);
-        $form2Data      = $this->plan_model->getEntities('bp', array('name'=>'form2'), true);
-        $form3Data      = $this->plan_model->getEntities('bp', array('name'=>'form3'), true);
-        $form4Data      = $this->plan_model->getEntities('bp', array('name'=>'form4'), true);
-        $form5Data      = $this->plan_model->getEntities('bp', array('name'=>'form5'), true);
-        $form6Data      = $this->plan_model->getEntities('bp', array('name'=>'form6'), true);
-        $form7Data      = $this->plan_model->getEntities('bp', array('name'=>'form7'), true);
-        $form8Data      = $this->plan_model->getEntities('bp', array('name'=>'form8'), true);
-        $form9Data      = $this->plan_model->getEntities('bp', array('name'=>'form9'), true);
-        $form10Data     = $this->plan_model->getEntities('bp', array('name'=>'form10'), true);
+        $form1Data      = $this->plan_model->getEntities('bp', array('name'=>'form1', 'sid'=>$this->school_id), true);
+        $form2Data      = $this->plan_model->getEntities('bp', array('name'=>'form2', 'sid'=>$this->school_id), true);
+        $form3Data      = $this->plan_model->getEntities('bp', array('name'=>'form3', 'sid'=>$this->school_id), true);
+        $form4Data      = $this->plan_model->getEntities('bp', array('name'=>'form4', 'sid'=>$this->school_id), true);
+        $form5Data      = $this->plan_model->getEntities('bp', array('name'=>'form5', 'sid'=>$this->school_id), true);
+        $form6Data      = $this->plan_model->getEntities('bp', array('name'=>'form6', 'sid'=>$this->school_id), true);
+        $form7Data      = $this->plan_model->getEntities('bp', array('name'=>'form7', 'sid'=>$this->school_id), true);
+        $form8Data      = $this->plan_model->getEntities('bp', array('name'=>'form8', 'sid'=>$this->school_id), true);
+        $form9Data      = $this->plan_model->getEntities('bp', array('name'=>'form9', 'sid'=>$this->school_id), true);
+        $form10Data     = $this->plan_model->getEntities('bp', array('name'=>'form10', 'sid'=>$this->school_id), true);
 
-        $fnData         = $this->plan_model->getEntities('fn', array('parent is not null'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
-        $topLevelFns    = $this->plan_model->getEntities('fn', array('parent'=>Null), true, array('orderby'=>'name', 'type'=>'ASC'));
+        $fnData         = $this->plan_model->getEntities('fn', array('parent is not null'=>Null, 'sid'=>$this->school_id), true, array('orderby'=>'name', 'type'=>'ASC'));
+        $topLevelFns    = $this->plan_model->getEntities('fn', array('parent'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
         $functionalData = array();
         foreach($topLevelFns as $key=>$value){
 
@@ -83,7 +93,7 @@ class Report extends CI_Controller{
             }
         }
 
-        $THData  = $this->plan_model->getEntities('th',null,true);
+        $THData  = $this->plan_model->getEntities('th',array('sid'=>$this->school_id), true);
 
 
         $this->word->setDefaultFontSize(12);
@@ -125,444 +135,480 @@ class Report extends CI_Controller{
         //Add Section 1
         $this->makeSection1($form1Data, $section);
 
-        $section->addPageBreak(); //New Page
 
         //Add Section 2
         $this->makeSection2($form2Data, $section);
 
-        $section->addPageBreak(); //New Page
 
         //Add Section 3
         $this->makeSection3($form3Data, $section);
-        $section->addPageBreak(); //New Page
 
         //Add Section 4
         $this->makeSection4($form4Data, $section);
 
-        $section->addPageBreak(); //New Page
 
         //Add Section 5
         $this->makeSection5($form5Data, $section);
 
-        $section->addPageBreak(); //New Page
 
         //Add Section 6
         $this->makeSection6($form6Data, $section);
 
-        $section->addPageBreak(); //New Page
 
         //Add Section 7
         $this->makeSection7($form7Data, $section);
 
-        $section->addPageBreak(); //New Page
 
         //Add Section 8
         $this->makeSection8($form8Data, $section);
 
-        $section->addPageBreak(); //New Page
 
         //Add Section 9
         $this->makeSection9($form9Data, $section);
 
-        $section->addPageBreak(); //New Page
 
         //Add Section 10
         $this->makeSection10($form10Data, $section);
 
-        $section->addPageBreak(); //New Page
 
         $this->makeFunctionalAnnexes($functionalData, $section);
 
-        $section->addPageBreak(); //New Page
 
         $this->makeTHAnnexes($THData, $section);
 
 
-
         $this->flushToBrowser();
-
-
-        //print_r($form1Data[0]['children'][0]['fields'][0]['body']);
-        //@todo Integrate h2d_htmlconverter
 
     }
 
     function makeCoverPage($form1Data){
+        if(is_array($form1Data) && count($form1Data)>0) {
+            $html_dom = $this->simple_html_dom;
+            $sectionCover = $this->word->addSection();
 
-        $html_dom = $this->simple_html_dom;
-        $sectionCover = $this->word->addSection();
+            //Add Document title (form 1.0 Title of the plan)
+            $sectionCover->addTextBreak(5);
+            $sectionCover->addText(htmlspecialchars(stripslashes($form1Data[0]['children'][0]['fields'][0]['body'])), 'docTitle', 'docTitleParagraph');
+            $sectionCover->addTextBreak(5);
 
-        //Add Document title (form 1.0 Title of the plan)
-        $sectionCover->addTextBreak(5);
-        $sectionCover->addText(htmlspecialchars(stripslashes($form1Data[0]['children'][0]['fields'][0]['body'])), 'docTitle', 'docTitleParagraph');
-        $sectionCover->addTextBreak(5);
+            //Add Date (form 1.0 Date)
+            $sectionCover->addText(htmlspecialchars($form1Data[0]['children'][0]['fields'][1]['body']), null, 'cover');
 
-        //Add Date (form 1.0 Date)
-        $sectionCover->addText(htmlspecialchars($form1Data[0]['children'][0]['fields'][1]['body']),null, 'cover');
+            //Add the schools covered by the plan (form 1.0 Schools covered by the plan)
+            $html_dom->load('<html><body>' . $form1Data[0]['children'][0]['fields'][2]['body'] . '</body></html>');
+            // Create the dom array of elements which we are going to work on:
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            // Convert the HTML and put it into the PHPWord object
+            htmltodocx_insert_html($sectionCover, $html_dom_array[0]->nodes, $this->getStandardSettings('cover'));
 
-        //Add the schools covered by the plan (form 1.0 Schools covered by the plan)
-        $html_dom->load('<html><body>' . $form1Data[0]['children'][0]['fields'][2]['body'] . '</body></html>');
-        // Create the dom array of elements which we are going to work on:
-        $html_dom_array = $html_dom->find('html',0)->children();
-        // Convert the HTML and put it into the PHPWord object
-        htmltodocx_insert_html($sectionCover, $html_dom_array[0]->nodes, $this->getStandardSettings('cover'));
+            // Clear the HTML dom object:
+            $html_dom->clear();
 
-        // Clear the HTML dom object:
-        $html_dom->clear();
+            $sectionCover->addTextBreak(10);
+            $copyright1 = "This school EOP was prepared using the EOP ASSIST software application.";
+            $copyright2 = "For more information, visit ";
 
-        $sectionCover->addTextBreak(10);
-        $copyright1="This school EOP was prepared using the EOP ASSIST software application.";
-        $copyright2="For more information, visit " ;
-
-        $sectionCover->addText($copyright1,null, 'cover');
-
-
-
-        $textrun = $sectionCover->addTextRun('cover');
-        $textrun->addText($copyright2);
-        $textrun->addLink('http://rems.ed.gov/EOPASSIST', 'http://rems.ed.gov/EOPASSIST', 'default');
-        $textrun->addText('.');
+            $sectionCover->addText($copyright1, null, 'cover');
 
 
-        $sectionCover->addPageBreak();
+            $textrun = $sectionCover->addTextRun('cover');
+            $textrun->addText($copyright2);
+            $textrun->addLink('http://rems.ed.gov/EOPASSIST', 'http://rems.ed.gov/EOPASSIST', 'default');
+            $textrun->addText('.');
+
+
+            $sectionCover->addPageBreak();
+        }
 
     }
 
     function makeSection1($data, $section){
 
-        $html_dom = $this->simple_html_dom;
+        if(is_array($data) && count($data)>0){
 
-        $section->addTitle('Basic Plan', 1);
-        $section->addTitle('1. Introductory Material', 2);
+            $html_dom = $this->simple_html_dom;
 
-        //Add sub-section 1.1
-        $section->addTitle('1.1 Promulgation Document and Signatures', 3);
-        $html_dom->load('<html><body>' . $data[0]['children'][1]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            $section->addTitle('Basic Plan', 1);
+            $section->addTitle('1. Introductory Material', 2);
+
+            //Add sub-section 1.1
+            $section->addTitle('1.1 Promulgation Document and Signatures', 3);
+            $html_dom->load('<html><body>' . $data[0]['children'][1]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html',0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
 
 
-        //Add sub-section 1.2
-        $section->addPageBreak();
-        $section->addTitle('1.2 Approval and Implementation', 3);
-        $html_dom->load('<html><body>' . $data[0]['children'][2]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            //Add sub-section 1.2
+            $section->addPageBreak();
+            $section->addTitle('1.2 Approval and Implementation', 3);
+            $html_dom->load('<html><body>' . $data[0]['children'][2]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html',0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
 
-        //Add sub-section 1.3
-        $section->addPageBreak();
-        $section->addTitle('1.3 Record of Changes', 3);
-        $table = $section->addTable('defaultTableStyle');
-        $cellStyle = array('valign'=>'center');
-        $fontStyle = array('bold'=>true, 'align'=>'center');
-        $table->addRow(900); // Add a row
-        // Add cells
-        $table->addCell(2000, $cellStyle)->addText('Change Number', $fontStyle);
-        $table->addCell(2000, $cellStyle)->addText('Date of Change', $fontStyle);
-        $table->addCell(2000, $cellStyle)->addText('Name', $fontStyle);
-        $table->addCell(2000, $cellStyle)->addText('Summary of Change', $fontStyle);
+            //Add sub-section 1.3
+            $section->addPageBreak();
+            $section->addTitle('1.3 Record of Changes', 3);
+            $table = $section->addTable('defaultTableStyle');
+            $cellStyle = array('valign'=>'center');
+            $fontStyle = array('bold'=>true, 'align'=>'center');
+            $table->addRow(900); // Add a row
+            // Add cells
+            $table->addCell(2000, $cellStyle)->addText('Change Number', $fontStyle);
+            $table->addCell(2000, $cellStyle)->addText('Date of Change', $fontStyle);
+            $table->addCell(2000, $cellStyle)->addText('Name', $fontStyle);
+            $table->addCell(2000, $cellStyle)->addText('Summary of Change', $fontStyle);
 
-        $child4['fields'] = $data[0]['children'][3]['fields'];
-        $numFields = count($child4['fields']);
-        for($i=1; $i<=($numFields/4); $i++){
-            $table->addRow();
-            foreach($child4['fields'] as $field_key=>$field){
-                if($field['weight'] == $i){
-                    $this->html2text->setHtml($field['body']);
-                    $txt = $this->html2text->getText();
-                    $table->addCell(2000)->addText(htmlspecialchars(stripslashes($txt)));
+            $child4['fields'] = $data[0]['children'][3]['fields'];
+            $numFields = count($child4['fields']);
+            for($i=1; $i<=($numFields/4); $i++){
+                $table->addRow();
+                foreach($child4['fields'] as $field_key=>$field){
+                    if($field['weight'] == $i){
+                        $this->html2text->setHtml($field['body']);
+                        $txt = $this->html2text->getText();
+                        $table->addCell(2000)->addText(htmlspecialchars(stripslashes($txt)));
 
+                    }
                 }
+
             }
+
+            //Add sub-section 1.4
+            $section->addPageBreak();
+            $section->addTitle('1.4 Record of Distribution', 3);
+            $table = $section->addTable('defaultTableStyle');
+            $cellStyle = array('valign'=>'center');
+            $fontStyle = array('bold'=>true, 'align'=>'center');
+            $table->addRow(900); // Add a row
+            // Add cells
+            $table->addCell(2000, $cellStyle)->addText('Title and name of person receiving the plan', $fontStyle);
+            $table->addCell(2000, $cellStyle)->addText('Agency (school office, government agency, or private-sector entity', $fontStyle);
+            $table->addCell(2000, $cellStyle)->addText('Date of delivery', $fontStyle);
+            $table->addCell(2000, $cellStyle)->addText('Number of copies delivered', $fontStyle);
+
+            $child4['fields'] = $data[0]['children'][4]['fields'];
+            $numFields = count($child4['fields']);
+            for($i=1; $i<=($numFields/4); $i++){
+                $table->addRow();
+                foreach($child4['fields'] as $field_key=>$field){
+                    if($field['weight'] == $i){
+                        $this->html2text->setHtml($field['body']);
+                        $txt = $this->html2text->getText();
+                        $table->addCell(2000)->addText(htmlspecialchars(stripslashes($txt)));
+
+                    }
+                }
+
+            }
+
+            $section->addPageBreak(); //New Page
 
         }
 
-        //Add sub-section 1.4
-        $section->addPageBreak();
-        $section->addTitle('1.4 Record of Distribution', 3);
-        $table = $section->addTable('defaultTableStyle');
-        $cellStyle = array('valign'=>'center');
-        $fontStyle = array('bold'=>true, 'align'=>'center');
-        $table->addRow(900); // Add a row
-        // Add cells
-        $table->addCell(2000, $cellStyle)->addText('Title and name of person receiving the plan', $fontStyle);
-        $table->addCell(2000, $cellStyle)->addText('Agency (school office, government agency, or private-sector entity', $fontStyle);
-        $table->addCell(2000, $cellStyle)->addText('Date of delivery', $fontStyle);
-        $table->addCell(2000, $cellStyle)->addText('Number of copies delivered', $fontStyle);
 
-        $child4['fields'] = $data[0]['children'][4]['fields'];
-        $numFields = count($child4['fields']);
-        for($i=1; $i<=($numFields/4); $i++){
-            $table->addRow();
-            foreach($child4['fields'] as $field_key=>$field){
-                if($field['weight'] == $i){
-                    $this->html2text->setHtml($field['body']);
-                    $txt = $this->html2text->getText();
-                    $table->addCell(2000)->addText(htmlspecialchars(stripslashes($txt)));
-
-                }
-            }
-
-        }
     }
 
     function makeSection2($data, $section){
+        if(is_array($data) && count($data)>0) {
+            $html_dom = $this->simple_html_dom;
+            $children = $data[0]['children'];
 
-        $html_dom = $this->simple_html_dom;
-        $children = $data[0]['children'];
+            $section->addTitle('2. Purpose, Scope, Situation Overview and Assumptions', 2);
 
-        $section->addTitle('2. Purpose, Scope, Situation Overview and Assumptions', 2);
+            //Add sub-section 2.1
+            $section->addTitle('2.1 Purpose', 3);
+            $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
 
-        //Add sub-section 2.1
-        $section->addTitle('2.1 Purpose', 3);
-        $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            //Add sub-section 2.2
+            $section->addTitle('2.2 Scope', 3);
+            $html_dom->load('<html><body>' . $children[1]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
 
-        //Add sub-section 2.2
-        $section->addTitle('2.2 Scope', 3);
-        $html_dom->load('<html><body>' . $children[1]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            //Add sub-section 2.3
+            $section->addTitle('2.3 Situation Overview', 3);
+            $html_dom->load('<html><body>' . $children[2]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
 
-        //Add sub-section 2.3
-        $section->addTitle('2.3 Situation Overview', 3);
-        $html_dom->load('<html><body>' . $children[2]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            //Add sub-section 2.4
+            $section->addTitle('2.4 Planning Assumptions', 3);
+            $html_dom->load('<html><body>' . $children[3]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
 
-        //Add sub-section 2.4
-        $section->addTitle('2.4 Planning Assumptions', 3);
-        $html_dom->load('<html><body>' . $children[3]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            $section->addPageBreak(); //New Page
+        }
     }
 
     function makeSection3($data, $section){
+        if(is_array($data) && count($data)>0) {
+            $html_dom = $this->simple_html_dom;
+            $children = $data[0]['children'];
 
-        $html_dom = $this->simple_html_dom;
-        $children = $data[0]['children'];
+            $section->addTitle('3. Concept of Operations (CONOPS)', 2);
 
-        $section->addTitle('3. Concept of Operations (CONOPS)', 2);
+            //Add sub-section 3.1
+            $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
 
-        //Add sub-section 3.1
-        $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            $section->addPageBreak(); //New Page
+        }
 
     }
 
     function makeSection4($data, $section){
-        $html_dom = $this->simple_html_dom;
-        $children = $data[0]['children'];
+        if(is_array($data) && count($data)>0) {
+            $html_dom = $this->simple_html_dom;
+            $children = $data[0]['children'];
 
-        $section->addTitle('4. Organization and Assignment of Responsibilities', 2);
+            $section->addTitle('4. Organization and Assignment of Responsibilities', 2);
 
-        //Add sub-section 4.1
-        $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            //Add sub-section 4.1
+            $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
+
+            $section->addPageBreak(); //New Page
+        }
     }
 
     function makeSection5($data, $section){
+        if(is_array($data) && count($data)>0) {
+            $html_dom = $this->simple_html_dom;
+            $children = $data[0]['children'];
 
-        $html_dom = $this->simple_html_dom;
-        $children = $data[0]['children'];
+            $section->addTitle('5. Direction, Control, and Coordination', 2);
 
-        $section->addTitle('5. Direction, Control, and Coordination', 2);
+            //Add sub-section 5.1
+            $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
 
-        //Add sub-section 5.1
-        $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            $section->addPageBreak(); // New Page
+        }
     }
 
     function makeSection6($data, $section){
+        if(is_array($data) && count($data)>0) {
+            $html_dom = $this->simple_html_dom;
+            $children = $data[0]['children'];
 
-        $html_dom = $this->simple_html_dom;
-        $children = $data[0]['children'];
+            $section->addTitle('6. Information Collection, Analysis, and Dissemination', 2);
 
-        $section->addTitle('6. Information Collection, Analysis, and Dissemination', 2);
+            //Add sub-section 6.1
+            $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
 
-        //Add sub-section 6.1
-        $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            $section->addPageBreak(); //New Page
+        }
     }
 
     function makeSection7($data, $section){
+        if(is_array($data) && count($data)>0) {
+            $html_dom = $this->simple_html_dom;
+            $children = $data[0]['children'];
 
-        $html_dom = $this->simple_html_dom;
-        $children = $data[0]['children'];
+            $section->addTitle('7. Training and Exercises', 2);
 
-        $section->addTitle('7. Training and Exercises', 2);
+            //Add sub-section 7.1
+            $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
 
-        //Add sub-section 7.1
-        $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            $section->addPageBreak(); //New Page
+        }
     }
 
     function makeSection8($data, $section){
+        if(is_array($data) && count($data)>0) {
 
-        $html_dom = $this->simple_html_dom;
-        $children = $data[0]['children'];
+            $html_dom = $this->simple_html_dom;
+            $children = $data[0]['children'];
 
-        $section->addTitle('8. Administration, Finance, and Logistics', 2);
+            $section->addTitle('8. Administration, Finance, and Logistics', 2);
 
-        //Add sub-section 8.1
-        $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            //Add sub-section 8.1
+            $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
+
+            $section->addPageBreak(); //New Page
+        }
     }
 
     function makeSection9($data, $section){
+        if(is_array($data) && count($data)>0) {
 
-        $html_dom = $this->simple_html_dom;
-        $children = $data[0]['children'];
+            $html_dom = $this->simple_html_dom;
+            $children = $data[0]['children'];
 
-        $section->addTitle('9. Plan Development and Maintenance', 2);
+            $section->addTitle('9. Plan Development and Maintenance', 2);
 
-        //Add sub-section 9.1
-        $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            //Add sub-section 9.1
+            $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
+
+            $section->addPageBreak(); //New Page
+        }
     }
 
     function makeSection10($data, $section){
+        if(is_array($data) && count($data)>0) {
 
-        $html_dom = $this->simple_html_dom;
-        $children = $data[0]['children'];
+            $html_dom = $this->simple_html_dom;
+            $children = $data[0]['children'];
 
-        $section->addTitle('10. Authorities and References', 2);
+            $section->addTitle('10. Authorities and References', 2);
 
-        //Add sub-section 10.1
-        $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
-        $html_dom_array = $html_dom->find('html',0)->children();
-        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-        $html_dom->clear();
+            //Add sub-section 10.1
+            $html_dom->load('<html><body>' . $children[0]['fields'][0]['body'] . '</body></html>');
+            $html_dom_array = $html_dom->find('html', 0)->children();
+            htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+            $html_dom->clear();
+
+            $section->addPageBreak(); //New Page
+        }
     }
 
     function makeFunctionalAnnexes($data, $section){
+        if(is_array($data) && count($data)>0) {
 
-        $section->addTitle('Functional Annexes', 1);
-        $html_dom = $this->simple_html_dom;
+            $section->addTitle('Functional Annexes', 1);
+            $html_dom = $this->simple_html_dom;
 
-        foreach($data as $function){
+            foreach ($data as $function) {
 
-            $section->addTitle($function['name'], 2);
+                $section->addTitle($function['name'], 2);
 
-            foreach($function['children'] as  $fnChild){
+                if(isset($function['children']) && is_array($function['children'])) {
+                    foreach ($function['children'] as $fnChild) {
 
-                if($fnChild['type']=='g1' || $fnChild['type']=='g2' || $fnChild['type']=='g3'){
-                    $textrun = $section->addTextRun ( 'standardParagraph' );
-                    $textrun->addText ( htmlspecialchars ( $fnChild['type_title'].':' ), 'Goal' );
+                        if ($fnChild['type'] == 'g1' || $fnChild['type'] == 'g2' || $fnChild['type'] == 'g3') {
+                            $textrun = $section->addTextRun('standardParagraph');
+                            $textrun->addText(htmlspecialchars($fnChild['type_title'] . ':'), 'Goal');
 
-                    foreach($fnChild['fields'] as $field){
-                        $html_dom->load('<html><body>' . $field['body'] . '</body></html>');
-                        $html_dom_array = $html_dom->find('html',0)->children();
-                        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-                        $html_dom->clear();
-                    }
-
-                    foreach($fnChild['children'] as $key => $grandChild){
-                        if($grandChild['type']=="obj"){
-                            $objTextRun = $section->addTextRun ( 'objectiveParagraph' );
-                            $objTextRun->addText ( 'Objective: ', 'Objective' );
-
-                            foreach($grandChild['fields'] as $field){
+                            foreach ($fnChild['fields'] as $field) {
                                 $html_dom->load('<html><body>' . $field['body'] . '</body></html>');
-                                $html_dom_array = $html_dom->find('html',0)->children();
+                                $html_dom_array = $html_dom->find('html', 0)->children();
                                 htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
                                 $html_dom->clear();
                             }
-                        }
-                        if($grandChild['type']=="ca"){
-                            $coaTextRun = $section->addTextRun('actionParagraph');
-                            $coaTextRun->addText ( 'Courses of Action: ', 'COA');
 
-                            foreach($grandChild['fields'] as $field){
-                                $html_dom->load('<html><body>' . $field['body'] . '</body></html>');
-                                $html_dom_array = $html_dom->find('html',0)->children();
-                                htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-                                $html_dom->clear();
+                            foreach ($fnChild['children'] as $key => $grandChild) {
+                                if ($grandChild['type'] == "obj") {
+                                    $objTextRun = $section->addTextRun('objectiveParagraph');
+                                    $objTextRun->addText('Objective: ', 'Objective');
+
+                                    foreach ($grandChild['fields'] as $field) {
+                                        $html_dom->load('<html><body>' . $field['body'] . '</body></html>');
+                                        $html_dom_array = $html_dom->find('html', 0)->children();
+                                        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+                                        $html_dom->clear();
+                                    }
+                                }
                             }
+                            foreach ($fnChild['children'] as $key => $grandChild) {
+                                if ($grandChild['type'] == "ca") {
+                                    $coaTextRun = $section->addTextRun('actionParagraph');
+                                    $coaTextRun->addText('Courses of Action: ', 'COA');
+
+                                    foreach ($grandChild['fields'] as $field) {
+                                        $html_dom->load('<html><body>' . $field['body'] . '</body></html>');
+                                        $html_dom_array = $html_dom->find('html', 0)->children();
+                                        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+                                        $html_dom->clear();
+                                    }
+                                }
+                            }
+
+                            $section->addTextRun('pOStyle')->addText(" ", array('size' => 8));
+
                         }
                     }
-
-                    $section->addTextRun ( 'pOStyle' )->addText ( " ", array ('size' => 8) );
-
                 }
             }
+            $section->addPageBreak(); //New Page
         }
 
     }
 
     function makeTHAnnexes($data, $section){
+        if(is_array($data) && count($data)>0) {
+            $section->addTitle('Threat- and Hazard-Specific Annexes', 1);
+            $html_dom = $this->simple_html_dom;
 
-        $section->addTitle('Threat- and Hazard-Specific Annexes', 1)  ;
-        $html_dom = $this->simple_html_dom;
+            foreach ($data as $threat) {
+                $section->addTitle($threat['name'], 2);
 
-        foreach($data as $threat){
-            $section->addTitle($threat['name'], 2);
+                if(isset($threat['children']) && is_array($threat['children'])) {
+                    foreach ($threat['children'] as $thChild) {
+                        if ($thChild['type'] == 'g1' || $thChild['type'] == 'g2' || $thChild['type'] == 'g3') {
 
-            foreach($threat['children'] as  $thChild){
-                if($thChild['type']=='g1' || $thChild['type']=='g2' || $thChild['type']=='g3'){
+                            $textrun = $section->addTextRun('standardParagraph');
+                            $textrun->addText(htmlspecialchars($thChild['type_title'] . ':'), 'Goal');
 
-                    $textrun = $section->addTextRun ( 'standardParagraph' );
-                    $textrun->addText ( htmlspecialchars ( $thChild['type_title'].':' ), 'Goal' );
-
-                    foreach($thChild['fields'] as $field){
-                        $html_dom->load('<html><body>' . $field['body'] . '</body></html>');
-                        $html_dom_array = $html_dom->find('html',0)->children();
-                        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-                        $html_dom->clear();
-                    }
-
-                    foreach($thChild['children'] as $key => $grandChild){
-                        if($grandChild['type']=="obj"){
-                            $objTextRun = $section->addTextRun ( 'objectiveParagraph' );
-                            $objTextRun->addText ( 'Objective: ', 'Objective' );
-
-                            foreach($grandChild['fields'] as $field){
+                            foreach ($thChild['fields'] as $field) {
                                 $html_dom->load('<html><body>' . $field['body'] . '</body></html>');
-                                $html_dom_array = $html_dom->find('html',0)->children();
+                                $html_dom_array = $html_dom->find('html', 0)->children();
                                 htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
                                 $html_dom->clear();
                             }
-                        }
-                        if($grandChild['type']=="ca"){
-                            $coaTextRun = $section->addTextRun('actionParagraph');
-                            $coaTextRun->addText ( 'Courses of Action: ', 'COA');
 
-                            foreach($grandChild['fields'] as $field){
-                                $html_dom->load('<html><body>' . $field['body'] . '</body></html>');
-                                $html_dom_array = $html_dom->find('html',0)->children();
-                                htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
-                                $html_dom->clear();
+                            foreach ($thChild['children'] as $key => $grandChild) {
+                                if ($grandChild['type'] == "obj") {
+                                    $objTextRun = $section->addTextRun('objectiveParagraph');
+                                    $objTextRun->addText('Objective: ', 'Objective');
+
+                                    foreach ($grandChild['fields'] as $field) {
+                                        $html_dom->load('<html><body>' . $field['body'] . '</body></html>');
+                                        $html_dom_array = $html_dom->find('html', 0)->children();
+                                        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+                                        $html_dom->clear();
+                                    }
+                                }
                             }
+                            foreach ($thChild['children'] as $key => $grandChild) {
+                                if ($grandChild['type'] == "ca") {
+                                    $coaTextRun = $section->addTextRun('actionParagraph');
+                                    $coaTextRun->addText('Courses of Action: ', 'COA');
+
+                                    foreach ($grandChild['fields'] as $field) {
+                                        $html_dom->load('<html><body>' . $field['body'] . '</body></html>');
+                                        $html_dom_array = $html_dom->find('html', 0)->children();
+                                        htmltodocx_insert_html($section, $html_dom_array[0]->nodes, $this->getStandardSettings('default'));
+                                        $html_dom->clear();
+                                    }
+                                }
+                            }
+
+                            $section->addTextRun('pOStyle')->addText(" ", array('size' => 8));
+
                         }
+
                     }
-
-                    $section->addTextRun ( 'pOStyle' )->addText ( " ", array ('size' => 8) );
-
                 }
 
             }
-
+            $section->addPageBreak(); //New Page
         }
     }
 
@@ -652,7 +698,7 @@ class Report extends CI_Controller{
 
         // Redirect output to a client’s web browser (Word2007)
         header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-        header('Content-Disposition: attachment;filename="reviewers-export.docx"');
+        header('Content-Disposition: attachment;filename="MyEOP.docx"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');

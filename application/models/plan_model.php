@@ -172,6 +172,16 @@ class Plan_model extends CI_Model {
 
     }
 
+    public function updateFn($parent, $fnData){
+        $type = $this->getEntityTypeId('fn');
+
+        $data['name'] = $fnData['name'];
+        $data['title'] = $fnData['title'];
+
+        $this->db->update('eop_entity', $data, array('parent'=>$parent, 'type_id'=>$type));
+        return $this->db->affected_rows();
+    }
+
 
     public function exists($entity_id){
         $query = $this->db->get_where('eop_entity', array('id'=>$entity_id));

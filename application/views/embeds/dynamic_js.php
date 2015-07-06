@@ -17,6 +17,11 @@
                      var pageSchoolElement = $("#slctsubdistrictselection");
                      pageSchoolElement.empty();
 
+                     pageSchoolElement.append($("<option></option>")
+                         .attr("value", '')
+                         .attr("selected", 'selected')
+                         .text("--Select--"));
+
                      $.each(schools, function (key, value) {
                          pageSchoolElement.append($("<option></option>")
                              .attr("value", value.id)
@@ -68,6 +73,16 @@
                      dialogSchoolElement.empty(); // remove the old options
                      pageSchoolElement.empty();
 
+                     pageSchoolElement.append($("<option></option>")
+                         .attr("value", '')
+                         .attr("selected", 'selected')
+                         .text("--Select--"));
+
+                     dialogSchoolElement.append($("<option></option>")
+                         .attr("value", '')
+                         .attr("selected", 'selected')
+                         .text("--Select--"));
+
                      $.each(schools, function(key, value){
                          dialogSchoolElement.append($("<option></option>")
                              .attr("value", value.id)
@@ -115,6 +130,31 @@
                  }
              });
          });
+
+
+         $(document).on('change','#slctsubdistrictselection', function(){
+
+             var form_data = {
+                 ajax:       '1',
+                 school_id:  this.value
+             };
+             $.ajax({
+                 url: "<?php echo base_url('school/attach_to_session'); ?>",
+                 type: 'POST',
+                 data: form_data,
+                 success: function(response){
+                     var ret = JSON.parse(response);
+                     if(ret.loaded){
+                         $("#slctsubdistrictselection").val(ret.school_id);
+                         location.reload();
+                     }
+                     else{
+                         alert ("Error Loading School! Try selecting from the menu drop down.");
+                     }
+                 }
+             });
+         });
+
      </script>
 <?php
  }elseif( $this->session->userdata['role']['level']<3){

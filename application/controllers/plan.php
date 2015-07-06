@@ -2,11 +2,14 @@
 
 class Plan extends CI_Controller{
 
+    var $school_id = null;
+
     public function __construct(){
         parent::__construct();
 
         if($this->session->userdata('is_logged_in')){
             $this->load->model('plan_model');
+            $this->school_id = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : Null;
 
         }
         else{
@@ -55,26 +58,26 @@ class Plan extends CI_Controller{
         $data = array();
 
         if($step==2){
-            $thData = $this->plan_model->getEntities('th');
+            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ));
             if(is_array($thData)){
                 $data['entities'] = $thData;
             }
         }
         elseif($step==3){
-            $thData = $this->plan_model->getEntities('th',null,true);
+            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ), true);
             if(is_array($thData)){
                 $data['entities'] = $thData;
             }
         }
         elseif($step==4){
-            $fnData = $this->plan_model->getEntities('fn', array('parent is not null'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
-            $topLevelFns = $this->plan_model->getEntities('fn', array('parent'=>Null), true, array('orderby'=>'name', 'type'=>'ASC'));
+            $fnData = $this->plan_model->getEntities('fn', array('parent is not null'=>Null, 'sid'=>$this->school_id), true, array('orderby'=>'name', 'type'=>'ASC'));
+            $topLevelFns = $this->plan_model->getEntities('fn', array('parent'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
             $cleanedFns= array();
             foreach($topLevelFns as $key=>$value){
 
                 foreach($fnData as $v){
                     if($value['name'] == $v['name']){
-                        array_push($cleanedFns, $value);
+                        array_push($cleanedFns, $v);
                         break;
                     }
                 }
@@ -101,21 +104,21 @@ class Plan extends CI_Controller{
         $data = array();
 
         if($step==3){
-            $thData = $this->plan_model->getEntities('th',null,true);
+            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ),true);
             if(is_array($thData)){
                 $data['entities'] = $thData;
             }
         }
 
         if($step==4){
-            $fnData = $this->plan_model->getEntities('fn', array('parent is not null'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
-            $topLevelFns = $this->plan_model->getEntities('fn', array('parent'=>Null), true, array('orderby'=>'name', 'type'=>'ASC'));
+            $fnData = $this->plan_model->getEntities('fn', array('parent is not null'=>Null, 'sid'=>$this->school_id), true, array('orderby'=>'name', 'type'=>'ASC'));
+            $topLevelFns = $this->plan_model->getEntities('fn', array('parent'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
             $cleanedFns= array();
             foreach($topLevelFns as $key=>$value){
 
                 foreach($fnData as $v){
                     if($value['name'] == $v['name']){
-                        array_push($cleanedFns, $value);
+                        array_push($cleanedFns, $v);
                         break;
                     }
                 }
@@ -143,21 +146,21 @@ class Plan extends CI_Controller{
         $data = array();
 
         if($step==2){
-            $thData = $this->plan_model->getEntities('th',null,true);
+            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ), true);
             if(is_array($thData)){
                 $data['entities'] = $thData;
                 $data['showActions']=true;
             }
         }
         elseif($step==3) {
-            $fnData = $this->plan_model->getEntities('fn', array('parent is not null' => Null), false, array('orderby' => 'name', 'type' => 'ASC'));
-            $topLevelFns = $this->plan_model->getEntities('fn', array('parent' => Null), true, array('orderby' => 'name', 'type' => 'ASC'));
+            $fnData = $this->plan_model->getEntities('fn', array('parent is not null' => Null, 'sid'=>$this->school_id), true, array('orderby' => 'name', 'type' => 'ASC'));
+            $topLevelFns = $this->plan_model->getEntities('fn', array('parent' => Null), false, array('orderby' => 'name', 'type' => 'ASC'));
             $cleanedFns = array();
             foreach ($topLevelFns as $key => $value) {
 
                 foreach ($fnData as $v) {
                     if ($value['name'] == $v['name']) {
-                        array_push($cleanedFns, $value);
+                        array_push($cleanedFns, $v);
                         break;
                     }
                 }
@@ -169,7 +172,7 @@ class Plan extends CI_Controller{
         }
         elseif($step==4){
 
-            $basicPlanEntities = $this->plan_model->getEntities('bp',null, true, array('orderby'=>'weight', 'type'=>'ASC'));
+            $basicPlanEntities = $this->plan_model->getEntities('bp', array('sid'=>$this->school_id ), true, array('orderby'=>'weight', 'type'=>'ASC'));
             $data['entities'] = $basicPlanEntities;
 
         }
@@ -279,9 +282,9 @@ class Plan extends CI_Controller{
             $param = $this->input->post('param');
 
             if($param=='all' || $param==''){
-                $thData = $this->plan_model->getEntities('th');
+                $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ));
             }else{
-                $p = array('id' =>$param);
+                $p = array('id' =>$param, 'sid'=>$this->school_id);
                 $thData = $this->plan_model->getEntities('th', $p);
             }
 
@@ -377,14 +380,14 @@ class Plan extends CI_Controller{
 
             switch($action){
                 case 'add':
-                    $fnData = $this->plan_model->getEntities('fn', array('parent is not null'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
-                    $topLevelFns = $this->plan_model->getEntities('fn', array('parent'=>Null), true, array('orderby'=>'name', 'type'=>'ASC'));
+                    $fnData = $this->plan_model->getEntities('fn', array('parent is not null'=>Null, 'sid'=>$this->school_id), true, array('orderby'=>'name', 'type'=>'ASC'));
+                    $topLevelFns = $this->plan_model->getEntities('fn', array('parent'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
                     $cleanedFns= array();
                     foreach($topLevelFns as $key=>$value){
 
                         foreach($fnData as $v){
                             if($value['name'] == $v['name']){
-                                array_push($cleanedFns, $value);
+                                array_push($cleanedFns, $v);
                                 break;
                             }
                         }
@@ -643,9 +646,9 @@ class Plan extends CI_Controller{
                         (trim(strtolower($fn2data['name'])) != "--select--") ? $recs = $this->plan_model->addTHFn($fn2data) : $recs = 0;
                         (trim(strtolower($fn3data['name'])) != "--select--") ? $recs = $this->plan_model->addTHFn($fn3data) : $recs = 0;
                     }else{
-                       // (trim(strtolower($fn1data['name'])) != "--select--") ? $recs = $this->plan_model->update($fn1Val, $fn1data) : $recs = 0;
-                       // (trim(strtolower($fn2data['name'])) != "--select--") ? $recs = $this->plan_model->update($fn2Val, $fn2data) : $recs = 0;
-                       // (trim(strtolower($fn3data['name'])) != "--select--") ? $recs = $this->plan_model->update($fn3Val, $fn3data) : $recs = 0;
+                        (trim(strtolower($fn1data['name'])) != "--select--") ? $recs = $this->plan_model->updateFn($g1Id, $fn1data) : $recs = 0;
+                        (trim(strtolower($fn2data['name'])) != "--select--") ? $recs = $this->plan_model->updateFn($g2Id, $fn2data) : $recs = 0;
+                        (trim(strtolower($fn3data['name'])) != "--select--") ? $recs = $this->plan_model->updateFn($g3Id, $fn3data) : $recs = 0;
                     }
 
                     foreach($g1ObjFieldIds as $key=>$value){
@@ -663,7 +666,7 @@ class Plan extends CI_Controller{
                             if($mode=='add') {
                                 (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->addTHFn($fnData) : '';
                             }else{
-                               // (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->update($g1fnVal[$key], $fnData) : '';
+                                (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->updateFn($g1ObjIds[$key], $fnData) : '';
                             }
                         }
                     }
@@ -683,7 +686,7 @@ class Plan extends CI_Controller{
                             if($mode=='add'){
                                 (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->addTHFn($fnData): '';
                             }else{
-                               // (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->update($g2fnVal[$key], $fnData): '';
+                                (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->updateFn($g2ObjIds[$key], $fnData): '';
                             }
                         }
                     }
@@ -703,7 +706,7 @@ class Plan extends CI_Controller{
                             if($mode=='add'){
                                 (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->addTHFn($fnData): '';
                             }else{
-                                //(trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->update($g3fnVal[$key], $fnData): '';
+                                (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->updateFn($g3ObjIds[$key], $fnData): '';
                             }
                         }
                     }
@@ -733,7 +736,7 @@ class Plan extends CI_Controller{
                         );
                         $this->plan_model->addField($fieldData);
 
-                        $fndata = array(
+                        $fnData = array(
                             'name'      =>      $g1fnDataNew[$key],
                             'title'     =>      $g1fnDataNew[$key],
                             'parent'    =>      $insertedEntityId,
@@ -752,7 +755,7 @@ class Plan extends CI_Controller{
                             'owner'     =>      $this->session->userdata('user_id'),
                             'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
                             'type_id'   =>      $this->plan_model->getEntityTypeId('obj', 'name'),
-                            'parent'    =>      $g1Id,
+                            'parent'    =>      $g2Id,
                             'weight'    =>      count($g2ObjData)+$key+1
                         );
                         $insertedEntityId = $this->plan_model->addEntity($entityData);
@@ -767,7 +770,7 @@ class Plan extends CI_Controller{
                         );
                         $this->plan_model->addField($fieldData);
 
-                        $fndata = array(
+                        $fnData = array(
                             'name'      =>      $g2fnDataNew[$key],
                             'title'     =>      $g2fnDataNew[$key],
                             'parent'    =>      $insertedEntityId,
@@ -786,7 +789,7 @@ class Plan extends CI_Controller{
                             'owner'     =>      $this->session->userdata('user_id'),
                             'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
                             'type_id'   =>      $this->plan_model->getEntityTypeId('obj', 'name'),
-                            'parent'    =>      $g1Id,
+                            'parent'    =>      $g3Id,
                             'weight'    =>      count($g3ObjData)+$key+1
                         );
                         $insertedEntityId = $this->plan_model->addEntity($entityData);
@@ -801,7 +804,7 @@ class Plan extends CI_Controller{
                         );
                         $this->plan_model->addField($fieldData);
 
-                        $fndata = array(
+                        $fnData = array(
                             'name'      =>      $g3fnDataNew[$key],
                             'title'     =>      $g3fnDataNew[$key],
                             'parent'    =>      $insertedEntityId,
@@ -812,6 +815,7 @@ class Plan extends CI_Controller{
                         (trim(strtolower($fnData['name'])) != "--select--") ? $this->plan_model->addTHFn($fnData): '';
                     }
 
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -982,6 +986,7 @@ class Plan extends CI_Controller{
                         $this->plan_model->addField($fieldData);
                     }
 
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -1161,6 +1166,7 @@ class Plan extends CI_Controller{
 
                     }
 
+                    $this->session->set_flashdata('success', 'Data was updated Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -1215,6 +1221,7 @@ class Plan extends CI_Controller{
                     }
                 }
 
+                $this->session->set_flashdata('success', 'Data was saved Successfully!');
                 $this->output->set_output(json_encode(array(
                     'saved' =>  TRUE
                 )));
@@ -1224,6 +1231,7 @@ class Plan extends CI_Controller{
                     $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
                 }
 
+                $this->session->set_flashdata('success', 'Data was saved Successfully!');
                 $this->output->set_output(json_encode(array(
                     'saved' =>  TRUE
                 )));
@@ -1289,6 +1297,7 @@ class Plan extends CI_Controller{
                     }
                 }
 
+                $this->session->set_flashdata('success', 'Data was saved Successfully!');
                 $this->output->set_output(json_encode(array(
                     'saved' =>  TRUE
                 )));
@@ -1298,6 +1307,7 @@ class Plan extends CI_Controller{
                     $this->plan_model->updateField($fieldObj['id'], array('body'=>$fieldObj['data']));
                 }
 
+                $this->session->set_flashdata('success', 'Data was saved Successfully!');
                 $this->output->set_output(json_encode(array(
                     'saved' =>  TRUE
                 )));
@@ -1805,6 +1815,7 @@ class Plan extends CI_Controller{
                                 }
                             }
 
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -1871,6 +1882,7 @@ class Plan extends CI_Controller{
                         }
                     }
 
+                    $this->session->set_flashdata('success', 'Data was updated Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));

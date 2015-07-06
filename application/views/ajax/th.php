@@ -47,6 +47,17 @@ if(isset($thData) && is_array($thData) && count($thData)>0) {
             minWidth:       500,
             modal:          true,
             autoOpen:       false,
+            buttons: {
+                "Save": function(){
+
+                    $("#updateThForm").submit();
+
+                    $(this).dialog('close');
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            },
             show:           {
                 effect:     'scale',
                 duration: 300

@@ -39,6 +39,29 @@ $entities = $page_vars['entities'];
 <div class="col-half left">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/forms.css"/>
     <h1>Add/Edit Courses of Action for Threats and Hazards</h1>
+
+    <?php
+    if((null != $this->session->flashdata('error'))):
+        ?>
+        <div id="errorDiv">
+            <div class="notify notify-red">
+                <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+            </div>
+        </div>
+
+    <?php endif; ?>
+
+    <?php
+    if((null != $this->session->flashdata('success'))):
+        ?>
+        <div id="errorDiv">
+            <div class="notify notify-green">
+                <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+            </div>
+        </div>
+
+    <?php endif; ?>
+
     <div id="goalFirstDivToRefresh">
         <table class="results">
             <tr>
@@ -232,7 +255,8 @@ $entities = $page_vars['entities'];
                 type:   'POST',
                 success: function(response){
                     try{
-                        alert(response);
+                        //alert(response);
+                        location.reload();
                     }catch(err){
                         alert('Problem loading controls '+err);
                     }
@@ -290,7 +314,8 @@ $entities = $page_vars['entities'];
                 type:   'POST',
                 success: function(response){
                     try{
-                        alert(response);
+                        //alert(response);
+                        location.reload();
                     }catch(err){
                         alert('Problem loading controls '+err);
                     }

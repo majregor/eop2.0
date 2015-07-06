@@ -12,23 +12,23 @@ CKEDITOR.editorConfig = function( config ) {
 	config.toolbarGroups = [
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-		{ name: 'links' },
-		{ name: 'insert' },
-		{ name: 'forms' },
+		//{ name: 'links' },
+		//{ name: 'insert' },
+		//{ name: 'forms' },
 		{ name: 'tools' },
-		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
-		{ name: 'others' },
-		'/',
+		//{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+		//{ name: 'others' },
+		//'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-		{ name: 'styles' },
-		{ name: 'colors' },
-		{ name: 'about' }
+		{ name: 'paragraph',   groups: [ 'list'/*, 'indent', 'blocks', 'align', 'bidi' */] },
+		//{ name: 'styles' },
+		//{ name: 'colors' },
+		//{ name: 'about' }
 	];
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Underline,Subscript,Superscript';
+	config.removeButtons = 'Underline,Subscript,Superscript,Strike';
 
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';
@@ -38,4 +38,5 @@ CKEDITOR.editorConfig = function( config ) {
 
     //Remove tool tips that appear due to title attribute
     config.title = false;
+    config.removePlugins = 'elementspath';
 };

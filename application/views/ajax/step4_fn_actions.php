@@ -34,7 +34,9 @@
                             </td>
                         </tr>
                     <?php endif; ?>
+                <?php endforeach; ?>
 
+                <?php foreach($fnChild['children'] as $key => $grandChild):  ?>
                     <?php if($grandChild['type']=="ca"): // Get only grandchildren of type ca (Course of Action) ?>
 
                         <tr>
@@ -47,8 +49,8 @@
                                         data-field-id="<?php echo($field['id']);?>"
                                         data-goal-id="<?php echo($fnChild['id']); ?>"
                                         rows="11" style="width:100%">
-                                                <?php echo($field['body']); ?>
-                                            </textarea>
+                                                    <?php echo($field['body']); ?>
+                                                </textarea>
                                 <?php endforeach; ?>
                             </td>
                         </tr>

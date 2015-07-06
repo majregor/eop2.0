@@ -238,14 +238,20 @@
                     g<?php echo($i);?>Items ++;
                     $("#addMoreg<?php echo($i);?>ObjFnRow").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
                     var wdth = $("#g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"").width();
-                    CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
+                    var editor = CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
+                    editor.on( 'change', function( evt ) {
+                        editor.updateElement();
+                    });
 
                 }else{
 
                     g<?php echo($i);?>Items ++;
                     $("#g<?php echo($i);?>Item"+(g<?php echo($i);?>Items-1)+"Fn").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
                     var wdth = $("#g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"").width();
-                    CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
+                    var editor1 = CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
+                    editor1.on( 'change', function( evt ) {
+                        editor1.updateElement();
+                    });
                 }
                 return false;
             });

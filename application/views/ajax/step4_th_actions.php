@@ -62,24 +62,26 @@
                             </td>
                         </tr>
                     <?php endif; ?>
+                <?php endforeach; ?>
 
+                <?php foreach($thChild['children'] as $key => $grandChild): ?>
                     <?php if($grandChild['type']=="ca"): // Get only grandchildren of type ca (Course of Action) ?>
 
-                            <tr>
-                                <td class="txtb">Courses of Action:</td>
-                                <td>
-                                    <?php foreach($grandChild['fields'] as $field): ?>
-                                        <textarea
-                                            name="txt<?php    echo($thChild['type']);?>ca"
-                                            id="txt<?php  echo($thChild['type']);?>ca"
-                                            data-field-id="<?php echo($field['id']);?>"
-                                            data-goal-id="<?php echo($thChild['id']); ?>"
-                                            rows="11" style="width:100%">
+                        <tr>
+                            <td class="txtb">Courses of Action:</td>
+                            <td>
+                                <?php foreach($grandChild['fields'] as $field): ?>
+                                    <textarea
+                                        name="txt<?php    echo($thChild['type']);?>ca"
+                                        id="txt<?php  echo($thChild['type']);?>ca"
+                                        data-field-id="<?php echo($field['id']);?>"
+                                        data-goal-id="<?php echo($thChild['id']); ?>"
+                                        rows="11" style="width:100%">
                                                 <?php echo($field['body']); ?>
                                             </textarea>
-                                    <?php endforeach; ?>
-                                </td>
-                            </tr>
+                                <?php endforeach; ?>
+                            </td>
+                        </tr>
 
                     <?php endif; ?>
                 <?php endforeach; ?>
