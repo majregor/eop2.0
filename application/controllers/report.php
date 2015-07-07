@@ -35,6 +35,8 @@ class Report extends CI_Controller{
             $this->load->model('school_model');
             $this->load->model('plan_model');
             $this->load->model('report_model');
+            $this->load->library('../controllers/school');
+
         }
         else{
             redirect('/login');
@@ -44,10 +46,41 @@ class Report extends CI_Controller{
     public function index(){
 
         $this->authenticate();
-        //$this->make();
+
+        $eligibleSchools = array();
+        $schools_with_data = $this->report_model->getSchoolsWithData();
+
+        if(isset($this->session->userdata['role']['level']) && $this->session->userdata['role']['level'] ==3){//District Admins
+            $data = $this->school->get_schools_in_my_district();
+
+            foreach($schools_with_data as $schoolWithData){
+                foreach($data as $d){
+
+                    if($schoolWithData[0]['id'] == $d['id']){
+                        array_push($eligibleSchools, $schoolWithData);
+                        break;
+                    }
+                }
+            }
+        }
+        else if($this->session->userdata['role']['level'] ==4 || $this->session->userdata['role']['level'] ==5){ //School Admin and User
+            foreach($schools_with_data as $schoolWithData){
+                if($this->session->userdata['loaded_school']['id'] == $schoolWithData[0]['id']){
+                    array_push($eligibleSchools, $schoolWithData);
+                    break;
+                }
+            }
+        }
+        else if($this->session->userdata['role']['level'] ==1){ // Super Admins
+            $eligibleSchools = $schools_with_data;
+        }
+        elseif($this->session->userdata['role']['level']==2){ // State Admins
+
+        }
+
 
         $data = array(
-            //@todo get schools that have plan data...
+            'schools_with_data' => $eligibleSchools
         );
 
         $templateData = array(
@@ -67,6 +100,11 @@ class Report extends CI_Controller{
             $this->school_id = $school_id;
         }
 
+        $school = $this->school_model->getSchool($this->school_id);
+        //Make file name from the school's name
+        $fileName=$school[0]['name'];
+        $fileName = preg_replace("([^\w\s\d\-_~,;:\[\]\(\).])",'', $fileName);
+        $fileName = preg_replace("([\.]{2,})",'',$fileName);
 
         //Get plan data from database
         $form1Data      = $this->plan_model->getEntities('bp', array('name'=>'form1', 'sid'=>$this->school_id), true);
@@ -177,7 +215,7 @@ class Report extends CI_Controller{
         $this->makeTHAnnexes($THData, $section);
 
 
-        $this->flushToBrowser();
+        $this->flushToBrowser($fileName);
 
     }
 
@@ -691,14 +729,15 @@ class Report extends CI_Controller{
 
     }
 
-    function flushToBrowser(){
+    function flushToBrowser($fileName){
 
+        $file = $fileName."_EOP.docx";
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($this->word, 'Word2007');
 
 
         // Redirect output to a client’s web browser (Word2007)
         header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-        header('Content-Disposition: attachment;filename="MyEOP.docx"');
+        header('Content-Disposition: attachment;filename="'.$file.'"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');

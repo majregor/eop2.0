@@ -115,7 +115,11 @@ if(isset($viewform)){
                             echo "<td style='color:#BABABA;'><em>Not shared</em></td>";
                         }
                     }else{
-                        echo "<td>View</td>";
+                        if($value['has_data']) {
+                            echo "<td><a href=".base_url()."report/make/".$value['id'].">View</a></td>";
+                        }else{
+                            echo("<td><span class='grey'>No Data</span></td>");
+                        }
                     }
                 ?>
 

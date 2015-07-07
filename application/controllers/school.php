@@ -28,6 +28,7 @@ class School extends CI_Controller{
             $this->load->model('user_model');
             $this->load->model('school_model');
             $this->load->model('access_model');
+            $this->load->model('report_model');
 
             $host_state = $this->registry_model->getValue('host_state');
             $this->session->set_userdata('host_state', $host_state);
@@ -53,6 +54,17 @@ class School extends CI_Controller{
         $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
         // Get the EOP access setting to the state
         $stateEOPAccess = $this->access_model->getStateAccess();
+
+        //Get schools that have report data
+        foreach($schools as &$school){
+
+            if($this->report_model->hasData($school['id'])){
+                $school['has_data'] = true;
+                $school['last_modified'] = $this->report_model->getLastModifiedDate($school['id']);
+            }else{
+                $school['has_data'] = false;
+            }
+        }
 
         if($role['level']<4){ // If not a Super, State or District admin don't load
             $templateData = array(
@@ -203,7 +215,7 @@ class School extends CI_Controller{
      * AJAX Action returns schools in a requested user's district
      * @method get_schools_in_my_district
      */
-    public function get_schools_in_my_district(){
+    public function get_schools_in_my_district($user = ''){
         if($this->input->post('ajax')){ // If form was submitted using ajax
 
             $user_id = $this->input->post('user_id');
@@ -213,8 +225,18 @@ class School extends CI_Controller{
 
             $this->output->set_output(json_encode($schools));
         }
-        else{ // Do nothing
+        else{
+            if($user==''){
+                $user_id = $this->session->userdata('user_id');
+            }else{
+                $user_id = $user;
+            }
 
+            $district_id = $this->user_model->getUserDistrict($user_id)[0]['did'];
+
+            $schools = $this->school_model->getDistrictSchools($district_id);
+
+            return $schools;
         }
     }
 
