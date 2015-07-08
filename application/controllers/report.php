@@ -532,6 +532,8 @@ class Report extends CI_Controller{
 
             $section->addTitle('Functional Annexes', 1);
             $html_dom = $this->simple_html_dom;
+            $numItems= count($data);
+            $i = 0;
 
             foreach ($data as $function) {
 
@@ -577,14 +579,19 @@ class Report extends CI_Controller{
                                     }
                                 }
                             }
-
                             $section->addTextRun('pOStyle')->addText(" ", array('size' => 8));
-
                         }
                     }
                 }
+
+                if(++$i === $numItems){ //Last item
+                    //Do nothing
+                }else{
+                    $section->addPageBreak(); //New Page
+                }
+
             }
-            $section->addPageBreak(); //New Page
+
         }
 
     }
@@ -593,6 +600,8 @@ class Report extends CI_Controller{
         if(is_array($data) && count($data)>0) {
             $section->addTitle('Threat- and Hazard-Specific Annexes', 1);
             $html_dom = $this->simple_html_dom;
+            $numItems= count($data);
+            $i = 0;
 
             foreach ($data as $threat) {
                 $section->addTitle($threat['name'], 2);
@@ -637,16 +646,17 @@ class Report extends CI_Controller{
                                     }
                                 }
                             }
-
                             $section->addTextRun('pOStyle')->addText(" ", array('size' => 8));
-
                         }
-
                     }
                 }
 
+                if(++$i === $numItems){ //Last item
+                    //Do nothing
+                }else{
+                    $section->addPageBreak(); //New Page
+                }
             }
-            $section->addPageBreak(); //New Page
         }
     }
 

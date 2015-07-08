@@ -185,7 +185,8 @@ class User_model extends CI_Model {
                 if(null != $schoolId){
                     $this->db->select('A.*')
                         ->from('eop_view_user A')
-                        ->where(array('school_id'=> $schoolId));
+                        ->where(array('school_id'=> $schoolId))
+                        ->where_in('role_id', array(4,5));
 
                     $query = $this->db->get();
 
@@ -297,6 +298,12 @@ class User_model extends CI_Model {
             if($userRole['level'] == 4 && $value['level']==4){
                 array_push($cleanRoleData, $value);
             }
+
+            //Add District admins to enable district admins add fellow district admins
+            if($userRole['level'] == 3 && $value['level']==3){
+                array_push($cleanRoleData, $value);
+            }
+
             //Add State admins to enable state admins add fellow state admins
             if($userRole['level'] == 2 && $value['level']==2){
                 array_push($cleanRoleData, $value);

@@ -193,6 +193,8 @@ if(isset($viewform)){
 
         var selectedDistrict = $('#sltdistrict').val();
         var toggleNone = false;
+        var appendedRole = false;
+        var appendedValue = null;
 
         var form_data = {
             ajax:           '1',
@@ -345,6 +347,15 @@ if(isset($viewform)){
             show:           {
                 effect:     'scale',
                 duration: 300
+            },
+            buttons: {
+                "Reset Password": function(){
+                    $("#pwd_form").submit();
+                },
+                Cancel: function() {
+                    $("#pwd_form")[0].reset();
+                    $( this ).dialog( "close" );
+                }
             }
         });
 
@@ -400,14 +411,30 @@ if(isset($viewform)){
 
 
                 if(role==<?php echo($role['role_id']); ?>){
-                    $('#slctuserrole_update').append($("<option></option>").attr("value", role).text("<?php echo($role['role']); ?>"));
+                    if($("#slctuserrole_update option[value='"+role+"']").length >0){ // Check if the value exists
+
+                    }else{ // If it doesn't exist, add one
+
+                        $('#slctuserrole_update').append($("<option></option>").attr("value", role).text("<?php echo($role['role']); ?>"));
+                        appendedRole = true;
+                        appendedValue = role;
+                    }
+
                     $('#slctuserrole_update').attr("disabled", true);
+
+                }else{
+                    $('#slctuserrole_update').attr("disabled", false);
+                    if(appendedRole){
+                        $("#slctuserrole_update option[value='"+appendedValue+"']").remove();
+                        appendedRole = false;
+                        appendedValue=null;
+                    }
                 }
                 $('#slctuserrole_update').val(role);
 
                 if(role >= 2){
 
-                    <?php if($role['level']==3): ?> // If logged in as a district admin, show the school to enable schoo changes
+                    <?php if($role['level']==3): ?> // If logged in as a district admin, show the school to enable school changes
                         if(role >3){
                             $('#SchoolInputHolder').show();
                             $('#sltschool_update').val(school);
@@ -445,6 +472,8 @@ if(isset($viewform)){
                 return false;
             });
 
+
+
             $("#update-user-dialog").dialog({
                 resizable:      false,
                 minHeight:      300,
@@ -454,6 +483,15 @@ if(isset($viewform)){
                 show:           {
                     effect:     'scale',
                     duration: 300
+                },
+                buttons: {
+                    "Update": function(){
+                        $("#update_user_form").submit();
+                    },
+                    Cancel: function() {
+                        $("#update_user_form")[0].reset();
+                        $( this ).dialog( "close" );
+                    }
                 }
             });
 

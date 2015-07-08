@@ -51,14 +51,14 @@ echo form_open('user/resetpwd', array('class'=>'pwd_form', 'id'=>'pwd_form'));
     </p>
 </fieldset>
             <?php
-            $attributes = array(
+/*            $attributes = array(
                 'name'  =>  'reset_pwd',
                 'value' =>  'Reset Password',
                 'id'    =>  'reset_pwd',
                 'style' =>  ''
             );
-            ?>
-            <?php echo form_submit($attributes); ?>
+            */?><!--
+            --><?php /*echo form_submit($attributes); */?>
 
 <?php
 echo form_close();

@@ -94,12 +94,12 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         <label for="slctuserrole_update">User Role</label>
         <?php
         $options = array();
-        $options['empty'] = '--Select--';
+        //$options['empty'] = '--Select--';
         foreach($roles as $rowIndex => $row){
             $options[$row['role_id']] = $row['title'];
         }
 
-        $otherAttributes = 'id="slctuserrole_update" disabled="disabled" style=""';
+        $otherAttributes = 'id="slctuserrole_update"  style=""';
         reset($options);
         $first_key = key($options);
         echo form_dropdown('slctuserrole_update', $options, "$first_key", $otherAttributes);
@@ -157,13 +157,73 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
     </p>
 </fieldset>
 <?php
-$attributes = array(
+/*$attributes = array(
     'name'  =>  'update_user_submit',
     'value' =>  'Update',
     'id'    =>  'update_user_submit',
     'style' =>  ''
 );
-?>
-<?php echo form_submit($attributes); ?>
+*/?><!--
+--><?php /*echo form_submit($attributes); */?>
 
 <?php echo(form_close()); ?>
+
+<script>
+    $(document).ready(function(){
+        $("#slctuserrole_update").change(function(){
+            if($(this).val()==3){
+                $("#districtInputHolder").show();
+            }
+            else if($(this).val()==4 || $(this).val()==5){
+                $("#districtInputHolder").show();
+                $("#SchoolInputHolder").show();
+            }
+            else if($(this).val()==1 || $(this).val()==2){
+                $("#districtInputHolder").hide();
+                $("#SchoolInputHolder").hide();
+            }
+        });
+
+
+        $("#sltdistrict_update").change(function(){
+            var district_id = $(this).val();
+            get_schools_in_district(district_id);
+        });
+
+
+
+
+
+
+
+        function get_schools_in_district(district_id){
+            //  alert(this.value);
+            var form_data = {
+                ajax:           '1',
+                district_id:    (district_id != 'Null') ? district_id : -1
+            };
+
+
+            $.ajax({
+                url: "<?php echo base_url('school/get_schools_in_district'); ?>",
+                type: 'POST',
+                data: form_data,
+                success: function (response) {
+                    var schools = JSON.parse(response);
+                    var schoolElement = $("#sltschool_update");
+                    schoolElement.empty(); // remove the old options
+
+                    schoolElement.append($("<option></option>")
+                        .attr("value", "")
+                        .text("--Select--"));
+
+                    $.each(schools, function (key, value) {
+                        schoolElement.append($("<option></option>")
+                            .attr("value", value.id)
+                            .text(value.name));
+                    });
+                }
+            });
+        }
+    });
+</script>
