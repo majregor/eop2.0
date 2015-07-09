@@ -12,7 +12,7 @@
 <?php for($i=1; $i<=3; $i++): ?>
             <table class="editOne">
                 <tr>
-                    <td class="txtb" >Goal 1 (Before)</td>
+                    <td class="txtb" ><?php echo(($i==1)? "Goal 1 (Before):" : (($i==2)? "Goal 2 (During):":"Goal 3 (After):")); ?></td>
                     <td>
                             <textarea
                                 name="txt<?php echo($i);?>"
@@ -23,7 +23,7 @@
                 </tr>
 
                 <tr>
-                    <td class="txnorm">Objective:</td>
+                    <td class="txtnorm">Objective:</td>
                     <td>
 
                             <textarea

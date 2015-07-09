@@ -212,13 +212,22 @@ if(isset($viewform)){
 
             $("#update-school-dialog").dialog({
                 resizable:      false,
-                minHeight:      300,
+                minHeight:      200,
                 minWidth:       500,
                 modal:          true,
                 autoOpen:       false,
                 show:           {
                     effect:     'scale',
                     duration: 300
+                },
+                buttons: {
+                    "Update": function(){
+                        $("#update_school_form").submit();
+                    },
+                    Cancel: function() {
+                        $("#update_school_form")[0].reset();
+                        $( this ).dialog( "close" );
+                    }
                 }
             });
 

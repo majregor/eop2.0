@@ -25,6 +25,7 @@ echo form_open('school/update', array('class'=>'update_school_form', 'id'=>'upda
         ?>
 
     </p>
+    <p>&nbsp;</p>
     <p>
         <span class="required">&nbsp;</span>
         <label for="screen_name_update">Screen Name:</label>
@@ -40,15 +41,5 @@ echo form_open('school/update', array('class'=>'update_school_form', 'id'=>'upda
     </p>
 
 </fieldset>
-
-<?php
-$attributes = array(
-    'name'  =>  'update_school_submit',
-    'value' =>  'Update',
-    'id'    =>  'update_school_submit',
-    'style' =>  ''
-);
-?>
-<?php echo form_submit($attributes); ?>
 
 <?php echo(form_close()); ?>

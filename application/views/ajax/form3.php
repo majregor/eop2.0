@@ -88,7 +88,8 @@ $(document).ready(function(){
             type:   'POST',
             success: function(response){
                 try{
-                    alert(response);
+                    //alert(response);
+                    location.reload();
 
                 }catch(err){
                     alert('Problem loading controls ' + err);

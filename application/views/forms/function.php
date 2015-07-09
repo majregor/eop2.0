@@ -23,19 +23,6 @@ echo form_open('', array('class'=>'newFnForm', 'id'=>'newFnForm'));
             ?>
         </p>
     </fieldset>
-
-<?php
-$attributes = array(
-    'name'  =>  'savefnbtn',
-    'value' =>  'Save',
-    'id'    =>  'savefnbtn',
-    'style' =>  ''
-);
-?>
-
-
-<?php echo form_submit($attributes); ?>
-
 <?php
 echo form_close();
 ?>

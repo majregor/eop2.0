@@ -2012,7 +2012,7 @@ class Plan extends CI_Controller{
                     $this->plan_model->addField($fieldData);
 
 
-
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2032,6 +2032,7 @@ class Plan extends CI_Controller{
                     $this->plan_model->updateField($situationFieldId, array('body'=>$situationField));
                     $this->plan_model->updateField($assumptionsFieldId, array('body'=>$assumptionsField));
 
+                    $this->session->set_flashdata('success', 'Data was Updated Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2089,6 +2090,7 @@ class Plan extends CI_Controller{
                     );
                     $this->plan_model->addField($fieldData);
 
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2104,6 +2106,7 @@ class Plan extends CI_Controller{
                     $this->plan_model->updateField($conceptFieldId, array('body'=>$conceptField));
 
 
+                    $this->session->set_flashdata('success', 'Data was updated Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2161,6 +2164,7 @@ class Plan extends CI_Controller{
                     );
                     $this->plan_model->addField($fieldData);
 
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2176,6 +2180,7 @@ class Plan extends CI_Controller{
                     $this->plan_model->updateField($orgFieldId, array('body'=>$orgField));
 
 
+                    $this->session->set_flashdata('success', 'Data was updated Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2233,6 +2238,7 @@ class Plan extends CI_Controller{
                     );
                     $this->plan_model->addField($fieldData);
 
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2247,7 +2253,7 @@ class Plan extends CI_Controller{
 
                     $this->plan_model->updateField($directionFieldId, array('body'=>$directionField));
 
-
+                    $this->session->set_flashdata('success', 'Data was updated Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2305,6 +2311,7 @@ class Plan extends CI_Controller{
                     );
                     $this->plan_model->addField($fieldData);
 
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2319,7 +2326,7 @@ class Plan extends CI_Controller{
 
                     $this->plan_model->updateField($infoFieldId, array('body'=>$infoField));
 
-
+                    $this->session->set_flashdata('success', 'Data was updated Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2377,6 +2384,7 @@ class Plan extends CI_Controller{
                     );
                     $this->plan_model->addField($fieldData);
 
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2391,7 +2399,7 @@ class Plan extends CI_Controller{
 
                     $this->plan_model->updateField($trainingFieldId, array('body'=>$trainingField));
 
-
+                    $this->session->set_flashdata('success', 'Data was updated Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2449,6 +2457,7 @@ class Plan extends CI_Controller{
                     );
                     $this->plan_model->addField($fieldData);
 
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2463,7 +2472,7 @@ class Plan extends CI_Controller{
 
                     $this->plan_model->updateField($adminFieldId, array('body'=>$adminField));
 
-
+                    $this->session->set_flashdata('success', 'Data was updated Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2521,6 +2530,7 @@ class Plan extends CI_Controller{
                     );
                     $this->plan_model->addField($fieldData);
 
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2536,6 +2546,7 @@ class Plan extends CI_Controller{
                     $this->plan_model->updateField($planFieldId, array('body'=>$planField));
 
 
+                    $this->session->set_flashdata('success', 'Data was updated Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2593,6 +2604,7 @@ class Plan extends CI_Controller{
                     );
                     $this->plan_model->addField($fieldData);
 
+                    $this->session->set_flashdata('success', 'Data was saved Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));
@@ -2607,7 +2619,7 @@ class Plan extends CI_Controller{
 
                     $this->plan_model->updateField($authFieldId, array('body'=>$authField));
 
-
+                    $this->session->set_flashdata('success', 'Data was updated Successfully!');
                     $this->output->set_output(json_encode(array(
                         'saved' =>  TRUE
                     )));

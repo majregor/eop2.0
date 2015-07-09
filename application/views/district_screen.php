@@ -160,12 +160,21 @@ if(isset($viewform)){
             $("#update-district-dialog").dialog({
                 resizable:      false,
                 minHeight:      200,
-                minWidth:       300,
+                minWidth:       400,
                 modal:          true,
                 autoOpen:       false,
                 show:           {
                     effect:     'scale',
                     duration: 300
+                },
+                buttons: {
+                    "Update": function(){
+                        $("#update_district_form").submit();
+                    },
+                    Cancel: function() {
+                        $("#update_district_form")[0].reset();
+                        $( this ).dialog( "close" );
+                    }
                 }
             });
 

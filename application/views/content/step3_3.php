@@ -279,6 +279,15 @@ $entities = $page_vars['entities'];
             show:           {
                 effect:     'scale',
                 duration: 200
+            },
+            buttons: {
+                "Save": function(){
+                    $("#newFnForm").submit();
+                },
+                Cancel: function() {
+                    $("#newFnForm")[0].reset();
+                    $( this ).dialog( "close" );
+                }
             }
         });
 

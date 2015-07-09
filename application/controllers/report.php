@@ -43,6 +43,31 @@ class Report extends CI_Controller{
         }
     }
 
+    public function test(){
+        $source = "Text.docx";
+
+        //echo date('H:i:s'), " Reading contents from `{$source}`";
+        $phpword = \PhpOffice\PhpWord\IOFactory::load($source);
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpword, 'HTML');
+
+        $objWriter->save("php://output");
+
+        /*$sections = $phpword->getSections();
+        foreach($sections as $section){
+
+            foreach ($section->getElements() as $key=>$element){
+                if(get_class($element) === 'PhpOffice\PhpWord\Element\Text'){
+                    echo("yes");
+                }
+                if(is_a($element, 'PhpOffice\PhpWord\Element\Text')){
+                    print_r( $element->getFontStyle()); echo  "<br>";
+                }
+            }
+
+        }*/
+    }
+
     public function index(){
 
         $this->authenticate();
