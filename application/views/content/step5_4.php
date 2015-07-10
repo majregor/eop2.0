@@ -48,6 +48,9 @@ if((null != $this->session->flashdata('success'))):
     </p>
 </div>
 
+<div class="col-half left" id="upload-div">
+    <iframe src="<?php echo base_url('upload'); ?>" style="width:100%; border:0px; padding:0px; margin: 0px;" id="upload-iframe" onload="iframeLoaded()" scrolling="no"></iframe>
+</div>
 
 
 
@@ -443,11 +446,32 @@ if((null != $this->session->flashdata('success'))):
 
     $(document).ready(function() {
 
+
         $("a#rightArrowButton").attr("href", "<?php echo(base_url('plan/step5/5')); ?>"); //Next
 
         $("a#leftArrowButton").attr("href", "<?php echo(base_url('plan/step5/3')); ?>"); //Previous
 
+
+        //alert($("#upload-iframe").height());
+        //alert($("#upload-div").height());//@todo Stopped here
+        setInterval(function(){
+                //$("#upload-div").height($("#upload-iframe")body.scrollHeight);
+                var d = document.getElementById("upload-iframe");
+                alert(d.document.body.scrollheight);
+            },
+            5000
+        );
     }); // End $(document).ready function
+
+
+    function iframeLoaded(){
+        var iFrameID = document.getElementById('upload-iframe');
+        if(iFrameID){
+            iFrameID.height ="";
+            iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + "px";
+        }
+    }
+
 
     $(document).on('click', '.showAddForm', function(){
 
