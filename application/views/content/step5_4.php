@@ -42,7 +42,7 @@ if((null != $this->session->flashdata('success'))):
     <p>Your planning team will begin developing a draft of the school EOP with the Basic Plan section. The Basic Plan section provides an overview of the school’s approach to emergency operations and often consists of several subsections, as listed below. You may manually create the Basic Plan section by clicking the Add button for each of the subsections below and then following the directions for that subsection. If you are modifying previously saved subsections, please click the Edit button for the corresponding subsection.</p>
     <p>If your school or district already has an up-to-date Basic Plan section (provided as a Microsoft Word document), you may upload the Basic Plan into EOP ASSIST.
         In order to integrate it into your school EOP, you will need to manually cut and paste this section into the downloaded school EOP found in
-        the <a href="report_static.php" target="_blank" >My EOP</a> feature. To upload your Basic Plan section, click the Browse button below and select the appropriate file.
+        the <a href="<?php echo base_url(); ?>report" id="reportManagementLink">My EOP</a> feature. To upload your Basic Plan section, click the Browse button below and select the appropriate file.
         After the page is refreshed, your uploaded Basic Plan will be found in the first row of the table below. Only one uploaded Basic Plan section will be saved in EOP ASSIST
         at a time and must be separately downloaded from this page and inserted each time the school EOP is downloaded.<br />
     </p>
@@ -452,15 +452,6 @@ if((null != $this->session->flashdata('success'))):
         $("a#leftArrowButton").attr("href", "<?php echo(base_url('plan/step5/3')); ?>"); //Previous
 
 
-        //alert($("#upload-iframe").height());
-        //alert($("#upload-div").height());//@todo Stopped here
-        setInterval(function(){
-                //$("#upload-div").height($("#upload-iframe")body.scrollHeight);
-                var d = document.getElementById("upload-iframe");
-                alert(d.document.body.scrollheight);
-            },
-            5000
-        );
     }); // End $(document).ready function
 
 
@@ -468,7 +459,8 @@ if((null != $this->session->flashdata('success'))):
         var iFrameID = document.getElementById('upload-iframe');
         if(iFrameID){
             iFrameID.height ="";
-            iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + "px";
+            var h =iFrameID.contentWindow.document.body.scrollHeight;
+            iFrameID.height = (100+h) + "px";
         }
     }
 

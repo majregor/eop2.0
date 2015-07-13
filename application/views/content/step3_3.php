@@ -55,21 +55,47 @@ $entities = $page_vars['entities'];
                 <th scope="col">Goals and Objectives</th>
             </tr>
             <?php foreach($entities as $key=>$value): ?>
-                <tr>
-                    <td><?php echo $value['name']; ?></td>
-                    <td align="center">
-                        <?php if(isset($value['fields']) && count($value['fields'])>0): ?>
-                            <a href="#" id="<?php echo $value['id'];?>" class="editFieldsLink">Edit</a>
+
+                <?php if(isset($value['fields']) && count($value['fields'])>0): ?>
+                    <tr>
+                        <td><?php echo $value['name']; ?></td>
+                        <td align="center">
+                        <?php if($value['description'] == 'live' || !empty($value['description'])): ?>
+                            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                                <a href="#" id="<?php echo $value['id'];?>" class="editFieldsLink">Edit</a
+                            <?php else: ?>
+                                <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View</a>
+                            <?php endif; ?>
                         <?php else: ?>
-                            <a href="#" id="<?php echo $value['id'];?>" class="addFieldsLink">Add</a>
+                                <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View</a>
                         <?php endif; ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <div class="fieldsContainer" id="container-<?php echo $value['id'];?>"></div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="fieldsContainer" id="container-<?php echo $value['id'];?>"></div>
+                        </td>
+                    </tr>
+                <?php else: ?>
+                                <?php if($value['description'] == 'live' || !empty($value['description'])): ?>
+                                    <tr>
+                                        <td><?php echo $value['name']; ?></td>
+                                        <td align="center">
+                                            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                                                <a href="#" id="<?php echo $value['id'];?>" class="addFieldsLink">Add</a>
+                                                <?php else: ?>
+                                                    No data to view
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="fieldsContainer" id="container-<?php echo $value['id'];?>"></div>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+                <?php endif; ?>
+
             <?php endforeach; ?>
         </table>
     </div>

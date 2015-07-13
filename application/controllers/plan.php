@@ -2644,13 +2644,49 @@ class Plan extends CI_Controller{
         }
     }
 
-    public function sessionSetSelectedTHs(){
-        $this->session->unset_userdata('selected_ths');
+    public function setSelectedTHs(){
+        $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ));
 
         if($this->input->post('ajax') && $this->input->post('THids')){
             $THids = $this->input->post('THids');
 
-            $this->session->set_userdata('selected_ths', $THids);
+            foreach($thData as $THentity){
+                if(in_array($THentity['id'], $THids)){
+                    //Update entity and set description to live
+                    $this->plan_model->update($THentity['id'], array('description'=>'live'));
+                }else{
+                    //update entity and set description to offline
+                    $this->plan_model->update($THentity['id'], array('description'=>'offline'));
+                }
+            }
+
+            $this->output->set_output(json_encode(array(
+                'set' =>  TRUE
+            )));
+        }else{
+            foreach($thData as $THentity){
+
+                //update entity and set description to offline
+                $this->plan_model->update($THentity['id'], array('description'=>'offline'));
+
+            }
+
+            $this->output->set_output(json_encode(array(
+                'set' =>  TRUE
+            )));
+
+        }
+
+
+    }
+
+    public function updateSelectedTH(){
+        if($this->input->post('ajax')){
+            $THid = $this->input->post('THid');
+            $value = $this->input->post('value');
+            $vString = ($value==1)? "live" : "offline";
+
+            $this->plan_model->update($THid, array('description'=>$vString));
 
             $this->output->set_output(json_encode(array(
                 'set' =>  TRUE

@@ -30,10 +30,9 @@
                     <td><?php echo $value['name']; ?></td>
                     <td align="center">
                         <?php
-                            $attr="";
-                            if(isset($this->session->userdata['selected_ths'])){
-                                $attr = (in_array($value['id'], $this->session->userdata['selected_ths'] )) ? "checked='checked'": "";
-                            }
+
+                                $attr = ($value['description'] == 'live' ) ? "checked='checked'": "";
+
                         ?>
                         <input type="checkbox" class="checkBoxSelection" <?php echo $attr; ?> name="<?php echo $value['id'];?>" id="<?php echo $value['id'];?>" value="<?php echo $value['id']; ?>"/>
                     </td>
@@ -60,6 +59,49 @@
             //return false;
         });
 
+        $(".checkBoxSelection").change(function(){
+            var value = null;
+            var THid = $(this).val();
+
+            if($(this).is(":checked")){
+                value = 1;
+            }
+            else{
+                value = 0;
+            }
+
+            updateSelectedTh(THid, value);
+        });
+
+        function updateSelectedTh(id, value){
+            var formData = {
+                'ajax'  :       '1',
+                'THid' :       id,
+                'value':    value
+            }
+
+            $.ajax({
+                url: '<?php echo(base_url('plan/updateSelectedTH')); ?>',
+                data: formData,
+                type:'POST',
+                async: false, // Prevents page from navigating to other page before ajax call completes
+                success:function(response){
+                    try{
+                        var res = JSON.parse(response);
+                        if(res.set==true){
+                            //alert(response);
+                        }
+                        else{
+                            alert("No Threats and Hazards Selected");
+                        }
+                    }
+                    catch(err){
+                        //alert("Remote Server error! " + err.message);
+                    }
+                }
+            });
+        }
+
         function setSelectedThs(data){
 
             var formData = {
@@ -68,7 +110,7 @@
             }
 
             $.ajax({
-                url: '<?php echo(base_url('plan/sessionSetSelectedTHs')); ?>',
+                url: '<?php echo(base_url('plan/setSelectedTHs')); ?>',
                 data: formData,
                 type:'POST',
                 async: false, // Prevents page from navigating to other page before ajax call completes

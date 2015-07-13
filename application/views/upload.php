@@ -34,9 +34,9 @@
 </ul>
 <div style="display:block; height: 20px; width: 100%;"></div>
 <div style="padding-left:30px;">
-    <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+    <form id="fileupload" action="<?php echo base_url(); ?>uploads/" method="POST" enctype="multipart/form-data">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
-        <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
+        <noscript><input type="hidden" name="redirect" value="<?php echo base_url(); ?>upload"></noscript>
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
             <div class="col-lg-7">
@@ -46,6 +46,7 @@
                     <span>Select File...</span>
                     <input type="file" name="files[]" multiple>
                 </span>
+                <!--
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
                     <span>Start upload</span>
@@ -59,8 +60,8 @@
                     <span>Delete</span>
                 </button>
                 <input type="checkbox" class="toggle">
-                <!-- The global file processing state -->
-                <span class="fileupload-process"></span>
+                <!-- The global file processing state
+                <span class="fileupload-process"></span>-->
             </div>
             <!-- The global progress state -->
             <div class="col-lg-5 fileupload-progress fade">
@@ -195,7 +196,86 @@
 <!-- The File Upload user interface plugin -->
 <script src="<?php echo base_url(); ?>assets/js/upload/jquery.fileupload-ui.js"></script>
 <!-- The main application script -->
-<script src="<?php echo base_url(); ?>assets/js/upload/main.js"></script>
+<script>
+    /*
+     * jQuery File Upload Plugin JS Example 8.9.1
+     * https://github.com/blueimp/jQuery-File-Upload
+     *
+     * Copyright 2010, Sebastian Tschan
+     * https://blueimp.net
+     *
+     * Licensed under the MIT license:
+     * http://www.opensource.org/licenses/MIT
+     */
+
+    /* global $, window */
+
+    $(function () {
+        'use strict';
+
+        // Initialize the jQuery File Upload widget:
+        $('#fileupload').fileupload({
+            // Uncomment the following to send cross-domain cookies:
+            //xhrFields: {withCredentials: true},
+            //url: '/server/php/'
+            url: '<?php echo base_url(); ?>uploads/'
+        });
+
+        // Enable iframe cross-domain access via redirect option:
+        $('#fileupload').fileupload(
+            'option',
+            'redirect',
+            window.location.href.replace(
+                /\/[^\/]*$/,
+                '/cors/result.html?%s'
+            )
+        );
+
+        if (window.location.hostname === 'blueimp.github.io') {
+            // Demo settings:
+            $('#fileupload').fileupload('option', {
+                url: '//jquery-file-upload.appspot.com/',
+                // Enable image resizing, except for Android and Opera,
+                // which actually support image resizing, but fail to
+                // send Blob objects via XHR requests:
+                disableImageResize: /Android(?!.*Chrome)|Opera/
+                    .test(window.navigator.userAgent),
+                maxFileSize: 999000,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+            });
+            // Upload server status check for browsers with CORS support:
+            if ($.support.cors) {
+                $.ajax({
+                    url: '//jquery-file-upload.appspot.com/',
+                    type: 'HEAD'
+                }).fail(function () {
+                    $('<div class="alert alert-danger"/>')
+                        .text('Upload server currently unavailable - ' +
+                        new Date())
+                        .appendTo('#fileupload');
+                });
+            }
+        } else {
+            // Load existing files:
+            $('#fileupload').addClass('fileupload-processing');
+            $.ajax({
+                // Uncomment the following to send cross-domain cookies:
+                //xhrFields: {withCredentials: true},
+                url: $('#fileupload').fileupload('option', 'url'),
+                dataType: 'json',
+                context: $('#fileupload')[0]
+            }).always(function () {
+                $(this).removeClass('fileupload-processing');
+            }).done(function (result) {
+
+                $(this).fileupload('option', 'done')
+                    .call(this, $.Event('done'), {result: result});
+            });
+        }
+
+    });
+
+</script>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 <!--[if (gte IE 8)&(lt IE 10)]>
 <script src="<?php echo base_url(); ?>assets/js/upload/cors/jquery.xdr-transport.js"></script>

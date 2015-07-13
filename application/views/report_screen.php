@@ -8,12 +8,18 @@ $role_level = $this->session->userdata['role']['level'];
     <table border="0" width="100%">
         <tr style="background:#eee">
             <td>Date</td>
+            <?php if($role_level<=3): ?>
+            <td>School</td>
+            <?php endif; ?>
             <td>School EOP</td>
         </tr>
 
         <?php foreach($schoolsData as $key => $school): ?>
             <tr>
                 <td><?php echo($school[0]['last_modified']); ?></td>
+                <?php if($role_level<=3): ?>
+                    <td><?php echo($school[0]['name']); ?></td>
+                <?php endif; ?>
                 <td>
                     <a href="<?php echo base_url(); ?>report/make/<?php echo($school[0]['id']); ?>">Download</a>
                 </td>

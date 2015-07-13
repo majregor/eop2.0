@@ -360,7 +360,7 @@ class User_model extends CI_Model {
 
     public function getUserRole($uid){
       
-        $this->db->select('A.user_id, B.*')
+        $this->db->select('A.user_id, A.read_only, B.*')
                 ->from('eop_user A')
                 ->join('eop_user_roles B', 'A.role_id=B.role_id')
                 ->where(array('A.user_id'=>$uid));
@@ -383,7 +383,8 @@ class User_model extends CI_Model {
             'edit_user'             => $result[0]['edit_user'],
             'alter_state_access'    => $result[0]['alter_state_access'],
             'edit_entity'           => $result[0]['edit_entity'],
-            'level'                 => $result[0]['level']
+            'level'                 => $result[0]['level'],
+            'read_only'             => $result[0]['read_only']
             );
 
         return $permissionsData;
@@ -391,7 +392,7 @@ class User_model extends CI_Model {
 
     public function getUserRoleByUsername($username){
 
-        $this->db->select('A.user_id, A.username, B.*')
+        $this->db->select('A.user_id, A.username, A.read_only, B.*')
             ->from('eop_user A')
             ->join('eop_user_roles B', 'A.role_id=B.role_id')
             ->where(array('A.username'=>$username));
@@ -414,7 +415,8 @@ class User_model extends CI_Model {
             'edit_user'             => $result[0]['edit_user'],
             'alter_state_access'    => $result[0]['alter_state_access'],
             'edit_entity'           => $result[0]['edit_entity'],
-            'level'                 => $result[0]['level']
+            'level'                 => $result[0]['level'],
+            'read_only'             => $result[0]['read_only']
         );
 
         return $permissionsData;

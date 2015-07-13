@@ -34,6 +34,7 @@ class Upload extends CI_Controller{
         $this->load->view('upload');
     }
 
+
     /**
      * Function checks if user is logged in, redirects to login page if not.
      * @method authenticate

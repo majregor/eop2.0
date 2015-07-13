@@ -72,6 +72,10 @@ class Report extends CI_Controller{
 
         $this->authenticate();
 
+        if($this->session->userdata['role']['level']==2){
+            redirect('school');
+        }
+
         $eligibleSchools = array();
         $schools_with_data = $this->report_model->getSchoolsWithData();
 
@@ -156,7 +160,7 @@ class Report extends CI_Controller{
             }
         }
 
-        $THData  = $this->plan_model->getEntities('th',array('sid'=>$this->school_id), true);
+        $THData  = $this->plan_model->getEntities('th',array('sid'=>$this->school_id, 'description'=>'live'), true);
 
 
         $this->word->setDefaultFontSize(12);

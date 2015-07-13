@@ -15,11 +15,11 @@
 
 
 <div class="col-half left">
-    <p>Congratulations!  Your planning team has just finished the first draft of your school EOP. The  content of your plan is now viewable using the <a href="report_static.php" target="_blank">My EOP</a> export feature and is  ready for your planning team&rsquo;s review. </p>
+    <p>Congratulations!  Your planning team has just finished the first draft of your school EOP. The  content of your plan is now viewable using the <a href="<?php echo base_url(); ?>report" id="reportManagementLink">My EOP</a> export feature and is  ready for your planning team&rsquo;s review. </p>
     <p>To  review your draft plan, please take the following steps:</p>
 
     <blockquote>
-        <p>1.Visit <a href="report_static.php" target="_blank">My EOP</a> and then export your plan to Microsoft Word.</p>
+        <p>1.Visit <a href="<?php echo base_url(); ?>report" id="reportManagementLink">My EOP</a> and then export your plan to Microsoft Word.</p>
         <p>2. Invite  the rest of the planning team and other stakeholders to conduct a review of the  EOP for plan content and writing conventions. This <a href="<?php echo base_url(); ?>assets/resources/EOP_Review_Checklist.pdf" target="_blank" >checklist</a> may  prove useful for this review.</p>
         <p>3. Revise  the plan accordingly. Substantive revisions should be made into the Step 5  fields in the Planning Process, rather than directly in the Word document. Only  small formatting adjustments should be made directly into the Word document.</p>
         <p>4. Save  an electronic copy of the revised plan in a secure location. </p>

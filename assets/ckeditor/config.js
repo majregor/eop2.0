@@ -7,10 +7,11 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here.
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
+    config.extraPlugins = 'newp';
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
-		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+		{ name: 'clipboard',   groups: [ 'clipboard', 'undo', 'newp' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
 		//{ name: 'links' },
 		//{ name: 'insert' },
@@ -24,6 +25,8 @@ CKEDITOR.editorConfig = function( config ) {
 		//{ name: 'styles' },
 		//{ name: 'colors' },
 		//{ name: 'about' }
+
+        {name: 'import', groups: []}
 	];
 
 	// Remove some buttons provided by the standard plugins, which are
