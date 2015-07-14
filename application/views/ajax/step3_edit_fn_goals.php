@@ -3,6 +3,7 @@
  * AJAX loaded view for Step3/3 Develop Goals for Threats and Hazards
  *
  */
+$controlStatus = ($action=='view') ? "disabled" : "";
 ?>
 <!--
 ************************************************************************************************************************
@@ -20,6 +21,7 @@
                             <textarea
                                 name="txt<?php echo($fnChild['type']);?>"
                                 id="txt<?php echo($fnChild['type']);?>"
+                                <?php echo($controlStatus); ?>
                                 data-id="<?php echo($fnChild['id']);?>"
                                 data-field-id="<?php echo($field['id']);?>"
                                 style="width:100%"
@@ -36,6 +38,7 @@
                                     <textarea
                                         name="txt<?php  echo($fnChild['type']);?>obj<?php echo($key);?>"
                                         id="txt<?php    echo($fnChild['type']);?>obj<?php echo($key);?>"
+                                        <?php echo($controlStatus); ?>
                                         class="<?php    echo($fnChild['type']);?>Obj"
                                         data-id="<?php echo($grandChild['id']);?>"
                                         data-field-id="<?php echo($field['id']);?>"
@@ -47,12 +50,14 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
 
-                <tr id="addMore<?php echo($fnChild['type']);?>ObjFnRow" style=" border-top: 2px solid #DDD;">
-                    <td colspan="2" align="right">
-                        <a href="" id="addMore<?php echo($fnChild['type']);?>ObjFnLink">[Add More]</a> |
-                        <a href="" id="remove<?php echo($fnChild['type']);?>ThRowLink">[Remove]</a>
-                    </td>
-                </tr>
+                <?php if($action != 'view'): ?>
+                    <tr id="addMore<?php echo($fnChild['type']);?>ObjFnRow" style=" border-top: 2px solid #DDD;">
+                        <td colspan="2" align="right">
+                            <a href="" id="addMore<?php echo($fnChild['type']);?>ObjFnLink">[Add More]</a> |
+                            <a href="" id="remove<?php echo($fnChild['type']);?>ThRowLink">[Remove]</a>
+                        </td>
+                    </tr>
+                <?php endif; ?>
 
             </table>
         <?php endif; ?>
@@ -65,7 +70,12 @@
             <td class="txtb">
                 Courses of Action:</td>
             <td>
-            <textarea name="fn_action_txt" id="fn_action_txt" data-field-id="<?php echo(isset($functions[0]['fields'][0]['id'])? $functions[0]['fields'][0]['id']:'0' );?>" rows="11" style="width:100%">
+            <textarea
+                name="fn_action_txt"
+                id="fn_action_txt"
+                <?php echo($controlStatus); ?>
+                data-field-id="<?php echo(isset($functions[0]['fields'][0]['id'])? $functions[0]['fields'][0]['id']:'0' );?>"
+                rows="11" style="width:100%">
                 <?php echo(isset($functions[0]['fields'][0]['body'])? $functions[0]['fields'][0]['body']:'' );?>
             </textarea>
             </td>
@@ -80,7 +90,10 @@
                 <div align="left">
                     <input type="hidden" id="entity_identifier" value="<?php echo($entity_id);?>" />
                     <input type="hidden" id="action_identifier" value="<?php echo($action);?>" />
-                    <input id="updateBtn" type="button" value="Update"/>
+                    <?php if($action !="view"): ?>
+                        <input id="updateBtn" type="button" value="Update"/>
+                    <?php endif; ?>
+                    <input id="cancelBtn" type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>"/>
                 </div>
             </td>
         </tr>

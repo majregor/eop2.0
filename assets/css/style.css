@@ -1115,6 +1115,7 @@ a.current{
     align-content:center; text-align:center; verticle-align:center}
 #loading img{width:30px; height:30px; position:fixed; top:50%; left:50%}
 #loading span{display:block;width:auto; margin-top: 35px; position:fixed; top:50%; left:50%}
+.empty{color:#CCC; font-style: italic;}
 
 
 

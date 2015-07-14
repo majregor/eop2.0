@@ -5,6 +5,7 @@
  *
  *
  */
+$controlStatus = ($action=='view') ? "disabled" : "";
 if($action=='add'){
     //Do nothing right now
 }else{
@@ -49,17 +50,21 @@ if($action=='add'){
         <td colspan="2"><strong>In the field below, please cut and paste or write out the Organization and Assignment of Responsibilities section of your school EOP</strong>.</td>
     </tr>
     <tr>
-        <td colspan="2"><textarea name="orgField" id="orgField" style="width: 100%" rows="11"><?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body']: ''); ?></textarea>            </td>
+        <td colspan="2"><textarea name="orgField" id="orgField"   <?php echo($controlStatus); ?> style="width: 100%" rows="11"><?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body']: ''); ?></textarea>            </td>
     </tr>
 
     <tr>
         <td colspan="2" align="right">
             <div align="left">
-                <?php if($action=='add'): ?>
-                    <input type="button" value="Save" id="btnsaveform4"/>
-                    <?php else: ?>
-                    <input type="button" value="Update" id="btnsaveform4"/>
+                <?php if($action != 'view'): ?>
+                    <?php if($action=='add'): ?>
+                        <input type="button" value="Save" id="btnsaveform4"/>
+                        <?php else: ?>
+                        <input type="button" value="Update" id="btnsaveform4"/>
+                    <?php endif; ?>
                 <?php endif; ?>
+
+                <input type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>" id="cancelBtn"/>
             </div></td>
     </tr>
 </table>
@@ -100,6 +105,11 @@ $(document).ready(function(){
 
         });
 
+        $("#form4Div").html('');
+        return false;
+    });
+
+    $("#cancelBtn").click(function(){
         $("#form4Div").html('');
         return false;
     });

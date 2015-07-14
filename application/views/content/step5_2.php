@@ -92,7 +92,12 @@ $entities = $page_vars['entities'];
                 <tr>
                     <td><?php echo $value['name']; ?></td>
                     <td align="center">
-                            <a href="#" id="<?php echo $value['id'];?>" class="editFieldsLink">Edit</a>
+                    <?php if($this->session->userdata['role']['read_only']=='n') { ?>
+                        <a href="#" id="<?php echo($value['id']); ?>" class="editFieldsLink">Edit</a>
+                    <?php
+                    }else{ ?>
+                        <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View</a>
+                    <?php } ?>
                     </td>
                 </tr>
                 <tr>
@@ -135,6 +140,42 @@ $entities = $page_vars['entities'];
                 ajax:   '1',
                 id:     selectedId,
                 action: 'edit',
+                showActions: '1'
+
+            };
+            $.ajax({
+                url:    '<?php echo(base_url('plan/loadTHCtls')); ?>',
+                data:   formData,
+                type:   'POST',
+                success: function(response){
+                    try{
+                        $(divContainer).html(response);
+                        $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                    }catch(err){
+                        alert('Problem loading controls ' + err);
+                    }
+                }
+
+            });
+
+            $(divContainer).html('');
+            return false;
+        });
+
+        $(".viewFieldsLink").click(function(){
+
+            selectedId = $(this).attr('id');
+
+            $(".fieldsContainer").html('');
+
+            var divContainer = $("#container-"+selectedId);
+
+
+            var formData = {
+                ajax:   '1',
+                id:     selectedId,
+                action: 'view',
                 showActions: '1'
 
             };
@@ -283,6 +324,12 @@ $entities = $page_vars['entities'];
 
             });
 
+            $("#container-"+selectedId).html('');
+            return false;
+        });
+
+        $(document).on('click','#cancelBtn', function(){
+            selectedId = $('#entity_identifier').val();
             $("#container-"+selectedId).html('');
             return false;
         });

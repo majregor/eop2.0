@@ -1,4 +1,5 @@
 <?php
+
 $entities = $page_vars['entities'];
 
 ?>
@@ -118,10 +119,18 @@ $entities = $page_vars['entities'];
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
-                        <?php if($mode=='add'):?>
-                            <a href="#" id="<?php echo $value['id'];?>" class="addThActionLink">Add</a>
+                        <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                            <?php if($mode=='add'): ?>
+                                <a href="#" id="<?php echo $value['id'];?>" class="addThActionLink">Add</a>
+                                <?php else: ?>
+                                    <a href="#" id="<?php echo $value['id'];?>" class="editThActionLink">Edit</a>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <?php if($mode=='add'): ?>
+                                <span class="empty">No Data</span>
                             <?php else: ?>
-                                <a href="#" id="<?php echo $value['id'];?>" class="editThActionLink">Edit</a>
+                                    <a href="#" id="<?php echo $value['id'];?>" class="viewThActionLink">View</a>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </td>
                 </tr>
@@ -191,6 +200,37 @@ $entities = $page_vars['entities'];
                 ajax:   '1',
                 id:     selectedId,
                 action: 'update'
+
+            };
+            $.ajax({
+                url:    '<?php echo(base_url('plan/loadTHActionCtrls')); ?>',
+                data:   formData,
+                type:   'POST',
+                success: function(response){
+                    try{
+                        $(divContainer).html(response);
+                        $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                    }catch(err){
+                        alert('Problem loading controls ' + err);
+                    }
+                }
+
+            });
+        });
+
+        $(".viewThActionLink").click(function(){
+
+            selectedId = $(this).attr('id');
+            $(".fieldsContainer").html('');
+
+            var divContainer = $("#container-"+selectedId);
+
+
+            var formData = {
+                ajax:   '1',
+                id:     selectedId,
+                action: 'view'
 
             };
             $.ajax({
@@ -326,6 +366,12 @@ $entities = $page_vars['entities'];
             $("#container-"+selectedId).html('');
             return false;
 
+        });
+
+        $(document).on('click','#cancelBtn', function(){
+            selectedId = $('#entity_identifier').val();
+            $("#container-"+selectedId).html('');
+            return false;
         });
 
     }); // End $(document).ready function

@@ -5,6 +5,7 @@
  *
  *
  */
+$controlStatus = ($action=='view') ? "disabled" : "";
 if($action=='add'){
     //Do nothing right now
 }else{
@@ -51,7 +52,7 @@ if($action=='add'){
     <tr>
         <td width="18%">Title of the plan:</td>
         <td width="82%">
-            <input type="text" name="titleField" id="titleField" size="50" value="<?php echo(isset($child0['fields'][0]['body'])? $child0['fields'][0]['body'] : ''); ?>" />
+            <input type="text" name="titleField" id="titleField" <?php echo($controlStatus); ?>  size="50" value="<?php echo(isset($child0['fields'][0]['body'])? $child0['fields'][0]['body'] : ''); ?>" />
         </td>
     </tr>
     <tr>
@@ -59,7 +60,7 @@ if($action=='add'){
     </tr>
     <tr>
         <td>Date:</td>
-        <td><input type="text" id="dateField" class="datePickerWidget" value="<?php echo(isset($child0['fields'][1]['body'])? $child0['fields'][1]['body'] : ''); ?>"/></td>
+        <td><input type="text" id="dateField" <?php echo($controlStatus); ?>  class="datePickerWidget" value="<?php echo(isset($child0['fields'][1]['body'])? $child0['fields'][1]['body'] : ''); ?>"/></td>
     </tr>
     <tr>
         <td colspan="2">&nbsp;</td>
@@ -69,7 +70,7 @@ if($action=='add'){
     </tr>
     <tr>
         <td colspan="2">
-            <textarea name="schoolsField" id="schoolsField" style="width: 100%" rows="11">
+            <textarea name="schoolsField" id="schoolsField" <?php echo($controlStatus); ?>  style="width: 100%" rows="11">
                 <?php echo(isset($child0['fields'][2]['body'])? $child0['fields'][2]['body'] : ''); ?>
             </textarea>
         </td>
@@ -86,7 +87,7 @@ if($action=='add'){
     </tr>
     <tr>
         <td colspan="2">
-            <textarea name="promulgationField" id="promulgationField" style="width: 100%" rows="11">
+            <textarea name="promulgationField" id="promulgationField" <?php echo($controlStatus); ?>  style="width: 100%" rows="11">
                 <?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body'] : ''); ?>
             </textarea>
         </td>
@@ -103,7 +104,7 @@ if($action=='add'){
     </tr>
     <tr>
         <td colspan="2">
-            <textarea name="approvalField" id="approvalField" style="width: 100%" rows="11">
+            <textarea name="approvalField" id="approvalField" <?php echo($controlStatus); ?>  style="width: 100%" rows="11">
                 <?php echo(isset($child2['fields'][0]['body'])? $child2['fields'][0]['body'] : ''); ?>
             </textarea>
         </td>
@@ -152,11 +153,13 @@ if($action=='add'){
         <tr>
             <td>&nbsp;</td>
             <td>
-                <div style="text-align: right">
-                    <a href="#" id="addRowsQ3Link">Add Row</a>
-                    |
-                    <a href="#" id="removeRowsQ3Link">Remove Row</a>
-                </div>
+                <?php if($action != 'view'): ?>
+                    <div style="text-align: right">
+                        <a href="#" id="addRowsQ3Link">Add Row</a>
+                        |
+                        <a href="#" id="removeRowsQ3Link">Remove Row</a>
+                    </div>
+                <?php endif; ?>
                 <table border="0" width="100%">
                     <tr style="background: #eee">
                         <td><strong>Change Number</strong></td>
@@ -172,10 +175,10 @@ if($action=='add'){
                         foreach($child3['fields'] as $field_key=>$field){
                             if($field['weight'] == $i){
                                 if(strpos(strtolower($field['name']), 'date') === FALSE) {
-                                    $column .="<td><input type='text' name='txtrowq3".$i."".$columnNum."' id='txtrowq3".$i.$columnNum."' value='".$field['body']."' /></td>";
+                                    $column .="<td><input type='text' name='txtrowq3".$i."".$columnNum."' id='txtrowq3".$i.$columnNum."' value='".$field['body']."' ".$controlStatus." /></td>";
                                 }
                                 else{
-                                    $column .= "<td><input type='text' name='txtrowq3".$i."".$columnNum."' id='txtrowq3".$i.$columnNum."' class='datePickerWidget' value='".$field['body']."'/></td>";
+                                    $column .= "<td><input type='text' name='txtrowq3".$i."".$columnNum."' id='txtrowq3".$i.$columnNum."' class='datePickerWidget' value='".$field['body']."'  ". $controlStatus ."/></td>";
                                 }
                                 $columnNum++;
                             }
@@ -212,11 +215,13 @@ if($action=='add'){
     <tr>
         <td>&nbsp;</td>
         <td>
-            <div style="text-align: right">
-                <a href="#.php" id="addRowsQ4Link">Add Row</a>
-                |
-                <a href="#.php" id="removeRowsQ4Link">Remove Row</a>
-            </div>
+            <?php if($action != 'view'): ?>
+                <div style="text-align: right">
+                    <a href="#.php" id="addRowsQ4Link">Add Row</a>
+                    |
+                    <a href="#.php" id="removeRowsQ4Link">Remove Row</a>
+                </div>
+            <?php endif; ?>
             <table border="0" width="100%">
                 <tr style="background: #eee">
                     <td><strong>Title and name of person receiving the plan</strong></td>
@@ -240,10 +245,10 @@ if($action=='add'){
                             foreach($child4['fields'] as $field_key=>$field){
                                 if($field['weight'] == $i){
                                     if(strpos(strtolower($field['name']), 'date') === FALSE) {
-                                        $column .="<td><input type='text' name='txtrowq4".$i."".$columnNum."' id='txtrowq4".$i.$columnNum."' value='".$field['body']."' /></td>";
+                                        $column .="<td><input type='text' name='txtrowq4".$i."".$columnNum."' id='txtrowq4".$i.$columnNum."' value='".$field['body']."' ". $controlStatus ." /></td>";
                                     }
                                     else{
-                                        $column .= "<td><input type='text' name='txtrowq4".$i."".$columnNum."' id='txtrowq4".$i.$columnNum."' class='datePickerWidget' value='".$field['body']."'/></td>";
+                                        $column .= "<td><input type='text' name='txtrowq4".$i."".$columnNum."' id='txtrowq4".$i.$columnNum."' class='datePickerWidget' value='".$field['body']."' ". $controlStatus ."   /></td>";
                                     }
                                     $columnNum++;
                                 }
@@ -261,11 +266,15 @@ if($action=='add'){
     </tr>
     <tr>
         <td colspan="2" align="left">
-            <?php if($action=='add'): ?>
-            <input type="button" value="Save" id="btnsaveform1"/>
-            <?php else: ?>
-                <input type="button" value="Update" id="btnsaveform1"/>
+            <?php if($action != 'view'): ?>
+                <?php if($action=='add'): ?>
+                <input type="button" value="Save" id="btnsaveform1"/>
+                <?php else: ?>
+                    <input type="button" value="Update" id="btnsaveform1"/>
+                <?php endif; ?>
             <?php endif; ?>
+
+            <input type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>" id="cancelBtn"/>
         </td>
     </tr>
 </table>
@@ -421,6 +430,11 @@ if($action=='add'){
 
             });
 
+            $("#form1Div").html('');
+            return false;
+        });
+
+        $("#cancelBtn").click(function(){
             $("#form1Div").html('');
             return false;
         });

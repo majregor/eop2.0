@@ -119,10 +119,18 @@ $entities = $page_vars['entities'];
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
-                        <?php if($mode=='add'):?>
-                            <a href="#" id="<?php echo $value['id'];?>" class="addFnActionLink">Add</a>
+                        <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                            <?php if($mode=='add'):?>
+                                <a href="#" id="<?php echo $value['id'];?>" class="addFnActionLink">Add</a>
+                            <?php else: ?>
+                                <a href="#" id="<?php echo $value['id'];?>" class="editFnActionLink">Edit</a>
+                            <?php endif; ?>
                         <?php else: ?>
-                            <a href="#" id="<?php echo $value['id'];?>" class="editFnActionLink">Edit</a>
+                            <?php if($mode=='add'): ?>
+                                <span class="empty">No Data</span>
+                            <?php else: ?>
+                                <a href="#" id="<?php echo $value['id'];?>" class="viewFnActionLink">View</a>
+                            <?php endif; ?>
                         <?php endif; ?>
 
                     </td>
@@ -193,6 +201,36 @@ $entities = $page_vars['entities'];
                 ajax:   '1',
                 id:     selectedId,
                 action: 'update'
+            };
+            $.ajax({
+                url:    '<?php echo(base_url('plan/loadFNActionCtrls')); ?>',
+                data:   formData,
+                type:   'POST',
+                success: function(response){
+                    try{
+                        $(divContainer).html(response);
+                        $('html, body').animate({ scrollTop: $(divContainer).offset().top }, 'slow');
+
+                    }catch(err){
+                        alert('Problem loading controls ' + err);
+                    }
+                }
+
+            });
+        });
+
+        $(".viewFnActionLink").click(function(){
+
+            selectedId = $(this).attr('id');
+            $(".fieldsContainer").html('');
+
+            var divContainer = $("#container-"+selectedId);
+
+
+            var formData = {
+                ajax:   '1',
+                id:     selectedId,
+                action: 'view'
             };
             $.ajax({
                 url:    '<?php echo(base_url('plan/loadFNActionCtrls')); ?>',
@@ -320,6 +358,12 @@ $entities = $page_vars['entities'];
             $("#container-"+selectedId).html('');
             return false;
 
+        });
+
+        $(document).on('click','#cancelBtn', function(){
+            selectedId = $('#entity_identifier').val();
+            $("#container-"+selectedId).html('');
+            return false;
         });
 
     }); // End $(document).ready function

@@ -142,7 +142,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 
     <?php endif; ?>
 
-    <p>
+    <p id="viewonlyInputHolder">
         <label for="user_access_permission_update">View Only:</label>
         <?php
         $options = array(
@@ -156,15 +156,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 
     </p>
 </fieldset>
-<?php
-/*$attributes = array(
-    'name'  =>  'update_user_submit',
-    'value' =>  'Update',
-    'id'    =>  'update_user_submit',
-    'style' =>  ''
-);
-*/?><!--
---><?php /*echo form_submit($attributes); */?>
+
 
 <?php echo(form_close()); ?>
 

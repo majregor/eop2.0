@@ -3,6 +3,7 @@
  * AJAX loaded view for Step3/3 Develop Goals for Threats and Hazards
  *
  */
+$controlStatus = ($action=='view') ? "disabled" : "";
 ?>
 <!--
 ************************************************************************************************************************
@@ -74,6 +75,7 @@
                                     <textarea
                                         name="txt<?php    echo($thChild['type']);?>ca"
                                         id="txt<?php  echo($thChild['type']);?>ca"
+                                        <?php echo($controlStatus); ?>
                                         data-field-id="<?php echo($field['id']);?>"
                                         data-goal-id="<?php echo($thChild['id']); ?>"
                                         rows="11" style="width:100%">
@@ -101,11 +103,15 @@
                     <input type="hidden" id="entity_identifier" value="<?php echo($entity_id);?>" />
                     <input type="hidden" id="action_identifier" value="<?php echo($action);?>" />
 
-                    <?php if($action=='add'): ?>
-                    <input id="saveBtn" type="button" value="Save" />
-                    <?php else: ?>
-                        <input id="updateBtn" type="button" value="Update"/>
+                    <?php if($action !="view"): ?>
+                        <?php if($action=='add'): ?>
+                        <input id="saveBtn" type="button" value="Save" />
+                        <?php else: ?>
+                            <input id="updateBtn" type="button" value="Update"/>
+                        <?php endif; ?>
                     <?php endif; ?>
+
+                    <input id="cancelBtn" type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>"/>
                 </div>
             </td>
         </tr>

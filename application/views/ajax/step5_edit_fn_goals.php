@@ -3,6 +3,7 @@
  * AJAX loaded view for Step3/3 Develop Goals for Threats and Hazards
  *
  */
+$controlStatus = ($action=='view') ? "disabled" : "";
 ?>
 <!--
 ************************************************************************************************************************
@@ -20,6 +21,7 @@
                             <textarea
                                 name="txt<?php echo($fnChild['type']);?>"
                                 id="txt<?php echo($fnChild['type']);?>"
+                                <?php echo($controlStatus); ?>
                                 data-id="<?php echo($fnChild['id']);?>"
                                 data-field-id="<?php echo($field['id']);?>"
                                 style="width:100%"
@@ -36,6 +38,7 @@
                                     <textarea
                                         name="txt<?php  echo($fnChild['type']);?>obj<?php echo($key);?>"
                                         id="txt<?php    echo($fnChild['type']);?>obj<?php echo($key);?>"
+                                        <?php echo($controlStatus); ?>
                                         class="<?php    echo($fnChild['type']);?>Obj"
                                         data-id="<?php echo($grandChild['id']);?>"
                                         data-field-id="<?php echo($field['id']);?>"
@@ -57,6 +60,7 @@
                                         <textarea
                                             name="txt<?php    echo($fnChild['type']);?>ca"
                                             id="txt<?php  echo($fnChild['type']);?>ca"
+                                            <?php echo($controlStatus); ?>
                                             data-field-id="<?php echo($field['id']);?>"
                                             data-goal-id="<?php echo($fnChild['id']); ?>"
                                             rows="11" style="width:100%">
@@ -83,7 +87,11 @@
                 <div align="left">
                     <input type="hidden" id="entity_identifier" value="<?php echo($entity_id);?>" />
                     <input type="hidden" id="action_identifier" value="<?php echo($action);?>" />
-                    <input id="updateBtn" type="button" value="Update"/>
+                    <?php if($action !="view"): ?>
+                        <input id="updateBtn" type="button" value="Update"/>
+                    <?php endif; ?>
+
+                    <input id="cancelBtn" type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>"/>
                 </div>
             </td>
         </tr>

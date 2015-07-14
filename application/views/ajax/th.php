@@ -18,13 +18,15 @@ if(isset($thData) && is_array($thData) && count($thData)>0) {
             <tr>
                 <td><?php echo $value['name']; ?></td>
                 <td align="middle">
-                    <div align="center">
-                        <a href="" class="editThLink"
-                            id="<?php echo $value['id'];?>"
-                            data-name="<?php echo $value['name']; ?>" >
-                            Edit
-                        </a>
-                    </div>
+                    <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                        <div align="center">
+                            <a href="" class="editThLink"
+                                id="<?php echo $value['id'];?>"
+                                data-name="<?php echo $value['name']; ?>" >
+                                Edit
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>

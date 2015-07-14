@@ -14,14 +14,14 @@ if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
             <th scope="col">Stakeholder Category</th>
-            <th colspan="2"></th>
+            <th colspan="2"><input type="button" value="Export List" style="border: 1px solid #ddd;" /> </th>
         </tr>
         <?php foreach ($memberData as $key => $value): ?>
             <tr>
                 <td scope="col"><?php echo $value['name']; ?></td>
                 <td scope="col"><?php echo $value['title']; ?></td>
                 <td scope="col"><?php echo $value['organization']; ?></td>
-                <td scope="col"><?php echo $value['email']; ?></td>
+                <td scope="col"><a href="mailto:<?php echo $value['email']; ?>"><?php echo $value['email']; ?></a></td>
                 <td scope="col"><?php echo $value['phone']; ?></td>
                 <td scope="col"><?php echo $value['interest']; ?></td>
                 <td scope="col" width="8%" align="middle">

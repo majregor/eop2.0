@@ -5,6 +5,7 @@
  *
  *
  */
+$controlStatus = ($action=='view') ? "disabled" : "";
 if($action=='add'){
     //Do nothing right now
 }else{
@@ -42,7 +43,7 @@ if($action=='add'){
         <td colspan="2"><strong>In the field below, please cut and paste or write out the Purpose section of your school EOP.</strong></td>
     </tr>
     <tr>
-        <td colspan="2"><textarea name="purposeField" id="purposeField" style="width: 100%" rows="11"><?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body']: ''); ?></textarea>            </td>
+        <td colspan="2"><textarea name="purposeField" id="purposeField"  <?php echo($controlStatus); ?> style="width: 100%" rows="11"><?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body']: ''); ?></textarea>            </td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -57,7 +58,7 @@ if($action=='add'){
         <td colspan="2"><strong>In the field below, please cut and paste or write out the Scope section of your school EOP.</strong></td>
     </tr>
     <tr>
-        <td colspan="2"><textarea name="scopeField" id="scopeField" style="width: 100%" rows="11"><?php echo(isset($child2['fields'][0]['body'])? $child2['fields'][0]['body']: ''); ?></textarea>            </td>
+        <td colspan="2"><textarea name="scopeField" id="scopeField"  <?php echo($controlStatus); ?>  style="width: 100%" rows="11"><?php echo(isset($child2['fields'][0]['body'])? $child2['fields'][0]['body']: ''); ?></textarea>            </td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -72,7 +73,7 @@ if($action=='add'){
         <td colspan="2"><strong>In the field below, please cut and paste or write out the Situation Overview section of your school EOP.</strong></td>
     </tr>
     <tr>
-        <td colspan="2"><textarea name="situationField" id="situationField" style="width: 100%" rows="11"><?php echo(isset($child3['fields'][0]['body'])? $child3['fields'][0]['body']: ''); ?></textarea>            </td>
+        <td colspan="2"><textarea name="situationField" id="situationField"  <?php echo($controlStatus); ?>  style="width: 100%" rows="11"><?php echo(isset($child3['fields'][0]['body'])? $child3['fields'][0]['body']: ''); ?></textarea>            </td>
     </tr>
     <tr>
         <td colspan="2"><p><u>2.4. Planning Assumptions</u></p>
@@ -83,17 +84,22 @@ if($action=='add'){
     </tr>
     <tr>
         <td colspan="2">
-            <textarea name="assumptionsField" id="assumptionsField" style="width: 100%" rows="11"><?php echo(isset($child4['fields'][0]['body'])? $child4['fields'][0]['body']: ''); ?></textarea>            </td>
+            <textarea name="assumptionsField" id="assumptionsField"  <?php echo($controlStatus); ?>  style="width: 100%" rows="11"><?php echo(isset($child4['fields'][0]['body'])? $child4['fields'][0]['body']: ''); ?></textarea>            </td>
     </tr>
     <tr>
         <td colspan="2" align="right">
             <div align="left">
-                <?php if($action=='add'): ?>
-                    <input type="button" value="Save" id="btnsaveform2"/>
-                    <?php else: ?>
-                    <input type="button" value="Update" id="btnsaveform2"/>
+                <?php if($action != 'view'): ?>
+                    <?php if($action=='add'): ?>
+                        <input type="button" value="Save" id="btnsaveform2"/>
+                        <?php else: ?>
+                        <input type="button" value="Update" id="btnsaveform2"/>
+                    <?php endif; ?>
                 <?php endif; ?>
-            </div></td>
+
+                <input type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>" id="cancelBtn"/>
+            </div>
+        </td>
     </tr>
 </table>
 
@@ -139,6 +145,11 @@ $(document).ready(function(){
 
         });
 
+        $("#form2Div").html('');
+        return false;
+    });
+
+    $("#cancelBtn").click(function(){
         $("#form2Div").html('');
         return false;
     });

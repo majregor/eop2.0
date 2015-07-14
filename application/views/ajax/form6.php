@@ -5,6 +5,7 @@
  *
  *
  */
+$controlStatus = ($action=='view') ? "disabled" : "";
 if($action=='add'){
     //Do nothing right now
 }else{
@@ -51,7 +52,7 @@ if($action=='add'){
     </tr>
     <tr>
         <td colspan="2">
-            <textarea name="infoField" id="infoField" style="width: 100%" rows="11">
+            <textarea name="infoField" id="infoField" style="width: 100%"   <?php echo($controlStatus); ?>  rows="11">
                 <?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body']: ''); ?>
             </textarea>
         </td>
@@ -59,11 +60,15 @@ if($action=='add'){
     <tr>
         <td colspan="2" align="right">
             <div align="left">
-                <?php if($action=='add'): ?>
-                    <input type="button" value="Save" id="btnsaveform6"/>
-                    <?php else: ?>
-                    <input type="button" value="Update" id="btnsaveform6"/>
+                <?php if($action != 'view'): ?>
+                    <?php if($action=='add'): ?>
+                        <input type="button" value="Save" id="btnsaveform6"/>
+                        <?php else: ?>
+                        <input type="button" value="Update" id="btnsaveform6"/>
+                    <?php endif; ?>
                 <?php endif; ?>
+
+                <input type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>" id="cancelBtn"/>
             </div></td>
     </tr>
 </table>
@@ -104,6 +109,11 @@ $(document).ready(function(){
 
         });
 
+        $("#form6Div").html('');
+        return false;
+    });
+
+    $("#cancelBtn").click(function(){
         $("#form6Div").html('');
         return false;
     });

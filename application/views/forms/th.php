@@ -12,8 +12,9 @@
     <!-- <a href="#.php" id="hideTeamManagementFormLinkId"></a> -->
 
 <?php
-echo form_open('plan/add/entity/th', array('class'=>'thManagementForm', 'id'=>'thManagementForm'));
-?>
+if($this->session->userdata['role']['read_only']=='n') {
+    echo form_open('plan/add/entity/th', array('class' => 'thManagementForm', 'id' => 'thManagementForm'));
+    ?>
     <fieldset>
 
         <table class="thform">
@@ -21,11 +22,11 @@ echo form_open('plan/add/entity/th', array('class'=>'thManagementForm', 'id'=>'t
                 <td>
                     <?php
                     $inputAttributes = array(
-                        'name'      =>  'txtth',
-                        'id'        =>  'txtth',
-                        'required'  =>  'required',
-                        'minlength'  =>  '3',
-                        'size'      =>   '70'
+                        'name' => 'txtth',
+                        'id' => 'txtth',
+                        'required' => 'required',
+                        'minlength' => '3',
+                        'size' => '70'
                     );
                     echo form_input($inputAttributes);
                     ?>
@@ -35,10 +36,10 @@ echo form_open('plan/add/entity/th', array('class'=>'thManagementForm', 'id'=>'t
                 <td align="left">
                     <?php
                     $attributes = array(
-                        'name'  =>  'btnsave',
-                        'value' =>  'Save',
-                        'id'    =>  'btnsave',
-                        'style' =>  ''
+                        'name' => 'btnsave',
+                        'value' => 'Save',
+                        'id' => 'btnsave',
+                        'style' => ''
                     );
                     ?>
                     <?php echo form_submit($attributes); ?>
@@ -47,5 +48,6 @@ echo form_open('plan/add/entity/th', array('class'=>'thManagementForm', 'id'=>'t
         </table>
     </fieldset>
 <?php
+}
 echo form_close();
 ?>

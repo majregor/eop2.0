@@ -347,13 +347,14 @@ class Plan extends CI_Controller{
 
                     break;
                 case 'edit':
+                case 'view':
                     $fnData = $this->plan_model->getEntities('fn', array('parent'=>null), false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
                     $thData = $this->plan_model->getEntities('th', array('id'=>$id), true);
                     $data = array(
                         'entity_id'                 =>  $id,
                         'functions'                 =>  $fnData,
                         'threats_and_hazards'       =>  $thData,
-                        'action'                    =>  'edit'
+                        'action'                    =>  ($action=='edit') ? 'edit' : 'view'
                     );
                     if($showActions){
                         $data['showActions']=true;
@@ -404,12 +405,13 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+                case 'view':
                     $fnData = $this->plan_model->getEntities('fn', array('id'=>$id), true);
 
                     $data = array(
                         'entity_id'                 =>  $id,
                         'functions'                 =>  $fnData,
-                        'action'                    =>  'edit'
+                        'action'                    =>  ($action=='edit') ? 'edit' : 'view'
                     );
                     if($showActions){
                         $data['showActions']=true;
@@ -445,11 +447,12 @@ class Plan extends CI_Controller{
                     $this->load->view('ajax/step4_th_actions', $data);
                     break;
                 case 'update':
+                case 'view':
                     $thData = $this->plan_model->getEntities('th', array('id'=>$id), true);
                     $data = array(
                         'entity_id'                 =>  $id,
                         'threats_and_hazards'       =>  $thData,
-                        'action'                    =>  'update'
+                        'action'                    =>  ('update') ? 'update' : 'view'
                     );
 
                     $this->load->view('ajax/step4_th_actions', $data);
@@ -475,11 +478,12 @@ class Plan extends CI_Controller{
                     $this->load->view('ajax/step4_fn_actions', $data);
                     break;
                 case 'update':
+                case 'view':
                     $fnData = $this->plan_model->getEntities('fn', array('id'=>$id), true);
                     $data = array(
                         'entity_id'                 =>  $id,
                         'functions'       =>  $fnData,
-                        'action'                    =>  'update'
+                        'action'                    =>  ('update') ? 'update' : 'view'
                     );
 
                     $this->load->view('ajax/step4_fn_actions', $data);
@@ -1332,11 +1336,12 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+                case 'view':
                     $entityId = $this->input->post('entityId');
                     $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
 
                     $data = array(
-                        'action'        =>  'edit',
+                        'action'        =>  ($action=='edit') ? 'edit' : 'view',
                         'entities'      =>  $bpData,
                         'entityId'      =>  $entityId
                     );
@@ -1364,11 +1369,12 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+                case 'view':
                     $entityId = $this->input->post('entityId');
                     $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
 
                     $data = array(
-                        'action'        =>  'edit',
+                        'action'        =>  ($action=='edit') ? 'edit' : 'view',
                         'entities'      =>  $bpData,
                         'entityId'      =>  $entityId
                     );
@@ -1396,11 +1402,12 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+                case 'view':
                     $entityId = $this->input->post('entityId');
                     $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
 
                     $data = array(
-                        'action'        =>  'edit',
+                        'action'        =>  ($action=='edit') ? 'edit' : 'view',
                         'entities'      =>  $bpData,
                         'entityId'      =>  $entityId
                     );
@@ -1428,11 +1435,12 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+                case 'view':
                     $entityId = $this->input->post('entityId');
                     $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
 
                     $data = array(
-                        'action'        =>  'edit',
+                        'action'        =>  ($action=='edit') ? 'edit' : 'view',
                         'entities'      =>  $bpData,
                         'entityId'      =>  $entityId
                     );
@@ -1460,11 +1468,12 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+                case 'view':
                     $entityId = $this->input->post('entityId');
                     $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
 
                     $data = array(
-                        'action'        =>  'edit',
+                        'action'        =>  ($action=='edit') ? 'edit' : 'view',
                         'entities'      =>  $bpData,
                         'entityId'      =>  $entityId
                     );
@@ -1492,11 +1501,12 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+                case 'view':
                     $entityId = $this->input->post('entityId');
                     $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
 
                     $data = array(
-                        'action'        =>  'edit',
+                        'action'        =>  ($action=='edit') ? 'edit' : 'view',
                         'entities'      =>  $bpData,
                         'entityId'      =>  $entityId
                     );
@@ -1524,11 +1534,12 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+                case 'view':
                     $entityId = $this->input->post('entityId');
                     $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
 
                     $data = array(
-                        'action'        =>  'edit',
+                        'action'        =>  ($action=='edit') ? 'edit' : 'view',
                         'entities'      =>  $bpData,
                         'entityId'      =>  $entityId
                     );
@@ -1556,11 +1567,12 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+                case 'view':
                     $entityId = $this->input->post('entityId');
                     $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
 
                     $data = array(
-                        'action'        =>  'edit',
+                        'action'        =>  ($action=='edit') ? 'edit' : 'view',
                         'entities'      =>  $bpData,
                         'entityId'      =>  $entityId
                     );
@@ -1588,11 +1600,12 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+                case 'view':
                     $entityId = $this->input->post('entityId');
                     $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
 
                     $data = array(
-                        'action'        =>  'edit',
+                        'action'        =>  ($action=='edit') ? 'edit' : 'view',
                         'entities'      =>  $bpData,
                         'entityId'      =>  $entityId
                     );
@@ -1620,11 +1633,12 @@ class Plan extends CI_Controller{
                     break;
 
                 case 'edit':
+                case 'view':
                     $entityId = $this->input->post('entityId');
                     $bpData = $this->plan_model->getEntities('bp', array('id'=>$entityId), true);
 
                     $data = array(
-                        'action'        =>  'edit',
+                        'action'        =>  ($action=='edit') ? 'edit' : 'view',
                         'entities'      =>  $bpData,
                         'entityId'      =>  $entityId
                     );
@@ -1632,7 +1646,7 @@ class Plan extends CI_Controller{
 
                     break;
             }
-        }else{
+        } else{
             redirect('plan/step5/4');
         }
 

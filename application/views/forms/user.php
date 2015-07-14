@@ -137,7 +137,7 @@
                 </div>
             </td>
         </tr>
-       
+    <?php if($role['level'] < 4 ):  //School admins should not select district and school fields when adding school users ?>
         <tr id="districtRow" style="display:none;">
             <td><span class="required">*</span> District:</td>
             <td>
@@ -173,7 +173,9 @@
                 ?>
             </td>
         </tr>
-        <tr>
+    <?php endif; ?>
+
+        <tr id="viewonlyRow" style="display: none;">
             <td><span class="required">*</span> View-Only:</td>
             <td>
                 <?php

@@ -243,174 +243,176 @@ if(isset($viewform)){
                 phone:{
                     phoneUS: true
                 },
+                <?php if($role['level'] < 4 ): ?>
                 sltdistrict:{
                     required: true
                 },
                 sltschool:{
                     required:true
                 },
-                slctuserrole:{
-                    required: true
-                },
-                user_password: "required",
-                user_password_conf: {
-                    equalTo: "#user_password"
-                },
-                username:{
-                    required: true,
-                    minlength:3,
-                    remote:{
-                        url: "<?php echo(base_url('user/checkusername')); ?>",
-                        type: "POST",
-                        data:{
-                            username: function(){
-                                var user = $("#username").val();
-                                return user;
-                            },
-                            ajax: '1'
-                        }
-
+                <?php endif; ?>
+            slctuserrole:{
+                required: true
+            },
+            user_password: "required",
+            user_password_conf: {
+                equalTo: "#user_password"
+            },
+            username:{
+                required: true,
+                minlength:3,
+                remote:{
+                    url: "<?php echo(base_url('user/checkusername')); ?>",
+                    type: "POST",
+                    data:{
+                        username: function(){
+                            var user = $("#username").val();
+                            return user;
+                        },
+                        ajax: '1'
                     }
-                },
-                email:{
-                    remote:{
-                        url: "<?php echo(base_url('user/checkuseremail')); ?>",
-                        type: "POST",
-                        data:{
-                            email: function(){
-                                return $("#email").val();
-                            },
-                            ajax: '1'
-                        }
 
-                    }
                 }
             },
-            messages:{
-                username:{
-                    remote: "Username has already been used!"
-                },
-                email:{
-                    remote: "Email has already been used!"
+            email:{
+                remote:{
+                    url: "<?php echo(base_url('user/checkuseremail')); ?>",
+                    type: "POST",
+                    data:{
+                        email: function(){
+                            return $("#email").val();
+                        },
+                        ajax: '1'
+                    }
+
                 }
+            }
+        },
+        messages:{
+            username:{
+                remote: "Username has already been used!"
+            },
+            email:{
+                remote: "Email has already been used!"
+            }
+        }
+    });
+
+    $("#pwd_form").validate({
+        rules: {
+            user_password_reset: "required",
+            user_password_conf_reset: {
+                equalTo: "#user_password_reset"
+            }
+        },
+        submitHandler: submit_pwd_form
+    });
+
+    $("#update_user_form").validate({
+        rules: {
+            phone_update:{
+                phoneUS: true
+            }
+        },
+        submitHandler: submit_update_user_form
+    });
+
+
+
+
+    /**
+     * Reset Password functionality
+     */
+    $(document).on('click', '.resetUserPasswordLink', function(){
+
+        var id = $(this).attr('id');
+        var first_name = $(this).attr('param1');
+        var last_name = $(this).attr('param2');
+        var user_name = $(this).attr('param3');
+
+        $('#first_name').html(first_name);
+        $('#last_name').html(last_name);
+        $('#user_name').html(user_name);
+        $('#user_id_reset').val(id);
+
+        //Open the reset password dialog form
+        $("#reset-pwd-dialog").dialog('open');
+        return false;
+    });
+
+    $("#reset-pwd-dialog").dialog({
+        resizable:      false,
+        minHeight:      300,
+        minWidth:       500,
+        modal:          true,
+        autoOpen:       false,
+        show:           {
+            effect:     'scale',
+            duration: 300
+        },
+        buttons: {
+            "Reset Password": function(){
+                $("#pwd_form").submit();
+            },
+            Cancel: function() {
+                $("#pwd_form")[0].reset();
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+
+    function submit_pwd_form(){
+
+        // TO use encodeURIComponent() only when we use a concocted string but as for now the formdata ensures
+        // that jquery takes care of the encoding
+        var form_data = {
+            user_id               : $('#user_id_reset').val(),
+            new_password              : $('#user_password_reset').val(),
+            ajax                    : '1'
+        };
+
+        $.ajax({
+            url: "<?php echo base_url('user/resetpwd'); ?>",
+            type: 'POST',
+            data: form_data,
+            success: function(response) {
+                location.reload();
             }
         });
 
-        $("#pwd_form").validate({
-            rules: {
-                user_password_reset: "required",
-                user_password_conf_reset: {
-                    equalTo: "#user_password_reset"
-                }
-            },
-            submitHandler: submit_pwd_form
-        });
+        $('#reset-pwd-dialog').dialog("close");
+        return false;
 
-        $("#update_user_form").validate({
-            rules: {
-                phone_update:{
-                    phoneUS: true
-                }
-            },
-            submitHandler: submit_update_user_form
-        });
+    }
 
 
 
+    /**
+     *
+     * Update User Profile functionality
+     */
 
-        /**
-         * Reset Password functionality
-         */
-        $(document).on('click', '.resetUserPasswordLink', function(){
-
+    //We use delegation here because of the jquery table pager
+    $(document).on('click', '.modifyUserProfileLink', function(){
             var id = $(this).attr('id');
             var first_name = $(this).attr('param1');
             var last_name = $(this).attr('param2');
-            var user_name = $(this).attr('param3');
+            var email = $(this).attr('param3');
+            var user_name = $(this).attr('param4');
+            var phone = $(this).attr('param5');
+            var role = $(this).attr('param6');
+            var district = $(this).attr('param7');
+            var school = $(this).attr('param8');
+            var access = $(this).attr('param9');
 
-            $('#first_name').html(first_name);
-            $('#last_name').html(last_name);
-            $('#user_name').html(user_name);
-            $('#user_id_reset').val(id);
-
-            //Open the reset password dialog form
-            $("#reset-pwd-dialog").dialog('open');
-            return false;
-        });
-
-        $("#reset-pwd-dialog").dialog({
-            resizable:      false,
-            minHeight:      300,
-            minWidth:       500,
-            modal:          true,
-            autoOpen:       false,
-            show:           {
-                effect:     'scale',
-                duration: 300
-            },
-            buttons: {
-                "Reset Password": function(){
-                    $("#pwd_form").submit();
-                },
-                Cancel: function() {
-                    $("#pwd_form")[0].reset();
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
-
-        function submit_pwd_form(){
-
-            // TO use encodeURIComponent() only when we use a concocted string but as for now the formdata ensures
-            // that jquery takes care of the encoding
-            var form_data = {
-                user_id               : $('#user_id_reset').val(),
-                new_password              : $('#user_password_reset').val(),
-                ajax                    : '1'
-            };
-
-            $.ajax({
-                url: "<?php echo base_url('user/resetpwd'); ?>",
-                type: 'POST',
-                data: form_data,
-                success: function(response) {
-                    location.reload();
-                }
-            });
-
-            $('#reset-pwd-dialog').dialog("close");
-            return false;
-
-        }
+            $('#first_name_update').val(first_name);
+            $('#last_name_update').val(last_name);
+            $('#email_update').val(email);
+            $('#username_update').val(user_name);
+            $('#phone_update').val(phone);
 
 
-
-        /**
-         *
-         * Update User Profile functionality
-         */
-
-        //We use delegation here because of the jquery table pager
-        $(document).on('click', '.modifyUserProfileLink', function(){
-                var id = $(this).attr('id');
-                var first_name = $(this).attr('param1');
-                var last_name = $(this).attr('param2');
-                var email = $(this).attr('param3');
-                var user_name = $(this).attr('param4');
-                var phone = $(this).attr('param5');
-                var role = $(this).attr('param6');
-                var district = $(this).attr('param7');
-                var school = $(this).attr('param8');
-                var access = $(this).attr('param9');
-
-                $('#first_name_update').val(first_name);
-                $('#last_name_update').val(last_name);
-                $('#email_update').val(email);
-                $('#username_update').val(user_name);
-                $('#phone_update').val(phone);
-
-
-                if(role==<?php echo($role['role_id']); ?>){
+            if(role==<?php echo($role['role_id']); ?>){
                     if($("#slctuserrole_update option[value='"+role+"']").length >0){ // Check if the value exists
 
                     }else{ // If it doesn't exist, add one
@@ -463,9 +465,14 @@ if(isset($viewform)){
                 else{
                     $('#districtInputHolder').show();
                 }
-
                 $('#user_access_permission_update').val(access);
                 $('#user_id_update').val(id);
+
+                if(role !=5){
+                    $('#viewonlyInputHolder').hide();
+                }else{
+                    $('#viewonlyInputHolder').show();
+                }
 
                 //Open the update user dialog form
                 $("#update-user-dialog").dialog('open');
@@ -641,6 +648,7 @@ if(isset($viewform)){
             * Load District dropdown when district admin is selected 
             */
             if($('select#slctuserrole').val() == 3){
+                $('#viewonlyRow').css('display', 'none');
                 $('#districtRow').css('display', 'table-row');
                 $('#schoolRow').css('display', 'none');
                 $('#sltschool').val(null);
@@ -652,12 +660,14 @@ if(isset($viewform)){
                 $('#districtRow span').addClass("required");
             }
             if($('select#slctuserrole').val() == 2){
+                $('#viewonlyRow').css('display', 'none');
                 $('#schoolRow').css('display', 'none');
                 $('#districtRow').css('display', 'none');
                 $('#sltschool').val('Null');
                 $('#sltdistrict').val('Null');
             }
             if($('select#slctuserrole').val() == 4){
+                $('#viewonlyRow').css('display', 'none');
                 $('#schoolRow').css('display', 'table-row');
                 $('#districtRow').css('display', 'table-row');
                 $('#sltdistrict').attr("required", false);
@@ -665,6 +675,7 @@ if(isset($viewform)){
                 $('#districtRow span').removeClass("required");
             }
             if($('select#slctuserrole').val() == 5){ // if School user
+                $('#viewonlyRow').css('display', 'table-row');
                 $('#schoolRow').css('display', 'table-row');
 
 
@@ -680,6 +691,8 @@ if(isset($viewform)){
             }
 
             $('select#slctuserrole').on('change', function() {
+                $('#viewonlyRow').css('display', 'none');
+
                 if(this.value == 3){ // District Admin selected
                     $('#districtRow').css('display', 'table-row');
                     $('#schoolRow').css('display', 'none');
@@ -714,6 +727,7 @@ if(isset($viewform)){
                     $('#sltdistrict').val('Null');
                     $('#districtRow span').removeClass("required");
                 }else if(this.value == 5){ //School User selected
+                    $('#viewonlyRow').css('display', 'table-row');
                     $('#schoolRow').css('display', 'table-row');
 
                     //if user is being added by district or school admin, remove the district

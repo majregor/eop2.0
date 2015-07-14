@@ -107,10 +107,18 @@ if((null != $this->session->flashdata('success'))):
                     }
                 }
             ?>
-            <?php if($mode=='add'): ?>
-                <a href="#" class="showAddForm" id="showForm1Link">Add</a>
-            <?php else: ?>
-                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm1Link">Edit</a>
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                <?php if($mode=='add'): ?>
+                    <a href="#" class="showAddForm" id="showForm1Link">Add</a>
+                <?php else: ?>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm1Link">Edit</a>
+                <?php endif; ?>
+                <?php else: ?>
+                    <?php if($mode=='add'): ?>
+                        <span class="empty">No Data</span>
+                    <?php else: ?>
+                        <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm1Link">View</a>
+                    <?php endif; ?>
             <?php endif; ?>
 
 
@@ -145,10 +153,18 @@ if((null != $this->session->flashdata('success'))):
                 }
             }
             ?>
-            <?php if($mode=='add'): ?>
-                <a href="#" class="showAddForm" id="showForm2Link">Add</a>
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                <?php if($mode=='add'): ?>
+                    <a href="#" class="showAddForm" id="showForm2Link">Add</a>
+                <?php else: ?>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm2Link">Edit</a>
+                <?php endif; ?>
             <?php else: ?>
-                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm2Link">Edit</a>
+                <?php if($mode=='add'): ?>
+                    <span class="empty">No Data</span>
+                <?php else: ?>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm2Link">View</a>
+                <?php endif; ?>
             <?php endif; ?>
 
 
@@ -180,10 +196,18 @@ if((null != $this->session->flashdata('success'))):
                 }
             }
             ?>
-            <?php if($mode=='add'): ?>
-                <a href="#" class="showAddForm" id="showForm3Link">Add</a>
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                <?php if($mode=='add'): ?>
+                    <a href="#" class="showAddForm" id="showForm3Link">Add</a>
+                <?php else: ?>
+                    <a href="#" class="showEditForm"  data-entity-id="<?php echo($entityId); ?>" id="editForm3Link">Edit</a>
+                <?php endif; ?>
             <?php else: ?>
-                <a href="#" class="showEditForm"  data-entity-id="<?php echo($entityId); ?>" id="editForm3Link">Edit</a>
+                <?php if($mode=='add'): ?>
+                    <span class="empty">No Data</span>
+                <?php else: ?>
+                    <a href="#" class="showViewForm"  data-entity-id="<?php echo($entityId); ?>" id="viewForm3Link">View</a>
+                <?php endif; ?>
             <?php endif; ?>
 
 
@@ -215,10 +239,18 @@ if((null != $this->session->flashdata('success'))):
                 }
             }
             ?>
-            <?php if($mode=='add'): ?>
-                <a href="#" class="showAddForm" id="showForm4Link">Add</a>
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                <?php if($mode=='add'): ?>
+                    <a href="#" class="showAddForm" id="showForm4Link">Add</a>
+                <?php else: ?>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm4Link">Edit</a>
+                <?php endif; ?>
             <?php else: ?>
-                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm4Link">Edit</a>
+                <?php if($mode=='add'): ?>
+                    <span class="empty">No Data</span>
+                <?php else: ?>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm4Link">View</a>
+                <?php endif; ?>
             <?php endif; ?>
 
 
@@ -250,10 +282,18 @@ if((null != $this->session->flashdata('success'))):
                 }
             }
             ?>
-            <?php if($mode=='add'): ?>
-                <a href="#" class="showAddForm" id="showForm5Link">Add</a>
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                <?php if($mode=='add'): ?>
+                    <a href="#" class="showAddForm" id="showForm5Link">Add</a>
+                <?php else: ?>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm5Link">Edit</a>
+                <?php endif; ?>
             <?php else: ?>
-                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm5Link">Edit</a>
+                <?php if($mode=='add'): ?>
+                    <span class="empty">No Data</span>
+                <?php else: ?>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm5Link">View</a>
+                <?php endif; ?>
             <?php endif; ?>
 
         </td>
@@ -284,10 +324,18 @@ if((null != $this->session->flashdata('success'))):
                 }
             }
             ?>
-            <?php if($mode=='add'): ?>
-                <a href="#" class="showAddForm" id="showForm6Link">Add</a>
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                <?php if($mode=='add'): ?>
+                    <a href="#" class="showAddForm" id="showForm6Link">Add</a>
+                <?php else: ?>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm6Link">Edit</a>
+                <?php endif; ?>
             <?php else: ?>
-                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm6Link">Edit</a>
+                <?php if($mode=='add'): ?>
+                    <span class="empty">No Data</span>
+                <?php else: ?>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm6Link">View</a>
+                <?php endif; ?>
             <?php endif; ?>
 
 
@@ -319,10 +367,18 @@ if((null != $this->session->flashdata('success'))):
                 }
             }
             ?>
-            <?php if($mode=='add'): ?>
-                <a href="#" class="showAddForm" id="showForm7Link">Add</a>
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                <?php if($mode=='add'): ?>
+                    <a href="#" class="showAddForm" id="showForm7Link">Add</a>
+                <?php else: ?>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm7Link">Edit</a>
+                <?php endif; ?>
             <?php else: ?>
-                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm7Link">Edit</a>
+                <?php if($mode=='add'): ?>
+                    <span class="empty">No Data</span>
+                <?php else: ?>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm7Link">View</a>
+                <?php endif; ?>
             <?php endif; ?>
 
 
@@ -354,10 +410,18 @@ if((null != $this->session->flashdata('success'))):
                 }
             }
             ?>
-            <?php if($mode=='add'): ?>
-                <a href="#" class="showAddForm" id="showForm8Link">Add</a>
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                <?php if($mode=='add'): ?>
+                    <a href="#" class="showAddForm" id="showForm8Link">Add</a>
+                <?php else: ?>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm8Link">Edit</a>
+                <?php endif; ?>
             <?php else: ?>
-                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm8Link">Edit</a>
+                <?php if($mode=='add'): ?>
+                    <span class="empty">No Data</span>
+                <?php else: ?>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm8Link">View </a>
+                <?php endif; ?>
             <?php endif; ?>
 
 
@@ -389,10 +453,18 @@ if((null != $this->session->flashdata('success'))):
                 }
             }
             ?>
-            <?php if($mode=='add'): ?>
-                <a href="#" class="showAddForm" id="showForm9Link">Add</a>
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                <?php if($mode=='add'): ?>
+                    <a href="#" class="showAddForm" id="showForm9Link">Add</a>
+                <?php else: ?>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm9Link">Edit</a>
+                <?php endif; ?>
             <?php else: ?>
-                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm9Link">Edit</a>
+                <?php if($mode=='add'): ?>
+                    <span class="empty">No Data</span>
+                <?php else: ?>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm9Link">View</a>
+                <?php endif; ?>
             <?php endif; ?>
 
 
@@ -424,10 +496,18 @@ if((null != $this->session->flashdata('success'))):
                 }
             }
             ?>
-            <?php if($mode=='add'): ?>
-                <a href="#"class="showAddForm" id="showForm10Link">Add</a>
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                <?php if($mode=='add'): ?>
+                    <a href="#"class="showAddForm" id="showForm10Link">Add</a>
+                <?php else: ?>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm10Link">Edit</a>
+                <?php endif; ?>
             <?php else: ?>
-                <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm10Link">Edit</a>
+                <?php if($mode=='add'): ?>
+                    <span class="empty">No Data</span>
+                <?php else: ?>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm10Link">View</a>
+                <?php endif; ?>
             <?php endif; ?>
 
         </td>
@@ -549,6 +629,55 @@ if((null != $this->session->flashdata('success'))):
             case 'editForm10Link':
                 selectedEntityId = $(this).attr('data-entity-id');
                 openForm10('edit', selectedEntityId)
+                break;
+
+        }
+
+    });
+
+    $(document).on('click', '.showViewForm', function(){
+        var clickedBtn = $(this).attr('id');
+
+        switch(clickedBtn){
+            case 'viewForm1Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm1('view', selectedEntityId)
+                break;
+            case 'viewForm2Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm2('view', selectedEntityId)
+                break;
+            case 'viewForm3Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm3('view', selectedEntityId)
+                break;
+            case 'viewForm4Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm4('view', selectedEntityId)
+                break;
+            case 'viewForm5Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm5('view', selectedEntityId)
+                break;
+            case 'viewForm6Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm6('view', selectedEntityId)
+                break;
+            case 'viewForm7Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm7('view', selectedEntityId)
+                break;
+            case 'viewForm8Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm8('view', selectedEntityId)
+                break;
+            case 'viewForm9Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm9('view', selectedEntityId)
+                break;
+            case 'viewForm10Link':
+                selectedEntityId = $(this).attr('data-entity-id');
+                openForm10('view', selectedEntityId)
                 break;
 
         }

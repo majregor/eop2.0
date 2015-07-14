@@ -103,7 +103,7 @@ class User extends CI_Controller{
                 'phone'         =>  $this->input->post('phone'),
                 'district'      =>  ($this->input->post('sltdistrict') == FALSE) ? '' : $this->input->post('sltdistrict'),
                 'school'        =>  ($this->input->post('sltschool') == FALSE) ? '' : $this->input->post('sltschool'),
-                'read_only'     =>  $this->input->post('user_access_permission')
+                'read_only'     =>  ($this->input->post('user_access_permission')) ? $this->input->post('user_access_permission') : 'n'
             );
 
 

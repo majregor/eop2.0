@@ -26,6 +26,7 @@ class Report extends CI_Controller{
             $this->load->library('simple_html_dom');
             $this->load->library('Html2Text');
             $this->load->library('word');
+            $this->load->library('excel');
             $this->load->library('DocStyles');
 
             //Load helper functions
@@ -35,6 +36,7 @@ class Report extends CI_Controller{
             $this->load->model('school_model');
             $this->load->model('plan_model');
             $this->load->model('report_model');
+            $this->load->model('team_model');
             $this->load->library('../controllers/school');
 
         }
@@ -67,6 +69,8 @@ class Report extends CI_Controller{
 
         }*/
     }
+
+
 
     public function index(){
 
@@ -766,6 +770,24 @@ class Report extends CI_Controller{
         return $settings;
 
 
+    }
+
+    public function export($param=''){
+        if($param !='' && $param =='members'){
+
+
+            $schoolCondition = '';
+
+            if(isset($this->session->userdata['loaded_school']['id'])){
+                $schoolCondition = array('sid'=>$this->session->userdata['loaded_school']['id']);
+            }
+
+            $memberData = $this->team_model->getMembers($schoolCondition);
+
+
+            $this->excel->addArray($memberData);
+            $this->excel->generateXML('my-test');
+        }
     }
 
     function flushToBrowser($fileName){

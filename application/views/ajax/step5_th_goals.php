@@ -3,6 +3,7 @@
  * AJAX loaded view for Step5/2 Edit Goals and Courses of Action for Threats and Hazards
  *
  */
+$controlStatus = ($action=='view') ? "disabled" : "";
 ?>
 <style>
     *[contenteditable="true"]
@@ -46,6 +47,7 @@
                             <textarea
                                 name="txt<?php echo($thChild['type']);?>"
                                 id="txt<?php echo($thChild['type']);?>"
+                                <?php echo($controlStatus); ?>
                                 data-id="<?php echo($thChild['id']);?>"
                                 data-field-id="<?php echo($field['id']);?>"
                                 style="width:100%"
@@ -68,6 +70,7 @@
                                 <select
                                     name="slct<?php echo($thChild['type']);?>fn"
                                     id="slct<?php echo($thChild['type']);?>fn"
+                                    <?php echo($controlStatus); ?>
                                     style="width: 65%"
                                     class="fnDropDown">
                                     <option value="" selected="selected">--Select--</option>
@@ -92,6 +95,7 @@
                                     <textarea
                                         name="txt<?php  echo($thChild['type']);?>obj<?php echo($key);?>"
                                         id="txt<?php    echo($thChild['type']);?>obj<?php echo($key);?>"
+                                        <?php echo($controlStatus); ?>
                                         class="<?php    echo($thChild['type']);?>Obj"
                                         data-id="<?php echo($grandChild['id']);?>"
                                         data-field-id="<?php echo($field['id']);?>"
@@ -114,6 +118,7 @@
                                 <select
                                     name="slct<?php echo($thChild['type']);?>fn<?php echo($key);?>"
                                     id="slct<?php echo($thChild['type']);?>fn<?php echo($key);?>"
+                                    <?php echo($controlStatus); ?>
                                     style="width: 65%"
                                     class="<?php    echo($thChild['type']);?>fn">
                                     <option value="" selected="selected">--Select--</option>
@@ -138,7 +143,12 @@
                                         Courses of Action:</td>
                                     <td>
                                         <?php foreach($grandChild['fields'] as $field): ?>
-                                            <textarea name="txt<?php    echo($thChild['type']);?>ca" id="txt<?php  echo($thChild['type']);?>ca" data-field-id="<?php echo($field['id']);?>" rows="11" style="width:100%">
+                                            <textarea
+                                                name="txt<?php    echo($thChild['type']);?>ca"
+                                                id="txt<?php  echo($thChild['type']);?>ca"
+                                                <?php echo($controlStatus); ?>
+                                                data-field-id="<?php echo($field['id']);?>"
+                                                rows="11" style="width:100%">
                                                     <?php echo($field['body']); ?>
                                                 </textarea>
                                         <?php endforeach; ?>
@@ -161,7 +171,11 @@
                 <div align="left">
                     <input type="hidden" id="entity_identifier" value="<?php echo($entity_id);?>" />
                     <input type="hidden" id="action_identifier" value="<?php echo($action);?>" />
-                    <input id="saveBtn" type="button" value="Update"/>
+                    <?php if($action !="view"): ?>
+                        <input id="saveBtn" type="button" value="Update"/>
+                    <?php endif; ?>
+
+                    <input id="cancelBtn" type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>"/>
                 </div>
             </td>
         </tr>
