@@ -32,7 +32,7 @@
     </ul>
     <p>&nbsp;<br />
         The  planning team should ensure that all community partners (e.g., first  responders, local emergency management staff) have the most current version of  the school EOP.</p>
-    <p>Please  visit the EOP ASSIST <a href="mycalendar.php" target="_blank">Calendar</a> to schedule regular reviews of your plan.</p>
+    <p>Please  visit the EOP ASSIST <a href="<?php echo(base_url('calendar')); ?>" target="_blank">Calendar</a> to schedule regular reviews of your plan.</p>
 </div>
 
 

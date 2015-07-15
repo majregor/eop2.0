@@ -781,12 +781,18 @@ class Report extends CI_Controller{
             if(isset($this->session->userdata['loaded_school']['id'])){
                 $schoolCondition = array('sid'=>$this->session->userdata['loaded_school']['id']);
             }
-
             $memberData = $this->team_model->getMembers($schoolCondition);
 
+            $exportData = array();
+            $exportData[0] = array('NAME', 'TITLE', 'ORGANIZATION', 'EMAIL', 'PHONE', 'INTERESTS');
+            foreach($memberData as $key => $row){
+                $exportData[] = array($row['name'], $row['title'], $row['organization'], $row['email'], $row['phone'], $row['interest']);
+            }
 
-            $this->excel->addArray($memberData);
-            $this->excel->generateXML('my-test');
+
+            $this->excel->addArray($exportData);
+            $this->excel->generateXML('MyTeam');
+            exit;
         }
     }
 

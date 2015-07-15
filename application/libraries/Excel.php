@@ -19,7 +19,7 @@ class Excel
 	 * Header (of document)
 	 * @var string
 	 */
-        private $header = "<?xml version=\"1.0\" encoding=\"%s\"?\>\n<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org/TR/REC-html40\">";
+        private $header = "<?xml version=\"1.0\" encoding=\"%s\"?\>\n<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org/TR/REC-html40\">";
 
         /**
          * Footer (of document)
@@ -144,7 +144,7 @@ class Excel
     	
                 // deliver header (as recommended in php manual)
                 header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=" . $this->sEncoding);
-                header("Content-Disposition: attachment; filename=\"" . $filename . ".xlsx\"");
+                header("Content-Disposition: attachment; filename=\"" . $filename . ".xls\"");
 
                 // print out document to the browser
                 // need to use stripslashes for the damn ">"

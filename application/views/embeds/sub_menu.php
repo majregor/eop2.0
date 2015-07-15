@@ -3,7 +3,7 @@
  *  Page specific submenu embedded
  */
 $planPages = array('step1', 'step2', 'step3', 'step4', 'step5', 'step6');
-$managementPages = array('users' , 'school', 'district', 'access' ,'account','myeop');
+$managementPages = array('users' , 'school', 'district', 'access' ,'account','myeop', 'calendar');
 ?>
 <div id="step_row">
     <div id="step_title">

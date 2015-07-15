@@ -1,6 +1,6 @@
 <?php
 //print_r($page_vars['schools_with_data']);
-$schoolsData = $page_vars['schools_with_data'];
+$schoolsData = (count($page_vars['schools_with_data'])>0)? $page_vars['schools_with_data']: array();
 $role_level = $this->session->userdata['role']['level'];
 ?>
 <div class="col-half left">

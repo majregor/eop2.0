@@ -51,6 +51,7 @@
                     <input type="hidden" id="entity_identifier" value="<?php echo($entity_id);?>" />
                     <input type="hidden" id="action_identifier" value="<?php echo($action);?>" />
                     <input id="saveBtn" type="button" value="Save"/>
+                    <input id="cancelBtn" type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>"/>
                 </div>
             </td>
         </tr>

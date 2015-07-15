@@ -14,7 +14,9 @@ if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
             <th scope="col">Stakeholder Category</th>
-            <th colspan="2"><input type="button" value="Export List" style="border: 1px solid #ddd;" /> </th>
+            <th colspan="2">
+                <a href="<?php echo(base_url('report/export/members'));?>" target="_blank"><input type="button" value="Export List" style="border: 1px solid #ddd;" /></a>
+            </th>
         </tr>
         <?php foreach ($memberData as $key => $value): ?>
             <tr>

@@ -13,7 +13,7 @@
 <div class="col-half left">
     <p>School  emergency management planning is an ongoing effort that is reinforced through  regularly scheduled planning meetings. Establishing a flexible but regular  schedule of meeting times will facilitate greater collaboration, coordination,  and communication among team members, and will help solidify crucial  relationships.</p>
     <p>Often,  planning teams that are creating new school EOPs will have to meet frequently initially.  Once the EOP is in place, teams will still need regular meetings to revise and  maintain the plan. Planning teams typically continue to meet often&mdash;at least  once a month&mdash;to discuss plan modifications, plan and review trainings and drills,  and conduct inventories of supplies.</p>
-    <p>Please  click on the EOP ASSIST <a href="mycalendar.php" target="_blank">Calendar</a> to schedule  planning meetings and set up reminders and notifications to support your team&rsquo;s  planning process. </p>
+    <p>Please  click on the EOP ASSIST <a href="<?php echo(base_url('calendar')); ?>" target="_blank">Calendar</a> to schedule  planning meetings and set up reminders and notifications to support your team&rsquo;s  planning process. </p>
 </div><!-- /col-half --><!-- /col-half -->
 
 

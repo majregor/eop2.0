@@ -47,6 +47,15 @@
         <?php endif; ?>
         <script type="text/javascript" src='<?php echo base_url(); ?>assets/js/standard.js'></script>
 
+        <?php if(isset($page) && $page=="calendar"): ?>
+            <link href='<?php echo base_url(); ?>assets/css/calendar/fullcalendar.css' rel='stylesheet' />
+            <link href='<?php echo base_url(); ?>assets/css/calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+            <link  href='<?php echo base_url(); ?>assets/css/calendar/jquery-ui.css' rel='stylesheet' media="screen">
+
+            <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/calendar/moment.min.js" ></script>
+            <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/calendar/fullcalendar.min.js" ></script>
+        <?php endif; ?>
+
 
 
         <title>EOP Assist <?php echo isset($page_title)?': '.$page_title :'';?></title>
