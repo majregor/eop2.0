@@ -53,6 +53,12 @@ class User extends CI_Controller{
         $users = $this->user_model->getUsers();
          // Get the role access permissions for the logged in user
         $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
+        // Get the district admin's district
+        $distAdminDistrict = '';
+        if($this->session->userdata['role']['level'] == 3){ // District admin logged in
+            $districtRow = $this->user_model->getUserDistrict($this->session->userdata('user_id'));
+            $distAdminDistrict = $districtRow[0]['did'];
+        }
 
         if($this->session->userdata['role']['level']<=4){ // Stop school users from accessing this section of the web app
             $templateData = array(
@@ -63,7 +69,8 @@ class User extends CI_Controller{
                 'roles'         =>  $roles,
                 'districts'     =>  $districts,
                 'schools'       =>  $schools,
-                'role'          =>  $role
+                'role'          =>  $role,
+                'adminDistrict' =>  $distAdminDistrict
 
             );
             $this->template->load('template', 'users_screen', $templateData);
@@ -164,6 +171,12 @@ class User extends CI_Controller{
             $users = $this->user_model->getUsers();
              // Get the role access permissions for the logged in user
             $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
+            // Get the district admin's district
+            $distAdminDistrict = '';
+            if($this->session->userdata['role']['level'] == 3){ // District admin logged in
+                $districtRow = $this->user_model->getUserDistrict($this->session->userdata('user_id'));
+                $distAdminDistrict = $districtRow[0]['did'];
+            }
 
             $templateData = array(
                 'page'          =>  'users',
@@ -174,7 +187,8 @@ class User extends CI_Controller{
                 'districts'     =>  $districts,
                 'schools'       =>  $schools,
                 'users'         =>  $users,
-                'role'          =>  $role
+                'role'          =>  $role,
+                'adminDistrict' =>  $distAdminDistrict
             );
             $this->template->load('template', 'users_screen', $templateData);
         }

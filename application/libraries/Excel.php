@@ -143,8 +143,8 @@ class Excel
                 $filename = preg_replace('/[^aA-zZ0-9\_\-]/', '', $filename);
     	
                 // deliver header (as recommended in php manual)
-                header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=" . $this->sEncoding);
-                header("Content-Disposition: attachment; filename=\"" . $filename . ".xls\"");
+                header("Content-Type: application/vnd.ms-excel; charset=" . $this->sEncoding);
+                header("Content-Disposition: inline; filename=\"" . $filename . ".xls\"");
 
                 // print out document to the browser
                 // need to use stripslashes for the damn ">"

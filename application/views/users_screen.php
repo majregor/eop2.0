@@ -569,6 +569,36 @@ if(isset($viewform)){
 
         });
 
+        function getDistrictSchools(){
+
+            var form_data = {
+                ajax:           '1'
+                <?php echo((isset($adminDistrict) && !empty($adminDistrict))? ", district_id:".$adminDistrict."" : "");?>
+            };
+
+
+            $.ajax({
+                url: "<?php echo base_url('school/get_schools_in_district'); ?>",
+                type: 'POST',
+                data: form_data,
+                success: function (response) {
+                    var schools = JSON.parse(response);
+                    var schoolElement = $("#sltschool");
+                    schoolElement.empty(); // remove the old options
+
+                    schoolElement.append($("<option></option>")
+                        .attr("value", "")
+                        .text("--Select--"));
+
+                    $.each(schools, function (key, value) {
+                        schoolElement.append($("<option></option>")
+                            .attr("value", value.id)
+                            .text(value.name));
+                    });
+                }
+            });
+        }
+
             /**
             * Block User functionality
             */
@@ -672,7 +702,7 @@ if(isset($viewform)){
                 $('#districtRow').css('display', 'table-row');
                 $('#sltdistrict').attr("required", false);
                 $('#sltdistrict').rules("remove", "required");
-                $('#districtRow span').removeClass("required");
+                $('#districtRow span').addClass("required");
             }
             if($('select#slctuserrole').val() == 5){ // if School user
                 $('#viewonlyRow').css('display', 'table-row');
@@ -719,13 +749,17 @@ if(isset($viewform)){
                     $('#sltdistrict').attr("required", false);
                     $('#sltdistrict').rules("remove", "required");
                     if(toggleNone == true){
-                        $('#sltdistrict').prepend($("<option></option>")
+                        /*$('#sltdistrict').prepend($("<option></option>")
                             .attr("value","")
-                            .text("None"));
+                            .text("None"));*/
+                        $("<option></option>")
+                            .val('')
+                            .html("None")
+                            .insertAfter($('#sltdistrict').children().first());
                         toggleNone = false;
                     }
                     $('#sltdistrict').val('Null');
-                    $('#districtRow span').removeClass("required");
+                    $('#districtRow span').addClass("required");
                 }else if(this.value == 5){ //School User selected
                     $('#viewonlyRow').css('display', 'table-row');
                     $('#schoolRow').css('display', 'table-row');
@@ -736,10 +770,15 @@ if(isset($viewform)){
                     $('#sltdistrict').val(null);
                     $('#sltdistrict').attr("required", false);
                     $('#sltdistrict').rules("remove", "required");
+                    getDistrictSchools();
                     if(toggleNone == true){
-                        $('#sltdistrict').prepend($("<option></option>")
+                        /*$('#sltdistrict').prepend($("<option></option>")
                             .attr("value", "")
-                            .text("None"));
+                            .text("None"));*/
+                        $("<option></option>")
+                            .val('')
+                            .html("None")
+                            .insertAfter($('#sltdistrict').children().first());
                         toggleNone = false;
                     }
                     $('#sltdistrict').val('Null');

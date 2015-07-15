@@ -1,12 +1,12 @@
-CKEDITOR.plugins.add('newp',
+CKEDITOR.plugins.add('importdoc',
 {
     init: function (editor) {
-        var pluginName = 'newp';
-        editor.ui.addButton('newp',
+        var pluginName = 'importdoc';
+        editor.ui.addButton('importdoc',
             {
                 label: 'Import from word document',
                 command: 'OpenWindow',
-                icon: CKEDITOR.plugins.getPath('newp') + 'lock-open.png',
+                icon: CKEDITOR.plugins.getPath('importdoc') + 'word.png',
                 toolbar: 'import'
             });
         var cmd = editor.addCommand('OpenWindow', { exec: showMyDialog });

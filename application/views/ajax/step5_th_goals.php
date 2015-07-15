@@ -72,7 +72,8 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                     id="slct<?php echo($thChild['type']);?>fn"
                                     <?php echo($controlStatus); ?>
                                     style="width: 65%"
-                                    class="fnDropDown">
+                                    class="fnDropDown"
+                                    required="required">
                                     <option value="" selected="selected">--Select--</option>
                                     <?php foreach($functions as $key=>$value): ?>
                                         <option value="<?php echo($value['id']);?>" <?php echo(($value['name'] == $fnValue)? "selected='selected'": "");?> >
@@ -120,7 +121,8 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                     id="slct<?php echo($thChild['type']);?>fn<?php echo($key);?>"
                                     <?php echo($controlStatus); ?>
                                     style="width: 65%"
-                                    class="<?php    echo($thChild['type']);?>fn">
+                                    class="<?php    echo($thChild['type']);?>fn"
+                                    required="required">
                                     <option value="" selected="selected">--Select--</option>
                                     <?php foreach($functions as $key=>$value): ?>
                                         <option value="<?php echo($value['id']);?>" <?php echo(($value['name'] == $fnValue)? "selected='selected'": "");?>>

@@ -25,23 +25,32 @@ if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
                 <td scope="col"><?php echo $value['organization']; ?></td>
                 <td scope="col"><a href="mailto:<?php echo $value['email']; ?>"><?php echo $value['email']; ?></a></td>
                 <td scope="col"><?php echo $value['phone']; ?></td>
-                <td scope="col"><?php echo $value['interest']; ?></td>
-                <td scope="col" width="8%" align="middle">
-                    <a href="" class="teamEditLink"
-                       id="<?php echo $value['id']; ?>"
-                       data-name="<?php echo $value['name']; ?>"
-                       data-title="<?php echo $value['title']; ?>"
-                       data-organization="<?php echo $value['organization']; ?>"
-                       data-email="<?php echo $value['email']; ?>"
-                       data-phone="<?php echo $value['phone']; ?>"
-                       data-interest="<?php echo $value['interest']; ?>"
-                        >
-                        Edit
-                    </a>
-                </td>
-                <td scope="col" width="8%" align="middle">
-                    <a href="" class="teamDeleteLink" id="<?php echo $value['id']; ?>">Delete</a>
-                </td>
+                <td scope="col"><?php echo str_replace(",", "<br />", $value['interest']); ?></td>
+                <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                    <td scope="col" width="8%" align="middle">
+                        <a href="" class="teamEditLink"
+                           id="<?php echo $value['id']; ?>"
+                           data-name="<?php echo $value['name']; ?>"
+                           data-title="<?php echo $value['title']; ?>"
+                           data-organization="<?php echo $value['organization']; ?>"
+                           data-email="<?php echo $value['email']; ?>"
+                           data-phone="<?php echo $value['phone']; ?>"
+                           data-interest="<?php echo $value['interest']; ?>"
+                            >
+                            Edit
+                        </a>
+                    </td>
+
+                    <td scope="col" width="8%" align="middle">
+                        <a href="" class="teamDeleteLink" id="<?php echo $value['id']; ?>">Delete</a>
+                    </td>
+                <?php else: ?>
+
+                    <td colspan="">
+
+                    </td>
+
+                <?php endif; ?>
 
             </tr>
         <?php endforeach; ?>

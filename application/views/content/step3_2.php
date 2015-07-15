@@ -34,7 +34,8 @@
                                 $attr = ($value['description'] == 'live' ) ? "checked='checked'": "";
 
                         ?>
-                        <input type="checkbox" class="checkBoxSelection" <?php echo $attr; ?> name="<?php echo $value['id'];?>" id="<?php echo $value['id'];?>" value="<?php echo $value['id']; ?>"/>
+
+                        <input type="checkbox"  <?php echo(($this->session->userdata['role']['read_only']=='n')? '':'disabled="disabled"'); ?> class="checkBoxSelection" <?php echo $attr; ?> name="<?php echo $value['id'];?>" id="<?php echo $value['id'];?>" value="<?php echo $value['id']; ?>"/>
                     </td>
                 </tr>
             <?php endforeach; ?>

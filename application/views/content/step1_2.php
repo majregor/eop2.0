@@ -311,6 +311,10 @@
             return false;
         });
 
+        $('#btncancel').click(function(){
+            $('#teamManagementForm').hide();
+        });
+
        /* $('#hideTeamManagementFormLinkId').click(function(){
             $('#teamManagementForm').hide('slow');
         });*/

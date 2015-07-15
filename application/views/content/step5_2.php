@@ -203,6 +203,7 @@ $entities = $page_vars['entities'];
 
         $(document).on('click','#saveBtn', function(){
 
+            var validateError = false;
             <?php for($i=1; $i<=3; $i++): ?>
                 var g<?php echo($i);?>ObjData = $.map($(".g<?php echo($i);?>Obj"), function(value, index) {
                     return [$(value).val()];
@@ -217,7 +218,15 @@ $entities = $page_vars['entities'];
                     return [$(value).text().trim()];
                 });
                 var g<?php echo($i);?>fnVal = $.map($("select.g<?php echo($i);?>fn option:selected"), function(value, index) {
-                    return [$(value).val()];
+                    if($(value).val()) {
+                        return [$(value).val()];
+                    }else{
+                        $(value).parent().addClass("error");
+                        $(value).parent().focus();
+                        validateError = true;
+                        alert('Function field is required!');
+                        return;
+                    }
                 });
 
             //New Data
@@ -249,83 +258,86 @@ $entities = $page_vars['entities'];
             var g3CAFieldId     = g3Element.attr("data-field-id");
             var g3CAData        = g3Element.val();
 
+            if(validateError){
+                return false
+            }else {
+                var formData = {
+                    ajax: '1',
+                    id: selectedId,
+                    mode: mode,
+                    action: 'save',
+                    coursesOfActions: '1',
+                    g1ObjData: g1ObjData,
+                    g2ObjData: g2ObjData,
+                    g3ObjData: g3ObjData,
+                    g1ObjIds: g1ObjIds,
+                    g2ObjIds: g2ObjIds,
+                    g3ObjIds: g3ObjIds,
+                    g1ObjFieldIds: g1ObjFieldIds,
+                    g2ObjFieldIds: g2ObjFieldIds,
+                    g3ObjFieldIds: g3ObjFieldIds,
+                    g1Id: g1TxtCtl.attr('data-id'),
+                    g2Id: g2TxtCtl.attr('data-id'),
+                    g3Id: g3TxtCtl.attr('data-id'),
+                    g1FieldId: g1TxtCtl.attr('data-field-id'),
+                    g2FieldId: g2TxtCtl.attr('data-field-id'),
+                    g3FieldId: g3TxtCtl.attr('data-field-id'),
+                    g1: g1TxtCtl.val(),
+                    g2: g2TxtCtl.val(),
+                    g3: g3TxtCtl.val(),
+                    fn1: $('#slctg1fn').val(),
+                    fn2: $('#slctg2fn').val(),
+                    fn3: $('#slctg3fn').val(),
+                    fn1Txt: $('select#slctg1fn option:selected').text().trim(),
+                    fn2Txt: $('select#slctg2fn option:selected').text().trim(),
+                    fn3Txt: $('select#slctg3fn option:selected').text().trim(),
+                    fn1Val: $('select#slctg1fn option:selected').val(),
+                    fn2Val: $('select#slctg2fn option:selected').val(),
+                    fn3Val: $('select#slctg3fn option:selected').val(),
+                    g1fnData: g1fnData,
+                    g2fnData: g2fnData,
+                    g3fnData: g3fnData,
+                    g1fnVal: g1fnVal,
+                    g2fnVal: g2fnVal,
+                    g3fnVal: g3fnVal,
+                    g1ObjDataNew: g1ObjDataNew,
+                    g2ObjDataNew: g2ObjDataNew,
+                    g3ObjDataNew: g3ObjDataNew,
+                    g1fnDataNew: g1fnDataNew,
+                    g2fnDataNew: g2fnDataNew,
+                    g3fnDataNew: g3fnDataNew,
 
-            var formData = {
-                ajax:       '1',
-                id:         selectedId,
-                mode:     mode,
-                action:     'save',
-                coursesOfActions: '1',
-                g1ObjData:  g1ObjData,
-                g2ObjData:  g2ObjData,
-                g3ObjData:  g3ObjData,
-                g1ObjIds:   g1ObjIds,
-                g2ObjIds:   g2ObjIds,
-                g3ObjIds:   g3ObjIds,
-                g1ObjFieldIds: g1ObjFieldIds,
-                g2ObjFieldIds: g2ObjFieldIds,
-                g3ObjFieldIds: g3ObjFieldIds,
-                g1Id:       g1TxtCtl.attr('data-id'),
-                g2Id:       g2TxtCtl.attr('data-id'),
-                g3Id:       g3TxtCtl.attr('data-id'),
-                g1FieldId:  g1TxtCtl.attr('data-field-id'),
-                g2FieldId:  g2TxtCtl.attr('data-field-id'),
-                g3FieldId:  g3TxtCtl.attr('data-field-id'),
-                g1:         g1TxtCtl.val(),
-                g2:         g2TxtCtl.val(),
-                g3:         g3TxtCtl.val(),
-                fn1:        $('#slctg1fn').val(),
-                fn2:        $('#slctg2fn').val(),
-                fn3:        $('#slctg3fn').val(),
-                fn1Txt:     $('select#slctg1fn option:selected').text().trim(),
-                fn2Txt:     $('select#slctg2fn option:selected').text().trim(),
-                fn3Txt:     $('select#slctg3fn option:selected').text().trim(),
-                fn1Val:     $('select#slctg1fn option:selected').val(),
-                fn2Val:     $('select#slctg2fn option:selected').val(),
-                fn3Val:     $('select#slctg3fn option:selected').val(),
-                g1fnData:   g1fnData,
-                g2fnData:   g2fnData,
-                g3fnData:   g3fnData,
-                g1fnVal:       g1fnVal,
-                g2fnVal:       g2fnVal,
-                g3fnVal:       g3fnVal,
-                g1ObjDataNew:  g1ObjDataNew,
-                g2ObjDataNew:  g2ObjDataNew,
-                g3ObjDataNew:  g3ObjDataNew,
-                g1fnDataNew :   g1fnDataNew,
-                g2fnDataNew :   g2fnDataNew,
-                g3fnDataNew :   g3fnDataNew,
+                    g1CAFieldId: g1CAFieldId,
+                    g1CAData: g1CAData,
 
-                g1CAFieldId:    g1CAFieldId,
-                g1CAData:       g1CAData,
+                    g2CAFieldId: g2CAFieldId,
+                    g2CAData: g2CAData,
 
-                g2CAFieldId:    g2CAFieldId,
-                g2CAData:       g2CAData,
+                    g3CAFieldId: g3CAFieldId,
+                    g3CAData: g3CAData
 
-                g3CAFieldId:    g3CAFieldId,
-                g3CAData:       g3CAData
+                };
 
-            };
+                $.ajax({
+                    url: '<?php echo(base_url('plan/manageTHGoals')); ?>',
+                    data: formData,
+                    type: 'POST',
+                    success: function (response) {
 
-            $.ajax({
-                url:    '<?php echo(base_url('plan/manageTHGoals')); ?>',
-                data:   formData,
-                type:   'POST',
-                success: function(response){
+                        try {
+                            //alert(response);
+                            location.reload();
 
-                    try{
-                        //alert(response);
-                        location.reload();
-
-                    }catch(err){
-                        alert('Problem loading controls '+err);
+                        } catch (err) {
+                            alert('Problem loading controls ' + err);
+                        }
                     }
-                }
 
-            });
+                });
 
-            $("#container-"+selectedId).html('');
-            return false;
+                $("#container-" + selectedId).html('');
+                return false;
+            }
         });
 
         $(document).on('click','#cancelBtn', function(){

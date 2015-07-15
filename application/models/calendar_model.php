@@ -4,6 +4,8 @@ class Calendar_model extends CI_Model {
 
     public function __construct(){
         parent::__construct();
+        $this->load->model('user_model');
+        $this->load->model('school_model');
     }
 
 
@@ -21,28 +23,35 @@ class Calendar_model extends CI_Model {
     }
 
 
-    /**
-     * Function to return a member by their member_id
-     *
-     * @method getMember
-     * @param $p The member_id
-     * @return mixed Returns an associative array of containing the user information from the database
-     */
-    function getMember($p, $key=''){
-
-        $conditions = array('id'=>$p);
-
-        $query = $this->db->get_where('eop_team', $conditions);
-
-        return $query->result_array();
-    }
-
     function getEvents($data=''){
 
         if($data ==''){
 
-            $this->db->select("id, title, body,  start_time , end_time, location")
-                ->from('eop_calendar');
+            if($this->session->userdata['role']['level']>=4){ //School Admins and Users
+                //Load calendar events for their respective school only
+                $conditions['sid'] = $this->session->userdata['loaded_school']['id'];
+                $this->db->select("id, title, body,  start_time , end_time, location")
+                    ->from('eop_calendar')
+                    ->where($conditions);
+            }elseif($this->session->userdata['role']['level']==3){ //District admin
+                //Load calendar events for all schools in the district
+                $district = $this->user_model->getUserDistrict($this->session->userdata('user_id'));
+                $districtId = $district[0]['did'];
+                $schools = $this->school_model->getDistrictSchools($districtId);
+                $schoolIds = array();
+                foreach($schools as $school){
+                    $schoolIds[] = $school['id'];
+                }
+
+                $this->db->select("id, title, body,  start_time , end_time, location")
+                    ->from('eop_calendar')
+                    ->where_in('sid', $schoolIds);
+            }
+            else{
+                $this->db->select("id, title, body,  start_time , end_time, location")
+                    ->from('eop_calendar');
+            }
+
 
             $query = $this->db->get();
             $resultsArray = $query->result_array();

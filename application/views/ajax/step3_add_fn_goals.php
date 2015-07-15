@@ -94,9 +94,6 @@
                     $("#addMoreg<?php echo($i);?>ObjFnRow").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
                     var editor = CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
                     editor.on( 'change', function( evt ) {
-
-                        //console.log( 'Total bytes: ' + evt.editor.getData().length );
-                        //alert(evt.editor.getData());
                         editor.updateElement();
                     });
 

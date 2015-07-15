@@ -1,8 +1,9 @@
 <?php
 ?>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/forms.css" />
-
+<?php if($this->session->userdata['role']['read_only']=='n'): ?>
 <h3><a href="" id="showTeamManagementFormLinkId">Create New Team Member</a></h3>
+<?php endif; ?>
 <!-- <a href="#.php" id="hideTeamManagementFormLinkId"></a> -->
 
 <?php
@@ -215,6 +216,16 @@ echo form_open('team/add', array('class'=>'teamManagementForm', 'id'=>'teamManag
                     );
                     ?>
                     <?php echo form_submit($attributes); ?>
+
+                    <?php
+                    $attributes = array(
+                        'name'  =>  'btncancel',
+                        'value' =>  'Cancel',
+                        'id'    =>  'btncancel',
+                        'style' =>  ''
+                    );
+                    ?>
+                    <?php echo form_reset($attributes); ?>
 
                 </td>
             </tr>

@@ -87,21 +87,25 @@ class Calendar extends CI_Controller{
 
     public function add(){
 
-        if($this->input->post('ajax')){
+        //if($this->input->post('ajax')){
 
             $data = array(
                 'title'         =>  $this->input->post('title'),
                 'start_time'    =>  $this->input->post('start'),
                 'end_time'      =>  $this->input->post('end'),
                 'location'      =>  $this->input->post('location'),
-                'body'          =>  $this->input->post('body')
+                'body'          =>  $this->input->post('body'),
+                'modified_by'   =>  $this->session->userdata('user_id'),
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null
             );
 
             $savedRecs = $this->calendar_model->addEvent($data);
-        }
+        print_r($data);
+        echo $savedRecs;
+        /*}
         else{
             redirect('/calendar');
-        }
+        }*/
 
     }
 

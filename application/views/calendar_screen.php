@@ -167,6 +167,7 @@ echo $this->session->flashdata('error');
                         id:     selectedEventId
                     },
                     type:'POST',
+                    async: false, // Prevents page from navigating to other page before ajax call completes
                     success:function(response){
                         selectedEventId = null;
                         selectedEventTitle = null;
@@ -220,6 +221,7 @@ echo $this->session->flashdata('error');
 
                     },
                     type:'POST',
+                    async: false, // Prevents page from navigating to other page before ajax call completes
                     success:function(response){
 
                         selectedEventId = null;
@@ -241,7 +243,7 @@ echo $this->session->flashdata('error');
                         alert(error);
                     }
                 });
-                $("#calendar").fullCalendar( 'refetchEvents' );
+
             }
             $("#title-ed").val("");
             $("#start-ed").val("");
@@ -249,6 +251,8 @@ echo $this->session->flashdata('error');
             $("#location-ed").val("");
             $("#body-ed").val("");
             editDialog.dialog("close");
+
+            $("#calendar").fullCalendar( 'refetchEvents' );
         }
 
         function addEvent() {
@@ -279,9 +283,11 @@ echo $this->session->flashdata('error');
                         location: location.val()
                     },
                     type:'POST',
+                    async: false, // Prevents page from navigating to other page before ajax call completes
                     success:function(response){
                         //$calendar.weekCalendar("removeUnsavedEvents");
                         //$calendar.weekCalendar("updateEvent", calEvent);
+                        //alert(response);
                         $("#title").val("");
                         startTime.val("");
                         endTime.val("");
@@ -294,7 +300,7 @@ echo $this->session->flashdata('error');
                         alert(error);
                     }
                 });
-                $("#calendar").fullCalendar( 'refetchEvents' );
+
 
                 $("#title").val("");
                 startTime.val("");
@@ -302,6 +308,8 @@ echo $this->session->flashdata('error');
                 location.val("");
                 body.val("");
                 dialog.dialog( "close" );
+
+                $("#calendar").fullCalendar( 'refetchEvents' );
 
             }
             return valid;
@@ -353,7 +361,6 @@ echo $this->session->flashdata('error');
                     alert(error);
                 }
             });
-
         }
 
         $('#calendar').fullCalendar({
@@ -385,6 +392,7 @@ echo $this->session->flashdata('error');
             events: {
                 url: '<?php echo(base_url("calendar/read")) ?>',
                 type: 'POST',
+                async: false, // Prevents page from navigating to other page before ajax call completes
                 data: {
                     ajax : 1
                 },

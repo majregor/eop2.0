@@ -122,7 +122,7 @@ class School_model extends CI_Model {
      * Function getDistrictSchools
      * Returns all schools available in a particular district
      *
-     * @param string $district   The state to which the schools belong
+     * @param string $district   The district to which the schools belong
      * @return array results array of records
      */
     function getDistrictSchools($district){
