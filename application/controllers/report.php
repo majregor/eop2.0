@@ -28,6 +28,7 @@ class Report extends CI_Controller{
             $this->load->library('word');
             $this->load->library('excel');
             $this->load->library('DocStyles');
+            $this->load->library('upload');
 
             //Load helper functions
             $this->load->helper(array('h2d_htmlconverter', 'support_functions'));
@@ -45,15 +46,55 @@ class Report extends CI_Controller{
         }
     }
 
-    public function test(){
-        $source = "Text.docx";
+    public function importdoc(){
+        if($this->input->post('ajax')){
+
+            $filePath ="";
+
+            $config = array(
+                'upload_path'   =>  dirname($_SERVER["SCRIPT_FILENAME"]).'/uploads/',
+                'upload_url'    =>  base_url()."uploads/",
+                'file_name'     =>  'importdoc',
+                'overwrite'     =>  true,
+                'allowed_types' =>  'doc|docx',
+                'max_size'      =>  '10024KB'
+            );
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload()){
+                $fileData = $this->upload->data();
+                $filePath = $fileData['full_path'];
+                $fileExtension = substr($fileData['orig_name'], (strrpos($fileData['orig_name'], ".")+1));
+
+                $readerName = ($fileExtension=='doc') ? 'MsDoc' : 'Word2007';
+                $phpword = \PhpOffice\PhpWord\IOFactory::load($filePath, $readerName);
+                $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpword, 'HTML');
+
+                unlink($filePath);
+
+                $this->output->set_output($objWriter->save("php://output"));
+
+
+                //$this->output->set_output(print_r($this->upload->data()).$fileExtension);
+
+            }else{
+                $this->output->set_output($this->upload->display_errors()/*var_dump($_FILES)*/);
+            }
+
+
+        }else{
+            $this->output->set_output(json_encode($this->input->post()));
+        }
+
+
+        /*$source = "Text.docx";
 
         //echo date('H:i:s'), " Reading contents from `{$source}`";
         $phpword = \PhpOffice\PhpWord\IOFactory::load($source);
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpword, 'HTML');
 
-        $objWriter->save("php://output");
+        $objWriter->save("php://output");*/
 
         /*$sections = $phpword->getSections();
         foreach($sections as $section){

@@ -30,6 +30,7 @@
         <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-ui.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/modernizr.custom.15150.js" ></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/accordion.js" ></script>
+        <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.form.js" ></script>
 
 
         <link href="<?php echo base_url(); ?>assets/css/jquery-ui.css" rel="stylesheet">

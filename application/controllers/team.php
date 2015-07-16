@@ -107,23 +107,20 @@ class Team extends CI_Controller{
      * @param string param all|id of team member being requested
      *
      */
-    public function show($param=''){
+    public function show(){
         if($this->input->post('ajax')){
 
             $memberData =null;
             $param = $this->input->post('param');
             $schoolCondition = '';
 
-            if($param=='all' || $param==''){
-                if(isset($this->session->userdata['loaded_school']['id'])){
-                    $schoolCondition = array('sid'=>$this->session->userdata['loaded_school']['id']);
-                }
 
-                $memberData = $this->team_model->getMembers($schoolCondition);
-            }else{
-                $p = array('id' =>$param);
-                $memberData = $this->team_model->getMembers($p);
+            if(isset($this->session->userdata['loaded_school']['id'])){
+                $schoolCondition = array('sid'=>$this->session->userdata['loaded_school']['id']);
             }
+
+            $memberData = $this->team_model->getMembers($schoolCondition);
+
 
             $data= array(
                 'memberData' => $memberData
