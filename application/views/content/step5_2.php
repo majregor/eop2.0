@@ -238,6 +238,44 @@ $entities = $page_vars['entities'];
                 });
             <?php endfor; ?>
 
+
+            if( $('#slctg1fn').val()) {
+                //Do nothing
+            }
+            else{
+
+                alert('Function field is required!');
+                $('#slctg1fn').addClass("error");
+                $('#slctg1fn').focus();
+                validateError = true;
+                return false;
+            }
+
+            if( $('#slctg2fn').val()){
+                //Do nothing
+            }
+            else{
+
+                alert('Function field is required!');
+                $('#slctg2fn').addClass("error");
+                $('#slctg2fn').focus();
+                validateError = true;
+
+                return false;
+            }
+
+            if($('#slctg3fn').val()){
+                //Do nothing
+            } else{
+
+                alert('Function field is required!');
+                $('#slctg3fn').addClass("error");
+                $('#slctg3fn').focus();
+                validateError = true;
+
+                return false;
+            }
+
             selectedId = $('#entity_identifier').val();
             var mode = $('#action_identifier').val();
             var g1TxtCtl = $('#txtg1');
@@ -404,8 +442,6 @@ $entities = $page_vars['entities'];
 
 
                         });
-
-
 
 
                     }catch(err){

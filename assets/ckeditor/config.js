@@ -7,7 +7,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here.
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
-    config.extraPlugins = 'importdoc';
+    config.extraPlugins = 'importdoc,delete';
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
@@ -26,7 +26,8 @@ CKEDITOR.editorConfig = function( config ) {
 		//{ name: 'colors' },
 		//{ name: 'about' }
 
-        {name: 'import', groups: []}
+        {name: 'import', groups: []},
+        {name: 'manipulate', groups: []}
 	];
 
 	// Remove some buttons provided by the standard plugins, which are

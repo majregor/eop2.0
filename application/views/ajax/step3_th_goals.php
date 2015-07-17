@@ -228,6 +228,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                     g<?php echo($i);?>Items ++;
                     $("#addMoreg<?php echo($i);?>ObjFnRow").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
                     var wdth = $("#g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"").width();
+                    //@todo Load custom CKEDITOR config to include the remove objective button...
                     var editor = CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
                     editor.on( 'change', function( evt ) {
                         editor.updateElement();
