@@ -13,6 +13,17 @@ class Plan_model extends CI_Model {
         return $this->db->insert_id();
     }
 
+    public function removeObjective($id){
+
+        if(is_numeric($id)){
+            $this->db->delete('eop_entity', array('id' => $id));
+            $this->db->delete('eop_field', array('entity_id' => $id));
+            $this->db->delete('eop_entity', array('parent' => $id));
+        }else{
+            //do nothing
+        }
+    }
+
     public function addThreatAndHazard($data){
 
         $this->db->insert('eop_entity', $data);

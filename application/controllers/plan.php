@@ -2644,6 +2644,15 @@ class Plan extends CI_Controller{
         }
     }
 
+    public function removeObjective(){
+        if($this->input->post('ajax')){
+            $entityId = $this->input->post('entityId');
+            $this->plan_model->removeObjective($entityId);
+
+            $this->output->set_output('deleted');
+        }
+    }
+
     /**
      * Function checks if user is logged in, redirects to login page if not.
      * @method authenticate

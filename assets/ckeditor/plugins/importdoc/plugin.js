@@ -18,8 +18,6 @@ function showMyDialog(editor) {
 
     $("#myForm").remove();
 
-    alert(editor.element.getAttribute('data-id'));
-
     //window.open('/Default.aspx', 'MyWindow', 'width=800,height=700,scrollbars=no,scrolling=no,location=no,toolbar=no');
     var formElement = document.createElement("form");
     formElement.setAttribute("id", "myForm");

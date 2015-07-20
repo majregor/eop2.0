@@ -88,7 +88,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
 
                 <?php foreach($thChild['children'] as $key => $grandChild): ?>
                     <?php if($grandChild['type']=="obj"): // Get only grandchildren of type obj ?>
-                        <tr>
+                        <tr id="objRow<?php echo($key); ?>">
                             <td class="txnorm">Objective</td>
                             <td>
                                 <?php foreach($grandChild['fields'] as $field): ?>
@@ -99,6 +99,8 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                         class="<?php    echo($thChild['type']);?>Obj"
                                         data-id="<?php echo($grandChild['id']);?>"
                                         data-field-id="<?php echo($field['id']);?>"
+                                        item-index = "<?php echo($key);?>"
+                                        canRemove = <?php echo(($key==0)? "no": "yes"); ?>
                                         style="width:100%" rows="4"><?php echo($field['body']); ?></textarea>
                                 <?php endforeach; ?>
                             </td>
@@ -106,13 +108,13 @@ $controlStatus = ($action=='view') ? "disabled" : "";
 
                         <?php
                         $fnValue="";
-                        foreach($grandChild['children'] as $key => $greatGrandChild){
+                        foreach($grandChild['children'] as $greatGrandChild){
                             if($greatGrandChild['type']=="fn"){
                                 $fnValue = $greatGrandChild['name'];
                             }
                         }
                         ?>
-                        <tr>
+                        <tr id="functionRow<?php echo($key); ?>">
                             <td class="txtnorm">Function:</td>
                             <td>
                                 <select
@@ -228,7 +230,6 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                     g<?php echo($i);?>Items ++;
                     $("#addMoreg<?php echo($i);?>ObjFnRow").after(mkObjectiveCtl(<?php echo($i);?>, g<?php echo($i);?>Items));
                     var wdth = $("#g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"").width();
-                    //@todo Load custom CKEDITOR config to include the remove objective button...
                     var editor = CKEDITOR.replace("g<?php echo($i);?>Item"+g<?php echo($i);?>Items+"");
                     editor.on( 'change', function( evt ) {
                         editor.updateElement();
