@@ -31,7 +31,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                 </tr>
                 <?php foreach($fnChild['children'] as $key => $grandChild): ?>
                     <?php if($grandChild['type']=="obj"): // Get only grandchildren of type obj ?>
-                        <tr>
+                        <tr  id="objRow<?php echo($key);?>">
                             <td class="txtnorm">Objective</td>
                             <td>
                                 <?php foreach($grandChild['fields'] as $field): ?>
@@ -42,6 +42,8 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                         class="<?php    echo($fnChild['type']);?>Obj"
                                         data-id="<?php echo($grandChild['id']);?>"
                                         data-field-id="<?php echo($field['id']);?>"
+                                        item-index = "<?php echo($key);?>"
+                                        canRemove = <?php echo(($key==0)? "no": "yes"); ?>
                                         style="width:100%"
                                         rows="4"><?php echo($field['body']); ?></textarea>
                                 <?php endforeach; ?>

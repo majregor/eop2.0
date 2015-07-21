@@ -17,6 +17,7 @@
 class Report extends CI_Controller{
 
     var $school_id = null;
+    var $EOP_type = 'internal';
 
     public function __construct(){
         parent::__construct();
@@ -29,6 +30,7 @@ class Report extends CI_Controller{
             $this->load->library('excel');
             $this->load->library('DocStyles');
             $this->load->library('upload');
+            $this->load->helper('file');
 
             //Load helper functions
             $this->load->helper(array('h2d_htmlconverter', 'support_functions'));
@@ -38,6 +40,7 @@ class Report extends CI_Controller{
             $this->load->model('plan_model');
             $this->load->model('report_model');
             $this->load->model('team_model');
+            $this->load->model('registry_model');
             $this->load->library('../controllers/school');
 
         }
@@ -46,10 +49,75 @@ class Report extends CI_Controller{
         }
     }
 
+    public function upload(){
+
+        $sid =isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null;
+        $type_id = $this->plan_model->getEntityTypeId('file', 'name');
+
+        $config = array(
+            'upload_path'   =>  dirname($_SERVER["SCRIPT_FILENAME"]).'/uploads/',
+            'upload_url'    =>  base_url()."uploads/",
+            'file_name'     =>  'uploaded_EOP_'.$sid,
+            'overwrite'     =>  true,
+            'allowed_types' =>  'doc|docx',
+            'max_size'      =>  '10024KB'
+        );
+        $this->upload->initialize($config);
+        if($this->upload->do_upload()){
+            $fileData = $this->upload->data();
+
+            $data = array(
+                'saved' => true,
+                'fileData' => $fileData
+            );
+
+
+            $this->plan_model->deleteEntity(array('sid'=>$sid, 'type_id'=>$type_id));
+
+            $entityData = array(
+                'name'      =>      'Basic Plan',
+                'title'     =>      'Uploaded Basic Plan',
+                'owner'     =>      $this->session->userdata('user_id'),
+                'sid'       =>      $sid,
+                'type_id'   =>      $type_id,
+                'description'=>     json_encode($fileData)
+            );
+            $this->plan_model->addEntity($entityData);
+
+            $this->load->view('ajax/upload', $data);
+
+        }else{
+            $data = $this->upload->display_errors();
+            $this->load->view('ajax/upload', $data);
+        }
+    }
+
+    function objectToArray($d){
+        if(is_object($d)){
+            $d = get_object_vars($d);
+
+            return $d;
+        }
+    }
+
+    public function getUploads(){
+        if($this->input->post('ajax')){
+            $sid = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null;
+            $entityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
+
+            if(is_array($entityData) && count($entityData)>0){
+                $fileData = json_decode($entityData[0]['description']);
+
+                $data= array(
+                  'fileData' => $this->objectToArray($fileData)
+                );
+                $this->load->view('ajax/upload', $data);
+            }
+        }
+    }
+
     public function importdoc(){
         if($this->input->post('ajax')){
-
-            $filePath ="";
 
             $config = array(
                 'upload_path'   =>  dirname($_SERVER["SCRIPT_FILENAME"]).'/uploads/',
@@ -78,7 +146,7 @@ class Report extends CI_Controller{
                 //$this->output->set_output(print_r($this->upload->data()).$fileExtension);
 
             }else{
-                $this->output->set_output($this->upload->display_errors()/*var_dump($_FILES)*/);
+                $this->output->set_output($this->upload->display_errors());
             }
 
 
@@ -86,17 +154,30 @@ class Report extends CI_Controller{
             $this->output->set_output(json_encode($this->input->post()));
         }
 
-
-        /*$source = "Text.docx";
+        /*
+        $source = "Text.docx";
 
         //echo date('H:i:s'), " Reading contents from `{$source}`";
         $phpword = \PhpOffice\PhpWord\IOFactory::load($source);
+        $sectionCover = $this->word->addSection();
+        //Add Document title (form 1.0 Title of the plan)
+        $sectionCover->addTextBreak(5);
+        $sectionCover->addText("Document Title Here", 'docTitle', 'docTitleParagraph');
+        $sectionCover->addPageBreak();
 
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpword, 'HTML');
+        $sectionCover->addTextBreak(5);
 
-        $objWriter->save("php://output");*/
+        foreach($phpword->getSections() as $section){
+            $this->word->insertSection($section);
+        }
 
-        /*$sections = $phpword->getSections();
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($this->word, 'HTML');
+
+
+        $objWriter->save("php://output");
+
+        $sections = $phpword->getSections();
         foreach($sections as $section){
 
             foreach ($section->getElements() as $key=>$element){
@@ -154,7 +235,8 @@ class Report extends CI_Controller{
 
 
         $data = array(
-            'schools_with_data' => $eligibleSchools
+            'schools_with_data' => $eligibleSchools,
+            'EOP_type' => $this->registry_model->getValue('EOP_type')
         );
 
         $templateData = array(
@@ -175,6 +257,12 @@ class Report extends CI_Controller{
         }
 
         $school = $this->school_model->getSchool($this->school_id);
+        //Get the basic plan source preference for the school
+        $this->EOP_type = 'internal';
+        if(!empty($school[0]['preferences'])) {
+            $this->EOP_type = json_decode($school[0]['preferences'])->basic_plan_source;
+        }
+
         //Make file name from the school's name
         $fileName=$school[0]['name'];
         $fileName = preg_replace("([^\w\s\d\-_~,;:\[\]\(\).])",'', $fileName);
@@ -282,6 +370,17 @@ class Report extends CI_Controller{
         //Add Section 10
         $this->makeSection10($form10Data, $section);
 
+        //Insert Uploaded Basic Plan sections
+        if($this->EOP_type=='external'){
+            //$entityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
+            $uploadedEntityData   = $this->plan_model->getEntities('file', array('name'=>'Basic Plan', 'sid'=>$this->school_id), false);
+            if(is_array($uploadedEntityData) && count($uploadedEntityData)>0){
+                $fileData = json_decode($uploadedEntityData[0]['description']);
+
+                $this->insertUploadedBasicPlan($fileData, $section);
+            }
+
+        }
 
         $this->makeFunctionalAnnexes($functionalData, $section);
 
@@ -335,6 +434,10 @@ class Report extends CI_Controller{
     }
 
     function makeSection1($data, $section){
+
+        if($this->EOP_type=='external'){
+            return;
+        }
 
         if(is_array($data) && count($data)>0){
 
@@ -423,6 +526,11 @@ class Report extends CI_Controller{
     }
 
     function makeSection2($data, $section){
+
+        if($this->EOP_type=='external'){
+            return;
+        }
+
         if(is_array($data) && count($data)>0) {
             $html_dom = $this->simple_html_dom;
             $children = $data[0]['children'];
@@ -462,6 +570,11 @@ class Report extends CI_Controller{
     }
 
     function makeSection3($data, $section){
+
+        if($this->EOP_type=='external'){
+            return;
+        }
+
         if(is_array($data) && count($data)>0) {
             $html_dom = $this->simple_html_dom;
             $children = $data[0]['children'];
@@ -480,6 +593,11 @@ class Report extends CI_Controller{
     }
 
     function makeSection4($data, $section){
+
+        if($this->EOP_type=='external'){
+            return;
+        }
+
         if(is_array($data) && count($data)>0) {
             $html_dom = $this->simple_html_dom;
             $children = $data[0]['children'];
@@ -497,6 +615,11 @@ class Report extends CI_Controller{
     }
 
     function makeSection5($data, $section){
+
+        if($this->EOP_type=='external'){
+            return;
+        }
+
         if(is_array($data) && count($data)>0) {
             $html_dom = $this->simple_html_dom;
             $children = $data[0]['children'];
@@ -514,6 +637,11 @@ class Report extends CI_Controller{
     }
 
     function makeSection6($data, $section){
+
+        if($this->EOP_type=='external'){
+            return;
+        }
+
         if(is_array($data) && count($data)>0) {
             $html_dom = $this->simple_html_dom;
             $children = $data[0]['children'];
@@ -531,6 +659,11 @@ class Report extends CI_Controller{
     }
 
     function makeSection7($data, $section){
+
+        if($this->EOP_type=='external'){
+            return;
+        }
+
         if(is_array($data) && count($data)>0) {
             $html_dom = $this->simple_html_dom;
             $children = $data[0]['children'];
@@ -548,6 +681,11 @@ class Report extends CI_Controller{
     }
 
     function makeSection8($data, $section){
+
+        if($this->EOP_type=='external'){
+            return;
+        }
+
         if(is_array($data) && count($data)>0) {
 
             $html_dom = $this->simple_html_dom;
@@ -566,6 +704,11 @@ class Report extends CI_Controller{
     }
 
     function makeSection9($data, $section){
+
+        if($this->EOP_type=='external'){
+            return;
+        }
+
         if(is_array($data) && count($data)>0) {
 
             $html_dom = $this->simple_html_dom;
@@ -584,6 +727,11 @@ class Report extends CI_Controller{
     }
 
     function makeSection10($data, $section){
+
+        if($this->EOP_type=='external'){
+            return;
+        }
+
         if(is_array($data) && count($data)>0) {
 
             $html_dom = $this->simple_html_dom;
@@ -599,6 +747,21 @@ class Report extends CI_Controller{
 
             $section->addPageBreak(); //New Page
         }
+    }
+
+    function insertUploadedBasicPlan($fileData, $section){
+
+
+        //Read word file into new phpword object
+        $phpword = \PhpOffice\PhpWord\IOFactory::load($fileData['full_path']);
+
+        //Get sections from the loaded document
+        foreach($phpword->getSections() as $loadedSection){
+            $this->word->insertSection($loadedSection);
+        }
+
+        $section->addPageBreak(); //New Page
+
     }
 
     function makeFunctionalAnnexes($data, $section){

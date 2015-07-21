@@ -209,6 +209,18 @@ class PhpWord
     }
 
     /**
+     * Insert an already created section
+     *
+     * @param Section $section
+     * @return void
+     */
+    public function insertSection($section){
+        $section->setElementIndex(count($this->sections)+1);
+        $section->setPhpWord($this);
+        $this->sections[] = $section;
+    }
+
+    /**
      * Get default font name
      *
      * @return string

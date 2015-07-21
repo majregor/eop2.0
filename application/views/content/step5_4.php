@@ -1,5 +1,9 @@
 <?php
 $entities = $page_vars['entities'];
+$EOP_type="internal";
+if(!empty($page_vars['EOP_type'])){
+    $EOP_type = $page_vars['EOP_type'];
+}
 ?>
 <?php
 if((null != $this->session->flashdata('error'))):
@@ -37,7 +41,6 @@ if((null != $this->session->flashdata('success'))):
 </div>
 
 
-
 <div class="col-half left">
     <p>Your planning team will begin developing a draft of the school EOP with the Basic Plan section. The Basic Plan section provides an overview of the school’s approach to emergency operations and often consists of several subsections, as listed below. You may manually create the Basic Plan section by clicking the Add button for each of the subsections below and then following the directions for that subsection. If you are modifying previously saved subsections, please click the Edit button for the corresponding subsection.</p>
     <p>If your school or district already has an up-to-date Basic Plan section (provided as a Microsoft Word document), you may upload the Basic Plan into EOP ASSIST.
@@ -47,44 +50,97 @@ if((null != $this->session->flashdata('success'))):
         at a time and must be separately downloaded from this page and inserted each time the school EOP is downloaded.<br />
     </p>
 </div>
+<br style="clear:both;" />
 
-<div class="col-half left" id="upload-div">
-    <iframe src="<?php echo base_url('upload'); ?>" style="width:100%; border:0px; padding:0px; margin: 0px;" id="upload-iframe" onload="iframeLoaded()" scrolling="no"></iframe>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/forms.css"/>
+
+<div class="col-half left" style="margin: 20px;">
+    <form>
+    <input id="useInternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='internal')? "checked disabled" : ""); ?> name="internalEOP" ><label for="useInternal">Use Internal Basic Plan</label>
+    <input id="useExternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='external')? "checked disabled" : ""); ?> name="externalEOP"><label for="useExternal">Use Uploaded Basic Plan</label>
+    </form>
 </div>
 
 
 
 
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/forms.css"/>
 
-
-
-
-
-
-
+<?php if($EOP_type == 'external'): ?>
+    <div>
+        <form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo base_url(); ?>report/upload">
+            <input type="file" name="userfile" id="userfile" required="required" />
+            <input type="button" value="Start Upload" id="uploadButton" />
+        </form>
+    </div>
+    <br style="clear:both;" />
 <table class="resultsFinal">
     <tr>
-        <th scope="col">Basic Plan</strong></th>
+        <th scope="col" style="vertical-align: middle; horiz-align: center; text-align: center;">Uploaded Basic Plan</strong></th>
         <td>
+            <div id="filesTable">
+
+            </div>
+        </td>
+    </tr>
+    <tr class="planOdd">
+        <td>1. Introductory Material</td>
+        <td align="middle">
+
+            <?php
+            $mode = 'add';
+            $entityId=null;
+            foreach($entities as $entity_key=>$entity){
+                if($entity['name']=='form1') {
+                    foreach ($entity['children'] as $child_key => $child) {
+                        foreach($child['fields'] as $field){
+                            if(isset($field['body']) && !empty($field['body'])){
+                                $entityId = $entity['id'];
+                                $mode='edit';
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+            ?>
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                <?php if($mode=='add'): ?>
+                    <a href="#" class="showAddForm" id="showForm1Link">Add</a>
+                <?php else: ?>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm1Link">Edit</a>
+                <?php endif; ?>
+            <?php else: ?>
+                <?php if($mode=='add'): ?>
+                    <span class="empty">No Data</span>
+                <?php else: ?>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm1Link">View</a>
+                <?php endif; ?>
+            <?php endif; ?>
 
 
-                <table class="filedl">
-                    <tr>
-                        <th scope="col">File Name</th>
-                        <th scope="col">Upload Date</th>
-                        <th scope="col">Download</th>
-                    </tr>
 
-                        <tr>
-                            <td>File name</td>
-                            <td>Date uploaded</td>
-                            <td>Download</a></td>
-                        </tr>
 
-                </table>
 
         </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div id="form1Div" style="padding-right:15px;padding-left:15px"></div>
+        </td>
+    </tr>
+    </table>
+<?php endif; ?>
+
+
+
+
+
+
+<?php if($EOP_type=='internal'): ?>
+    <table class="resultsFinal">
+    <tr>
+        <th scope="col">Basic Plan</strong></th>
+        <td></td>
     </tr>
     <tr class="planOdd">
         <td>1. Introductory Material</td>
@@ -518,6 +574,7 @@ if((null != $this->session->flashdata('success'))):
         </td>
     </tr>
 </table>
+<?php endif; ?>
 
 
 <script type='text/javascript'>
@@ -531,19 +588,106 @@ if((null != $this->session->flashdata('success'))):
 
         $("a#leftArrowButton").attr("href", "<?php echo(base_url('plan/step5/3')); ?>"); //Previous
 
+        if($("#useInternal").is(':checked')){
+            $("#useExternal").attr('checked', false);
+        }else if($("#useExternal").is(':checked')){
+            $("#useInternal").attr('checked', false);
+        }
+
+
+        var formData = {
+            ajax: 1
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('report/getUploads')); ?>',
+            data:   formData,
+            type:   'POST',
+            success: function(response){
+                try{
+                    $("#filesTable").html(response);
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+
+
 
     }); // End $(document).ready function
 
 
-    function iframeLoaded(){
-        var iFrameID = document.getElementById('upload-iframe');
-        if(iFrameID){
-            iFrameID.height ="";
-            var h =iFrameID.contentWindow.document.body.scrollHeight;
-            iFrameID.height = (100+h) + "px";
-        }
-    }
 
+    $(document).on("click", "#uploadButton", function(){
+
+        $("#uploadForm").validate();
+
+        var options = {
+            cache: false,
+            complete: function(response){
+                var responseStr = response.responseText;
+                $("#filesTable").html(responseStr);
+            },
+            error: function(){
+                alert('Import failed! Check your connection and try again.');
+            }
+        };
+
+        var uploadForm = $("#uploadForm");
+        uploadForm.ajaxForm(options);
+
+        uploadForm.submit();
+    });
+
+    $(document).on('change', '#useInternal', function(){
+        if($(this).is(':checked')){
+
+            var formData = {
+                ajax: 1,
+                option: 'internal'
+            };
+            $.ajax({
+                url:    '<?php echo(base_url('plan/setEOP')); ?>',
+                data:   formData,
+                type:   'POST',
+                success: function(response){
+                    try{
+                        location.reload();
+
+                    }catch(err){
+                        alert('Problem loading controls ' + err);
+                    }
+                }
+
+            });
+        }
+    });
+
+    $(document).on('change', '#useExternal', function(){
+        if($(this).is(':checked')){
+
+            var formData = {
+                ajax: 1,
+                option: 'external'
+            };
+            $.ajax({
+                url:    '<?php echo(base_url('plan/setEOP')); ?>',
+                data:   formData,
+                type:   'POST',
+                success: function(response){
+                    try{
+                        //alert(response);
+                        location.reload();
+
+                    }catch(err){
+                        alert('Problem loading controls ' + err);
+                    }
+                }
+
+            });
+        }
+    });
 
     $(document).on('click', '.showAddForm', function(){
 

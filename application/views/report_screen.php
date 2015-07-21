@@ -11,15 +11,26 @@ $role_level = $this->session->userdata['role']['level'];
             <?php if($role_level<=3): ?>
             <td>School</td>
             <?php endif; ?>
+            <td>Basic Plan Source</td>
             <td>School EOP</td>
         </tr>
 
-        <?php foreach($schoolsData as $key => $school): ?>
+        <?php foreach($schoolsData as $key => $school):
+
+            $EOP_type="internal";
+
+            if(!empty($school[0]['preferences'])){
+                $EOP_type = json_decode($school[0]['preferences'])->basic_plan_source;
+            }
+        ?>
             <tr>
                 <td><?php echo($school[0]['last_modified']); ?></td>
                 <?php if($role_level<=3): ?>
                     <td><?php echo($school[0]['name']); ?></td>
                 <?php endif; ?>
+                <td>
+                    <?php echo($EOP_type=='internal')? "Internal": "External / Uploaded"; ?>
+                </td>
                 <td>
                     <a href="<?php echo base_url(); ?>report/make/<?php echo($school[0]['id']); ?>">Download</a>
                 </td>

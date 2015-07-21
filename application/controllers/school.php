@@ -241,6 +241,25 @@ class School extends CI_Controller{
     }
 
     /**
+     * AJAX Action returns all schools
+     * @method get_schools
+     */
+    public function get_schools(){
+        if($this->input->post('ajax')){ // If form was submitted using ajax
+
+            $schools = $this->school_model->getSchools();
+
+            $this->output->set_output(json_encode($schools));
+        }
+        else{
+
+            $schools = $this->school_model->getSchools();
+
+            return $schools;
+        }
+    }
+
+    /**
      *  AJAX Action attaches a school to the session object
      * @method attach_to_session
      */

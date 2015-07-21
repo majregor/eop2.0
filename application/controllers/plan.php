@@ -9,6 +9,7 @@ class Plan extends CI_Controller{
 
         if($this->session->userdata('is_logged_in')){
             $this->load->model('plan_model');
+            $this->load->model('school_model');
             $this->school_id = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : Null;
 
         }
@@ -22,6 +23,33 @@ class Plan extends CI_Controller{
         $this->authenticate();
 
         $this->step1();
+    }
+
+    public function setEOP(){
+        $school_id = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : Null;
+
+        if($this->input->post('ajax')){
+            if( !empty($school_id) ){
+                $option = $this->input->post('option');
+
+                $preferences = $this->school_model->getPreferences($school_id);
+                if(is_array($preferences) && count($preferences)>0){
+                    //update the preference value
+                    $preferences['basic_plan_source'] = $option;
+                    $this->school_model->updatePreferences($school_id, $preferences);
+                }else{
+                    //add the new value to preferences
+                    $data = array('basic_plan_source'=>$option);
+                    $this->school_model->updatePreferences($school_id, $data);
+                }
+
+                $data = array('success'=>true, 'option'=>$option);
+                $this->output->set_output(json_encode($data));
+            }else{
+                $this->output->set_output("No school selected");
+            }
+
+        }
     }
 
     public function step1($step=1){
@@ -174,6 +202,8 @@ class Plan extends CI_Controller{
 
             $basicPlanEntities = $this->plan_model->getEntities('bp', array('sid'=>$this->school_id ), true, array('orderby'=>'weight', 'type'=>'ASC'));
             $data['entities'] = $basicPlanEntities;
+            $preferences = $this->school_model->getPreferences($this->school_id);
+            $data['EOP_type'] = $preferences['basic_plan_source'];
 
         }
 

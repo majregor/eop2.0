@@ -42,6 +42,50 @@ class School_model extends CI_Model {
 
         return $affected_rows;
     }
+
+    public function getPreferences($sid){
+        $this->db->select('preferences')
+                        ->from('eop_view_school')
+                        ->where(array('id'=>$sid));
+        $query = $this->db->get();
+
+        $results = $query->result_array();
+
+        if(is_array($results) && count($results)>0){
+            $data = json_decode($results[0]['preferences']);
+
+            $dataArray = $this->objectToArray($data);
+
+            return $dataArray;
+        }else{
+
+            return false;
+        }
+
+
+    }
+
+    public function updatePreferences($sid, $preferences){
+        $updateData = array(
+            'sys_preferences'    =>  json_encode($preferences)
+        );
+
+        $this->db->where('id', $sid);
+        $this->db->update('eop_school', $updateData);
+
+        return $this->db->affected_rows();
+    }
+
+    function objectToArray($d){
+        if(is_object($d)){
+            $d = get_object_vars($d);
+
+            return $d;
+        }else{
+            return $d;
+        }
+    }
+
  
     function update($data=array()){
 
@@ -83,7 +127,11 @@ class School_model extends CI_Model {
      *
      * @param string $state   The state to which the schools belong
      */
-    function getSchools($state){
+    function getSchools($state=''){
+        if($state==''){
+            $state = $this->session->userdata('host_state');
+        }
+
         $conditions = array('state_val' => $state);
 
         // For school admin and school user, return schools associated with an individual user

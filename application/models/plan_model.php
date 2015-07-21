@@ -13,6 +13,8 @@ class Plan_model extends CI_Model {
         return $this->db->insert_id();
     }
 
+
+
     public function removeObjective($id){
 
         if(is_numeric($id)){
@@ -22,6 +24,11 @@ class Plan_model extends CI_Model {
         }else{
             //do nothing
         }
+    }
+
+    public function deleteEntity($data){
+
+        $this->db->delete('eop_entity', $data);
     }
 
     public function addThreatAndHazard($data){
@@ -66,6 +73,8 @@ class Plan_model extends CI_Model {
         return $affected_rows;
 
     }
+
+
 
     public function getEntityTypeId($param, $use='name'){
         $condition= array();
