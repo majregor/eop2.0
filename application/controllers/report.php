@@ -379,7 +379,6 @@ class Report extends CI_Controller{
 
                 $this->insertUploadedBasicPlan($fileData, $section);
             }
-
         }
 
         $this->makeFunctionalAnnexes($functionalData, $section);
@@ -753,7 +752,7 @@ class Report extends CI_Controller{
 
 
         //Read word file into new phpword object
-        $phpword = \PhpOffice\PhpWord\IOFactory::load($fileData['full_path']);
+        $phpword = \PhpOffice\PhpWord\IOFactory::load(dirname($_SERVER["SCRIPT_FILENAME"])."/uploads/".$fileData->file_name);
 
         //Get sections from the loaded document
         foreach($phpword->getSections() as $loadedSection){
