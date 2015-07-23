@@ -86,15 +86,38 @@ class User_model extends CI_Model {
             'read_only'     =>  $data['access']
         );
 
+        $this->db->where('user_id', $data['user_id']);
+        $this->db->update('eop_user', $updateData);
+
+        $updatedRecs = $this->db->affected_rows();
+
+
         if(isset($data['school_id'])){
             if($data['school_id']){
 
                 $user2schoolData = array(
                     'sid'   =>  $data['school_id']
                 );
-                $this->db->where('uid', $data['user_id']);
-                $this->db->update('eop_user2school', $user2schoolData);
-                $updatedSchoolRecs = $this->db->affected_rows();
+
+                $query = $this->db->get_where('eop_user2school', array('uid'=>$data['user_id']));
+                $res = $query->result_array();
+                if(is_array($res) && count($res)>0){
+                    $this->unlinkUserFromDistrict($data['user_id']);
+                    $this->db->where('uid', $data['user_id']);
+                    $this->db->update('eop_user2school', $user2schoolData);
+                    $updatedSchoolRecs = $this->db->affected_rows();
+                }else{
+                    $this->db->where('user_id', $data['user_id']);
+                    $this->db->where_in('role_id', array(4,5));
+                    $query2 = $this->db->get('eop_view_user');
+                    $res2 = $query2->result_array();
+
+                    if(is_array($res2) && count($res2)>0) {
+                        $this->unlinkUserFromDistrict($data['user_id']);
+                        $updatedSchoolRecs = $this->linkUserToSchool($data['user_id'], $data['school_id']);
+                    }
+                }
+
             }
         }
 
@@ -104,18 +127,28 @@ class User_model extends CI_Model {
                 $user2districtData = array(
                     'did'   =>  $data['district_id']
                 );
-                $this->db->where('uid', $data['user_id']);
-                $this->db->update('eop_user2district', $user2districtData);
 
-                $updatedDistrictRecs = $this->db->affected_rows();
+                $query = $this->db->get_where('eop_user2district', array('uid'=>$data['user_id']));
+                $res = $query->result_array();
+
+                if(is_array($res) && count($res)>0){
+                    $this->unlinkUserFromSchool($data['user_id']);
+                    $this->db->where('uid', $data['user_id']);
+                    $this->db->update('eop_user2district', $user2districtData);
+                    $updatedDistrictRecs = $this->db->affected_rows();
+                }else{
+                    $query2 = $this->db->get_where('eop_view_user', array('user_id'=>$data['user_id'], 'role_id'=>3));
+                    $res2 = $query2->result_array();
+                    if(is_array($res2) && count($res2)>0) {
+                        $this->unlinkUserFromSchool($data['user_id']);
+                        $updatedDistrictRecs = $this->linkUserToDistrict($data['user_id'], $data['district_id']);
+                    }
+                }
             }
         }
 
 
-        $this->db->where('user_id', $data['user_id']);
-        $this->db->update('eop_user', $updateData);
 
-        $updatedRecs = $this->db->affected_rows();
 
 
         if(isset($updatedSchoolRecs) && is_numeric($updatedSchoolRecs) && $updatedSchoolRecs>=1){
@@ -127,6 +160,36 @@ class User_model extends CI_Model {
         else{
             return $updatedRecs;
         }
+    }
+
+    function unlinkUserFromSchool($uid){
+        $this->db->where(array('uid'=>$uid));
+        $this->db->delete("eop_user2school");
+    }
+
+    function unlinkUserFromDistrict($uid){
+        $this->db->where(array('uid'=>$uid));
+        $this->db->delete("eop_user2district");
+    }
+
+    function linkUserToDistrict($uid, $did){
+        $user2districtData = array(
+            'uid'   =>  $uid,
+            'did'   =>  $did
+        );
+        $this->db->insert('eop_user2district', $user2districtData);
+
+        return $this->db->affected_rows();
+    }
+
+    function linkUserToSchool($uid, $sid){
+        $user2schoolData = array(
+            'uid'   =>  $uid,
+            'sid'   =>  $sid
+        );
+        $this->db->insert('eop_user2school', $user2schoolData);
+
+        return $this->db->affected_rows();
     }
 
     function updatePersonalAccount($userId, $data){

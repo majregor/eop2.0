@@ -48,6 +48,7 @@ table.results {
 	width: 100%;
 	border-collapse: collapse;
 	border: 1px solid #cccccc;
+    /*table-layout: fixed;*/
 }
 
 /*table.results tr:nth-child(even) {
@@ -158,6 +159,7 @@ EDIT DISPLAY PAGE
 
 table.editOne, table.editTwo, table.editThree {
 	width: 100%;
+    table-layout: fixed;
 	border-collapse: collapse;
 /*	background-color: #eee;*/
 	margin: 10px 0;
@@ -205,8 +207,8 @@ table.editOne tr.add table tbody{
 table.editOne td.txtb, table.editTwo td.txtb, table.editThree td.txtb {
 	vertical-align: middle;
 	font-weight: 800;
-	/*width: 15%;
-	float: left;*/
+	width: 15%;
+	/*float: left;*/
 }
 
 table.editOne td.txtnorm, table.editTwo td.txtnorm, table.editThree td.txtnorm {

@@ -47,7 +47,7 @@ if($action=='add'){
         </td>
     </tr>
     <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste  or write out the CONOPS section of your school EOP.</strong></td>
+        <td colspan="2"><strong>In the field below, please cut and paste, write out or upload the CONOPS section of your school EOP.</strong></td>
     </tr>
     <tr>
         <td colspan="2"><textarea name="conceptField" id="conceptField"   <?php echo($controlStatus); ?> style="width: 100%" rows="11"><?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body']: ''); ?></textarea>            </td>

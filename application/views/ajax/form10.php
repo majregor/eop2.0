@@ -34,7 +34,7 @@ if($action=='add'){
             </ul></td>
     </tr>
     <tr>
-        <td><strong>In the field below, please cut and paste  or write out the Authorities and References section of your school EOP. </strong></td>
+        <td><strong>In the field below, please cut and paste, write out or upload the Authorities and References section of your school EOP. </strong></td>
     </tr>
     <tr>
         <td><textarea name="authField" id="authField" style="width: 100%"   <?php echo($controlStatus); ?> rows="11">

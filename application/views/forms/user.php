@@ -7,7 +7,7 @@
  */
 ?>
 
-<h1>Create New User Profile</h1>
+<h1>Create New User</h1>
 <?php
     echo form_open('user/add', array('class'=>'user_form', 'id'=>'user_form'));
 ?>
@@ -101,7 +101,7 @@
                 );
                 echo form_password($userPasswordInput);
                 ?>
-                 &nbsp;&nbsp; Confirm Password:
+                 &nbsp;&nbsp; <span class="required">*</span> Confirm Password:
                 <?php
                 $userPasswordInput = array(
                     'name'      =>  'user_password_conf',

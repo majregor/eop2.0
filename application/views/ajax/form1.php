@@ -83,7 +83,7 @@ if($action=='add'){
         <td colspan="2"><p><u>1.1 Promulgation Document and Signatures</u>            </p>            <p>This document or page contains a signed statement formally recognizing and adopting the school EOP. It gives both the authority and the responsibility to school officials to perform their tasks before, during, or after an incident, and therefore should be signed by the school administrator or another authorizing official.</p></td>
     </tr>
     <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste or write out the Promulgation Document and Signatures section of your school EOP.</strong></td>
+        <td colspan="2"><strong>In the field below, please cut and paste, write out or upload the Promulgation Document and Signatures section of your school EOP.</strong></td>
     </tr>
     <tr>
         <td colspan="2">
@@ -100,7 +100,7 @@ if($action=='add'){
         <td colspan="2"><p><u>1.2 Approval and Implementation</u>            </p>            <p>The Approval and Implementation page introduces the plan, outlines its applicability, and indicates that it supersedes all previous plans. It includes a delegation of authority for specific modifications that can be made to the plan and by whom they can be made without the school administrator&rsquo;s signature. It also includes a date and should be signed by the authorized school administrator.</p></td>
     </tr>
     <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste or write out your school&rsquo;s or district&rsquo;s statement formally recognizing and adopting the school EOP.</strong></td>
+        <td colspan="2"><strong>In the field below, please cut and paste, write out or upload your school&rsquo;s or district&rsquo;s statement formally recognizing and adopting the school EOP.</strong></td>
     </tr>
     <tr>
         <td colspan="2">
@@ -189,6 +189,18 @@ if($action=='add'){
                             echo("</tr>");
                         }
                     }
+                    if($numFields<=0){
+                        ?>
+
+                        <tr id="thRowQ31" class="thRowQ3">
+                            <td><input type="text" name="txtrowq311" id="txtrowq311" /></td>
+                            <td><input type="text" name="txtrowq312" id="txtrowq312" class="datePickerWidget"/></td>
+                            <td><input type="text" name="txtrowq313" id="txtrowq313" /></td>
+                            <td><input type="text" name="txtrowq314" id="txtrowq314" /></td>
+                        </tr>
+
+                        <?php
+                    }
                     ?>
                 </table>
             </td>
@@ -258,6 +270,18 @@ if($action=='add'){
                                 echo $column;
                                 echo("</tr>");
                             }
+                        }
+                        if($numFields<=0){
+                            ?>
+
+                            <tr id="thRowQ41" class="thRowQ4">
+                                <td><input type="text" name="txtrowq411" id="txtrowq411" /></td>
+                                <td><input type="text" name="txtrowq412" id="txtrowq412" /></td>
+                                <td><input type="text" name="txtrowq413" id="txtrowq413" class="datePickerWidget"/></td>
+                                <td><input type="text" name="txtrowq414" id="txtrowq414" /></td>
+                            </tr>
+
+                            <?php
                         }
                         ?>
                 <?php endif; ?>

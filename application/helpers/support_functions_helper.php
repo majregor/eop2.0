@@ -75,7 +75,7 @@ function htmltodocx_valid_http_host($host) {
 }
 
 /** Example styles
- This is an example of how a "style sheet" should be structured to asign PHPWord styles to HTML elements, classes, and inline
+ This is an example of how a "style sheet" should be structured to assign PHPWord styles to HTML elements, classes, and inline
  styles.
  */
 function htmltodocx_styles_example() {
@@ -106,15 +106,22 @@ function htmltodocx_styles_example() {
             'h3' => array (
                 'size' => 12,
                 'bold' => TRUE,
+                'spaceBefore'=> 150,
                 'spaceAfter' => 100,
             ),
+            'p' => array(
+                'spaceAfter'    =>  100,
+                'hanging'       =>  0
+            ),
             'li' => array (
+                /*'indent' => .6*/
             ),
             'ol' => array (
                 'spaceBefore' => 200,
             ),
             'ul' => array (
-                'spaceAfter' => 150,
+                /*'spaceAfter' => 100,
+                'spaceBefore' => 100,*/
             ),
             'b' => array (
                 'bold' => TRUE,

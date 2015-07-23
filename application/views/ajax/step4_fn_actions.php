@@ -15,10 +15,10 @@ $controlStatus = ($action=='view') ? "disabled" : "";
         <?php if($fnChild['type']=='g1' || $fnChild['type']=='g2' || $fnChild['type']=='g3'):?>
             <table class="editOne">
                 <tr>
-                    <td class="txtb" ><?php echo($fnChild['type_title']); ?>:</td>
+                    <td class="txtb" style="width:20%;"><?php echo($fnChild['type_title']); ?>:</td>
                     <td>
                         <?php foreach($fnChild['fields'] as $field): ?>
-                           <?php echo($field['body']); ?>
+                           <div style="word-wrap: break-word;"><?php echo($field['body']); ?></div>
                         <?php endforeach; ?>
                     </td>
                 </tr>
@@ -27,10 +27,10 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                 <?php foreach($fnChild['children'] as $key => $grandChild): ?>
                     <?php if($grandChild['type']=="obj"): // Get only grandchildren of type obj ?>
                         <tr>
-                            <td class="txnorm">Objective</td>
+                            <td class="txtnorm">Objective:</td>
                             <td>
                                 <?php foreach($grandChild['fields'] as $field): ?>
-                                    <?php echo($field['body']); ?>
+                                <div style="word-wrap: break-word;"><?php echo($field['body']); ?></div>
                                 <?php endforeach; ?>
                             </td>
                         </tr>

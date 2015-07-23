@@ -4,7 +4,7 @@ CKEDITOR.plugins.add('importdoc',
         var pluginName = 'importdoc';
         editor.ui.addButton('importdoc',
             {
-                label: 'Import from word document',
+                label: 'Import from Word document',
                 command: 'OpenWindow',
                 icon: CKEDITOR.plugins.getPath('importdoc') + 'word.png',
                 toolbar: 'import'

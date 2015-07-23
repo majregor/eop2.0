@@ -216,3 +216,16 @@ echo form_open('team/update', array('class'=>'updateTeamForm', 'id'=>'updateTeam
 <?php
 echo form_close();
 ?>
+<script>
+    $(document).ready(function(){
+
+        $("#updateTeamForm").validate({
+            rules: {
+                updatetxtphone:{
+                    phoneUS2: true
+                }
+            }
+        });
+    });
+
+</script>

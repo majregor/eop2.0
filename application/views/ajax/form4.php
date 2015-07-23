@@ -47,7 +47,7 @@ if($action=='add'){
             </table></td>
     </tr>
     <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste or write out the Organization and Assignment of Responsibilities section of your school EOP</strong>.</td>
+        <td colspan="2"><strong>In the field below, please cut and paste, write out or upload the Organization and Assignment of Responsibilities section of your school EOP</strong>.</td>
     </tr>
     <tr>
         <td colspan="2"><textarea name="orgField" id="orgField"   <?php echo($controlStatus); ?> style="width: 100%" rows="11"><?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body']: ''); ?></textarea>            </td>

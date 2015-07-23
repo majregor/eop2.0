@@ -244,6 +244,11 @@
             $('#txtth').val('');
         }
 
+        $("#btnreset").click(function(){
+            $("#txtth").removeClass('error');
+            $("#txtth-error").remove();
+        });
+
     }); // End $(document).ready function
 
 </script>

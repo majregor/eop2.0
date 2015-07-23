@@ -90,7 +90,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                 <?php foreach($thChild['children'] as $key => $grandChild): ?>
                     <?php if($grandChild['type']=="obj"): // Get only grandchildren of type obj ?>
                         <tr id="objRow<?php echo($key);?>">
-                            <td class="txnorm">Objective</td>
+                            <td class="txnorm">Objective:</td>
                             <td>
                                 <?php foreach($grandChild['fields'] as $field): ?>
                                     <textarea

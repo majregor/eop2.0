@@ -374,11 +374,13 @@
         $("#teamManagementForm").validate({
             rules: {
                 txtphone:{
-                    phoneUS: true
+                    phoneUS2: true
                 }
             },
             submitHandler: submit_teamManagementForm
         });
+
+
 
         function loadTeams(){
 

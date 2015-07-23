@@ -15,7 +15,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 <fieldset>
     <input type="hidden" name="user_id_update" id="user_id_update" value="">
     <input type="hidden" name="role_id_update" id="role_id_update" value="">
-    <legend>Personal Information</legend>
+    <!--<legend>Personal Information</legend>-->
     <p>
         <span class="required">*</span>
         <label for="first_name_update">First Name:</label>
@@ -86,12 +86,10 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         echo form_input($inputAttributes);
         ?>
     </p>
-</fieldset>
 
-<fieldset>
-    <legend for="slctuserrole_update">EOP Access</legend>
     <p>
-        <label for="slctuserrole_update">User Role</label>
+        <span>&nbsp;</span>
+        <label for="slctuserrole_update">User Role:</label>
         <?php
         $options = array();
         //$options['empty'] = '--Select--';
@@ -107,7 +105,8 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
     </p>
     <?php if($role['level']<2): ?>
         <p id="districtInputHolder">
-            <label for="sltdistrict_update">District</label>
+            <span>&nbsp;</span>
+            <label for="sltdistrict_update">District:</label>
             <?php
             $options = array();
             $options['empty'] = '--Select--';
@@ -125,6 +124,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 
     <?php if($role['level']<2 || $role['level']==3)://Only Super admin and district admin should change user's school ?>
     <p id="SchoolInputHolder">
+        <span>&nbsp;</span>
         <label for="sltschool_update">School:</label>
         <?php
         $options = array();
@@ -143,6 +143,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
     <?php endif; ?>
 
     <p id="viewonlyInputHolder">
+        <span>&nbsp;</span>
         <label for="user_access_permission_update">View Only:</label>
         <?php
         $options = array(
@@ -165,6 +166,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         $("#slctuserrole_update").change(function(){
             if($(this).val()==3){
                 $("#districtInputHolder").show();
+                $("#SchoolInputHolder").hide();
             }
             else if($(this).val()==4 || $(this).val()==5){
                 $("#districtInputHolder").show();

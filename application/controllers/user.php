@@ -221,6 +221,16 @@ class User extends CI_Controller{
 
             $savedRecs = $this->user_model->update($data);
 
+            //If the user's role has been changed to a district, state or super admin, unlink the user from their school
+            if($this->input->post('role_id')<=3){
+                $this->user_model->unlinkUserFromSchool($data['user_id']);
+            }
+
+            /*//If the user's role has been changed to a school user or school admin, unlink the user from a district
+            if($this->input->post('role_id')>=4){
+                $this->user_model->unlinkUserFromDistrict($data['user_id']);
+            }*/
+
             if(is_numeric($savedRecs) && $savedRecs>=1){ //User information saved successfully
                 $this->session->set_flashdata('success', 'User profile has been updated successfully!');
             }

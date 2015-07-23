@@ -282,18 +282,21 @@ class Report extends CI_Controller{
 
         $fnData         = $this->plan_model->getEntities('fn', array('parent is not null'=>Null, 'sid'=>$this->school_id), true, array('orderby'=>'name', 'type'=>'ASC'));
         $topLevelFns    = $this->plan_model->getEntities('fn', array('parent'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
-        $functionalData = array();
+        $functionalDataHolder = array();
         foreach($topLevelFns as $key=>$value){
 
             foreach($fnData as $v){
                 if($value['name'] == $v['name']){
-                    array_push($functionalData, $value);
+                    array_push($functionalDataHolder, $value);
                     break;
                 }
             }
         }
 
-        $THData  = $this->plan_model->getEntities('th',array('sid'=>$this->school_id, 'description'=>'live'), true);
+        $functionalData = $this->cleanFunctionalData($functionalDataHolder);
+
+        $THData  = $this->cleanTHData($this->plan_model->getEntities('th',array('sid'=>$this->school_id, 'description'=>'live'), true));
+
 
 
         $this->word->setDefaultFontSize(12);
@@ -386,7 +389,6 @@ class Report extends CI_Controller{
 
         $this->makeTHAnnexes($THData, $section);
 
-
         $this->flushToBrowser($fileName);
 
     }
@@ -423,7 +425,7 @@ class Report extends CI_Controller{
 
             $textrun = $sectionCover->addTextRun('cover');
             $textrun->addText($copyright2);
-            $textrun->addLink('http://rems.ed.gov/EOPASSIST', 'http://rems.ed.gov/EOPASSIST', 'default');
+            $textrun->addLink('http://rems.ed.gov/EOPASSIST.aspx', 'http://rems.ed.gov/EOPASSIST.aspx', 'default');
             $textrun->addText('.');
 
 
@@ -750,7 +752,6 @@ class Report extends CI_Controller{
 
     function insertUploadedBasicPlan($fileData, $section){
 
-
         //Read word file into new phpword object
         $phpword = \PhpOffice\PhpWord\IOFactory::load(dirname($_SERVER["SCRIPT_FILENAME"])."/uploads/".$fileData->file_name);
 
@@ -758,9 +759,7 @@ class Report extends CI_Controller{
         foreach($phpword->getSections() as $loadedSection){
             $this->word->insertSection($loadedSection);
         }
-
         $section->addPageBreak(); //New Page
-
     }
 
     function makeFunctionalAnnexes($data, $section){
@@ -821,7 +820,8 @@ class Report extends CI_Controller{
                 }
 
                 if(++$i === $numItems){ //Last item
-                    //Do nothing
+
+                    $section->addPageBreak(); //New Page
                 }else{
                     $section->addPageBreak(); //New Page
                 }
@@ -929,12 +929,12 @@ class Report extends CI_Controller{
                     // Optional parameters - showing the defaults if you don't set anything:
                     'current_style' => array('size' => '12'), // The PHPWord style on the top element - may be inherited by descendent elements.
                     'parents' => array(0 => 'body'), // Our parent is body.
-                    'list_depth' => 0, // This is the current depth of any current list.
+                    'list_depth' => 4, // This is the current depth of any current list.
                     'context' => 'section', // Possible values - section, footer or header.
                     'pseudo_list' => TRUE, // NOTE: Word lists not yet supported (TRUE is the only option at present).
                     'pseudo_list_indicator_font_name' => 'Wingdings', // Bullet indicator font.
                     'pseudo_list_indicator_font_size' => '7', // Bullet indicator size.
-                    'pseudo_list_indicator_character' => 'l ', // Gives a circle bullet point with wingdings.
+                    'pseudo_list_indicator_character' => 'l ', // l Gives a circle or m for round bullet point with wingdings.
                     'table_allowed' => TRUE, // Note, if you are adding this html into a PHPWord table you should set this to FALSE: tables cannot be nested in PHPWord.
                     'treat_div_as_paragraph' => TRUE, // If set to TRUE, each new div will trigger a new line in the Word document.
 
@@ -987,7 +987,7 @@ class Report extends CI_Controller{
             $memberData = $this->team_model->getMembers($schoolCondition);
 
             $exportData = array();
-            $exportData[0] = array('NAME', 'TITLE', 'ORGANIZATION', 'EMAIL', 'PHONE', 'INTERESTS');
+            $exportData[0] = array('NAME', 'TITLE', 'ORGANIZATION', 'EMAIL', 'PHONE', 'STAKEHOLDER CATEGORY');
             foreach($memberData as $key => $row){
                 $exportData[] = array($row['name'], $row['title'], $row['organization'], $row['email'], $row['phone'], $row['interest']);
             }
@@ -1020,5 +1020,55 @@ class Report extends CI_Controller{
 
         $objWriter->save('php://output');
         exit;
+    }
+
+    function cleanTHData($entities){
+
+        $eligibleEntities = array();
+
+        foreach($entities as $key=>$value){
+            foreach($value['children'] as $child){
+                if($child['type']=='g1' || $child['type']=='g2' || $child['type']=='g3'){
+                    foreach($child['children'] as $grandChild){
+                        if($grandChild['type']=='ca') {
+                            foreach ($grandChild['fields'] as $field) {
+                                if (isset($field['body']) && !empty($field['body'])) {
+                                    array_push($eligibleEntities, $value);
+                                    break 3;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        }
+        return $eligibleEntities;
+    }
+
+    function cleanFunctionalData($entities){
+        $eligibleEntities = array();
+
+        foreach($entities as $key=>$value){
+            foreach($value['children'] as $child){
+                if($child['type']=='g1' || $child['type']=='g2' || $child['type']=='g3'){
+                    foreach($child['children'] as $grandChild){
+                        if($grandChild['type']=='ca') {
+                            foreach ($grandChild['fields'] as $field) {
+                                if (isset($field['body']) && !empty($field['body'])) {
+                                    array_push($eligibleEntities, $value);
+                                    break 3;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        }
+
+        return $eligibleEntities;
     }
 }

@@ -491,22 +491,17 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
         _htmltodocx_add_list_start_end_spacing_style($state);
         $state['list_number'] = 0; // Reset list number.
         if (in_array('ul', $allowed_children)) {
-            if (!isset($state['pseudo_list'])) {
-                // Unset any existing text run:
-                unset($state['textrun']);
-                // PHPWord lists cannot appear in a text run. If we leave a text
-                // run active then subsequent text will go in that text run (if it
-                // isn't re-initialised), which would mean that text after this
-                // list would appear before it in the Word document.
-            } elseif($state['pseudo_list']==true){
-                array_unshift($state['parents'], 'ul');
-                htmltodocx_insert_html_recursive($phpword_element, $element->nodes, $state);
-                array_shift($state['parents']);
-            }else{
-                _htmltodocx_add_list_items($phpword_element, $element->nodes, $state);
-            }
-
-
+          if (!isset($state['pseudo_list'])) {
+            // Unset any existing text run:
+            unset($state['textrun']);
+            // PHPWord lists cannot appear in a text run. If we leave a text
+            // run active then subsequent text will go in that text run (if it
+            // isn't re-initialised), which would mean that text after this
+            // list would appear before it in the Word document.
+          }
+          array_unshift($state['parents'], 'ul');
+          htmltodocx_insert_html_recursive($phpword_element, $element->nodes, $state);
+          array_shift($state['parents']);
         }
         else {
           $state['textrun'] = $phpword_element->createTextRun();
@@ -737,15 +732,5 @@ function htmltodocx_url_encode_chars($url) {
   $encoded_url = str_replace($encode_chars, $encoded_chars, $url);
   
   return $encoded_url;
-}
-
-/**
- * Adds phpword list items to section
- */
-function _htmltodocx_add_list_items(&$phpword_element, $html_dom_array, &$state){
-    // Go through each element:
-    foreach ($html_dom_array as $element) {
-
-    }
 }
 

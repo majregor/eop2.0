@@ -7,7 +7,7 @@ echo form_open('user/resetpwd', array('class'=>'pwd_form', 'id'=>'pwd_form'));
 ?>
 <fieldset>
     <input type="hidden" id="user_id_reset" value="" name="user_id_reset" />
-    <legend>Account Information</legend>
+   <!-- <legend>Account Information</legend>-->
     <p>
         <label>First Name:</label><span id="first_name"></span>
     </p>
@@ -17,12 +17,9 @@ echo form_open('user/resetpwd', array('class'=>'pwd_form', 'id'=>'pwd_form'));
     <p>
         <label>User ID:</label><span id="user_name"></span>
     </p>
-</fieldset>
 
-
-<fieldset>
     <p>
-        <label>Enter New Password</label>
+        <label><span class="required">*</span> Enter New Password:</label>
          <?php
         $userPasswordInput = array(
             'name'      =>  'user_password_reset',
@@ -36,7 +33,7 @@ echo form_open('user/resetpwd', array('class'=>'pwd_form', 'id'=>'pwd_form'));
         ?>
     </p>
     <p>
-        <label>Confirm Password</label>
+        <label><span class="required">*</span> Confirm Password: &nbsp;&nbsp;&nbsp;</label>
          <?php
             $userPasswordInput = array(
                 'name'      =>  'user_password_conf_reset',

@@ -9,7 +9,7 @@ echo form_open('school/update', array('class'=>'update_school_form', 'id'=>'upda
 
 <fieldset>
     <input type="hidden" name="school_id_update" id="school_id_update" value="">
-    <legend>School Information</legend>
+    <!--<legend>School Information</legend>-->
     <p>
         <span class="required">*</span>
         <label for="school_name_update">School Name:</label>

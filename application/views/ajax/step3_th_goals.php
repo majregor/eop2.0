@@ -89,7 +89,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                 <?php foreach($thChild['children'] as $key => $grandChild): ?>
                     <?php if($grandChild['type']=="obj"): // Get only grandchildren of type obj ?>
                         <tr id="objRow<?php echo($key); ?>">
-                            <td class="txnorm">Objective</td>
+                            <td class="txnorm">Objective:</td>
                             <td>
                                 <?php foreach($grandChild['fields'] as $field): ?>
                                     <textarea
@@ -269,7 +269,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
     function mkObjectiveCtl( goal, items ){
         var data="";
         data+="<tr id='g"+goal+"Item"+items+"ObjRow'>";
-        data+="<td class='txnorm'>Objective</td>";
+        data+="<td class='txnorm'>Objective:</td>";
         data+="<td>";
         data+="<textarea name='g"+goal+"Item"+items+"' id='g"+goal+"Item"+items+"' class='g" + goal + "ObjNew'  style='width:100%' rows='4'></textarea>";
         data+="</td></tr>";

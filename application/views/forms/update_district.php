@@ -9,7 +9,7 @@ echo form_open('district/update', array('class'=>'update_district_form', 'id'=>'
 
 <fieldset>
     <input type="hidden" name="district_id_update" id="district_id_update" value="">
-    <legend>District Information</legend>
+    <!--<legend>District Information</legend>-->
     <p>
         <span class="required">*</span>
         <label for="district_name_update">District Name:</label>

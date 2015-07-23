@@ -29,7 +29,7 @@ if($action=='add'){
             </p></td>
     </tr>
     <tr>
-        <td><strong>In the field below, please cut and paste  or write out the Training and Exercises section of your school EOP.</strong></td>
+        <td><strong>In the field below, please cut and paste, write out or upload the Training and Exercises section of your school EOP.</strong></td>
     </tr>
     <tr>
         <td><textarea name="trainingField" id="trainingField" style="width: 100%"   <?php echo($controlStatus); ?>  rows="11">

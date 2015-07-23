@@ -35,7 +35,7 @@ if($action=='add'){
             <p>The planning team may want to consider including a review timeline in this section of the plan.</p></td>
     </tr>
     <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste  or write out the Plan Development and Maintenance section of your school EOP.</strong></td>
+        <td colspan="2"><strong>In the field below, please cut and paste, write out or upload the Plan Development and Maintenance section of your school EOP.</strong></td>
     </tr>
     <tr>
         <td colspan="2"><textarea name="planField" id="planField" style="width: 100%"   <?php echo($controlStatus); ?> rows="11">

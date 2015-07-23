@@ -55,6 +55,7 @@ class Team_model extends CI_Model {
 
                 //Load members for their respective school only
                 $conditions['sid'] = $this->session->userdata['loaded_school']['id'];
+                $this->db->order_by('name', 'ASC');
                 $query = $this->db->get_where('eop_team', $conditions);
 
             }elseif($this->session->userdata['role']['level']==3){ //District admin
@@ -70,12 +71,13 @@ class Team_model extends CI_Model {
 
                 $this->db->select("*")
                     ->from('eop_team')
+                    ->order_by('name', 'ASC')
                     ->where_in('sid', $schoolIds);
                 $query = $this->db->get();
 
             }else{
 
-                $this->db->order_by('created', 'DESC');
+                $this->db->order_by('name', 'ASC');
                 $query = $this->db->get('eop_team');
             }
 
@@ -85,6 +87,7 @@ class Team_model extends CI_Model {
         }else{
 
             $conditions=$data;
+            $this->db->order_by('name', 'ASC');
             $query = $this->db->get_where('eop_team', $conditions);
 
             return $query->result_array();

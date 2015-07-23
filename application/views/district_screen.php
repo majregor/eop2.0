@@ -51,7 +51,7 @@ if(isset($viewform)){
 <!-- Show only for Super admin and State Admin -->
 <?php if($this->session->userdata['role']['level'] < 3): ?>
 
-    <div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>district/add">Add New District</a></div>
+    <div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>district/add">Create New District</a></div>
 <?php endif; ?>
 <div>
     <!-- Hidden field used to store selected user id -->
@@ -104,7 +104,7 @@ if(isset($viewform)){
 
 
 
-<div id="update-district-dialog" title="Update District Profile">
+<div id="update-district-dialog" title="Update District">
     <?php
         include("forms/update_district.php");
     ?>

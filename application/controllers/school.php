@@ -145,6 +145,17 @@ class School extends CI_Controller{
             // Get the EOP access setting to the state
             $stateEOPAccess = $this->access_model->getStateAccess();
 
+            //Get schools that have report data
+            foreach($schools as &$school){
+
+                if($this->report_model->hasData($school['id'])){
+                    $school['has_data'] = true;
+                    $school['last_modified'] = $this->report_model->getLastModifiedDate($school['id']);
+                }else{
+                    $school['has_data'] = false;
+                }
+            }
+
             $templateData = array(
                 'page'          =>  'users',
                 'page_title'    =>  'User Management',

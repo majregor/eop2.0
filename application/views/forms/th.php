@@ -43,6 +43,16 @@ if($this->session->userdata['role']['read_only']=='n') {
                     );
                     ?>
                     <?php echo form_submit($attributes); ?>
+
+                    <?php
+                    $attributes = array(
+                        'name' => 'btnreset',
+                        'value' => 'Reset',
+                        'id' => 'btnreset',
+                        'style' => ''
+                    );
+                    ?>
+                    <?php echo form_reset($attributes); ?>
                 </td>
             </tr>
         </table>

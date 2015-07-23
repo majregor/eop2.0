@@ -446,9 +446,6 @@ $entities = $page_vars['entities'];
                                 }
 
                             });
-
-
-
                         });
 
 

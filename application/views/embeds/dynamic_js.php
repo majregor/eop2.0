@@ -138,7 +138,6 @@
              });
          });
 
-
          $(document).on('change','#slctsubdistrictselection', function(){
 
              var form_data = {
@@ -254,12 +253,6 @@
                              .text(value.name));
                      });
                  }
-             });
-
-             $(document).ready(function(){
-                 $("a:not(.menuItem)").on('click', function(){
-                     return false;
-                 });
              });
 
 

@@ -86,20 +86,20 @@ class Plan extends CI_Controller{
         $data = array();
 
         if($step==2){
-            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ));
+            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ), false, array('orderby'=>'name', 'type'=>'ASC'));
             if(is_array($thData)){
                 $data['entities'] = $thData;
             }
         }
         elseif($step==3){
-            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ), true);
+            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ), true, array('orderby'=>'name', 'type'=>'ASC'));
             if(is_array($thData)){
                 $data['entities'] = $thData;
             }
         }
         elseif($step==4){
             $fnData = $this->plan_model->getEntities('fn', array('parent is not null'=>Null, 'sid'=>$this->school_id), true, array('orderby'=>'name', 'type'=>'ASC'));
-            $topLevelFns = $this->plan_model->getEntities('fn', array('parent'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
+            $topLevelFns = $this->plan_model->getEntities('fn', array('parent'=>Null, 'name !='=>'None'), false, array('orderby'=>'name', 'type'=>'ASC'));
             $cleanedFns= array();
             foreach($topLevelFns as $key=>$value){
 
@@ -140,7 +140,7 @@ class Plan extends CI_Controller{
 
         if($step==4){
             $fnData = $this->plan_model->getEntities('fn', array('parent is not null'=>Null, 'sid'=>$this->school_id), true, array('orderby'=>'name', 'type'=>'ASC'));
-            $topLevelFns = $this->plan_model->getEntities('fn', array('parent'=>Null), false, array('orderby'=>'name', 'type'=>'ASC'));
+            $topLevelFns = $this->plan_model->getEntities('fn', array('parent'=>Null, 'name !='=>'None'), false, array('orderby'=>'name', 'type'=>'ASC'));
             $cleanedFns= array();
             foreach($topLevelFns as $key=>$value){
 
@@ -182,7 +182,7 @@ class Plan extends CI_Controller{
         }
         elseif($step==3) {
             $fnData = $this->plan_model->getEntities('fn', array('parent is not null' => Null, 'sid'=>$this->school_id), true, array('orderby' => 'name', 'type' => 'ASC'));
-            $topLevelFns = $this->plan_model->getEntities('fn', array('parent' => Null), false, array('orderby' => 'name', 'type' => 'ASC'));
+            $topLevelFns = $this->plan_model->getEntities('fn', array('parent' => Null, 'name !='=>'None'), false, array('orderby' => 'name', 'type' => 'ASC'));
             $cleanedFns = array();
             foreach ($topLevelFns as $key => $value) {
 
@@ -312,7 +312,7 @@ class Plan extends CI_Controller{
             $param = $this->input->post('param');
 
             if($param=='all' || $param==''){
-                $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ));
+                $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ), false, array('orderby'=>'name', 'type'=>'ASC'));
             }else{
                 $p = array('id' =>$param, 'sid'=>$this->school_id);
                 $thData = $this->plan_model->getEntities('th', $p);
@@ -359,7 +359,9 @@ class Plan extends CI_Controller{
 
             switch($action){
                 case 'add':
-                    $fnData = $this->plan_model->getEntities('fn', array('parent'=>null), false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
+                    //$fnData = $this->plan_model->getEntities('fn', array('parent'=>null ), false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
+                    $fnData = $this->plan_model->getFunctionEntities($this->school_id);
+
                     $thData = $this->plan_model->getEntities('th', array('id'=>$id), true);
                     $data = array(
                         'entity_id'                 =>  $id,
@@ -378,7 +380,8 @@ class Plan extends CI_Controller{
                     break;
                 case 'edit':
                 case 'view':
-                    $fnData = $this->plan_model->getEntities('fn', array('parent'=>null), false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
+                    //$fnData = $this->plan_model->getEntities('fn', array('parent'=>null), false, array('orderby'=>'name', 'type'=>'ASC')); // Get function Entities
+                    $fnData = $this->plan_model->getFunctionEntities($this->school_id);
                     $thData = $this->plan_model->getEntities('th', array('id'=>$id), true);
                     $data = array(
                         'entity_id'                 =>  $id,

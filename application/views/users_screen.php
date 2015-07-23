@@ -47,7 +47,7 @@ if(isset($viewform)){
 }
 ?>
 <?php if($role['level']<5): ?>
-<div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>user/add">Create New User Profile</a></div>
+<div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>user/add">Create New User</a></div>
 <?php endif; ?>
 <div>
     <!-- Hidden field used to store selected user id -->
@@ -172,7 +172,7 @@ if(isset($viewform)){
     ?>
 </div>
 
-<div id="update-user-dialog" title="Update User Profile">
+<div id="update-user-dialog" title="Update User">
     <?php
         include("forms/update_user.php");
     ?>
@@ -503,7 +503,6 @@ if(isset($viewform)){
             });
 
             function submit_update_user_form(){
-
                 var form_data = {
                     user_id                 : $('#user_id_update').val(),
                     first_name              : $('#first_name_update').val(),
@@ -724,17 +723,20 @@ if(isset($viewform)){
                 $('#viewonlyRow').css('display', 'none');
 
                 if(this.value == 3){ // District Admin selected
-                    $('#districtRow').css('display', 'table-row');
+
                     $('#schoolRow').css('display', 'none');
                     $('#sltschool').val('Null');
-
+                    <?php if($role['level']!=3): ?>
                         $('#sltdistrict option[value=""]').each(function(){
                             $(this).remove();
                         });
                         toggleNone = true;
 
-                    $('#sltdistrict').rules("add", "required");
-                    $('#districtRow span').addClass("required");
+
+                        $('#districtRow').css('display', 'table-row');
+                        $('#sltdistrict').rules("add", "required");
+                        $('#districtRow span').addClass("required");
+                    <?php endif; ?>
                 }
                 else if(this.value==2){ // State Admin selected
                     $('#districtRow').css('display', 'none');
@@ -745,21 +747,25 @@ if(isset($viewform)){
                 else if(this.value == 4){ //School admin selected
                     $('#schoolRow').css('display', 'table-row');
                     $('#sltschool').val('Null');
-                    $('#districtRow').css('display', 'table-row');
-                    $('#sltdistrict').attr("required", false);
-                    $('#sltdistrict').rules("remove", "required");
-                    if(toggleNone == true){
-                        /*$('#sltdistrict').prepend($("<option></option>")
-                            .attr("value","")
-                            .text("None"));*/
-                        $("<option></option>")
-                            .val('')
-                            .html("None")
-                            .insertAfter($('#sltdistrict').children().first());
-                        toggleNone = false;
-                    }
-                    $('#sltdistrict').val('Null');
-                    $('#districtRow span').addClass("required");
+                    <?php if($role['level']!=3): ?>
+                        $('#districtRow').css('display', 'table-row');
+                        $('#sltdistrict').attr("required", false);
+                        $('#sltdistrict').rules("remove", "required");
+                        if(toggleNone == true){
+                            /*$('#sltdistrict').prepend($("<option></option>")
+                                .attr("value","")
+                                .text("None"));*/
+                            $("<option></option>")
+                                .val('')
+                                .html("None")
+                                .insertAfter($('#sltdistrict').children().first());
+                            toggleNone = false;
+                        }
+                        $('#sltdistrict').val('Null');
+                        $('#districtRow span').addClass("required");
+                    <?php else: ?>
+                        getDistrictSchools();
+                    <?php endif; ?>
                 }else if(this.value == 5){ //School User selected
                     $('#viewonlyRow').css('display', 'table-row');
                     $('#schoolRow').css('display', 'table-row');

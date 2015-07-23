@@ -48,7 +48,7 @@ if(isset($viewform)){
 }
 ?>
 
-<div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>school/add">Add New School</a></div>
+<div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>school/add">Create New School</a></div>
 
 <div>
     <!-- Hidden field used to store selected user id -->
@@ -160,7 +160,7 @@ if(isset($viewform)){
 
 
 
-<div id="update-school-dialog" title="Update School Profile">
+<div id="update-school-dialog" title="Update School">
     <?php
         include("forms/update_school.php");
     ?>

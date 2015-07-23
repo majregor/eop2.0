@@ -33,13 +33,38 @@ class Report_model extends CI_Model {
     }
 
     public function getLastModifiedDate($sid){
-        $this->db->select_max('timestamp')
-                    ->from('eop_entity')
-                    ->where(array('sid'=>$sid));
+
+
+        $fieldDate = $this->getLastModifiedFieldDate($sid);
+        $entityDate = $this->getLastModifiedEntityDate($sid);
+
+        if(strtotime($fieldDate) > strtotime($entityDate)){
+            return $fieldDate;
+        }else{
+            return $entityDate;
+        }
+
+    }
+
+    public function getLastModifiedFieldDate($sid){
+        $this->db->select_max('A.timestamp')
+            ->from('eop_field A')
+            ->join('eop_entity B', 'A.entity_id = B.id')
+            ->where(array('B.sid'=>$sid));
         $query = $this->db->get();
+
 
         return $query->result_array()[0]['timestamp'];
 
+    }
+
+    public function getLastModifiedEntityDate($sid){
+        $this->db->select_max('timestamp')
+            ->from('eop_entity')
+            ->where(array('sid'=>$sid));
+        $query = $this->db->get();
+
+        return $query->result_array()[0]['timestamp'];
     }
 
     public function hasData($sid){

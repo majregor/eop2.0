@@ -40,7 +40,7 @@ if($action=='add'){
                 The purpose sets the foundation for the rest of the school EOP. The basic plan&rsquo;s purpose is a general statement of what the school EOP is meant to do. The statement should be supported by a brief synopsis of the basic plan and annexes.</p></td>
     </tr>
     <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste or write out the Purpose section of your school EOP.</strong></td>
+        <td colspan="2"><strong>In the field below, please cut and paste, write out or upload the Purpose section of your school EOP.</strong></td>
     </tr>
     <tr>
         <td colspan="2"><textarea name="purposeField" id="purposeField"  <?php echo($controlStatus); ?> style="width: 100%" rows="11"><?php echo(isset($child1['fields'][0]['body'])? $child1['fields'][0]['body']: ''); ?></textarea>            </td>
@@ -55,7 +55,7 @@ if($action=='add'){
                 The EOP should explicitly state the scope of emergency and disaster response and the entities (e.g., departments, agencies, private sector, citizens) and geographic areas to which the plan applies.</p></td>
     </tr>
     <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste or write out the Scope section of your school EOP.</strong></td>
+        <td colspan="2"><strong>In the field below, please cut and paste, write out or upload the Scope section of your school EOP.</strong></td>
     </tr>
     <tr>
         <td colspan="2"><textarea name="scopeField" id="scopeField"  <?php echo($controlStatus); ?>  style="width: 100%" rows="11"><?php echo(isset($child2['fields'][0]['body'])? $child2['fields'][0]['body']: ''); ?></textarea>            </td>
@@ -70,7 +70,7 @@ if($action=='add'){
                 The situation section explains why a school EOP is necessary and provides a general discussion of the threats and hazards that pose a risk to the school&#8212;and would result in a need to use this plan&#8212;as well as the dependencies on parties outside the school for critical resources.</p></td>
     </tr>
     <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste or write out the Situation Overview section of your school EOP.</strong></td>
+        <td colspan="2"><strong>In the field below, please cut and paste, write out or upload the Situation Overview section of your school EOP.</strong></td>
     </tr>
     <tr>
         <td colspan="2"><textarea name="situationField" id="situationField"  <?php echo($controlStatus); ?>  style="width: 100%" rows="11"><?php echo(isset($child3['fields'][0]['body'])? $child3['fields'][0]['body']: ''); ?></textarea>            </td>
@@ -80,7 +80,7 @@ if($action=='add'){
             <p>The Planning Assumptions section identifies what the planning team assumes to be facts for planning purposes in order to make it possible to execute the EOP. During operations, the assumptions indicate areas where adjustments to the plan have to be made as the facts of the incident become known. The aassumptions also provide the opportunity to communicate the intent of senior officials regarding emergency operations priorities.</p></td>
     </tr>
     <tr>
-        <td colspan="2"><strong>In the field below, please cut and paste or write out the Planning Assumptions section of your school EOP.</strong></td>
+        <td colspan="2"><strong>In the field below, please cut and paste, write out or upload the Planning Assumptions section of your school EOP.</strong></td>
     </tr>
     <tr>
         <td colspan="2">

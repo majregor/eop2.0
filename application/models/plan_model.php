@@ -132,6 +132,26 @@ class Plan_model extends CI_Model {
 
     }
 
+    public function getFunctionEntities($sid){
+        $type = $this->getEntityTypeId('fn');
+
+        $query1 = $this->db->get_where('eop_view_entities', array('type_id'=>$type, 'parent'=>null, 'sid'=>null));
+        $res1 = $query1->result_array();
+        $ids = array();
+        foreach($res1 as $resultRow){
+            $ids[] = $resultRow['id'];
+        }
+
+        $this->db->select('*')
+                    ->from('eop_view_entities')
+                    ->where(array('type_id'=>$type, 'parent'=>null, 'sid'=>$sid))
+                    ->or_where_in('id', $ids)
+                    ->order_by('name', 'ASC');
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
     /**
      * @param array $entityRowsArray simple list array of entities
      * @return array recursively structured array of entities

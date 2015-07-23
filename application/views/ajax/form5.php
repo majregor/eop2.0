@@ -33,7 +33,7 @@ if($action=='add'){
             </ul></td>
     </tr>
     <tr>
-        <td colspan="2"><strong>In the field below, please cut and  paste    or write out the Direction, Control, and Coordination section of    your school EOP.</strong></td>
+        <td colspan="2"><strong>In the field below, please cut and paste, write out or upload the Direction, Control, and Coordination section of    your school EOP.</strong></td>
     </tr>
     <tr>
         <td colspan="2">
