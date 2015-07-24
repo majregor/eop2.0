@@ -119,17 +119,25 @@ $entities = $page_vars['entities'];
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
-                        <?php if($this->session->userdata['role']['read_only']=='n'): ?>
-                            <?php if($mode=='add'): ?>
-                                <a href="#" id="<?php echo $value['id'];?>" class="addThActionLink">Add</a>
+                        <?php if($value['description'] == 'live' && !empty($value['description'])): ?>
+                            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                                <?php if($mode=='add'): ?>
+                                    <a href="#" id="<?php echo $value['id'];?>" class="addThActionLink">Add</a>
+                                    <?php else: ?>
+                                        <a href="#" id="<?php echo $value['id'];?>" class="editThActionLink">Edit</a>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <?php if($mode=='add'): ?>
+                                    <span class="empty">No Data</span>
                                 <?php else: ?>
-                                    <a href="#" id="<?php echo $value['id'];?>" class="editThActionLink">Edit</a>
+                                        <a href="#" id="<?php echo $value['id'];?>" class="viewThActionLink">View</a>
+                                <?php endif; ?>
                             <?php endif; ?>
                         <?php else: ?>
                             <?php if($mode=='add'): ?>
                                 <span class="empty">No Data</span>
                             <?php else: ?>
-                                    <a href="#" id="<?php echo $value['id'];?>" class="viewThActionLink">View</a>
+                                <a href="#" id="<?php echo $value['id'];?>" class="viewThActionLink">View</a>
                             <?php endif; ?>
                         <?php endif; ?>
                     </td>

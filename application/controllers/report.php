@@ -71,18 +71,34 @@ class Report extends CI_Controller{
                 'fileData' => $fileData
             );
 
+            if(!empty($sid)){
 
-            $this->plan_model->deleteEntity(array('sid'=>$sid, 'type_id'=>$type_id));
+                $this->plan_model->deleteEntity(array('sid'=>$sid, 'type_id'=>$type_id));
 
-            $entityData = array(
-                'name'      =>      'Basic Plan',
-                'title'     =>      'Uploaded Basic Plan',
-                'owner'     =>      $this->session->userdata('user_id'),
-                'sid'       =>      $sid,
-                'type_id'   =>      $type_id,
-                'description'=>     json_encode($fileData)
-            );
-            $this->plan_model->addEntity($entityData);
+                $entityData = array(
+                    'name'      =>      'Basic Plan',
+                    'title'     =>      'Uploaded Basic Plan',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      $sid,
+                    'type_id'   =>      $type_id,
+                    'description'=>     json_encode($fileData)
+                );
+                $this->plan_model->addEntity($entityData);
+            }else{
+
+                if($this->registry_model->hasKey('sys_preferences')){
+                    $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
+                    //update the preference value
+                    $fileData['basic_plan_source'] = $preferences->basic_plan_source;
+                    $this->registry_model->update('sys_preferences', json_encode($fileData));
+                }else{
+
+                    $fileData['basic_plan_source'] = 'external';
+                    $preferences = array('sys_preferences' => json_encode($fileData));
+                    $this->registry_model->addVariables($preferences);
+                }
+            }
+
 
             $this->load->view('ajax/upload', $data);
 
@@ -103,16 +119,29 @@ class Report extends CI_Controller{
     public function getUploads(){
         if($this->input->post('ajax')){
             $sid = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null;
-            $entityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
 
-            if(is_array($entityData) && count($entityData)>0){
-                $fileData = json_decode($entityData[0]['description']);
+            if(!empty($sid)){
+                $entityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
 
-                $data= array(
-                  'fileData' => $this->objectToArray($fileData)
-                );
-                $this->load->view('ajax/upload', $data);
+                if(is_array($entityData) && count($entityData)>0){
+                    $fileData = json_decode($entityData[0]['description']);
+
+                    $data= array(
+                        'fileData' => $this->objectToArray($fileData)
+                    );
+                    $this->load->view('ajax/upload', $data);
+                }
+            }else{
+                $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
+                if(!empty($preferences)){
+                    $data = array(
+                        'fileData' => $this->objectToArray($preferences)
+                    );
+
+                    $this->load->view('ajax/upload', $data);
+                }
             }
+
         }
     }
 

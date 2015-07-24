@@ -16,7 +16,7 @@
 <ul class="reveal">
 <UL>
 <LI><A href="http://rems.ed.gov/ToolBox.aspx" target="_blank">Assessment Checklists/Worksheets in REMS  Tool Box</A></LI>
-<LI><A href="resources/Sample risk vulnerability assessment.xlsx" target="_blank">Risk Assessment Matrix</A></LI>
+<LI><A href="<?php echo(base_url());?>assets/resources/sample_risk_vulnerability_assessment.xlsx" target="_blank">Risk Assessment Matrix</A></LI>
 </UL>
 </UL>
 </div>

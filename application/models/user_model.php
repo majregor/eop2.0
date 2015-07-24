@@ -219,7 +219,19 @@ class User_model extends CI_Model {
 
         $query = $this->db->get_where('eop_view_user', $conditions);
 
-        return $query->result_array();
+        $returnData = $query->result_array();
+
+        if(is_array($returnData) && count($returnData)>0){
+            foreach($returnData as &$returnDataRow){
+                if(empty($returnData['district_id'])){
+                    $var = $this->getUserDistrictFromSchool($returnDataRow['user_id']);
+                    $returnDataRow['district_id']= $var['district_id'];
+                    $returnDataRow['district']= $var['district'];
+                }
+            }
+        }
+
+        return $returnData;
     }
 
 
@@ -227,7 +239,27 @@ class User_model extends CI_Model {
         $conditions = array('uid'=>$id);
         $query = $this->db->get_where('eop_user2district', $conditions);
 
-        return $query->result_array();
+        $returnData = $query->result_array();
+
+        if(is_array($returnData) && count($returnData)>0){
+
+            return $query->result_array();
+        }else{
+            $conditions = array('user_id'=>$id);
+            $query = $this->db->get_where('eop_view_school_user', $conditions);
+
+            $ret = $query->result_array();
+            $new_array = array();
+
+            if(is_array($ret) && count($ret)>0){
+                $new_array[0]['uid'] = $ret[0]['user_id'];
+                $new_array[0]['did'] = $ret[0]['district_id'];
+            }
+
+            return $new_array;
+        }
+
+
     }
 
     function getUserSchool($id){
@@ -253,7 +285,19 @@ class User_model extends CI_Model {
 
                     $query = $this->db->get();
 
-                    return $query->result_array();
+                    $returnData = $query->result_array();
+
+                    if(is_array($returnData) && count($returnData)>0){
+                        foreach($returnData as &$returnDataRow){
+                            if(empty($returnDataRow['district_id'])){
+                                $var = $this->getUserDistrictFromSchool($returnDataRow['user_id']);
+                                $returnDataRow['district_id']= $var['district_id'];
+                                $returnDataRow['district']= $var['district'];
+                            }
+                        }
+                    }
+
+                    return $returnData;
                 }else{
                     $emptyArray = array();
                     return $emptyArray;
@@ -265,13 +309,43 @@ class User_model extends CI_Model {
                 $districtId = isset($districtDataRow[0]['did']) ? $districtDataRow[0]['did']:null;
 
                 if(null != $districtId){
+
+                    //get school associated user's from the given district
+                    $this->db->select('user_id')
+                        ->from('eop_view_school_user')
+                        ->where(array('district_id'=> $districtId));
+                    $q= $this->db->get();
+
+                    $ret = $q->result_array();
+                    $userids = array();
+                    if(is_array($ret) && count($ret)>0){
+                        foreach($ret as $key=>$row){
+                            $userids[] = $row['user_id'];
+                        }
+                    }
+
+
                     $this->db->select('A.*')
                         ->from('eop_view_user A')
-                        ->where(array('district_id'=> $districtId));
+                        ->where(array('district_id'=> $districtId))
+                        ->or_where_in('user_id', $userids);
 
                     $query = $this->db->get();
 
-                    return $query->result_array();
+                    $returnData = $query->result_array();
+
+
+                    /*if(is_array($returnData) && count($returnData)>0){
+                        foreach($returnData as &$returnDataRow){
+                            if(empty($returnData['district_id'])){
+                                $var = $this->getUserDistrictFromSchool($returnDataRow['user_id']);
+                                $returnDataRow['district_id']= $var['district_id'];
+                                $returnDataRow['district']= $var['district'];
+                            }
+                        }
+                    }*/
+
+                    return $returnData;
                 }else{
                     $emptyArray = array();
                     return $emptyArray;
@@ -283,7 +357,19 @@ class User_model extends CI_Model {
                 $conditions = array('user_id' => $this->session->userdata('user_id') );
                 $query = $this->db->get_where('eop_view_user', $conditions);
 
-                return $query->result_array();
+                $returnData = $query->result_array();
+
+                if(is_array($returnData) && count($returnData)>0){
+                    foreach($returnData as &$returnDataRow){
+                        if(empty($returnDataRow['district_id'])){
+                            $var = $this->getUserDistrictFromSchool($returnDataRow['user_id']);
+                            $returnDataRow['district_id']= $var['district_id'];
+                            $returnDataRow['district']= $var['district'];
+                        }
+                    }
+                }
+
+                return $returnData;
             }
             //For State admin return all users except Super admin and school user
             elseif($this->session->userdata['role']['level'] == 2){
@@ -291,20 +377,69 @@ class User_model extends CI_Model {
                 $this->db->where_not_in('role_id', $excludedRoles);
                 $query = $this->db->get('eop_view_user');
 
-                return $query->result_array();
+                $returnData = $query->result_array();
+
+                if(is_array($returnData) && count($returnData)>0){
+                    foreach($returnData as &$returnDataRow){
+                        if(empty($returnDataRow['district_id'])){
+                            $var = $this->getUserDistrictFromSchool($returnDataRow['user_id']);
+                            $returnDataRow['district_id']= $var['district_id'];
+                            $returnDataRow['district']= $var['district'];
+                        }
+                    }
+                }
+
+                return $returnData;
             }
             // For Super Admins return all users
             else{
                 $query = $this->db->get('eop_view_user');
 
-                return $query->result_array();
+                $returnData = $query->result_array();
+
+                if(is_array($returnData) && count($returnData)>0){
+                    foreach($returnData as &$returnDataRow){
+                        if(empty($returnDataRow['district_id'])){
+                            $var = $this->getUserDistrictFromSchool($returnDataRow['user_id']);
+                            $returnDataRow['district_id']= $var['district_id'];
+                            $returnDataRow['district']= $var['district'];
+                        }
+                    }
+                }
+
+                return $returnData;
             }
 
         }
         elseif(is_array($data)){
             $query = $this->db->get_where('eop_view_user', $data);
-            return $query->result_array();
+
+            $returnData = $query->result_array();
+
+            if(is_array($returnData) && count($returnData)>0){
+                foreach($returnData as &$returnDataRow){
+                    if(empty($returnDataRow['district_id'])){
+                        $var = $this->getUserDistrictFromSchool($returnDataRow['user_id']);
+                        $returnDataRow['district_id']= $var['district_id'];
+                        $returnDataRow['district']= $var['district'];
+                    }
+                }
+            }
+
+            return $returnData;
         }
+    }
+
+    function getUserDistrictFromSchool($uid){
+        $query = $this->db->get_where('eop_view_school_user', array('user_id'=>$uid));
+
+        $returnData = $query->result_array();
+        if(is_array($returnData) && count($returnData)>0){
+            return $returnData[0];
+        }else{
+            return array('district_id'=>null, 'district'=>null);
+        }
+
     }
 
     function getStatus($username){

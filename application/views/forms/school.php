@@ -50,12 +50,12 @@
                   <?php
                         $options = array();
                         $options[''] = '--Select--';
-                        $options['']    =   'None';
+                        $options['0']    =   'None';
                         foreach($districts as $rowIndex => $row){
                             $options[$row['id']] = $row['name'];
                         }
 
-                        $otherAttributes = 'id="sltdistrict" style=""';
+                        $otherAttributes = 'id="sltdistrict" required style=""';
                         reset($options);
                         $first_key = key($options);
                         echo form_dropdown('sltdistrict', $options, "$first_key", $otherAttributes);

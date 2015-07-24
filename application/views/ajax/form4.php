@@ -64,7 +64,7 @@ if($action=='add'){
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <input type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>" id="cancelBtn"/>
+                <input type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>" id="cancelBtn4"/>
             </div></td>
     </tr>
 </table>
@@ -109,7 +109,7 @@ $(document).ready(function(){
         return false;
     });
 
-    $("#cancelBtn").click(function(){
+    $("#cancelBtn4").click(function(){
         $("#form4Div").html('');
         return false;
     });

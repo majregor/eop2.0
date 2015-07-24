@@ -241,7 +241,7 @@ if(isset($viewform)){
         $("#user_form").validate({
             rules: {
                 phone:{
-                    phoneUS: true
+                    phoneUS2: true
                 },
                 <?php if($role['level'] < 4 ): ?>
                 sltdistrict:{
@@ -311,7 +311,7 @@ if(isset($viewform)){
     $("#update_user_form").validate({
         rules: {
             phone_update:{
-                phoneUS: true
+                phoneUS2: true
             }
         },
         submitHandler: submit_update_user_form

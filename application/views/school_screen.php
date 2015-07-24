@@ -199,7 +199,7 @@ if(isset($viewform)){
          *
          * Update School Profile functionality
          */
-            $(".modifySchoolProfileLink").click(function(){
+            $(document).on('click', '.modifySchoolProfileLink', function(){
                 var id = $(this).attr('id');
                 var name = $(this).attr('param1');
                 var screen_name = $(this).attr('param2');

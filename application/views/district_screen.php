@@ -142,7 +142,7 @@ if(isset($viewform)){
          *
          * Update District Profile functionality
          */
-            $(".modifyDistrictProfileLink").click(function(){
+            $(document).on('click', '.modifyDistrictProfileLink', function(){
                 var id = $(this).attr('id');
                 var name = $(this).attr('param1');
                 var screen_name = $(this).attr('param2');

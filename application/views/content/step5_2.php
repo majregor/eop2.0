@@ -92,12 +92,16 @@ $entities = $page_vars['entities'];
                 <tr>
                     <td><?php echo $value['name']; ?></td>
                     <td align="center">
-                    <?php if($this->session->userdata['role']['read_only']=='n') { ?>
-                        <a href="#" id="<?php echo($value['id']); ?>" class="editFieldsLink">Edit</a>
-                    <?php
-                    }else{ ?>
-                        <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View</a>
-                    <?php } ?>
+                        <?php if($value['description'] == 'live' && !empty($value['description'])): ?>
+                            <?php if($this->session->userdata['role']['read_only']=='n') { ?>
+                                <a href="#" id="<?php echo($value['id']); ?>" class="editFieldsLink">Edit</a>
+                            <?php
+                            }else{ ?>
+                                <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View</a>
+                            <?php } ?>
+                        <?php else: ?>
+                            <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <tr>

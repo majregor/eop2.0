@@ -53,7 +53,7 @@ if($action=='add'){
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <input type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>" id="cancelBtn"/>
+                <input type="button" value="<?php echo(($action=='view')? 'Close': 'Cancel'); ?>" id="cancelBtn8"/>
             </div></td>
     </tr>
 </table>
@@ -98,7 +98,7 @@ $(document).ready(function(){
         return false;
     });
 
-    $("#cancelBtn").click(function(){
+    $("#cancelBtn8").click(function(){
         $("#form8Div").html('');
         return false;
     });

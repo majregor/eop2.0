@@ -10,6 +10,7 @@ class Plan extends CI_Controller{
         if($this->session->userdata('is_logged_in')){
             $this->load->model('plan_model');
             $this->load->model('school_model');
+            $this->load->model('registry_model');
             $this->school_id = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : Null;
 
         }
@@ -27,10 +28,11 @@ class Plan extends CI_Controller{
 
     public function setEOP(){
         $school_id = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : Null;
+        $option = $this->input->post('option');
 
         if($this->input->post('ajax')){
             if( !empty($school_id) ){
-                $option = $this->input->post('option');
+
 
                 $preferences = $this->school_model->getPreferences($school_id);
                 if(is_array($preferences) && count($preferences)>0){
@@ -46,11 +48,24 @@ class Plan extends CI_Controller{
                 $data = array('success'=>true, 'option'=>$option);
                 $this->output->set_output(json_encode($data));
             }else{
-                $this->output->set_output("No school selected");
+                if($this->registry_model->hasKey('sys_preferences')){
+                    $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
+                    //update the preference value
+                    $preferences->basic_plan_source = $option;
+                    $this->registry_model->update('sys_preferences', json_encode($preferences));
+                }else{
+
+                    $preferences = array('sys_preferences' => json_encode(array('basic_plan_source'=>$option)));
+                    $this->registry_model->addVariables($preferences);
+                }
+
+                $data = array('success'=>true, 'option'=>$option);
+                $this->output->set_output(json_encode($data));
             }
 
         }
     }
+
 
     public function step1($step=1){
 
@@ -132,7 +147,7 @@ class Plan extends CI_Controller{
         $data = array();
 
         if($step==3){
-            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ),true);
+            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ),true, array('orderby'=>'name', 'type'=>'ASC'));
             if(is_array($thData)){
                 $data['entities'] = $thData;
             }
@@ -174,7 +189,7 @@ class Plan extends CI_Controller{
         $data = array();
 
         if($step==2){
-            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ), true);
+            $thData = $this->plan_model->getEntities('th', array('sid'=>$this->school_id ), true, array('orderby'=>'name', 'type'=>'ASC'));
             if(is_array($thData)){
                 $data['entities'] = $thData;
                 $data['showActions']=true;
@@ -202,8 +217,20 @@ class Plan extends CI_Controller{
 
             $basicPlanEntities = $this->plan_model->getEntities('bp', array('sid'=>$this->school_id ), true, array('orderby'=>'weight', 'type'=>'ASC'));
             $data['entities'] = $basicPlanEntities;
-            $preferences = $this->school_model->getPreferences($this->school_id);
-            $data['EOP_type'] = $preferences['basic_plan_source'];
+
+            $school_id = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : Null;
+            if(!empty($school_id)){
+                $preferences = $this->school_model->getPreferences($this->school_id);
+                $data['EOP_type'] = $preferences['basic_plan_source'];
+            }else{
+                $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
+                if(!empty($preferences)){
+                    $data['EOP_type'] = $preferences->basic_plan_source;
+                }else{
+                    $data['EOP_type'] = 'internal';
+                }
+
+            }
 
         }
 
@@ -485,7 +512,7 @@ class Plan extends CI_Controller{
                     $data = array(
                         'entity_id'                 =>  $id,
                         'threats_and_hazards'       =>  $thData,
-                        'action'                    =>  ('update') ? 'update' : 'view'
+                        'action'                    =>  ($action == 'update') ? 'update' : 'view'
                     );
 
                     $this->load->view('ajax/step4_th_actions', $data);
@@ -516,7 +543,7 @@ class Plan extends CI_Controller{
                     $data = array(
                         'entity_id'                 =>  $id,
                         'functions'       =>  $fnData,
-                        'action'                    =>  ('update') ? 'update' : 'view'
+                        'action'                    =>  ($action == 'update') ? 'update' : 'view'
                     );
 
                     $this->load->view('ajax/step4_fn_actions', $data);

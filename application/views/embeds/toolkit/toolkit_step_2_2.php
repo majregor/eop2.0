@@ -14,7 +14,7 @@
     <LI><A href="http://rems.ed.gov/K12SchoolClimateAndEmerg.aspx" target="_blank">School Climate and Emergencies (REMS Webpage)</A></LI>
     <LI><A href="http://rems.ed.gov/TrainingPackage.aspx" target="_blank">Integrating the Needs of Individuals with Disabilities and Other Access and Functional Needs (REMS Training Materials)</A></LI>
 	<LI><A href="#" target="_blank">Related Resources for Step 2 on the REMS Website</A></LI>
-    <LI><A href="resources/Examples of Threats and Hazards.pdf" target="_blank">Examples of Threats and Hazards</A></LI>
+    <LI><A href="<?php echo(base_url());?>assets/resources/examples_of_threats_and_hazards.pdf" target="_blank">Examples of Threats and Hazards</A></LI>
 </UL>
 </UL>
 <h3 class="clicker resources exampleimg">Examples</h3>

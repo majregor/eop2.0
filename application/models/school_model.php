@@ -20,7 +20,7 @@ class School_model extends CI_Model {
         }
 
         if($schoolData['district_id'] == FALSE || !isset($schoolData['district_id']) || $schoolData['district_id']==''){
-            $schoolData['district_id'] = null;
+            $schoolData['district_id'] = 0;
         }
 
         if($this->session->userdata('user_id')){

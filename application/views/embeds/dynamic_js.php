@@ -163,7 +163,7 @@
 
      </script>
 <?php
- } elseif($this->session->userdata['role']['level']<3 && $this->session->userdata('loaded_school')){
+ } elseif($this->session->userdata['role']['level']<2 && $this->session->userdata('loaded_school')){
      ?>
      <script type="text/javascript">
          $(document).ready(function() {
@@ -216,7 +216,7 @@
          });
      </script>
      <?php
- }elseif( $this->session->userdata['role']['level']<3){
+ }elseif( $this->session->userdata['role']['level']<2){
 ?>
      <script type="text/javascript">
          $(document).ready(function(){

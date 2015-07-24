@@ -6,6 +6,10 @@
  * Time: 3:38 PM
  */
 echo $this->session->flashdata('error');
+$controlStatus="";
+if($this->session->userdata['role']['read_only']=='y'){
+    $controlStatus = "disabled";
+}
 ?>
 
 
@@ -56,7 +60,7 @@ echo $this->session->flashdata('error');
 
                 <li>
                     <label for="title">Name / Title</label>
-                    <input type="text" name="title" id="title-ed" value="" class="text ui-widget-content ui-corner-all">
+                    <input type="text" <?php echo($controlStatus); ?> name="title" id="title-ed" value="" class="text ui-widget-content ui-corner-all">
                 </li>
 
                 <div id="edit-lists-container">
@@ -65,12 +69,12 @@ echo $this->session->flashdata('error');
 
                 <li>
                     <label for="location">Location:</label>
-                    <textarea rows="3" cols="25" name="location" id="location-ed" class="text ui-widget-content ui-corner-all"></textarea>
+                    <textarea rows="3" cols="25" <?php echo($controlStatus); ?> name="location" id="location-ed" class="text ui-widget-content ui-corner-all"></textarea>
                 </li>
 
                 <li>
                     <label for="body">Body:</label>
-                    <textarea rows="3" cols="25" name="body" id="body-ed" class="text ui-widget-content ui-corner-all"></textarea>
+                    <textarea rows="3" cols="25" <?php echo($controlStatus); ?> name="body" id="body-ed" class="text ui-widget-content ui-corner-all"></textarea>
                 </li>
 
                 <!-- Allow form submission with keyboard without duplicating the dialog button -->
@@ -145,12 +149,13 @@ echo $this->session->flashdata('error');
             autoOpen: false,
             modal: true,
             buttons: {
+                <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                 "Save": editEvent,
                 "Delete": deleteEvent,
+                <?php endif; ?>
                 Cancel: function() {
                     $( this ).dialog( "close" );
                 }
-
             }
         });
 
@@ -371,8 +376,10 @@ echo $this->session->flashdata('error');
             },
             defaultDate: global_defaultDate,
             timezone: "America/New_York",
+            timeFormat: "h(:mm)A",
             selectable: true,
             selectHelper: true,
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
             select: function(start, end) {
                 //var title = prompt('Event Title:');
                 global_start = start;
@@ -382,10 +389,10 @@ echo $this->session->flashdata('error');
 
 
                 populateStartEndLists();
-
                 dialog.dialog( "open" );
                 $('#calendar').fullCalendar('unselect');
             },
+            <?php endif; ?>
             editable: true,
             eventLimit: true, // allow "more" link when too many events
 
@@ -420,11 +427,12 @@ echo $this->session->flashdata('error');
 
             },
 
+
             eventClick: function(calEvent, jsEvent, view) {
 
-                //alert('Event: ' + calEvent.id);
+                //alert('Event: ' + JSON.stringify(calEvent));
                 selectedEventId = calEvent.id;
-                selectedEventTitle = calEvent.title;
+                selectedEventTitle = calEvent.official;
                 selectedEventStart = calEvent.start
                 selectedEventEnd = calEvent.end;
                 selectedEventLocation = calEvent.location;
@@ -454,6 +462,7 @@ echo $this->session->flashdata('error');
 
 
             }
+
         });
 
         form = dialog.find( "form" ).on( "submit", function( event ) {

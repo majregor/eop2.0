@@ -8,7 +8,7 @@
 <ul class="reveal">
  <UL>
     <LI><A href="http://elearning-courses.net/iacp/" target="_blank">Assessing School Safety (Online Course)</A></LI>
-    <LI><A href="resources/Examples of Threats and Hazards.pdf" target="_blank">Examples of Threats and Hazards </A> </LI>
+    <LI><A href="<?php echo(base_url());?>assets/resources/examples_of_threats_and_hazards.pdf" target="_blank">Examples of Threats and Hazards </A> </LI>
     <LI><A href="http://rems.ed.gov/K12PPStep02.aspx" target="_blank">Related Resources for Step 2 on the REMS Website </A></LI>
 </UL>
 </UL>

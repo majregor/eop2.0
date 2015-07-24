@@ -30,8 +30,9 @@ class Calendar_model extends CI_Model {
             if($this->session->userdata['role']['level']>=4){ //School Admins and Users
                 //Load calendar events for their respective school only
                 $conditions['sid'] = $this->session->userdata['loaded_school']['id'];
-                $this->db->select("id, title, body,  start_time , end_time, location")
-                    ->from('eop_calendar')
+                $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title , A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school" , FALSE)
+                    ->from('eop_calendar A')
+                    ->join('eop_school B', 'A.sid = B.id')
                     ->where($conditions);
             }elseif($this->session->userdata['role']['level']==3){ //District admin
                 //Load calendar events for all schools in the district
@@ -43,15 +44,27 @@ class Calendar_model extends CI_Model {
                     $schoolIds[] = $school['id'];
                 }
 
-                $this->db->select("id, title, body,  start_time , end_time, location")
-                    ->from('eop_calendar')
+                $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title , A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
+                    ->from('eop_calendar A')
+                    ->join('eop_school B', 'A.sid = B.id')
                     ->where_in('sid', $schoolIds);
             }
-            else{
-                $this->db->select("id, title, body,  start_time , end_time, location")
-                    ->from('eop_calendar');
-            }
+            elseif($this->session->userdata['role']['level']==2){ // State admins
+                //Load events without school
 
+                $conditions['sid'] = null;
+                $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title , A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
+                    ->from('eop_calendar A')
+                    ->join('eop_school B', 'A.sid = B.id')
+                    ->where($conditions);
+
+            }
+            else{
+                $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title, A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
+                    ->from('eop_calendar A')
+                    ->join('eop_school B', 'A.sid = B.id');
+            }
+//@todo Begin Here ....
 
             $query = $this->db->get();
             $resultsArray = $query->result_array();
@@ -73,7 +86,9 @@ class Calendar_model extends CI_Model {
                     'body'      =>  $result['body'],
                     'start'     =>  $result['start_time'],
                     'end'       =>  $result['end_time'],
-                    'location'  =>  $result['location']
+                    'location'  =>  $result['location'],
+                    'school'=> $result['school'],
+                    'official'=> $result['official']
                 );
             }
         }

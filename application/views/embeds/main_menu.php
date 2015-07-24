@@ -16,14 +16,16 @@
         <div id="listdiv" style="padding-botton: 5px;">
             <ul class="ld">
                 <?php if($this->session->userdata['role']['level']<=3):  ?>
-                <li>
-                    <span id="subDistrictSelectionDiv">
-                        <label for="slctsubdistrictselection"><a href="#">School:</a>  </label>
-                                <select name="slctsubdistrictselection" id="slctsubdistrictselection" style="width:15%">
-                                    <option value="" selected="selected">--Select--</option>
-                                </select>
-                    </span>
-                </li>
+                    <?php if($this->session->userdata['role']['level']!=2):  ?>
+                        <li>
+                            <span id="subDistrictSelectionDiv">
+                                <label for="slctsubdistrictselection"><a href="#">School:</a>  </label>
+                                        <select name="slctsubdistrictselection" id="slctsubdistrictselection" style="width:15%">
+                                            <option value="" selected="selected">--Select--</option>
+                                        </select>
+                            </span>
+                        </li>
+                    <?php endif; ?>
                     <?php elseif($this->session->userdata['role']['level']>3):  ?>
                     <li>
                         <span><?php echo($this->session->userdata['loaded_school']['name']); ?></span>
