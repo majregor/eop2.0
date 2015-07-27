@@ -53,25 +53,26 @@ class Calendar_model extends CI_Model {
                 //Load events without school
 
                 $conditions['sid'] = null;
-                $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title , A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
+                $this->db->select("A.id, A.title AS official, CONCAT_WS(' - ', B.name, A.title) AS title , A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
                     ->from('eop_calendar A')
-                    ->join('eop_school B', 'A.sid = B.id')
-                    ->where($conditions);
-
+                    ->join('eop_school B', 'A.sid = B.id', 'left');
             }
             else{
                 $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title, A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
                     ->from('eop_calendar A')
                     ->join('eop_school B', 'A.sid = B.id');
             }
-//@todo Begin Here ....
 
             $query = $this->db->get();
             $resultsArray = $query->result_array();
         }else{
 
             $conditions=$data;
-            $query = $this->db->get_where('eop_calendar', $conditions);
+            $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title, A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
+                ->from('eop_calendar A')
+                ->join('eop_school B', 'A.sid = B.id')
+                ->where($conditions);
+            $query = $this->db->get();
 
             $resultsArray = $query->result_array();
         }

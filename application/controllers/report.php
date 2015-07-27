@@ -1007,8 +1007,73 @@ class Report extends CI_Controller{
     public function export($param=''){
         if($param !='' && $param =='members'){
 
-
             $schoolCondition = '';
+
+            if(isset($this->session->userdata['loaded_school']['id'])){
+                $schoolCondition = array('sid'=>$this->session->userdata['loaded_school']['id']);
+            }
+            $memberData = $this->team_model->getMembers($schoolCondition);
+
+            PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP);
+
+            //Set document properties
+            $this->excel->getProperties()->setCreator($this->session->userdata('username'))
+                                        ->setLastModifiedBy($this->session->userdata('username'))
+                                        ->setTitle("My Core Planning Team")
+                                        ->setSubject("Planning Team");
+
+            //DEFINE CELL STYLES
+            $headingStyleArray = array(
+                'font'  => array(
+                    'bold'  =>  true,
+                    'size'  =>  14
+                ),
+                'alignment' =>  array(
+                    'horizontal'    =>  PHPExcel_Style_Alignment::HORIZONTAL_CENTER
+                ),
+                'borders'   =>  array(
+                    'top'   =>  array(
+                        'style' =>  PHPExcel_Style_Border::BORDER_THIN
+                    )
+                )
+            );
+
+            //Headings Data
+            $this->excel->setActiveSheetIndex(0)
+                        ->setCellValue('A1', 'NAME')
+                        ->setCellValue('B1', 'TITLE')
+                        ->setCellValue('C1', 'ORGANIZATION')
+                        ->setCellValue('D1', 'EMAIL')
+                        ->setCellValue('E1', 'PHONE')
+                        ->setCellValue('F1', 'STAKEHOLDER CATEGORY');
+
+            //SET Style
+            $this->excel->getActiveSheet()->getStyle('A1:F1')->applyFromArray($headingStyleArray);
+
+            //Column size
+            $this->excel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+            $this->excel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+            $this->excel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+            $this->excel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+            $this->excel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+            $this->excel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+
+            $index = 1;
+            if(is_array($memberData) && count($memberData)>0){
+                foreach($memberData as $key => $row){
+                    $exportData[] = array($row['name'], $row['title'], $row['organization'], $row['email'], $row['phone'], $row['interest']);
+                    ++$index;
+
+                    $this->excel->setCellValue('A'.$index, $row['name'])
+                        ->setCellValue(''.$index, $row['name'])
+                        ->setCellValue('A'.$index, $row['name'])
+                        ->setCellValue('A'.$index, $row['name'])
+                        ->setCellValue('A'.$index, $row['name'])
+                        ->setCellValue('A'.$index, $row['name']);
+                }
+            }
+
+            /*$schoolCondition = '';
 
             if(isset($this->session->userdata['loaded_school']['id'])){
                 $schoolCondition = array('sid'=>$this->session->userdata['loaded_school']['id']);
@@ -1024,7 +1089,7 @@ class Report extends CI_Controller{
 
             $this->excel->addArray($exportData);
             $this->excel->generateXML('MyTeam');
-            exit;
+            exit;*/
         }
     }
 

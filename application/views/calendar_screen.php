@@ -10,6 +10,20 @@ $controlStatus="";
 if($this->session->userdata['role']['read_only']=='y'){
     $controlStatus = "disabled";
 }
+if($this->session->userdata['role']['level']==3){
+    if(isset($this->session->userdata['loaded_school']) && !empty($this->session->userdata['loaded_school'])){
+
+    }else {
+        ?>
+        <div id="select_school_dialog" title="Select School">
+            <p style="margin-top:20px;">
+                <label>Schools:</label><br/>
+                <select id="sltschool" name="sltschool" required="required"></select>
+            </p>
+        </div>
+    <?php
+    }
+}
 ?>
 
 
@@ -18,35 +32,49 @@ if($this->session->userdata['role']['read_only']=='y'){
 <div id="dialog-form" title="New Event">
     <!--  <p class="validateTips">All form fields are required.</p> -->
     <form id="new-calendar-event-form">
-        <fieldset class="calendar-fieldset">
-            <ul>
-                <li>
-                    <label><span>Date:</span><span id="selectedDate"></span></label>
-                </li>
-                <li>
-                    <label for="title">Name / Title</label>
-                    <input type="text" name="title" id="title" value="" class="text ui-widget-content ui-corner-all">
-                </li>
+       <!-- <fieldset class="calendar-fieldset">-->
+            <table>
+                <?php if($this->session->userdata['role']['level'] !=2): ?>
+                <tr>
+                    <td class="txtb">School: </td>
+                    <td><span><?php echo(isset($this->session->userdata['loaded_school'])? $this->session->userdata['loaded_school']['name'] :""); ?></span></td>
+                </tr>
+                <?php endif; ?>
+                <tr>
+                    <td colspan="2"><label><span>Date: </span><span id="selectedDate"></span></label></td>
+                </tr>
 
 
-                <div id="lists-container">
+                <tr>
+                    <td><label for="title">Name / Title</label></td>
+                    <td>
+                        <input type="text" name="title" id="title" value="" class="text ui-widget-content ui-corner-all">
+                    </td>
+                </tr>
 
-                </div>
+                <tr>
+                    <td colspan="2"> <div id="lists-container"></div></td>
+                </tr>
 
-                <li>
-                    <label for="location">Location:</label>
-                    <textarea rows="3" cols="25" name="location" id="location" class="text ui-widget-content ui-corner-all"></textarea>
-                </li>
+                <tr>
+                    <td><label for="location">Location:</label></td>
+                    <td><textarea rows="3" cols="25" name="location" id="location" class="text ui-widget-content ui-corner-all"></textarea></td>
+                </tr>
 
-                <li>
-                    <label for="body">Body:</label>
-                    <textarea rows="3" cols="25" name="body" id="body" class="text ui-widget-content ui-corner-all"></textarea>
-                </li>
+                <tr>
+                    <td><label for="body">Body:</label></td>
+                    <td> <textarea rows="3" cols="25" name="body" id="body" class="text ui-widget-content ui-corner-all"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+                    </td>
+                </tr>
 
-                <!-- Allow form submission with keyboard without duplicating the dialog button -->
-                <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-            </ul>
-        </fieldset>
+
+            </table>
+        <!--</fieldset>-->
     </form>
 </div>
 
@@ -55,32 +83,43 @@ if($this->session->userdata['role']['read_only']=='y'){
 <div id="dialog-edit-form" title="Edit Event">
     <!--  <p class="validateTips">All form fields are required.</p> -->
     <form id="new-calendar-event-form">
-        <fieldset class="calendar-fieldset">
-            <ul>
+        <!--<fieldset class="calendar-fieldset">-->
 
-                <li>
-                    <label for="title">Name / Title</label>
-                    <input type="text" <?php echo($controlStatus); ?> name="title" id="title-ed" value="" class="text ui-widget-content ui-corner-all">
-                </li>
+            <table>
 
-                <div id="edit-lists-container">
+                <tr>
+                    <td class="txtb">School: </td>
+                    <td><span id="school"></span></td>
+                </tr>
+                <tr>
+                    <td class="txtb"> <label for="title">Name / Title</label></td>
+                    <td><input type="text" <?php echo($controlStatus); ?> name="title" id="title-ed" value="" class="text ui-widget-content ui-corner-all"></td>
+                </tr>
+                <tr>
 
-                </div>
+                    <td colspan="2"> <div id="edit-lists-container"></div></td>
+                </tr>
+                <tr>
+                    <td><label for="location">Location:</label></td>
+                    <td>
+                        <textarea rows="3" cols="25" <?php echo($controlStatus); ?> name="location" id="location-ed" class="text ui-widget-content ui-corner-all"></textarea>
+                    </td>
+                </tr>
 
-                <li>
-                    <label for="location">Location:</label>
-                    <textarea rows="3" cols="25" <?php echo($controlStatus); ?> name="location" id="location-ed" class="text ui-widget-content ui-corner-all"></textarea>
-                </li>
+                <tr>
+                    <td><label for="body">Body:</label></td>
+                    <td>
+                        <textarea rows="3" cols="25" <?php echo($controlStatus); ?> name="body" id="body-ed" class="text ui-widget-content ui-corner-all"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td><!-- Allow form submission with keyboard without duplicating the dialog button -->
+                        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px"></td>
+                    <td></td>
+                </tr>
+            </table>
 
-                <li>
-                    <label for="body">Body:</label>
-                    <textarea rows="3" cols="25" <?php echo($controlStatus); ?> name="body" id="body-ed" class="text ui-widget-content ui-corner-all"></textarea>
-                </li>
-
-                <!-- Allow form submission with keyboard without duplicating the dialog button -->
-                <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-            </ul>
-        </fieldset>
+        <!--</fieldset>-->
     </form>
 </div>
 
@@ -123,6 +162,47 @@ if($this->session->userdata['role']['read_only']=='y'){
             }
         }
 
+        //Prompt the user to select a school from the list
+        var blockUserDialog = $("#select_school_dialog").dialog({
+            autoOpen: true,
+            modal: true,
+            buttons: {
+                "OK": function(){
+
+                    var selectElement = $("#sltschool");
+                    if(selectElement.val()==''){
+                        selectElement.addClass('error');
+                        selectElement.focus();
+                        return false;
+                    }
+
+                    var form_data = {
+                        ajax:       '1',
+                        school_id:    selectElement.val()
+                    };
+                    $.ajax({
+                        url: "<?php echo base_url('school/attach_to_session'); ?>",
+                        type: 'POST',
+                        data: form_data,
+                        success: function(response){
+                            var ret = JSON.parse(response);
+                            if(ret.loaded){
+                                $("#slctsubdistrictselection").val(ret.school_id);
+                                location.reload();
+                            }
+                            else{
+                                alert ("Error Loading School! Try selecting from the menu drop down.");
+                            }
+                        }
+                    });
+
+                    $( this ).dialog( "close" );
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
 
         dialog = $( "#dialog-form" ).dialog({
             autoOpen: false,
@@ -389,7 +469,17 @@ if($this->session->userdata['role']['read_only']=='y'){
 
 
                 populateStartEndLists();
-                dialog.dialog( "open" );
+                <?php if($this->session->userdata['role']['level']!=3): ?>
+                    dialog.dialog( "open" );
+                <?php else: ?>
+                    <?php if(isset($this->session->userdata['loaded_school']) && !empty($this->session->userdata['loaded_school'])): ?>
+                        dialog.dialog( "open" );
+                    <?php else: ?>
+                        blockUserDialog.dialog("open");
+                    <?php endif; ?>
+                <?php endif; ?>
+
+
                 $('#calendar').fullCalendar('unselect');
             },
             <?php endif; ?>
@@ -413,7 +503,6 @@ if($this->session->userdata['role']['read_only']=='y'){
 
             dayClick: function(date, jsEvent, view) {
 
-
                 //$( "#dialog" ).dialog( "open" );
 
                 //alert('Clicked on: ' + date.format());
@@ -427,13 +516,46 @@ if($this->session->userdata['role']['read_only']=='y'){
 
             },
 
+            eventMouseover: function(calEvent, jsEvent, view){
+
+                var eventTitle = calEvent.official;
+                var eventSchool = calEvent.school;
+                var eventStarts = calEvent.start;
+                var eventEnds = calEvent.end;
+                var eventLocation = calEvent.location;
+                var eventBody = calEvent.body;
+
+
+                var finalString = "Event: " + eventTitle + "\n";
+                finalString += "School: " + eventSchool + "\n";
+                if(eventStarts && eventStarts !== null && eventStarts !== "undefined"){
+                    finalString += "Starts: " + eventStarts.format("L LT") + " \n";
+                }else{
+                    finalString += "Starts: (not set) \n";
+                }
+
+                if(eventEnds && eventEnds !== null && eventEnds !== "undefined"){
+                    finalString += "Ends: " + eventEnds.format("L LT") + "\n";
+                }else {
+                    finalString += "Ends: (not set) \n";
+                }
+
+
+                finalString += "Location: " + eventLocation + " \n\n";
+                finalString += eventBody;
+
+                $(this).find(".fc-title").attr("title", finalString);
+
+            },
+            eventMouseout: function (calEvent, jsEvent, view){
+
+            },
+
 
             eventClick: function(calEvent, jsEvent, view) {
-
-                //alert('Event: ' + JSON.stringify(calEvent));
                 selectedEventId = calEvent.id;
                 selectedEventTitle = calEvent.official;
-                selectedEventStart = calEvent.start
+                selectedEventStart = calEvent.start;
                 selectedEventEnd = calEvent.end;
                 selectedEventLocation = calEvent.location;
                 selectedEventBody = calEvent.body;
@@ -443,24 +565,12 @@ if($this->session->userdata['role']['read_only']=='y'){
 
 
                 $("#title-ed").val(selectedEventTitle);
-
+                $("span#school").html(calEvent.school);
                 populateEditStartEndLists(selectedEventStart, selectedEventId);
-                //$("#start-ed").append("<option selected='selected' value='" + selectedEventStart + "'>" + startDate.getHours() + ":" + startDate.getMinutes() +  "</option>");
-                //$("#end-ed").append("<option selected='selected' value='" + selectedEventEnd + "'>" + endDate.getHours() + ":" + endDate.getMinutes() + "</option>");
-                //$("#start-ed").val(selectedEventStart);
-                //$("#end-ed").val(selectedEventEnd);
 
                 $("#location-ed").val(selectedEventLocation);
                 $("#body-ed").val(selectedEventBody);
-                //alert(selectedEventBody);
                 editDialog.dialog( "open" );
-                //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-                //alert('View: ' + view.name);
-
-                // change the border color just for fun
-                //$(this).css('border-color', 'red');
-
-
             }
 
         });
@@ -474,6 +584,34 @@ if($this->session->userdata['role']['read_only']=='y'){
             event.preventDefault();
             editEvent();
         });
+
+            $(document).on('change', '#startTime', function(){
+			//$('#startTime').change(function(){
+				var d = new Date($(this).val());
+				$('#endTime option').each(function(){
+					var e = new Date($(this).val());
+					if(d > e){ //disable options with value less than selected time
+						$(this).attr('disabled', true);
+						}
+						else{
+							$(this).attr('disabled', false);
+						}
+					});
+				});
+
+            $(document).on('change', '#start-ed', function(){
+				//$('#start-ed').change(function(){
+				var d = new Date($(this).val());
+				$('#end-ed option').each(function(){
+					var e = new Date($(this).val());
+					if(d>e){ //disable options with value less less than selected time
+						$(this).attr('disabled', true);
+						}
+						else{
+							$(this).attr('disabled', false);
+						}
+					});
+				});
 
     });
 

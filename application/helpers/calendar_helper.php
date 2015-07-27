@@ -49,8 +49,7 @@ if( ! function_exists('make_list_box')){
             else if($dst==0){
                 date_default_timezone_set('America/New_York');
             }
-            echo "<li><label><span>Date:</span><span id='selectedDate-ed'>" . date ( 'Y-m-d', strtotime ( $selectedDate ) ) . "</span></label>
-</li>";
+            echo "<tr><td colspan='2'><label><span>Date: </span><span id='selectedDate-ed'>" . date ( 'Y-m-d', strtotime ( $selectedDate ) ) . "</span></label></td></tr>";
         }
         if ($list_type == 'start-ed' || $list_type == 'startTime') {
             $label = "Start Time";
@@ -90,11 +89,11 @@ if( ! function_exists('make_list_box')){
 EOF;
         }
 
-        $html_str .= $script;
+        //$html_str .= $script;
 
-        $html_str .= "<li><label for='$list_type'>$label</label>";
+        $html_str .= "<tr><td><label for='$list_type'>$label</label></td>";
 
-        $html_str .= "<select id='$list_type' class='text ui-widget-content ui-corner-all' name='$list_type'>";
+        $html_str .= "<td><select id='$list_type' class='text ui-widget-content ui-corner-all' name='$list_type'>";
         foreach ( $arr as $key => $value ) {
             $item_selected = "";
             if ($value == $selectedDate) {
@@ -102,7 +101,7 @@ EOF;
             }
             $html_str .= "<option $item_selected value='" . $value . "'>" . $t [$key] . "</option>";
         }
-        $html_str .= "</select></li>";
+        $html_str .= "</select></td></tr>";
 
         return $html_str;
 

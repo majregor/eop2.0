@@ -7,7 +7,7 @@ echo form_open('plan/update/entity/th', array('class'=>'updateThForm', 'id'=>'up
     <fieldset id="updatethform">
         <input type="hidden" id="updateid" name="updateid"/>
 
-        <legend>Threat and Hazard</legend>
+        <legend>Threat or Hazard</legend>
             <p>
                 <label for="updatetxtname"> Name:</label>
 

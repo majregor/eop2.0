@@ -822,9 +822,12 @@ button.ui-button::-moz-focus-inner {
 	max-width: 300px;
 	-webkit-box-shadow: 0 0 5px #aaa;
 	box-shadow: 0 0 5px #aaa;
+    background: #84b537 !important;
+    border: 1px solid white;
+    white-space: pre-line;
 }
 body .ui-tooltip {
-	border-width: 2px;
+	border-width: 1px;
 }
 
 /* Component containers
@@ -845,7 +848,7 @@ body .ui-tooltip {
 }
 .ui-widget-content {
 	border: 1px solid #dddddd;
-	background: #eeeeee url("../../img/jqueryui/ui-bg_highlight-soft_100_eeeeee_1x100.png") scroll 50%  top repeat-x;
+	background: #E1EAFA url("../../img/jqueryui/ui-bg_highlight-soft_100_eeeeee_1x100.png") scroll 50%  top repeat-x;
 	color: #333333;
 }
 
