@@ -14,12 +14,34 @@ if($this->session->userdata['role']['level']==3 && $this->session->userdata('loa
     <div id="select_school_dialog" title="Select School">
         <p style="margin-top:20px;">
             <label>Schools:</label><br/>
-            <select id="sltschool" name="sltschool"></select>
+            <select id="sltschool" name="sltschool" required="required"></select>
         </p>
     </div>
 <?php
-}else{
+}elseif($this->session->userdata['role']['level']<3 && $this->session->userdata('loaded_school')){
 
+    $content_file_to_load = "home_". $step . ".php";
+    include("content/".$content_file_to_load);
+    
+}elseif($this->session->userdata['role']['level']<3){
+
+    $content_file_to_load = "home_". $step . ".php";
+    include("content/".$content_file_to_load);
+    ?>
+
+    <div id="select_school_dialog" title="Select School">
+        <p style="margin-top:20px;">
+            <label>Schools:</label><br/>
+            <select id="sltschool" name="sltschool"></select>
+        </p>
+    </div>
+
+    <?php
+
+}elseif($this->session->userdata['role']['level']>3 && $this->session->userdata['loaded_school']){
+
+    $content_file_to_load = "home_". $step . ".php";
+    include("content/".$content_file_to_load);
 }
 
 

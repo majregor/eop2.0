@@ -46,11 +46,9 @@
 <script type='text/javascript'>
     $(document).ready(function(){
 
-        $("a#rightArrowButton").attr("href", "<?php echo(base_url('home/step/2')); ?>");
+        $("a#rightArrowButton").attr("href", "<?php echo(base_url('home/step/2')); ?>"); //Next
 
-        $("a#leftArrowButton").attr("href", "<?php echo(base_url('home/step/1')); ?>");
-
-
+        $("a#leftArrowButton").attr("href", "<?php echo(base_url('plan/step6/5')); ?>"); // Previous
 
     });
 </script>

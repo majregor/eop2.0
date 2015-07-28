@@ -9,7 +9,7 @@ echo form_open('district/update', array('class'=>'update_district_form', 'id'=>'
 
 <fieldset>
     <input type="hidden" name="district_id_update" id="district_id_update" value="">
-    <legend>District Information</legend>
+    <!--<legend>District Information</legend>-->
     <p>
         <span class="required">*</span>
         <label for="district_name_update">District Name:</label>
@@ -25,6 +25,7 @@ echo form_open('district/update', array('class'=>'update_district_form', 'id'=>'
 
         ?>
     </p>
+    <p>&nbsp;</p>
     <p>
         <span class="required">&nbsp;</span>
         <label for="screen_name_update">Screen Name:</label>
@@ -42,14 +43,5 @@ echo form_open('district/update', array('class'=>'update_district_form', 'id'=>'
 
 </fieldset>
 
-<?php
-$attributes = array(
-    'name'  =>  'update_district_submit',
-    'value' =>  'Update',
-    'id'    =>  'update_district_submit',
-    'style' =>  ''
-);
-?>
-<?php echo form_submit($attributes); ?>
 
 <?php echo(form_close()); ?>

@@ -33,17 +33,17 @@ if((null != $this->session->flashdata('success'))):
 
 
 <div class="boxed-group left">
-    <h3>Personal Settings</h3>
+    <h3>My Account</h3>
     <div class="boxed-group-inner">
     
         <ul>
-            <li><a href="<?php echo base_url(); ?>user/profile" id="profile-link" class="">Profile</a> </li>
+            <li><a href="<?php echo base_url(); ?>user/profile" id="profile-link" class="">My Profile</a> </li>
             <li><a href="<?php echo base_url(); ?>user/profile" id="password-link" class="">Change Password</a> </li>
         </ul>
     </div>
 </div>
 <div class="boxed-group right">
-    <h3>Your Profile</h3>
+    <h3 id="pane-title">My Profile</h3>
     <div class="boxed-group-inner clearfix" >
         
         <div class="padded-content" id="profile-pane" style="display:none;">
@@ -111,7 +111,7 @@ if((null != $this->session->flashdata('success'))):
                 ?>
             </p>
             <p>
-                <label>Username</label>
+                <label>User ID</label>
                 <br/>
                                 <?php
                 $inputAttributes = array(
@@ -127,14 +127,14 @@ if((null != $this->session->flashdata('success'))):
                 ?>
             </p>
             <p>
-                <label>Role:</label>
+                <label>Role</label>
                 <br/>
                 <input type="text" value="<?php echo($user[0]['role']); ?>" disabled="disabled" />
             </p>
 
             <?php if($role['level']>=3): ?>
             <p>
-                <label>District:</label>
+                <label>District</label>
                 <br/>
                 <input type="text" value="<?php echo($user[0]['district']); ?>" disabled="disabled" />
             </p>
@@ -142,7 +142,7 @@ if((null != $this->session->flashdata('success'))):
 
             <?php if($role['level']>3): ?>
             <p>
-                <label>School:</label>
+                <label>School</label>
                 <br/>
                 <input type="text" value="<?php echo($user[0]['school']); ?>" disabled="disabled" />
             </p>
@@ -157,6 +157,16 @@ if((null != $this->session->flashdata('success'))):
                 );
                 ?>
                 <?php echo form_submit($attributes); ?>
+
+                <?php
+                $attributes = array(
+                    'name'  =>  'form_reset',
+                    'value' =>  'Cancel',
+                    'id'    =>  'form_reset_btn',
+                    'style' =>  ''
+                );
+                ?>
+                <?php echo form_reset($attributes); ?>
             </p>
             <?php echo form_close(); ?>
         </div>
@@ -259,6 +269,7 @@ $(document).ready(function(){
     $("#password-link").on('click', function(){
         $("#profile-pane").hide();
         $("#password-pane").show();
+        $("#pane-title").html("Change Password");
 
         $("#password-link").addClass("current");
         $("#profile-link").removeClass("current");
@@ -277,12 +288,19 @@ $(document).ready(function(){
         }
     });
 
+    $("#form_reset_btn").on("click", function(){
+
+        $("#form_submit_btn").val("Update Profile");
+        lockControls();
+    });
+
     function lockControls(){
 
         $("#fname")     .attr("disabled", "disabled");
         $("#last_name") .attr("disabled", "disabled");
         $("#phone")     .attr("disabled", "disabled");
         $("#email")     .attr("disabled", "disabled");
+        $("#username")     .attr("disabled", "disabled");
 
     }
 
@@ -291,6 +309,8 @@ $(document).ready(function(){
         $("#fname")     .removeAttr('disabled');
         $("#last_name") .removeAttr('disabled');
         $("#phone")     .removeAttr("disabled");
+        $("#email")     .removeAttr("disabled");
+        $("#username")     .removeAttr("disabled");
 
     }
 
@@ -298,9 +318,48 @@ $(document).ready(function(){
         rules:{
             phone:{
                     phoneUS: true
+                },
+            username:{
+                required: true,
+                minlength:3,
+                remote:{
+                    url: "<?php echo(base_url('user/checkusernameUpdate')); ?>",
+                    type: "POST",
+                    data:{
+                        username: function(){
+                            var user = $("#username").val();
+                            return user;
+                        },
+                        ajax: '1',
+                        id: '<?php echo($user[0]['user_id']); ?>'
+                    }
+
                 }
+            },
+            email:{
+                remote:{
+                    url: "<?php echo(base_url('user/checkuseremailUpdate')); ?>",
+                    type: "POST",
+                    data:{
+                        email: function(){
+                            return $("#email").val();
+                        },
+                        ajax: '1',
+                        id: '<?php echo($user[0]['user_id']); ?>'
+                    }
+
+                }
+            }
+        },
+        messages:{
+            username:{
+                remote: "Username has already been used!"
+            },
+            email:{
+                remote: "Email has already been used!"
+            }
         }
-        });
+    });
 
     $("#pwd_form").validate({
         rules: {

@@ -7,7 +7,7 @@
  */
 ?>
 
-<h1>Create User</h1>
+<h1>Create New User</h1>
 <?php
     echo form_open('user/add', array('class'=>'user_form', 'id'=>'user_form'));
 ?>
@@ -101,7 +101,7 @@
                 );
                 echo form_password($userPasswordInput);
                 ?>
-                 &nbsp;&nbsp; Confirm Password:
+                 &nbsp;&nbsp; <span class="required">*</span> Confirm Password:
                 <?php
                 $userPasswordInput = array(
                     'name'      =>  'user_password_conf',
@@ -137,13 +137,13 @@
                 </div>
             </td>
         </tr>
-       
+    <?php if($role['level'] < 4 ):  //School admins should not select district and school fields when adding school users ?>
         <tr id="districtRow" style="display:none;">
-            <td><span class="">*</span>District:</td>
+            <td><span class="required">*</span> District:</td>
             <td>
               <?php
                     $options = array();
-                    $options[''] = '--Select--';
+                    $options['Null'] = '--Select--';
                     $options['']    =   'None';
                     foreach($districts as $rowIndex => $row){
                         $options[$row['id']] = $row['name'];
@@ -156,15 +156,15 @@
 
             </td>
         </tr> 
-        <tr id="schoolRow">
-            <td><span class="required">*</span>School:</td>
+        <tr id="schoolRow" style="display: none;">
+            <td><span class="required">*</span> School:</td>
             <td>
                 <?php
                 $options = array();
-                $options[''] = '--Select--';
-                foreach($schools as $rowIndex => $row){
+                $options['Null'] = '--Select--';
+                /*foreach($schools as $rowIndex => $row){
                     $options[$row['id']] = $row['name'];
-                }
+                }*/
 
                 $otherAttributes = 'id="sltschool" required="required" style=""';
                 reset($options);
@@ -173,13 +173,16 @@
                 ?>
             </td>
         </tr>
-        <tr>
-            <td><span class="required">*</span>View-Only:</td>
+    <?php endif; ?>
+
+        <tr id="viewonlyRow" style="display: none;">
+            <td><span class="required">*</span> View-Only:</td>
             <td>
                 <?php
                     $options = array(
-                        'y'      => 'Yes',
-                        'n'      =>  'No'
+
+                        'n'      =>  'No',
+                        'y'      => 'Yes'
                     );
 
                      $otherAttributes = 'id="user_access_permission"  style=""';

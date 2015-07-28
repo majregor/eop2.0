@@ -48,7 +48,7 @@ if(isset($viewform)){
 }
 ?>
 
-<div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>school/add">Add New School</a></div>
+<div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>school/add">Create New School</a></div>
 
 <div>
     <!-- Hidden field used to store selected user id -->
@@ -58,9 +58,11 @@ if(isset($viewform)){
         <thead>
             <tr>
                 <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;School Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>School Screen Name</th>
                  <?php 
                     if($role['create_district']=='y'){
                         echo (" <th>&nbsp;&nbsp;&nbsp;&nbsp;District&nbsp;&nbsp;&nbsp;&nbsp;</th>");
+                        echo("<th>District Screen Name</th>");
                     }
                 ?>
                 <th>EOP</th>
@@ -74,10 +76,16 @@ if(isset($viewform)){
                 <td>
                     <?php echo $value['name']; ?>
                 </td>
+                <td>
+                    <?php echo $value['screen_name']; ?>
+                </td>
                  <?php if($role['create_district']=='y'): ?>
                     <td>
                          <?php echo $value['district'] ?>
                     </td>
+                     <td>
+                         <?php echo($value['district_screen_name']); ?>
+                     </td>
                 <?php endif; ?>
 
                 <?php 
@@ -101,13 +109,21 @@ if(isset($viewform)){
                         }
 
                         if($viewEOP){
-                             echo "<td>View</td>";
+                            if($value['has_data']) {
+                                echo "<td><a href=" . base_url() . "report/make/" . $value['id'] . ">View</a></td>";
+                            }else{
+                                echo("<td><span class='grey'>No Data</span></td>");
+                            }
                         }
                         else{
                             echo "<td style='color:#BABABA;'><em>Not shared</em></td>";
                         }
                     }else{
-                        echo "<td>View</td>";
+                        if($value['has_data']) {
+                            echo "<td><a href=".base_url()."report/make/".$value['id'].">View</a></td>";
+                        }else{
+                            echo("<td><span class='grey'>No Data</span></td>");
+                        }
                     }
                 ?>
 
@@ -144,7 +160,7 @@ if(isset($viewform)){
 
 
 
-<div id="update-school-dialog" title="Update School Profile">
+<div id="update-school-dialog" title="Update School">
     <?php
         include("forms/update_school.php");
     ?>
@@ -183,7 +199,7 @@ if(isset($viewform)){
          *
          * Update School Profile functionality
          */
-            $(".modifySchoolProfileLink").click(function(){
+            $(document).on('click', '.modifySchoolProfileLink', function(){
                 var id = $(this).attr('id');
                 var name = $(this).attr('param1');
                 var screen_name = $(this).attr('param2');
@@ -200,13 +216,22 @@ if(isset($viewform)){
 
             $("#update-school-dialog").dialog({
                 resizable:      false,
-                minHeight:      300,
+                minHeight:      200,
                 minWidth:       500,
                 modal:          true,
                 autoOpen:       false,
                 show:           {
                     effect:     'scale',
                     duration: 300
+                },
+                buttons: {
+                    "Update": function(){
+                        $("#update_school_form").submit();
+                    },
+                    Cancel: function() {
+                        $("#update_school_form")[0].reset();
+                        $( this ).dialog( "close" );
+                    }
                 }
             });
 

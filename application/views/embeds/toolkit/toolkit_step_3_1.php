@@ -16,7 +16,7 @@
 <h3 class="clicker resources exampleimg">Examples</h3>
 <ul class="reveal">
 <UL>
-  <LI><A href="resources/Examples of Goals and Objectives_Threats and Hazards.pdf" target="_blank">Examples of Goals and Objectives for Threats and Hazards  </A>
+  <LI><A href="<?php echo(base_url());?>assets/resources/Examples_of_Goals_and_Objectives_Threats_and_Hazards.pdf" target="_blank">Examples of Goals and Objectives for Threats and Hazards  </A>
 </UL>
 </UL>
 

@@ -16,7 +16,9 @@ class Registry_model extends CI_Model {
     }
  
     function addVariable($key, $value){
-
+        $data = array("key"=>$key, "value"=>$value);
+        $this->db->insert('eop_registry', $data);
+        return $this->db->affected_rows();
     }
 
     function addVariables($data){
@@ -54,7 +56,14 @@ class Registry_model extends CI_Model {
 
 
     function hasKey($key){
+        $query = $this->db->get_where("eop_registry", array("key"=>$key));
 
+        if($query->num_rows()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     function hasValue($value){

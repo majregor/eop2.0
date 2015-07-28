@@ -51,7 +51,7 @@ if(isset($viewform)){
 <!-- Show only for Super admin and State Admin -->
 <?php if($this->session->userdata['role']['level'] < 3): ?>
 
-    <div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>district/add">Add New District</a></div>
+    <div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>district/add">Create New District</a></div>
 <?php endif; ?>
 <div>
     <!-- Hidden field used to store selected user id -->
@@ -104,7 +104,7 @@ if(isset($viewform)){
 
 
 
-<div id="update-district-dialog" title="Update District Profile">
+<div id="update-district-dialog" title="Update District">
     <?php
         include("forms/update_district.php");
     ?>
@@ -142,7 +142,7 @@ if(isset($viewform)){
          *
          * Update District Profile functionality
          */
-            $(".modifyDistrictProfileLink").click(function(){
+            $(document).on('click', '.modifyDistrictProfileLink', function(){
                 var id = $(this).attr('id');
                 var name = $(this).attr('param1');
                 var screen_name = $(this).attr('param2');
@@ -160,12 +160,21 @@ if(isset($viewform)){
             $("#update-district-dialog").dialog({
                 resizable:      false,
                 minHeight:      200,
-                minWidth:       300,
+                minWidth:       400,
                 modal:          true,
                 autoOpen:       false,
                 show:           {
                     effect:     'scale',
                     duration: 300
+                },
+                buttons: {
+                    "Update": function(){
+                        $("#update_district_form").submit();
+                    },
+                    Cancel: function() {
+                        $("#update_district_form")[0].reset();
+                        $( this ).dialog( "close" );
+                    }
                 }
             });
 

@@ -9,7 +9,7 @@
 <h3 class="clicker resources resourceimg">Resources</h3>
 <ul class="reveal">
 <UL>
-    <LI><A href="resources/EOP Review Checklist.pdf" target="_blank">EOP Review Checklist </A>
+    <LI><A href="<?php echo(base_url());?>assets/resources/EOP_Review_Checklist.pdf" target="_blank">EOP Review Checklist </A>
     <LI><A href="http://rems.ed.gov/EOPinteractivetools.aspx" target="_blank">REMS EOP Evaluate Tool</A> </LI>
     <LI><A href="http://rems.ed.gov/K12PPStep05.aspx" target="_blank">Related Resources for Step 5 on the REMS Website</A></LI>
 </UL>

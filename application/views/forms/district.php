@@ -7,7 +7,7 @@
  */
 ?>
 
-<h1>Create District</h1>
+<h1>Create New District</h1>
 <?php
     echo form_open('district/add', array('class'=>'district_form', 'id'=>'district_form'));
 ?>
@@ -48,7 +48,7 @@
                 <?php
                 $attributes = array(
                     'name'  =>  'district_form_submit',
-                    'value' =>  'Save',
+                    'value' =>  'Create New District',
                     'id'    =>  'district_form_submit',
                     'style' =>  ''
                 );
