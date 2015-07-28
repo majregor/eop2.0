@@ -51,8 +51,8 @@ function showMyDialog(editor) {
             complete: function(response){
                 var responseStr = response.responseText;
                 var finalStr = responseStr.replace("<title>PHPWord</title>","");
-                alert(finalStr);
-                //editor.insertHtml(finalStr);
+                //alert(finalStr);
+                editor.insertHtml(finalStr);
             },
             error: function(){
                 alert('Import failed! Check your connection and try again.');
