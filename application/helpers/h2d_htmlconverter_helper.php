@@ -218,7 +218,7 @@ function htmltodocx_insert_html(&$phpword_element, $html_dom_array, &$state = ar
   // Set up initial defaults:
   
   // Lists:
-  $state['pseudo_list'] = TRUE; 
+  $state['pseudo_list'] = TRUE;
   // This converter only supports "pseudo" lists at present.
   
   $state['pseudo_list_indicator_font_name'] = isset($state['pseudo_list_indicator_font_name']) ? $state['pseudo_list_indicator_font_name'] : 'Wingdings'; // Bullet indicator font
@@ -234,7 +234,8 @@ function htmltodocx_insert_html(&$phpword_element, $html_dom_array, &$state = ar
   
   // Parents:
   $state['parents'] = isset($state['parents']) ? $state['parents'] : array(0 => 'body');
-  $state['list_depth'] = isset($state['list_depth']) ? $state['list_depth'] : 4;
+  $state['list_depth'] = isset($state['list_depth']) ? $state['list_depth'] : 0;
+  $state['current_list_depth'] = isset($state['current_list_depth']) ? $state['current_list_depth'] : $state['list_depth']-1;
   $state['context'] = isset($state['context']) ? $state['context'] : 'section'; 
   // Possible values - section, footer or header.
   
@@ -500,9 +501,12 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
                 // list would appear before it in the Word document.
             } elseif($state['pseudo_list']==true){
                 array_unshift($state['parents'], 'ul');
+                $state['current_list_depth']++;
                 htmltodocx_insert_html_recursive($phpword_element, $element->nodes, $state);
                 array_shift($state['parents']);
+                $state['current_list_depth']--;
             }else{
+                // My modification to deal with bullet formatting
                 _htmltodocx_add_list_items($phpword_element, $element->nodes, $state);
             }
 
@@ -561,7 +565,8 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
         }
 
         // We create a new text run for each element:
-        $state['textrun'] = $phpword_element->createTextRun($state['current_style']);
+        //$state['textrun'] = $phpword_element->createTextRun($state['current_style']);
+          $state['textrun'] = $phpword_element->addListItemRun($state['current_list_depth']/*, $state['current_style']*/);
         
         if (in_array('li', $allowed_children)) {
           $state['list_number']++;
@@ -577,7 +582,7 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
           }
           array_unshift($state['parents'], 'li');
           /** Godfrey addition **/
-          $state['textrun']->addText("    ".$item_indicator, $style);
+          //$state['textrun']->addText("    ".$item_indicator, $style);
           htmltodocx_insert_html_recursive($phpword_element, $element->nodes, $state);
           array_shift($state['parents']);
         }
@@ -585,9 +590,11 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
           $state['textrun']->addText(htmltodocx_clean_text($element->innertext),  $state['current_style']);
         }
         if ($last_item && empty($state['list_style_after'])) {
-          $phpword_element->addTextBreak(); 
-          // Add an empty line after the list if no spacing after has been
-          // defined.
+            if($state['current_list_depth']==0){
+                $phpword_element->addTextBreak();
+                // Add an empty line after the list if no spacing after has been
+                // defined.
+            }
         }
         unset($state['textrun']);
       break;
@@ -740,12 +747,22 @@ function htmltodocx_url_encode_chars($url) {
 }
 
 /**
- * Adds phpword list items to section
+ * Adds phpword list items to section in case where the pseudo_list variable is set to FALSE
+ * default pseudo_list is set to TRUE
  */
 function _htmltodocx_add_list_items(&$phpword_element, $html_dom_array, &$state){
     // Go through each element:
-    foreach ($html_dom_array as $element) {
+    if(is_array($html_dom_array) && count($html_dom_array)>0) {
 
+        $section = $phpword_element;
+
+        foreach ($html_dom_array as $element) {
+            switch ($element->tag) {
+                case 'li':
+                    $section->addListItem($element->innertext);
+                    break;
+            }
+        }
     }
 }
 

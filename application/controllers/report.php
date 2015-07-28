@@ -279,7 +279,7 @@ class Report extends CI_Controller{
 
             foreach($fnData as $v){
                 if($value['name'] == $v['name']){
-                    array_push($functionalDataHolder, $value);
+                    array_push($functionalDataHolder, $v);
                     break;
                 }
             }
@@ -921,9 +921,9 @@ class Report extends CI_Controller{
                     // Optional parameters - showing the defaults if you don't set anything:
                     'current_style' => array('size' => '12'), // The PHPWord style on the top element - may be inherited by descendent elements.
                     'parents' => array(0 => 'body'), // Our parent is body.
-                    'list_depth' => 4, // This is the current depth of any current list.
+                    'list_depth' => 0, // This is the current depth of any current list.
                     'context' => 'section', // Possible values - section, footer or header.
-                    'pseudo_list' => TRUE, // NOTE: Word lists not yet supported (TRUE is the only option at present).
+                    'pseudo_list' => FALSE, // NOTE: Word lists not yet supported (TRUE is the only option at present).
                     'pseudo_list_indicator_font_name' => 'Wingdings', // Bullet indicator font.
                     'pseudo_list_indicator_font_size' => '7', // Bullet indicator size.
                     'pseudo_list_indicator_character' => 'l ', // l Gives a circle or m for round bullet point with wingdings.
