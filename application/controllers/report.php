@@ -33,7 +33,7 @@ class Report extends CI_Controller{
             $this->load->helper('file');
 
             //Load helper functions
-            $this->load->helper(array('h2d_htmlconverter', 'support_functions'));
+            $this->load->helper(array('h2d_htmlconverter', 'support_functions', 'word'));
 
             //Load Models
             $this->load->model('school_model');
@@ -164,99 +164,16 @@ class Report extends CI_Controller{
                 $filePath = $fileData['full_path'];
                 $fileExtension = substr($fileData['orig_name'], (strrpos($fileData['orig_name'], ".")+1));
 
+                $text ='';
 
+                if($fileExtension == 'doc')
+                    $text = read_doc($fileData);
+                elseif($fileExtension == 'docx')
+                    $text = read_docx($fileData);
 
-                $reader = new XMLReader;
-                $reader->open($fileData['file_path'].'document.xml');
-
-                // set up variables for formatting
-                $text = ''; $formatting['bold'] = 'closed'; $formatting['italic'] = 'closed'; $formatting['underline'] = 'closed'; $formatting['header'] = 0;
-
-                // loop through docx xml dom
-                while ($reader->read()){
-                    // look for new paragraphs
-                    if ($reader->nodeType == XMLREADER::ELEMENT && $reader->name === 'w:p'){
-                        // set up new instance of XMLReader for parsing paragraph independantly
-                        $paragraph = new XMLReader;
-                        $p = $reader->readOuterXML();
-                        $paragraph->xml($p);
-
-                        // search for heading
-                        preg_match('/<w:pStyle w:val="(Heading.*?[1-6])"/',$p,$matches);
-                        switch($matches[1]){
-                            case 'Heading1': $formatting['header'] = 1; break;
-                            case 'Heading2': $formatting['header'] = 2; break;
-                            case 'Heading3': $formatting['header'] = 3; break;
-                            case 'Heading4': $formatting['header'] = 4; break;
-                            case 'Heading5': $formatting['header'] = 5; break;
-                            case 'Heading6': $formatting['header'] = 6; break;
-                            default:  $formatting['header'] = 0; break;
-                        }
-
-                        // open h-tag or paragraph
-                        $text .= ($formatting['header'] > 0) ? '<h'.$formatting['header'].'>' : '<p>';
-
-                        // loop through paragraph dom
-                        while ($paragraph->read()){
-                            // look for elements
-                            if ($paragraph->nodeType == XMLREADER::ELEMENT && $paragraph->name === 'w:r'){
-                                $node = trim($paragraph->readInnerXML());
-
-                                // add <br> tags
-                                if (strstr($node,'<w:br ')) $text .= '<br>';
-
-                                // look for formatting tags
-                                $formatting['bold'] = (strstr($node,'<w:b/>')) ? (($formatting['bold'] == 'closed') ? 'open' : $formatting['bold']) : (($formatting['bold'] == 'opened') ? 'close' : $formatting['bold']);
-                                $formatting['italic'] = (strstr($node,'<w:i/>')) ? (($formatting['italic'] == 'closed') ? 'open' : $formatting['italic']) : (($formatting['italic'] == 'opened') ? 'close' : $formatting['italic']);
-                                $formatting['underline'] = (strstr($node,'<w:u ')) ? (($formatting['underline'] == 'closed') ? 'open' : $formatting['underline']) : (($formatting['underline'] == 'opened') ? 'close' : $formatting['underline']);
-
-                                // build text string of doc
-                                $text .=     (($formatting['bold'] == 'open') ? '<strong>' : '').
-                                    (($formatting['italic'] == 'open') ? '<em>' : '').
-                                    (($formatting['underline'] == 'open') ? '<u>' : '').
-                                    htmlentities(iconv('UTF-8', 'ASCII//TRANSLIT',$paragraph->expand()->textContent)).
-                                    (($formatting['underline'] == 'close') ? '</u>' : '').
-                                    (($formatting['italic'] == 'close') ? '</em>' : '').
-                                    (($formatting['bold'] == 'close') ? '</strong>' : '');
-
-                                // reset formatting variables
-                                foreach ($formatting as $key=>$format){
-                                    if ($format == 'open') $formatting[$key] = 'opened';
-                                    if ($format == 'close') $formatting[$key] = 'closed';
-                                }
-                            }
-                        }
-                        $text .= ($formatting['header'] > 0) ? '</h'.$formatting['header'].'>' : '</p>';
-                    }
-
-                }
-                $reader->close();
-
-                // suppress warnings. loadHTML does not require valid HTML but still warns against it...
-                // fix invalid html
-                /*$doc = new DOMDocument();
-                $doc->encoding = 'UTF-8';
-                @$doc->loadHTML($text);
-                $goodHTML = simplexml_import_dom($doc)->asXML();*/
-
-
-
-
-
-
-
-                /*$readerName = ($fileExtension=='doc') ? 'MsDoc' : 'Word2007';
-                $phpword = \PhpOffice\PhpWord\IOFactory::load($filePath, $readerName);
-                $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpword, 'HTML');*/
-
-                //unlink($filePath);
-
-
+                unlink($filePath);
 
                 $this->output->set_output($text);
-
-
-                //$this->output->set_output(print_r($this->upload->data()).$fileExtension);
 
             }else{
                 $this->output->set_output($this->upload->display_errors());
@@ -266,45 +183,7 @@ class Report extends CI_Controller{
         }else{
             $this->output->set_output(json_encode($this->input->post()));
         }
-
-        /*
-        $source = "Text.docx";
-
-        //echo date('H:i:s'), " Reading contents from `{$source}`";
-        $phpword = \PhpOffice\PhpWord\IOFactory::load($source);
-        $sectionCover = $this->word->addSection();
-        //Add Document title (form 1.0 Title of the plan)
-        $sectionCover->addTextBreak(5);
-        $sectionCover->addText("Document Title Here", 'docTitle', 'docTitleParagraph');
-        $sectionCover->addPageBreak();
-
-        $sectionCover->addTextBreak(5);
-
-        foreach($phpword->getSections() as $section){
-            $this->word->insertSection($section);
-        }
-
-
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($this->word, 'HTML');
-
-
-        $objWriter->save("php://output");
-
-        $sections = $phpword->getSections();
-        foreach($sections as $section){
-
-            foreach ($section->getElements() as $key=>$element){
-                if(get_class($element) === 'PhpOffice\PhpWord\Element\Text'){
-                    echo("yes");
-                }
-                if(is_a($element, 'PhpOffice\PhpWord\Element\Text')){
-                    print_r( $element->getFontStyle()); echo  "<br>";
-                }
-            }
-
-        }*/
     }
-
 
 
     public function index(){
