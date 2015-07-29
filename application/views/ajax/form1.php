@@ -43,7 +43,10 @@ if($action=='add'){
         <td colspan="2"><table border="0" width="100%">
                 <tbody>
                 <tr>
-                    <td><p><u>1.0 Cover Page</u></p>
+                    <td>
+                        <?php if($eopType=='internal'): ?>
+                        <p><span style="text-decoration: underline">1.0 Cover Page</span></p>
+                        <?php endif; ?>
                         <p>Complete the following fields to create the cover page of your plan:</p></td>
                 </tr>
                 </tbody>
@@ -79,8 +82,10 @@ if($action=='add'){
         <td>&nbsp;</td>
         <td>&nbsp;</td>
     </tr>
+
+    <?php if($eopType=='internal'): ?>
     <tr>
-        <td colspan="2"><p><u>1.1 Promulgation Document and Signatures</u>            </p>            <p>This document or page contains a signed statement formally recognizing and adopting the school EOP. It gives both the authority and the responsibility to school officials to perform their tasks before, during, or after an incident, and therefore should be signed by the school administrator or another authorizing official.</p></td>
+        <td colspan="2"><p><span style="text-decoration: underline">1.1 Promulgation Document and Signatures</span>            </p>            <p>This document or page contains a signed statement formally recognizing and adopting the school EOP. It gives both the authority and the responsibility to school officials to perform their tasks before, during, or after an incident, and therefore should be signed by the school administrator or another authorizing official.</p></td>
     </tr>
     <tr>
         <td colspan="2"><strong>In the field below, please cut and paste, write out or upload the Promulgation Document and Signatures section of your school EOP.</strong></td>
@@ -97,7 +102,7 @@ if($action=='add'){
         <td>&nbsp;</td>
     </tr>
     <tr>
-        <td colspan="2"><p><u>1.2 Approval and Implementation</u>            </p>            <p>The Approval and Implementation page introduces the plan, outlines its applicability, and indicates that it supersedes all previous plans. It includes a delegation of authority for specific modifications that can be made to the plan and by whom they can be made without the school administrator&rsquo;s signature. It also includes a date and should be signed by the authorized school administrator.</p></td>
+        <td colspan="2"><p><span style="text-decoration: underline">1.2 Approval and Implementation</span>            </p>            <p>The Approval and Implementation page introduces the plan, outlines its applicability, and indicates that it supersedes all previous plans. It includes a delegation of authority for specific modifications that can be made to the plan and by whom they can be made without the school administrator&rsquo;s signature. It also includes a date and should be signed by the authorized school administrator.</p></td>
     </tr>
     <tr>
         <td colspan="2"><strong>In the field below, please cut and paste, write out or upload your school&rsquo;s or district&rsquo;s statement formally recognizing and adopting the school EOP.</strong></td>
@@ -114,7 +119,7 @@ if($action=='add'){
         <td>&nbsp;</td>
     </tr>
     <tr>
-        <td colspan="2"><p><u>1.3 Record of Changes</u>            </p>            <p>Each update or change to the plan should be tracked. The Record of Changes page, usually in table format, contains—at a minimum—a change number, the date of the change, the name of the person who made the change, and a summary of the change.</p></td>
+        <td colspan="2"><p><span style="text-decoration: underline">1.3 Record of Changes</span>            </p>            <p>Each update or change to the plan should be tracked. The Record of Changes page, usually in table format, contains—at a minimum—a change number, the date of the change, the name of the person who made the change, and a summary of the change.</p></td>
     </tr>
     <tr>
         <td colspan="2"><strong>In the table below, please identify any Record of Changes information, as described above. If your plan does not yet contain any changes, you may leave the material included below untouched. Also, if you prefer to organize your Record of Changes information using different headings, or in a different format, you may edit the material located in the field below.</strong></td>
@@ -214,7 +219,7 @@ if($action=='add'){
         <td>&nbsp;</td>
     </tr>
     <tr>
-        <td colspan="2"><p><u>1.4 Record of Distribution</u>          </p>
+        <td colspan="2"><p><span style="text-decoration: underline">1.4 Record of Distribution</span>          </p>
             <p>Districts and schools typically share their final EOPs with community partners who have a role in carrying out the plan before, during, or after an emergency. The record of distribution, usually in table format, documents the title and the name of the person receiving the plan, the agency to which the recipient belongs (either the school office or, if from outside the school, the name of the appropriate government agency or private-sector entity), the date of delivery, and the number of copies delivered.</p></td>
     </tr>
     <tr>
@@ -288,6 +293,8 @@ if($action=='add'){
             </table>
         </td>
     </tr>
+
+    <?php endif; ?>
     <tr>
         <td colspan="2" align="left">
             <?php if($action != 'view'): ?>
@@ -436,7 +443,8 @@ if($action=='add'){
                 promulgationFieldId:'<?php echo(isset($child1['fields'][0]['id'])? $child1['fields'][0]['id']: null); ?>',
                 promulgationField:  $("#promulgationField").val(),
                 approvalFieldId:    '<?php echo(isset($child2['fields'][0]['id'])? $child2['fields'][0]['id']:null); ?>',
-                approvalField:      $("#approvalField").val()
+                approvalField:      $("#approvalField").val(),
+                eopType:            '<?php echo($eopType); ?>'
             };
             $.ajax({
                 url:    '<?php echo(base_url('plan/manageForm1')); ?>',

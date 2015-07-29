@@ -79,7 +79,11 @@ class School_model extends CI_Model {
     function objectToArray($d){
         if(is_object($d)){
             $d = get_object_vars($d);
-
+            foreach($d as &$value){
+                if(is_object($value)){
+                    $value = get_object_vars($value);
+                }
+            }
             return $d;
         }else{
             return $d;

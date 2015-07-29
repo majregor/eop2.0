@@ -218,6 +218,7 @@ $entities = $page_vars['entities'];
         $(document).on('click','#saveBtn', function(){
 
             var validateError = false;
+            var focusElement;
 
             <?php for($i=1; $i<=3; $i++): ?>
                 var g<?php echo($i);?>ObjData = $.map($(".g<?php echo($i);?>Obj"), function(value, index) {
@@ -237,9 +238,8 @@ $entities = $page_vars['entities'];
                         return [$(value).val()];
                     }else{
                         $(value).parent().addClass("error");
-                        $(value).parent().focus();
+                        focusElement = $(value).parent();
                         validateError = true;
-                        alert('Function field is required!');
                         return;
                     }
                 });
@@ -250,9 +250,8 @@ $entities = $page_vars['entities'];
                         return [$(value).text().trim()];
                     }else{
                         $(value).parent().addClass("error");
-                        $(value).parent().focus();
+                        focusElement = $(value).parent();
                         validateError = true;
-                        alert('Function field is required!');
                         return;
                     }
                 });
@@ -265,37 +264,26 @@ $entities = $page_vars['entities'];
                //Do nothing
            }
             else{
-
-               alert('Function field is required!');
                $('#slctg1fn').addClass("error");
-               $('#slctg1fn').focus();
+               focusElement = $('#slctg1fn');
                validateError = true;
-               return false;
            }
 
             if( $('#slctg2fn').val()){
                 //Do nothing
              }
             else{
-
-                alert('Function field is required!');
                 $('#slctg2fn').addClass("error");
-                $('#slctg2fn').focus();
+                focusElement = $('#slctg2fn');
                 validateError = true;
-
-                return false;
             }
 
             if($('#slctg3fn').val()){
                 //Do nothing
             } else{
-
-                alert('Function field is required!');
                 $('#slctg3fn').addClass("error");
-                $('#slctg3fn').focus();
+                focusElement = $('#slctg3fn');
                 validateError = true;
-
-                return false;
             }
 
 
@@ -306,7 +294,9 @@ $entities = $page_vars['entities'];
             var g3TxtCtl = $('#txtg3');
 
             if(validateError){
-                return false
+                alert('Function field is required!');
+                $(focusElement).focus();
+                return false;
             }else {
                 var formData = {
                     ajax: '1',
@@ -384,6 +374,9 @@ $entities = $page_vars['entities'];
         });
 
         $(document).on('change','select', function(){
+            if($(this).val() !=""){
+                $(this).removeClass('error');
+            }
             if($(this).val().trim()=="other"){
                 $("#new-fn-dialog").dialog('open');
                 return false;

@@ -1,8 +1,13 @@
 <?php
 $entities = $page_vars['entities'];
-$EOP_type="internal";
+$EOP_ctype = $EOP_type="internal";
+
 if(!empty($page_vars['EOP_type'])){
     $EOP_type = $page_vars['EOP_type'];
+}
+
+if(!empty($page_vars['EOP_ctype'])){
+    $EOP_ctype = $page_vars['EOP_ctype'];
 }
 ?>
 <?php
@@ -68,8 +73,9 @@ if((null != $this->session->flashdata('success'))):
 <?php if($EOP_type == 'external'): ?>
     <div>
         <form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo base_url(); ?>report/upload">
-            <input type="file" name="userfile" id="userfile" required="required" />
+            <input type="file" name="userfile" id="userfile" required="required" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-doc, .doc, .docx" />
             <input type="button" value="Start Upload" id="uploadButton" />
+            <input type="hidden" name="docType" value="main"/>
         </form>
     </div>
     <br style="clear:both;" />
@@ -83,42 +89,56 @@ if((null != $this->session->flashdata('success'))):
         </td>
     </tr>
     <tr class="planOdd">
-        <td>1. Introductory Material</td>
+        <td>1.0 Cover Page</td>
         <td align="middle">
 
-            <?php
-            $mode = 'add';
-            $entityId=null;
-            foreach($entities as $entity_key=>$entity){
-                if($entity['name']=='form1') {
-                    foreach ($entity['children'] as $child_key => $child) {
-                        foreach($child['fields'] as $field){
-                            if(isset($field['body']) && !empty($field['body'])){
-                                $entityId = $entity['id'];
-                                $mode='edit';
-                                break 3;
+            <input id="useInternalCover" type="checkbox" autocomplete="off" <?php echo(($EOP_ctype=='internal')? "checked disabled" : ""); ?> name="internalcEOP" ><label for="useInternalCover">Use Internal Cover Page</label>
+            <input id="useExternalCover" type="checkbox" autocomplete="off" <?php echo(($EOP_ctype=='external')? "checked disabled" : ""); ?> name="externalcEOP"><label  for="useExternalCover">Use Uploaded Cover Page</label>
+<br />
+            <?php if($EOP_ctype == 'external'): ?>
+                <div>
+                    <form enctype="multipart/form-data" id="uploadCoverForm" method="post" action="<?php echo base_url(); ?>report/upload">
+                        <input type="file" name="userfile" id="userfile" required="required" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-doc, .doc, .docx" />
+                        <input type="button" value="Start Upload" id="uploadCoverButton" />
+                        <input type="hidden" name="docType" value="cover"/>
+                    </form>
+
+                    <div id="coverFilesTable">
+
+                    </div>
+                </div>
+            <?php else: ?>
+                <?php
+                $mode = 'add';
+                $entityId=null;
+                foreach($entities as $entity_key=>$entity){
+                    if($entity['name']=='form1') {
+                        foreach ($entity['children'] as $child_key => $child) {
+                            foreach($child['fields'] as $field){
+                                if(isset($field['body']) && !empty($field['body'])){
+                                    $entityId = $entity['id'];
+                                    $mode='edit';
+                                    break 3;
+                                }
                             }
                         }
                     }
                 }
-            }
-            ?>
-            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
-                <?php if($mode=='add'): ?>
-                    <a href="#" class="showAddForm" id="showForm1Link">Add</a>
+                ?>
+                <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                    <?php if($mode=='add'): ?>
+                        <a href="#" class="showAddForm" id="showForm1Link">Add</a>
+                    <?php else: ?>
+                        <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm1Link">Edit</a>
+                    <?php endif; ?>
                 <?php else: ?>
-                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm1Link">Edit</a>
-                <?php endif; ?>
-            <?php else: ?>
-                <?php if($mode=='add'): ?>
-                    <span class="empty">No Data</span>
-                <?php else: ?>
-                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm1Link">View</a>
+                    <?php if($mode=='add'): ?>
+                        <span class="empty">No Data</span>
+                    <?php else: ?>
+                        <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm1Link">View</a>
+                    <?php endif; ?>
                 <?php endif; ?>
             <?php endif; ?>
-
-
-
 
 
         </td>
@@ -596,12 +616,34 @@ if((null != $this->session->flashdata('success'))):
 
 
         var formData = {
-            ajax: 1
+            ajax: 1,
+            docType : 'main'
         };
         $.ajax({
             url:    '<?php echo(base_url('report/getUploads')); ?>',
             data:   formData,
             type:   'POST',
+            async: false,
+            success: function(response){
+                try{
+                    $("#filesTable").html(response);
+
+                }catch(err){
+                    alert('Problem loading controls ' + err);
+                }
+            }
+
+        });
+
+        var formData = {
+            ajax: 1,
+            docType : 'cover'
+        };
+        $.ajax({
+            url:    '<?php echo(base_url('report/getUploads')); ?>',
+            data:   formData,
+            type:   'POST',
+            async:false,
             success: function(response){
                 try{
                     $("#filesTable").html(response);
@@ -640,12 +682,34 @@ if((null != $this->session->flashdata('success'))):
         uploadForm.submit();
     });
 
+    $(document).on("click", "#uploadCoverButton", function(){
+
+        $("#uploadCoverForm").validate();
+
+        var options = {
+            cache: false,
+            complete: function(response){
+                var responseStr = response.responseText;
+                $("#coverFilesTable").html(responseStr);
+            },
+            error: function(){
+                alert('Import failed! Check your connection and try again.');
+            }
+        };
+
+        var uploadForm = $("#uploadCoverForm");
+        uploadForm.ajaxForm(options);
+
+        uploadForm.submit();
+    });
+
     $(document).on('change', '#useInternal', function(){
         if($(this).is(':checked')){
 
             var formData = {
                 ajax: 1,
-                option: 'internal'
+                option: 'internal',
+                docType: 'main'
             };
             $.ajax({
                 url:    '<?php echo(base_url('plan/setEOP')); ?>',
@@ -669,7 +733,59 @@ if((null != $this->session->flashdata('success'))):
 
             var formData = {
                 ajax: 1,
-                option: 'external'
+                option: 'external',
+                docType: 'main'
+            };
+            $.ajax({
+                url:    '<?php echo(base_url('plan/setEOP')); ?>',
+                data:   formData,
+                type:   'POST',
+                success: function(response){
+                    try{
+                        //alert(response);
+                        location.reload();
+
+                    }catch(err){
+                        alert('Problem loading controls ' + err);
+                    }
+                }
+
+            });
+        }
+    });
+
+    $(document).on('change', '#useInternalCover', function(){
+        if($(this).is(':checked')){
+
+            var formData = {
+                ajax: 1,
+                option: 'internal',
+                docType: 'cover'
+            };
+            $.ajax({
+                url:    '<?php echo(base_url('plan/setEOP')); ?>',
+                data:   formData,
+                type:   'POST',
+                success: function(response){
+                    try{
+                        location.reload();
+
+                    }catch(err){
+                        alert('Problem loading controls ' + err);
+                    }
+                }
+
+            });
+        }
+    });
+
+    $(document).on('change', '#useExternalCover', function(){
+        if($(this).is(':checked')){
+
+            var formData = {
+                ajax: 1,
+                option: 'external',
+                docType: 'cover'
             };
             $.ajax({
                 url:    '<?php echo(base_url('plan/setEOP')); ?>',
@@ -836,7 +952,8 @@ if((null != $this->session->flashdata('success'))):
         var formData ={
             ajax:           '1',
             action:         mode,
-            entityId:       entityId
+            entityId:       entityId,
+            eopType:        '<?php echo($EOP_type); ?>'
         };
         $.ajax({
             url:    '<?php echo(base_url('plan/loadForm1Ctls')); ?>',

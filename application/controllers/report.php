@@ -53,11 +53,12 @@ class Report extends CI_Controller{
 
         $sid =isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null;
         $type_id = $this->plan_model->getEntityTypeId('file', 'name');
+        $docType = $this->input->post('docType');
 
         $config = array(
             'upload_path'   =>  dirname($_SERVER["SCRIPT_FILENAME"]).'/uploads/',
             'upload_url'    =>  base_url()."uploads/",
-            'file_name'     =>  'uploaded_EOP_'.$sid,
+            'file_name'     =>  'uploaded_EOP_'.$docType.'_'.$sid,
             'overwrite'     =>  true,
             'allowed_types' =>  'doc|docx',
             'max_size'      =>  '10024KB'
@@ -68,7 +69,7 @@ class Report extends CI_Controller{
 
             $data = array(
                 'saved' => true,
-                'fileData' => $fileData
+                'fileData' => array($docType => $fileData)
             );
 
             if(!empty($sid)){
@@ -81,7 +82,7 @@ class Report extends CI_Controller{
                     'owner'     =>      $this->session->userdata('user_id'),
                     'sid'       =>      $sid,
                     'type_id'   =>      $type_id,
-                    'description'=>     json_encode($fileData)
+                    'description'=>     json_encode(array($docType =>$fileData))
                 );
                 $this->plan_model->addEntity($entityData);
             }else{
@@ -89,18 +90,26 @@ class Report extends CI_Controller{
                 if($this->registry_model->hasKey('sys_preferences')){
                     $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
                     //update the preference value
-                    $fileData['basic_plan_source'] = $preferences->basic_plan_source;
-                    $this->registry_model->update('sys_preferences', json_encode($fileData));
-                }else{
+                    $arrayStore = array();
+                    $arrayStore['main'] = $preferences->main;
+                    $arrayStore['cover'] = isset($preferences->cover) ? $preferences->cover : null;
 
+                    $arrayStore[$docType] = $fileData;
+                    $arrayStore[$docType]['basic_plan_source'] = 'external';
+
+                    $this->registry_model->update('sys_preferences', json_encode($arrayStore));
+                }else{
                     $fileData['basic_plan_source'] = 'external';
-                    $preferences = array('sys_preferences' => json_encode($fileData));
+                    $arrayStore = array();
+                    $arrayStore[$docType] = $fileData;
+
+                    $preferences = array('sys_preferences' => json_encode($arrayStore));
                     $this->registry_model->addVariables($preferences);
                 }
             }
 
 
-            $this->load->view('ajax/upload', $data);
+            ($docType=='main') ? $this->load->view('ajax/upload', $data) : $this->load->view('ajax/upload_cover', $data);
 
         }else{
             $data = $this->upload->display_errors();
@@ -111,7 +120,13 @@ class Report extends CI_Controller{
     function objectToArray($d){
         if(is_object($d)){
             $d = get_object_vars($d);
-
+            foreach($d as &$value){
+                if(is_object($value)){
+                    $value = get_object_vars($value);
+                }
+            }
+            return $d;
+        }else{
             return $d;
         }
     }
@@ -119,6 +134,8 @@ class Report extends CI_Controller{
     public function getUploads(){
         if($this->input->post('ajax')){
             $sid = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null;
+            $docType = $this->input->post('docType');
+
 
             if(!empty($sid)){
                 $entityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
@@ -129,7 +146,9 @@ class Report extends CI_Controller{
                     $data= array(
                         'fileData' => $this->objectToArray($fileData)
                     );
-                    $this->load->view('ajax/upload', $data);
+
+                    ($docType=='main') ? $this->load->view('ajax/upload', $data) : $this->load->view('ajax/upload_cover', $data);
+
                 }
             }else{
                 $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
@@ -138,7 +157,8 @@ class Report extends CI_Controller{
                         'fileData' => $this->objectToArray($preferences)
                     );
 
-                    $this->load->view('ajax/upload', $data);
+                    ($docType=='main') ? $this->load->view('ajax/upload', $data) : $this->load->view('ajax/upload_cover', $data);
+
                 }
             }
 
