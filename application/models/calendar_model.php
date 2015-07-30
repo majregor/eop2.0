@@ -55,7 +55,8 @@ class Calendar_model extends CI_Model {
                 $conditions['sid'] = null;
                 $this->db->select("A.id, A.title AS official, CONCAT_WS(' - ', B.name, A.title) AS title , A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
                     ->from('eop_calendar A')
-                    ->join('eop_school B', 'A.sid = B.id', 'left');
+                    ->join('eop_school B', 'A.sid = B.id', 'left')
+                    ->where($conditions);
             }
             else{
                 $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title, A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)

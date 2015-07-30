@@ -18,9 +18,10 @@ $role_level = $this->session->userdata['role']['level'];
         <?php foreach($schoolsData as $key => $school):
 
             $EOP_type="internal";
-
             if(!empty($school[0]['preferences'])){
-                $EOP_type = json_decode($school[0]['preferences'])->basic_plan_source;
+                $preferenceObj = json_decode($school[0]['preferences']);
+                if(!empty($preferenceObj->main))
+                $EOP_type = $preferenceObj->main->basic_plan_source;
             }
         ?>
             <tr>

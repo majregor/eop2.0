@@ -193,6 +193,19 @@ class PhpWord
         return $this->sections;
     }
 
+    /** Returns the last section in a PhpWord object or null if there are no sections
+     * added method for EOP ASSIST document exporting
+     *
+     * @method getLastSection
+     * @return null|Section
+     */
+    public function getLastSection(){
+        if(count($this->sections) > 0 )
+            return $this->sections[count($this->sections)-1];
+        else
+            return null;
+    }
+
     /**
      * Create new section
      *

@@ -254,7 +254,7 @@
             ?>
             <div id="errorDiv">
                 <div class="notify notify-green">
-                    <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+                    <span class="symbol icon-tick"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('success'));?>
                 </div>
             </div>
 
@@ -264,7 +264,7 @@
             ?>
             <div id="errorDiv">
                 <div class="notify notify-red">
-                    <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+                    <span class="symbol icon-error"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('error'));?>
                 </div>
             </div>
 

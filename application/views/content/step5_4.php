@@ -89,7 +89,7 @@ if((null != $this->session->flashdata('success'))):
         </td>
     </tr>
     <tr class="planOdd">
-        <td>1.0 Cover Page</td>
+        <td style="vertical-align: middle;">1.0 Cover Page</td>
         <td align="middle">
 
             <input id="useInternalCover" type="checkbox" autocomplete="off" <?php echo(($EOP_ctype=='internal')? "checked disabled" : ""); ?> name="internalcEOP" ><label for="useInternalCover">Use Internal Cover Page</label>
@@ -102,10 +102,6 @@ if((null != $this->session->flashdata('success'))):
                         <input type="button" value="Start Upload" id="uploadCoverButton" />
                         <input type="hidden" name="docType" value="cover"/>
                     </form>
-
-                    <div id="coverFilesTable">
-
-                    </div>
                 </div>
             <?php else: ?>
                 <?php
@@ -616,34 +612,13 @@ if((null != $this->session->flashdata('success'))):
 
 
         var formData = {
-            ajax: 1,
-            docType : 'main'
+            ajax: 1
         };
         $.ajax({
             url:    '<?php echo(base_url('report/getUploads')); ?>',
             data:   formData,
             type:   'POST',
             async: false,
-            success: function(response){
-                try{
-                    $("#filesTable").html(response);
-
-                }catch(err){
-                    alert('Problem loading controls ' + err);
-                }
-            }
-
-        });
-
-        var formData = {
-            ajax: 1,
-            docType : 'cover'
-        };
-        $.ajax({
-            url:    '<?php echo(base_url('report/getUploads')); ?>',
-            data:   formData,
-            type:   'POST',
-            async:false,
             success: function(response){
                 try{
                     $("#filesTable").html(response);
@@ -690,7 +665,7 @@ if((null != $this->session->flashdata('success'))):
             cache: false,
             complete: function(response){
                 var responseStr = response.responseText;
-                $("#coverFilesTable").html(responseStr);
+                $("#filesTable").html(responseStr);
             },
             error: function(){
                 alert('Import failed! Check your connection and try again.');

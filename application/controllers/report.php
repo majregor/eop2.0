@@ -18,6 +18,7 @@ class Report extends CI_Controller{
 
     var $school_id = null;
     var $EOP_type = 'internal';
+    var $EOP_ctype = 'internal';
 
     public function __construct(){
         parent::__construct();
@@ -49,6 +50,49 @@ class Report extends CI_Controller{
         }
     }
 
+    public function remove($docType='main'){
+        $sid =isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null;
+        $type_id = $this->plan_model->getEntityTypeId('file', 'name');
+
+        if(!empty($sid)){
+            $fileEntityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
+            $arrayStore = array();
+
+            if(is_array($fileEntityData) && count($fileEntityData)>0){
+                $arrayStore = $this->objectToArray(json_decode($fileEntityData[0]['description']));
+
+                $this->plan_model->deleteEntity(array('sid'=>$sid, 'type_id'=>$type_id));
+            }
+            unlink($arrayStore[$docType]['full_path']);
+            $arrayStore[$docType]= array();
+
+            $entityData = array(
+                'name'      =>      'Basic Plan',
+                'title'     =>      'Uploaded Basic Plan',
+                'owner'     =>      $this->session->userdata('user_id'),
+                'sid'       =>      $sid,
+                'type_id'   =>      $type_id,
+                'description'=>     json_encode($arrayStore)
+            );
+            $this->plan_model->addEntity($entityData);
+
+        }else{
+            if($this->registry_model->hasKey('sys_preferences')){
+                $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
+                //update the preference value
+                $arrayStore = array();
+                $arrayStore['main'] = isset($preferences->main) ? $preferences->main : null;
+                $arrayStore['cover'] = isset($preferences->cover) ? $preferences->cover : null;
+
+                unlink($arrayStore[$docType]['full_path']);
+                $arrayStore[$docType] = array();
+
+                $this->registry_model->update('sys_preferences', json_encode($arrayStore));
+            }
+        }
+
+        redirect('plan/step5/4');
+    }
     public function upload(){
 
         $sid =isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null;
@@ -74,7 +118,18 @@ class Report extends CI_Controller{
 
             if(!empty($sid)){
 
-                $this->plan_model->deleteEntity(array('sid'=>$sid, 'type_id'=>$type_id));
+
+                $fileEntityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
+                $arrayStore = array();
+
+
+                if(is_array($fileEntityData) && count($fileEntityData)>0){
+                    $arrayStore = $this->objectToArray(json_decode($fileEntityData[0]['description']));
+
+                    $this->plan_model->deleteEntity(array('sid'=>$sid, 'type_id'=>$type_id));
+                }
+
+                $arrayStore[$docType]= $fileData;
 
                 $entityData = array(
                     'name'      =>      'Basic Plan',
@@ -82,22 +137,26 @@ class Report extends CI_Controller{
                     'owner'     =>      $this->session->userdata('user_id'),
                     'sid'       =>      $sid,
                     'type_id'   =>      $type_id,
-                    'description'=>     json_encode(array($docType =>$fileData))
+                    'description'=>     json_encode($arrayStore)
                 );
                 $this->plan_model->addEntity($entityData);
+
+                $data['fileData'] = $arrayStore;
+
             }else{
 
                 if($this->registry_model->hasKey('sys_preferences')){
                     $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
                     //update the preference value
                     $arrayStore = array();
-                    $arrayStore['main'] = $preferences->main;
+                    $arrayStore['main'] = isset($preferences->main) ? $preferences->main : null;
                     $arrayStore['cover'] = isset($preferences->cover) ? $preferences->cover : null;
 
                     $arrayStore[$docType] = $fileData;
                     $arrayStore[$docType]['basic_plan_source'] = 'external';
 
                     $this->registry_model->update('sys_preferences', json_encode($arrayStore));
+                    $data['fileData'] = $arrayStore;
                 }else{
                     $fileData['basic_plan_source'] = 'external';
                     $arrayStore = array();
@@ -105,11 +164,12 @@ class Report extends CI_Controller{
 
                     $preferences = array('sys_preferences' => json_encode($arrayStore));
                     $this->registry_model->addVariables($preferences);
+                    $data['fileData'] = $arrayStore;
                 }
             }
 
 
-            ($docType=='main') ? $this->load->view('ajax/upload', $data) : $this->load->view('ajax/upload_cover', $data);
+            $this->load->view('ajax/upload', $data);
 
         }else{
             $data = $this->upload->display_errors();
@@ -134,7 +194,6 @@ class Report extends CI_Controller{
     public function getUploads(){
         if($this->input->post('ajax')){
             $sid = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null;
-            $docType = $this->input->post('docType');
 
 
             if(!empty($sid)){
@@ -147,7 +206,7 @@ class Report extends CI_Controller{
                         'fileData' => $this->objectToArray($fileData)
                     );
 
-                    ($docType=='main') ? $this->load->view('ajax/upload', $data) : $this->load->view('ajax/upload_cover', $data);
+                    $this->load->view('ajax/upload', $data);
 
                 }
             }else{
@@ -157,7 +216,7 @@ class Report extends CI_Controller{
                         'fileData' => $this->objectToArray($preferences)
                     );
 
-                    ($docType=='main') ? $this->load->view('ajax/upload', $data) : $this->load->view('ajax/upload_cover', $data);
+                    $this->load->view('ajax/upload', $data);
 
                 }
             }
@@ -271,8 +330,10 @@ class Report extends CI_Controller{
         $school = $this->school_model->getSchool($this->school_id);
         //Get the basic plan source preference for the school
         $this->EOP_type = 'internal';
+        $this->EOP_ctype = 'internal';
         if(!empty($school[0]['preferences'])) {
-            $this->EOP_type = json_decode($school[0]['preferences'])->basic_plan_source;
+            $this->EOP_type     = json_decode($school[0]['preferences'])->main->basic_plan_source;
+            $this->EOP_ctype    = json_decode($school[0]['preferences'])->cover->basic_plan_source;
         }
 
         //Make file name from the school's name
@@ -386,7 +447,7 @@ class Report extends CI_Controller{
         $this->makeSection10($form10Data, $section);
 
         //Insert Uploaded Basic Plan sections
-        if($this->EOP_type=='external'){
+        /*if($this->EOP_type=='external'){
             //$entityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
             $uploadedEntityData   = $this->plan_model->getEntities('file', array('name'=>'Basic Plan', 'sid'=>$this->school_id), false);
             if(is_array($uploadedEntityData) && count($uploadedEntityData)>0){
@@ -394,7 +455,7 @@ class Report extends CI_Controller{
 
                 $this->insertUploadedBasicPlan($fileData, $section);
             }
-        }
+        }*/
 
         $this->makeFunctionalAnnexes($functionalData, $section);
 
@@ -406,42 +467,93 @@ class Report extends CI_Controller{
     }
 
     function makeCoverPage($form1Data){
-        if(is_array($form1Data) && count($form1Data)>0) {
-            $html_dom = $this->simple_html_dom;
-            $sectionCover = $this->word->addSection();
 
-            //Add Document title (form 1.0 Title of the plan)
-            $sectionCover->addTextBreak(5);
-            $sectionCover->addText(htmlspecialchars(stripslashes($form1Data[0]['children'][0]['fields'][0]['body'])), 'docTitle', 'docTitleParagraph');
-            $sectionCover->addTextBreak(5);
+        if($this->EOP_type == 'external'){
+            if($this->EOP_ctype=='external'){
 
-            //Add Date (form 1.0 Date)
-            $sectionCover->addText(htmlspecialchars($form1Data[0]['children'][0]['fields'][1]['body']), null, 'cover');
+                $uploadedEntityData   = $this->plan_model->getEntities('file', array('name'=>'Basic Plan', 'sid'=>$this->school_id), false);
+                if(is_array($uploadedEntityData) && count($uploadedEntityData)>0){
+                    $fileData = json_decode($uploadedEntityData[0]['description']);
 
-            //Add the schools covered by the plan (form 1.0 Schools covered by the plan)
-            $html_dom->load('<html><body>' . $form1Data[0]['children'][0]['fields'][2]['body'] . '</body></html>');
-            // Create the dom array of elements which we are going to work on:
-            $html_dom_array = $html_dom->find('html', 0)->children();
-            // Convert the HTML and put it into the PHPWord object
-            htmltodocx_insert_html($sectionCover, $html_dom_array[0]->nodes, $this->getStandardSettings('cover'));
+                    $this->insertUploadedCoverPage($fileData->cover);
+                }
+            }else{
+                if (is_array($form1Data) && count($form1Data) > 0) {
+                    $html_dom = $this->simple_html_dom;
+                    $sectionCover = $this->word->addSection();
 
-            // Clear the HTML dom object:
-            $html_dom->clear();
+                    //Add Document title (form 1.0 Title of the plan)
+                    $sectionCover->addTextBreak(5);
+                    $sectionCover->addText(htmlspecialchars(stripslashes($form1Data[0]['children'][0]['fields'][0]['body'])), 'docTitle', 'docTitleParagraph');
+                    $sectionCover->addTextBreak(5);
 
-            $sectionCover->addTextBreak(10);
-            $copyright1 = "This school EOP was prepared using the EOP ASSIST software application.";
-            $copyright2 = "For more information, visit ";
+                    //Add Date (form 1.0 Date)
+                    $sectionCover->addText(htmlspecialchars($form1Data[0]['children'][0]['fields'][1]['body']), null, 'cover');
 
-            $sectionCover->addText($copyright1, null, 'cover');
+                    //Add the schools covered by the plan (form 1.0 Schools covered by the plan)
+                    $html_dom->load('<html><body>' . $form1Data[0]['children'][0]['fields'][2]['body'] . '</body></html>');
+                    // Create the dom array of elements which we are going to work on:
+                    $html_dom_array = $html_dom->find('html', 0)->children();
+                    // Convert the HTML and put it into the PHPWord object
+                    htmltodocx_insert_html($sectionCover, $html_dom_array[0]->nodes, $this->getStandardSettings('cover'));
+
+                    // Clear the HTML dom object:
+                    $html_dom->clear();
+
+                    $sectionCover->addTextBreak(10);
+                    $copyright1 = "This school EOP was prepared using the EOP ASSIST software application.";
+                    $copyright2 = "For more information, visit ";
+
+                    $sectionCover->addText($copyright1, null, 'cover');
 
 
-            $textrun = $sectionCover->addTextRun('cover');
-            $textrun->addText($copyright2);
-            $textrun->addLink('http://rems.ed.gov/EOPASSIST.aspx', 'http://rems.ed.gov/EOPASSIST.aspx', 'default');
-            $textrun->addText('.');
+                    $textrun = $sectionCover->addTextRun('cover');
+                    $textrun->addText($copyright2);
+                    $textrun->addLink('http://rems.ed.gov/EOPASSIST.aspx', 'http://rems.ed.gov/EOPASSIST.aspx', 'default');
+                    $textrun->addText('.');
 
 
-            $sectionCover->addPageBreak();
+                    $sectionCover->addPageBreak();
+                }
+            }
+        }else {
+            if (is_array($form1Data) && count($form1Data) > 0) {
+                $html_dom = $this->simple_html_dom;
+                $sectionCover = $this->word->addSection();
+
+                //Add Document title (form 1.0 Title of the plan)
+                $sectionCover->addTextBreak(5);
+                $sectionCover->addText(htmlspecialchars(stripslashes($form1Data[0]['children'][0]['fields'][0]['body'])), 'docTitle', 'docTitleParagraph');
+                $sectionCover->addTextBreak(5);
+
+                //Add Date (form 1.0 Date)
+                $sectionCover->addText(htmlspecialchars($form1Data[0]['children'][0]['fields'][1]['body']), null, 'cover');
+
+                //Add the schools covered by the plan (form 1.0 Schools covered by the plan)
+                $html_dom->load('<html><body>' . $form1Data[0]['children'][0]['fields'][2]['body'] . '</body></html>');
+                // Create the dom array of elements which we are going to work on:
+                $html_dom_array = $html_dom->find('html', 0)->children();
+                // Convert the HTML and put it into the PHPWord object
+                htmltodocx_insert_html($sectionCover, $html_dom_array[0]->nodes, $this->getStandardSettings('cover'));
+
+                // Clear the HTML dom object:
+                $html_dom->clear();
+
+                $sectionCover->addTextBreak(10);
+                $copyright1 = "This school EOP was prepared using the EOP ASSIST software application.";
+                $copyright2 = "For more information, visit ";
+
+                $sectionCover->addText($copyright1, null, 'cover');
+
+
+                $textrun = $sectionCover->addTextRun('cover');
+                $textrun->addText($copyright2);
+                $textrun->addLink('http://rems.ed.gov/EOPASSIST.aspx', 'http://rems.ed.gov/EOPASSIST.aspx', 'default');
+                $textrun->addText('.');
+
+
+                $sectionCover->addPageBreak();
+            }
         }
 
     }
@@ -908,6 +1020,18 @@ class Report extends CI_Controller{
         }
     }
 
+    function insertUploadedCoverPage($fileData){
+        //Read word file into new phpword object
+        $phpword = \PhpOffice\PhpWord\IOFactory::load(dirname($_SERVER["SCRIPT_FILENAME"])."/uploads/".$fileData->file_name);
+
+        //Get sections from the loaded document
+        foreach($phpword->getSections() as $loadedSection){
+            $this->word->insertSection($loadedSection);
+        }
+
+        if(count($this->word->getSections())>0)
+            $this->word->getLastSection()->addPageBreak();
+    }
 
     /**
      * Function checks if user is logged in, redirects to login page if not.
@@ -1047,32 +1171,41 @@ class Report extends CI_Controller{
                     $exportData[] = array($row['name'], $row['title'], $row['organization'], $row['email'], $row['phone'], $row['interest']);
                     ++$index;
 
-                    $this->excel->setCellValue('A'.$index, $row['name'])
-                        ->setCellValue(''.$index, $row['name'])
+                    $this->excel->setActiveSheetIndex(0)
                         ->setCellValue('A'.$index, $row['name'])
-                        ->setCellValue('A'.$index, $row['name'])
-                        ->setCellValue('A'.$index, $row['name'])
-                        ->setCellValue('A'.$index, $row['name']);
+                        ->setCellValue('B'.$index, $row['title'])
+                        ->setCellValue('C'.$index, $row['organization'])
+                        ->setCellValue('D'.$index, $row['email'])
+                        ->setCellValue('E'.$index, $row['phone'])
+                        ->setCellValue('F'.$index, str_replace(",", "\n", $row['interest']));
                 }
             }
 
-            /*$schoolCondition = '';
 
-            if(isset($this->session->userdata['loaded_school']['id'])){
-                $schoolCondition = array('sid'=>$this->session->userdata['loaded_school']['id']);
-            }
-            $memberData = $this->team_model->getMembers($schoolCondition);
-
-            $exportData = array();
-            $exportData[0] = array('NAME', 'TITLE', 'ORGANIZATION', 'EMAIL', 'PHONE', 'STAKEHOLDER CATEGORY');
-            foreach($memberData as $key => $row){
-                $exportData[] = array($row['name'], $row['title'], $row['organization'], $row['email'], $row['phone'], $row['interest']);
-            }
+            // Rename worksheet
+            $this->excel->getActiveSheet()->setTitle('Core Planning Team Members');
 
 
-            $this->excel->addArray($exportData);
-            $this->excel->generateXML('MyTeam');
-            exit;*/
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $this->excel->setActiveSheetIndex(0);
+
+
+            // Redirect output to a client’s web browser (Excel2007)
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="myTeam.xlsx"');
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+
+            // If you're serving to IE over SSL, then the following may be needed
+            header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public'); // HTTP/1.0
+
+            $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');
+            $objWriter->save('php://output');
+            exit;
         }
     }
 
