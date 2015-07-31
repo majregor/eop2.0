@@ -164,6 +164,16 @@ abstract class AbstractContainer extends AbstractElement
         return $this->elements;
     }
 
+    //Godfrey modification
+    public function insertElement($element){
+
+        $element->setParentContainer($this);
+        $element->setElementIndex($this->countElements() + 1);
+        $element->setElementId();
+
+        $this->elements[] = $element;
+    }
+
     /**
      * Count elements
      *

@@ -160,18 +160,20 @@ abstract class AbstractPart
 
         // Text and TextRun
         } else {
+            $parentTextRun = $parent->addTextRun($paragraphStyle);
             $runCount = $xmlReader->countElements('w:r', $domNode);
             $linkCount = $xmlReader->countElements('w:hyperlink', $domNode);
             $runLinkCount = $runCount + $linkCount;
             if ($runLinkCount == 0) {
-                $parent->addTextBreak(null, $paragraphStyle);
+                //$parent->addTextBreak(null, $paragraphStyle); //Godfrey modification
             } else {
                 $nodes = $xmlReader->getElements('*', $domNode);
                 foreach ($nodes as $node) {
                     $this->readRun(
                         $xmlReader,
                         $node,
-                        ($runLinkCount > 1) ? $parent->addTextRun($paragraphStyle) : $parent,
+                        //($runLinkCount > 1) ? $parent->addTextRun($paragraphStyle) : $parent, Godfrey modification
+                        $parentTextRun,
                         $docPart,
                         $paragraphStyle
                     );
@@ -236,7 +238,7 @@ abstract class AbstractPart
                 }
 
             // TextRun
-            } else {
+            }else {
                 $textContent = $xmlReader->getValue('w:t', $domNode);
                 $parent->addText($textContent, $fontStyle, $paragraphStyle);
             }

@@ -49,10 +49,10 @@ class Plan extends CI_Controller{
                 $this->output->set_output(json_encode($data));
             }else{
                 if($this->registry_model->hasKey('sys_preferences')){
-                    $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
+                    $preferences = objectToArray(json_decode($this->registry_model->getValue('sys_preferences')));
 
                     //update the preference value
-                    $preferences->$docType->basic_plan_source = $option;
+                    $preferences[$docType]['basic_plan_source'] = $option;
                     $this->registry_model->update('sys_preferences', json_encode($preferences));
                 }else{
 
@@ -226,9 +226,10 @@ class Plan extends CI_Controller{
                 $data['EOP_ctype'] = isset($preferences['cover']['basic_plan_source']) ? $preferences['cover']['basic_plan_source'] : 'internal';
             }else{
                 $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
+
                 if(!empty($preferences)){
-                    $data['EOP_type'] = $preferences->main->basic_plan_source;
-                    $data['EOP_ctype'] = $preferences->cover->basic_plan_cover_source;
+                    $data['EOP_type'] = isset($preferences->main->basic_plan_source) ? $preferences->main->basic_plan_source : 'internal';
+                    $data['EOP_ctype'] = isset($preferences->cover->basic_plan_source) ? $preferences->cover->basic_plan_source : 'internal';
                 }else{
                     $data['EOP_type'] = 'internal';
                     $data['EOP_ctype'] = 'internal';

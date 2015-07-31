@@ -7,7 +7,7 @@
 ?>
 
 <?php if(isset($fileData) && count($fileData)>0): ?>
-    <?php if(!empty($fileData['main']) || !empty($fileData['cover'])): ?>
+    <?php if((isset($fileData['main']['file_name']) || isset($fileData['cover']['file_name']) ) && (!empty($fileData['main']) || !empty($fileData['cover']))): ?>
         <table class="filedl">
             <tr>
                 <th scope="col" style="width:40%;">File Name</th>
@@ -17,14 +17,17 @@
                 <th width="8%"></th>
             </tr>
             <?php foreach($fileData as $key => $fileInfo): ?>
-                <?php if(count($fileInfo)>0): ?>
-                    <tr>
-                        <td><a href="<?php echo(base_url("/uploads/")."/".$fileInfo['file_name']);?>" target="_blank"><?php echo($fileInfo['file_name']);?></a></td>
-                        <td><?php echo($key); ?></td>
-                        <td><?php echo(date("F d Y H:i:s", filemtime($fileInfo['full_path'])));?></td>
-                        <td><a href="<?php echo(base_url("/uploads/")."/".$fileInfo['file_name']);?>" target="_blank" title="Download file">Download</a></a></td>
-                        <td><a href="<?php echo(base_url("/report/remove/".$key)); ?>" title="Remove file" id="fileDelete">Delete</a></td>
-                    </tr>
+
+                <?php if(is_array($fileInfo) && count($fileInfo)>0): ?>
+                    <?php if(isset($fileInfo['file_name']) && !empty($fileInfo['file_name'])): ?>
+                        <tr>
+                            <td><a href="<?php echo(base_url("/uploads/")."/".$fileInfo['file_name']);?>" target="_blank"><?php echo($fileInfo['file_name']);?></a></td>
+                            <td><?php echo($key); ?></td>
+                            <td><?php echo(date("F d Y H:i:s", filemtime($fileInfo['full_path'])));?></td>
+                            <td><a href="<?php echo(base_url("/uploads/")."/".$fileInfo['file_name']);?>" target="_blank" title="Download file">Download</a></a></td>
+                            <td><a href="<?php echo(base_url("/report/remove/".$key)); ?>" title="Remove file" id="<?php echo($key); ?>FileDelete">Delete</a></td>
+                        </tr>
+                    <?php endif; ?>
                 <?php endif; ?>
             <?php endforeach; ?>
         </table>
@@ -32,7 +35,15 @@
 <?php endif; ?>
 
 <script>
-    $(document).on('click', '#fileDelete', function(){
+    $(document).on('click', '#mainFileDelete', function(){
+        if(confirm("Are you sure you want to remove this file permanently?")){
+            return true;
+        }else{
+            return false;
+        }
+    });
+
+    $(document).on('click', '#coverFileDelete', function(){
         if(confirm("Are you sure you want to remove this file permanently?")){
             return true;
         }else{

@@ -14,6 +14,7 @@
  * http://api.drupal.org/api/drupal/includes%21bootstrap.inc/function/conf_init/6
  * 
  */
+
 function htmltodocx_paths() {
   
   if (!isset($_SERVER['SERVER_PROTOCOL']) || ($_SERVER['SERVER_PROTOCOL'] != 'HTTP/1.0' && $_SERVER['SERVER_PROTOCOL'] != 'HTTP/1.1')) {

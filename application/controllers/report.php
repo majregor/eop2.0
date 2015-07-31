@@ -59,12 +59,14 @@ class Report extends CI_Controller{
             $arrayStore = array();
 
             if(is_array($fileEntityData) && count($fileEntityData)>0){
-                $arrayStore = $this->objectToArray(json_decode($fileEntityData[0]['description']));
+                $arrayStore = objectToArray(json_decode($fileEntityData[0]['description']));
 
                 $this->plan_model->deleteEntity(array('sid'=>$sid, 'type_id'=>$type_id));
             }
             unlink($arrayStore[$docType]['full_path']);
-            $arrayStore[$docType]= array();
+            //get the basic_plan_source value
+            $temp = $arrayStore[$docType]['basic_plan_source'];
+            $arrayStore[$docType]= array('basic_plan_source'=>$temp);
 
             $entityData = array(
                 'name'      =>      'Basic Plan',
@@ -81,11 +83,13 @@ class Report extends CI_Controller{
                 $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
                 //update the preference value
                 $arrayStore = array();
-                $arrayStore['main'] = isset($preferences->main) ? $preferences->main : null;
-                $arrayStore['cover'] = isset($preferences->cover) ? $preferences->cover : null;
+                $arrayStore['main'] = isset($preferences->main) ? objectToArray($preferences->main) : null;
+                $arrayStore['cover'] = isset($preferences->cover) ? objectToArray($preferences->cover) : null;
 
                 unlink($arrayStore[$docType]['full_path']);
-                $arrayStore[$docType] = array();
+                //get the basic_plan_source value
+                $temp = $arrayStore[$docType]['basic_plan_source'];
+                $arrayStore[$docType] = array('basic_plan_source' => $temp);
 
                 $this->registry_model->update('sys_preferences', json_encode($arrayStore));
             }
@@ -93,6 +97,7 @@ class Report extends CI_Controller{
 
         redirect('plan/step5/4');
     }
+
     public function upload(){
 
         $sid =isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null;
@@ -124,7 +129,7 @@ class Report extends CI_Controller{
 
 
                 if(is_array($fileEntityData) && count($fileEntityData)>0){
-                    $arrayStore = $this->objectToArray(json_decode($fileEntityData[0]['description']));
+                    $arrayStore = objectToArray(json_decode($fileEntityData[0]['description']));
 
                     $this->plan_model->deleteEntity(array('sid'=>$sid, 'type_id'=>$type_id));
                 }
@@ -149,8 +154,8 @@ class Report extends CI_Controller{
                     $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
                     //update the preference value
                     $arrayStore = array();
-                    $arrayStore['main'] = isset($preferences->main) ? $preferences->main : null;
-                    $arrayStore['cover'] = isset($preferences->cover) ? $preferences->cover : null;
+                    $arrayStore['main'] = isset($preferences->main) ? objectToArray($preferences->main) : null;
+                    $arrayStore['cover'] = isset($preferences->cover) ? objectToArray($preferences->cover) : null;
 
                     $arrayStore[$docType] = $fileData;
                     $arrayStore[$docType]['basic_plan_source'] = 'external';
@@ -177,20 +182,6 @@ class Report extends CI_Controller{
         }
     }
 
-    function objectToArray($d){
-        if(is_object($d)){
-            $d = get_object_vars($d);
-            foreach($d as &$value){
-                if(is_object($value)){
-                    $value = get_object_vars($value);
-                }
-            }
-            return $d;
-        }else{
-            return $d;
-        }
-    }
-
     public function getUploads(){
         if($this->input->post('ajax')){
             $sid = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null;
@@ -203,7 +194,7 @@ class Report extends CI_Controller{
                     $fileData = json_decode($entityData[0]['description']);
 
                     $data= array(
-                        'fileData' => $this->objectToArray($fileData)
+                        'fileData' => objectToArray($fileData)
                     );
 
                     $this->load->view('ajax/upload', $data);
@@ -213,7 +204,7 @@ class Report extends CI_Controller{
                 $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
                 if(!empty($preferences)){
                     $data = array(
-                        'fileData' => $this->objectToArray($preferences)
+                        'fileData' => objectToArray($preferences)
                     );
 
                     $this->load->view('ajax/upload', $data);
@@ -394,7 +385,7 @@ class Report extends CI_Controller{
 
 
         //Generate Cover Page
-        $this->makeCoverPage($form1Data);
+        //$this->makeCoverPage($form1Data);
 
         $section = $this->word->addSection();
 
@@ -407,6 +398,29 @@ class Report extends CI_Controller{
         $section->addText('Table of Contents','Head_1','Head_1');
         $section->addTOC(array('spaceAfter'=>30, 'size'=>10), null, 1, 3);
         $section->addPageBreak();
+
+        $section->addTitle('Basic Plan', 1);
+        $section->addTextBreak();
+        $section->addText('aklhfaksjdhfakljshdhkldfsaljsfhlhakjaf');
+        $section->addPageBreak();
+        $section->addTitle('Basic Plan 2', 1);
+        $section->addText('aklhfaksjdhfakljshdhkldfsaljsfhlhakjaf');
+        $section->addText('aklhfaksjdhfakljshdhkldfsaljsfhlhakjaf');
+        $section->addText('aklhfaksjdhfakljshdhkldfsaljsfhlhakjaf');
+        $section->addText('aklhfaksjdhfakljshdhkldfsaljsfhlhakjaf');
+
+        /*//Insert Uploaded Basic Plan sections
+        if($this->EOP_type=='external'){
+            //$entityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
+            $uploadedEntityData   = $this->plan_model->getEntities('file', array('name'=>'Basic Plan', 'sid'=>$this->school_id), false);
+            if(is_array($uploadedEntityData) && count($uploadedEntityData)>0){
+                $fileData = json_decode($uploadedEntityData[0]['description']);
+
+                //$section->addTitle('Basic Plan', 1);
+
+                //$this->insertUploadedBasicPlan($fileData->main, $section);
+            }
+        }
 
         //Add Section 1
         $this->makeSection1($form1Data, $section);
@@ -446,21 +460,11 @@ class Report extends CI_Controller{
         //Add Section 10
         $this->makeSection10($form10Data, $section);
 
-        //Insert Uploaded Basic Plan sections
-        /*if($this->EOP_type=='external'){
-            //$entityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
-            $uploadedEntityData   = $this->plan_model->getEntities('file', array('name'=>'Basic Plan', 'sid'=>$this->school_id), false);
-            if(is_array($uploadedEntityData) && count($uploadedEntityData)>0){
-                $fileData = json_decode($uploadedEntityData[0]['description']);
-
-                $this->insertUploadedBasicPlan($fileData, $section);
-            }
-        }*/
 
         $this->makeFunctionalAnnexes($functionalData, $section);
 
 
-        $this->makeTHAnnexes($THData, $section);
+        $this->makeTHAnnexes($THData, $section);*/
 
         $this->flushToBrowser($fileName);
 
@@ -876,14 +880,44 @@ class Report extends CI_Controller{
 
     function insertUploadedBasicPlan($fileData, $section){
 
-        //Read word file into new phpword object
-        $phpword = \PhpOffice\PhpWord\IOFactory::load(dirname($_SERVER["SCRIPT_FILENAME"])."/uploads/".$fileData->file_name);
+        if(isset($fileData->file_name) && is_file(dirname($_SERVER["SCRIPT_FILENAME"])."/uploads/".$fileData->file_name)){
 
-        //Get sections from the loaded document
-        foreach($phpword->getSections() as $loadedSection){
-            $this->word->insertSection($loadedSection);
+            //Read word file into new phpword object
+            $phpword = \PhpOffice\PhpWord\IOFactory::load(dirname($_SERVER["SCRIPT_FILENAME"])."/uploads/".$fileData->file_name);
+
+            //Get sections from the loaded document
+            foreach($phpword->getSections() as $loadedSection){
+                //$this->word->insertSection($loadedSection);
+                foreach($loadedSection->getElements() as $element){
+                    if(get_class($element) == "PhpOffice\PhpWord\Element\TextRun"){
+                        $section->insertElement($element);
+                    }
+
+                }
+            }
+
+            if(count($this->word->getSections())>0)
+                $this->word->getLastSection()->addPageBreak(); //Add New Page at the end
         }
-        $section->addPageBreak(); //New Page
+
+    }
+
+    function insertUploadedCoverPage($fileData){
+
+        if(isset($fileData->file_name) && is_file(dirname($_SERVER["SCRIPT_FILENAME"])."/uploads/".$fileData->file_name)) {
+
+            //Read word file into new phpword object
+            $phpword = \PhpOffice\PhpWord\IOFactory::load(dirname($_SERVER["SCRIPT_FILENAME"]) . "/uploads/" . $fileData->file_name);
+
+            //Get sections from the loaded document
+            foreach ($phpword->getSections() as $loadedSection) {
+                $this->word->insertSection($loadedSection);
+            }
+
+            if(count($this->word->getSections()) > 0)
+                $this->word->getLastSection()->addPageBreak();
+
+        }
     }
 
     function makeFunctionalAnnexes($data, $section){
@@ -1020,18 +1054,7 @@ class Report extends CI_Controller{
         }
     }
 
-    function insertUploadedCoverPage($fileData){
-        //Read word file into new phpword object
-        $phpword = \PhpOffice\PhpWord\IOFactory::load(dirname($_SERVER["SCRIPT_FILENAME"])."/uploads/".$fileData->file_name);
 
-        //Get sections from the loaded document
-        foreach($phpword->getSections() as $loadedSection){
-            $this->word->insertSection($loadedSection);
-        }
-
-        if(count($this->word->getSections())>0)
-            $this->word->getLastSection()->addPageBreak();
-    }
 
     /**
      * Function checks if user is logged in, redirects to login page if not.

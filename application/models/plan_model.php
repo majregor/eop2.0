@@ -74,8 +74,6 @@ class Plan_model extends CI_Model {
 
     }
 
-
-
     public function getEntityTypeId($param, $use='name'){
         $condition= array();
         if($use=='title'){
