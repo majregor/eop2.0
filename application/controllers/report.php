@@ -396,29 +396,21 @@ class Report extends CI_Controller{
 
         //Add Table of Contents
         $section->addText('Table of Contents','Head_1','Head_1');
+        $section->addTextBreak();
         $section->addTOC(array('spaceAfter'=>30, 'size'=>10), null, 1, 3);
         $section->addPageBreak();
 
-        $section->addTitle('Basic Plan', 1);
-        $section->addTextBreak();
-        $section->addText('aklhfaksjdhfakljshdhkldfsaljsfhlhakjaf');
-        $section->addPageBreak();
-        $section->addTitle('Basic Plan 2', 1);
-        $section->addText('aklhfaksjdhfakljshdhkldfsaljsfhlhakjaf');
-        $section->addText('aklhfaksjdhfakljshdhkldfsaljsfhlhakjaf');
-        $section->addText('aklhfaksjdhfakljshdhkldfsaljsfhlhakjaf');
-        $section->addText('aklhfaksjdhfakljshdhkldfsaljsfhlhakjaf');
 
-        /*//Insert Uploaded Basic Plan sections
+        //Insert Uploaded Basic Plan sections
         if($this->EOP_type=='external'){
             //$entityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
             $uploadedEntityData   = $this->plan_model->getEntities('file', array('name'=>'Basic Plan', 'sid'=>$this->school_id), false);
             if(is_array($uploadedEntityData) && count($uploadedEntityData)>0){
                 $fileData = json_decode($uploadedEntityData[0]['description']);
 
-                //$section->addTitle('Basic Plan', 1);
+                $section->addTitle('Basic Plan', 1);
 
-                //$this->insertUploadedBasicPlan($fileData->main, $section);
+                $this->insertUploadedBasicPlan($fileData->main, $section);
             }
         }
 
@@ -464,7 +456,7 @@ class Report extends CI_Controller{
         $this->makeFunctionalAnnexes($functionalData, $section);
 
 
-        $this->makeTHAnnexes($THData, $section);*/
+        $this->makeTHAnnexes($THData, $section);
 
         $this->flushToBrowser($fileName);
 
