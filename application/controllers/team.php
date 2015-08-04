@@ -49,7 +49,6 @@ class Team extends CI_Controller{
             );
 
 
-
             if(isset($this->session->userdata['loaded_school']['id']) && null != $this->session->userdata['loaded_school']['id']){
                 $data['sid']    = $this->session->userdata['loaded_school']['id'];
             }
@@ -61,11 +60,13 @@ class Team extends CI_Controller{
             $savedRecs = $this->team_model->addMember($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
+                $this->session->set_flashdata('success','Data was saved successfully!');
                 $this->output->set_output(json_encode(array(
                     'saved' =>  TRUE
                 )));
             }
             else{
+                $this->session->set_flashdata('error','Unknown error occurred while trying to save data!');
                 $this->output->set_output(json_encode(array(
                     'saved' =>  FALSE
                 )));
@@ -84,7 +85,7 @@ class Team extends CI_Controller{
             $affectedRecs = $this->team_model->deleteMember($id);
 
             if(is_numeric($affectedRecs) && $affectedRecs>0){
-                $this->session->set_flashdata('success','Team member deleted successfully!');
+                $this->session->set_flashdata('success','Data was deleted successfully!');
                 $this->output->set_output(json_encode(array(
                     'deleted' =>  TRUE
                 )));
@@ -154,7 +155,7 @@ class Team extends CI_Controller{
         $recs = $this->team_model->update($this->input->post('updateid'), $data);
 
         if(is_numeric($recs) && $recs>0){
-            $this->session->set_flashdata('success','Team member information updated successfully!');
+            $this->session->set_flashdata('success','Data was saved successfully!');
             redirect('plan/step1/2');
         }
         else{

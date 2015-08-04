@@ -1005,7 +1005,7 @@ em.revoke{background-image: url(../img/check_mark_cross.png);}
 }
 
 
-.adminTable tr:nth-child(even) {background: #EEE}
+.adminTable tr:nth-child(even), .reportTable tr:nth-child(odd) {background: #EEE}
 .adminTable tr:nth-child(odd) {background: #CCC}
 
 .approved_button {

@@ -29,19 +29,19 @@ class Plan extends CI_Controller{
     public function setEOP(){
         $school_id = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : Null;
         $option = $this->input->post('option');
+        $docType = $this->input->post('docType');
 
         if($this->input->post('ajax')){
             if( !empty($school_id) ){
 
-
                 $preferences = $this->school_model->getPreferences($school_id);
                 if(is_array($preferences) && count($preferences)>0){
                     //update the preference value
-                    $preferences['basic_plan_source'] = $option;
+                    $preferences[$docType]['basic_plan_source'] = $option;
                     $this->school_model->updatePreferences($school_id, $preferences);
                 }else{
                     //add the new value to preferences
-                    $data = array('basic_plan_source'=>$option);
+                    $data = array($docType=>array('basic_plan_source'=>$option));
                     $this->school_model->updatePreferences($school_id, $data);
                 }
 
@@ -49,20 +49,20 @@ class Plan extends CI_Controller{
                 $this->output->set_output(json_encode($data));
             }else{
                 if($this->registry_model->hasKey('sys_preferences')){
-                    $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
+                    $preferences = objectToArray(json_decode($this->registry_model->getValue('sys_preferences')));
+
                     //update the preference value
-                    $preferences->basic_plan_source = $option;
+                    $preferences[$docType]['basic_plan_source'] = $option;
                     $this->registry_model->update('sys_preferences', json_encode($preferences));
                 }else{
 
-                    $preferences = array('sys_preferences' => json_encode(array('basic_plan_source'=>$option)));
+                    $preferences = array('sys_preferences' => json_encode(array($docType=>array('basic_plan_source'=>$option))));
                     $this->registry_model->addVariables($preferences);
                 }
 
                 $data = array('success'=>true, 'option'=>$option);
                 $this->output->set_output(json_encode($data));
             }
-
         }
     }
 
@@ -221,15 +221,19 @@ class Plan extends CI_Controller{
             $school_id = isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : Null;
             if(!empty($school_id)){
                 $preferences = $this->school_model->getPreferences($this->school_id);
-                $data['EOP_type'] = $preferences['basic_plan_source'];
+
+                $data['EOP_type'] = isset($preferences['main']['basic_plan_source']) ? $preferences['main']['basic_plan_source'] : 'internal' ;
+                $data['EOP_ctype'] = isset($preferences['cover']['basic_plan_source']) ? $preferences['cover']['basic_plan_source'] : 'internal';
             }else{
                 $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
+
                 if(!empty($preferences)){
-                    $data['EOP_type'] = $preferences->basic_plan_source;
+                    $data['EOP_type'] = isset($preferences->main->basic_plan_source) ? $preferences->main->basic_plan_source : 'internal';
+                    $data['EOP_ctype'] = isset($preferences->cover->basic_plan_source) ? $preferences->cover->basic_plan_source : 'internal';
                 }else{
                     $data['EOP_type'] = 'internal';
+                    $data['EOP_ctype'] = 'internal';
                 }
-
             }
 
         }
@@ -1386,11 +1390,13 @@ class Plan extends CI_Controller{
 
         if($this->input->post('ajax')){
             $action = $this->input->post('action');
+            $eopType = ($this->input->post('eopType')) ? $this->input->post('eopType') : 'internal';
 
             switch($action){
                 case 'add':
                     $data= array(
-                        'action'=>  'add'
+                        'action'=>  'add',
+                        'eopType' => $eopType
                     );
                     $this->load->view('ajax/form1', $data);
                     break;
@@ -1403,7 +1409,8 @@ class Plan extends CI_Controller{
                     $data = array(
                         'action'        =>  ($action=='edit') ? 'edit' : 'view',
                         'entities'      =>  $bpData,
-                        'entityId'      =>  $entityId
+                        'entityId'      =>  $entityId,
+                        'eopType'       =>  $eopType
                     );
                     $this->load->view('ajax/form1', $data);
 

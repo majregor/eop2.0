@@ -27,7 +27,7 @@
             <h3>
                 <span style="color:red">* &nbsp;</span>
                 <span style="color:#59B"><strong>Required Field</strong></span>
-            </h3></p>
+            </h3>
             <h5>
                 <!-- User Authentication is enforced. Please enter credentials to login.-->
             </h5>

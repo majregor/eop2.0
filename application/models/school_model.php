@@ -54,7 +54,7 @@ class School_model extends CI_Model {
         if(is_array($results) && count($results)>0){
             $data = json_decode($results[0]['preferences']);
 
-            $dataArray = $this->objectToArray($data);
+            $dataArray = objectToArray($data);
 
             return $dataArray;
         }else{
@@ -74,16 +74,6 @@ class School_model extends CI_Model {
         $this->db->update('eop_school', $updateData);
 
         return $this->db->affected_rows();
-    }
-
-    function objectToArray($d){
-        if(is_object($d)){
-            $d = get_object_vars($d);
-
-            return $d;
-        }else{
-            return $d;
-        }
     }
 
  
