@@ -19,7 +19,7 @@
             <?php foreach($fileData as $key => $fileInfo): ?>
 
                 <?php if(is_array($fileInfo) && count($fileInfo)>0): ?>
-                    <?php if(isset($fileInfo['file_name']) && !empty($fileInfo['file_name'])): ?>
+                    <?php if(isset($fileInfo['file_name']) && !empty($fileInfo['file_name']) && is_file($fileInfo['full_path'])): ?>
                         <tr>
                             <td><a href="<?php echo(base_url("/uploads/")."/".$fileInfo['file_name']);?>" target="_blank"><?php echo($fileInfo['file_name']);?></a></td>
                             <td><?php echo($key); ?></td>

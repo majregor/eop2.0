@@ -385,7 +385,7 @@ class Report extends CI_Controller{
 
 
         //Generate Cover Page
-        //$this->makeCoverPage($form1Data);
+        $this->makeCoverPage($form1Data);
 
         $section = $this->word->addSection();
 
@@ -870,7 +870,7 @@ class Report extends CI_Controller{
         }
     }
 
-    function insertUploadedBasicPlan($fileData, $section){
+    function insertUploadedBasicPlan($fileData, PhpOffice\PhpWord\Element\Section $section){
 
         if(isset($fileData->file_name) && is_file(dirname($_SERVER["SCRIPT_FILENAME"])."/uploads/".$fileData->file_name)){
 
@@ -881,9 +881,19 @@ class Report extends CI_Controller{
             foreach($phpword->getSections() as $loadedSection){
                 //$this->word->insertSection($loadedSection);
                 foreach($loadedSection->getElements() as $element){
-                    if(get_class($element) == "PhpOffice\PhpWord\Element\TextRun"){
-                        $section->insertElement($element);
-                    }
+                    $section->insertElement($element);
+                    /*switch(get_class($element)){
+                        case "PhpOffice\PhpWord\Element\TextRun":
+                            $section->insertElement($element);
+                            break;
+                        case "PhpOffice\PhpWord\Element\ListItemRun":
+                            $section->insertElement($element);
+                            break;
+                        case "PhpOffice\PhpWord\Element\PageBreak":
+                            $section->addPageBreak();
+                            break;
+
+                    }*/
 
                 }
             }

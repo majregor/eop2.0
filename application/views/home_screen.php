@@ -29,14 +29,14 @@ if($this->session->userdata['role']['level']==3 && $this->session->userdata('loa
     include("content/".$content_file_to_load);
     ?>
 
+    <?php if($this->session->userdata['role']['level']!=2): ?>
     <div id="select_school_dialog" title="Select School">
         <p style="margin-top:20px;">
             <label>Schools:</label><br/>
             <select id="sltschool" name="sltschool"></select>
         </p>
     </div>
-
-    <?php
+    <?php endif;
 
 }elseif($this->session->userdata['role']['level']>3 && $this->session->userdata['loaded_school']){
 

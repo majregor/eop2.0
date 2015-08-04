@@ -5,8 +5,8 @@ $role_level = $this->session->userdata['role']['level'];
 ?>
 <div class="col-half left">
 
-    <table border="0" width="100%">
-        <tr style="background:#eee">
+    <table border="0" width="100%" class="reportTable">
+        <tr style="background:#eee; font-weight: bold;">
             <td>Date</td>
             <?php if($role_level<=3): ?>
             <td>School</td>

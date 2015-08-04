@@ -690,6 +690,7 @@ if((null != $this->session->flashdata('success'))):
                 url:    '<?php echo(base_url('plan/setEOP')); ?>',
                 data:   formData,
                 type:   'POST',
+                async:  false,
                 success: function(response){
                     try{
                         location.reload();
@@ -715,6 +716,7 @@ if((null != $this->session->flashdata('success'))):
                 url:    '<?php echo(base_url('plan/setEOP')); ?>',
                 data:   formData,
                 type:   'POST',
+                async:  false,
                 success: function(response){
                     try{
                         //alert(response);
