@@ -18,7 +18,7 @@
 ?>
     <div id="errorDiv">
         <div class="notify notify-red">
-            <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+            <span class="symbol icon-error"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('error'));?>
         </div>
     </div>
 
@@ -29,7 +29,7 @@ if((null != $this->session->flashdata('success'))):
     ?>
     <div id="errorDiv">
         <div class="notify notify-green">
-            <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+            <span class="symbol icon-tick"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('success'));?>
         </div>
     </div>
 
@@ -87,7 +87,7 @@ if(isset($viewform)){
                     <?php echo $value['username']; ?>
                 </td>
                 <td>
-                    <?php echo $value['status']; ?>
+                    <span style="text-transform: capitalize;"><?php echo $value['status']; ?></span>
                 </td>
                 <td>
                     <?php echo $value['role']; ?>
@@ -172,7 +172,7 @@ if(isset($viewform)){
     ?>
 </div>
 
-<div id="update-user-dialog" title="Update User Profile">
+<div id="update-user-dialog" title="Update User">
     <?php
         include("forms/update_user.php");
     ?>
@@ -190,7 +190,37 @@ if(isset($viewform)){
 
     $(document).ready(function(){
 
-        
+
+        var selectedDistrict = $('#sltdistrict').val();
+        var toggleNone = false;
+        var appendedRole = false;
+        var appendedValue = null;
+
+        var form_data = {
+            ajax:           '1',
+            district_id:    (selectedDistrict != 'Null') ? selectedDistrict : -1
+        };
+        $.ajax({
+            url: "<?php echo base_url('school/get_schools_in_district'); ?>",
+            type: 'POST',
+            data: form_data,
+            success: function (response) {
+                var schools = JSON.parse(response);
+                var schoolElement = $("#sltschool");
+                schoolElement.empty(); // remove the old options
+                schoolElement.append($("<option></option>")
+                    .attr("value", "Null")
+                    .text("--Select--"));
+
+                $.each(schools, function (key, value) {
+                    schoolElement.append($("<option></option>")
+                        .attr("value", value.id)
+                        .text(value.name));
+                });
+            }
+        });
+
+
 
         $('#userManagementTbl').DataTable({
             "bFilter": true, // For the search text box
@@ -211,175 +241,212 @@ if(isset($viewform)){
         $("#user_form").validate({
             rules: {
                 phone:{
-                    phoneUS: true
+                    phoneUS2: true
                 },
+                <?php if($role['level'] < 4 ): ?>
                 sltdistrict:{
                     required: true
                 },
                 sltschool:{
                     required:true
                 },
-                slctuserrole:{
-                    required: true
-                },
-                user_password: "required",
-                user_password_conf: {
-                    equalTo: "#user_password"
-                },
-                username:{
-                    required: true,
-                    minlength:3,
-                    remote:{
-                        url: "<?php echo(base_url('user/checkusername')); ?>",
-                        type: "POST",
-                        data:{
-                            username: function(){
-                                var user = $("#username").val();
-                                return user;
-                            },
-                            ajax: '1'
-                        }
-
+                <?php endif; ?>
+            slctuserrole:{
+                required: true
+            },
+            user_password: "required",
+            user_password_conf: {
+                equalTo: "#user_password"
+            },
+            username:{
+                required: true,
+                minlength:3,
+                remote:{
+                    url: "<?php echo(base_url('user/checkusername')); ?>",
+                    type: "POST",
+                    data:{
+                        username: function(){
+                            var user = $("#username").val();
+                            return user;
+                        },
+                        ajax: '1'
                     }
-                },
-                email:{
-                    remote:{
-                        url: "<?php echo(base_url('user/checkuseremail')); ?>",
-                        type: "POST",
-                        data:{
-                            email: function(){
-                                return $("#email").val();
-                            },
-                            ajax: '1'
-                        }
 
-                    }
                 }
             },
-            messages:{
-                username:{
-                    remote: "Username has already been used!"
-                },
-                email:{
-                    remote: "Email has already been used!"
+            email:{
+                remote:{
+                    url: "<?php echo(base_url('user/checkuseremail')); ?>",
+                    type: "POST",
+                    data:{
+                        email: function(){
+                            return $("#email").val();
+                        },
+                        ajax: '1'
+                    }
+
                 }
+            }
+        },
+        messages:{
+            username:{
+                remote: "Username has already been used!"
+            },
+            email:{
+                remote: "Email has already been used!"
+            }
+        }
+    });
+
+    $("#pwd_form").validate({
+        rules: {
+            user_password_reset: "required",
+            user_password_conf_reset: {
+                equalTo: "#user_password_reset"
+            }
+        },
+        submitHandler: submit_pwd_form
+    });
+
+    $("#update_user_form").validate({
+        rules: {
+            phone_update:{
+                phoneUS2: true
+            }
+        },
+        submitHandler: submit_update_user_form
+    });
+
+
+
+
+    /**
+     * Reset Password functionality
+     */
+    $(document).on('click', '.resetUserPasswordLink', function(){
+
+        var id = $(this).attr('id');
+        var first_name = $(this).attr('param1');
+        var last_name = $(this).attr('param2');
+        var user_name = $(this).attr('param3');
+
+        $('#first_name').html(first_name);
+        $('#last_name').html(last_name);
+        $('#user_name').html(user_name);
+        $('#user_id_reset').val(id);
+
+        //Open the reset password dialog form
+        $("#reset-pwd-dialog").dialog('open');
+        return false;
+    });
+
+    $("#reset-pwd-dialog").dialog({
+        resizable:      false,
+        minHeight:      300,
+        minWidth:       500,
+        modal:          true,
+        autoOpen:       false,
+        show:           {
+            effect:     'scale',
+            duration: 300
+        },
+        buttons: {
+            "Reset Password": function(){
+                $("#pwd_form").submit();
+            },
+            Cancel: function() {
+                $("#pwd_form")[0].reset();
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+
+    function submit_pwd_form(){
+
+        // TO use encodeURIComponent() only when we use a concocted string but as for now the formdata ensures
+        // that jquery takes care of the encoding
+        var form_data = {
+            user_id               : $('#user_id_reset').val(),
+            new_password              : $('#user_password_reset').val(),
+            ajax                    : '1'
+        };
+
+        $.ajax({
+            url: "<?php echo base_url('user/resetpwd'); ?>",
+            type: 'POST',
+            data: form_data,
+            success: function(response) {
+                location.reload();
             }
         });
 
-        $("#pwd_form").validate({
-            rules: {
-                user_password_reset: "required",
-                user_password_conf_reset: {
-                    equalTo: "#user_password_reset"
-                }
-            },
-            submitHandler: submit_pwd_form
-        });
+        $('#reset-pwd-dialog').dialog("close");
+        return false;
 
-        $("#update_user_form").validate({
-            rules: {
-                phone_update:{
-                    phoneUS: true
-                }
-            },
-            submitHandler: submit_update_user_form
-        });
+    }
 
 
 
+    /**
+     *
+     * Update User Profile functionality
+     */
 
-        /**
-         * Reset Password functionality
-         */
-        $(document).on('click', '.resetUserPasswordLink', function(){
-
+    //We use delegation here because of the jquery table pager
+    $(document).on('click', '.modifyUserProfileLink', function(){
             var id = $(this).attr('id');
             var first_name = $(this).attr('param1');
             var last_name = $(this).attr('param2');
-            var user_name = $(this).attr('param3');
+            var email = $(this).attr('param3');
+            var user_name = $(this).attr('param4');
+            var phone = $(this).attr('param5');
+            var role = $(this).attr('param6');
+            var district = $(this).attr('param7');
+            var school = $(this).attr('param8');
+            var access = $(this).attr('param9');
 
-            $('#first_name').html(first_name);
-            $('#last_name').html(last_name);
-            $('#user_name').html(user_name);
-            $('#user_id_reset').val(id);
-
-            //Open the reset password dialog form
-            $("#reset-pwd-dialog").dialog('open');
-            return false;
-        });
-
-        $("#reset-pwd-dialog").dialog({
-            resizable:      false,
-            minHeight:      300,
-            minWidth:       500,
-            modal:          true,
-            autoOpen:       false,
-            show:           {
-                effect:     'scale',
-                duration: 300
-            }
-        });
-
-        function submit_pwd_form(){
-
-            // TO use encodeURIComponent() only when we use a concocted string but as for now the formdata ensures
-            // that jquery takes care of the encoding
-            var form_data = {
-                user_id               : $('#user_id_reset').val(),
-                new_password              : $('#user_password_reset').val(),
-                ajax                    : '1'
-            };
-
-            $.ajax({
-                url: "<?php echo base_url('user/resetpwd'); ?>",
-                type: 'POST',
-                data: form_data,
-                success: function(response) {
-                    location.reload();
-                }
-            });
-
-            $('#reset-pwd-dialog').dialog("close");
-            return false;
-
-        }
+            $('#first_name_update').val(first_name);
+            $('#last_name_update').val(last_name);
+            $('#email_update').val(email);
+            $('#username_update').val(user_name);
+            $('#phone_update').val(phone);
 
 
+            if(role==<?php echo($role['role_id']); ?>){
+                    if($("#slctuserrole_update option[value='"+role+"']").length >0){ // Check if the value exists
 
-        /**
-         *
-         * Update User Profile functionality
-         */
+                    }else{ // If it doesn't exist, add one
 
-        //We use delegation here because of the jquery table pager
-        $(document).on('click', '.modifyUserProfileLink', function(){
-                var id = $(this).attr('id');
-                var first_name = $(this).attr('param1');
-                var last_name = $(this).attr('param2');
-                var email = $(this).attr('param3');
-                var user_name = $(this).attr('param4');
-                var phone = $(this).attr('param5');
-                var role = $(this).attr('param6');
-                var district = $(this).attr('param7');
-                var school = $(this).attr('param8');
-                var access = $(this).attr('param9');
+                        $('#slctuserrole_update').append($("<option></option>").attr("value", role).text("<?php echo($role['role']); ?>"));
+                        appendedRole = true;
+                        appendedValue = role;
+                    }
 
-                $('#first_name_update').val(first_name);
-                $('#last_name_update').val(last_name);
-                $('#email_update').val(email);
-                $('#username_update').val(user_name);
-                $('#phone_update').val(phone);
-
-
-                if(role==<?php echo($role['role_id']); ?>){
-                    $('#slctuserrole_update').append($("<option></option>").attr("value", role).text("<?php echo($role['role']); ?>"));
                     $('#slctuserrole_update').attr("disabled", true);
+
+                }else{
+                    $('#slctuserrole_update').attr("disabled", false);
+                    if(appendedRole){
+                        $("#slctuserrole_update option[value='"+appendedValue+"']").remove();
+                        appendedRole = false;
+                        appendedValue=null;
+                    }
                 }
                 $('#slctuserrole_update').val(role);
 
-
                 if(role >= 2){
-                    $('#SchoolInputHolder').hide();
+
+                    <?php if($role['level']==3): ?> // If logged in as a district admin, show the school to enable school changes
+                        if(role >3){
+                            $('#SchoolInputHolder').show();
+                            $('#sltschool_update').val(school);
+                        }else{
+                            $('#SchoolInputHolder').hide();
+                        }
+                    <?php endif; ?>
+                    <?php if($role['level']!=3): ?>
+                        $('#SchoolInputHolder').hide();
+                    <?php endif; ?>
                 }
                 else{
                     $('#SchoolInputHolder').show();
@@ -398,14 +465,21 @@ if(isset($viewform)){
                 else{
                     $('#districtInputHolder').show();
                 }
-
                 $('#user_access_permission_update').val(access);
                 $('#user_id_update').val(id);
+
+                if(role !=5){
+                    $('#viewonlyInputHolder').hide();
+                }else{
+                    $('#viewonlyInputHolder').show();
+                }
 
                 //Open the update user dialog form
                 $("#update-user-dialog").dialog('open');
                 return false;
             });
+
+
 
             $("#update-user-dialog").dialog({
                 resizable:      false,
@@ -416,11 +490,19 @@ if(isset($viewform)){
                 show:           {
                     effect:     'scale',
                     duration: 300
+                },
+                buttons: {
+                    "Update": function(){
+                        $("#update_user_form").submit();
+                    },
+                    Cancel: function() {
+                        $("#update_user_form")[0].reset();
+                        $( this ).dialog( "close" );
+                    }
                 }
             });
 
             function submit_update_user_form(){
-
                 var form_data = {
                     user_id                 : $('#user_id_update').val(),
                     first_name              : $('#first_name_update').val(),
@@ -430,12 +512,16 @@ if(isset($viewform)){
                     phone                   : $('#phone_update').val(),
                     role_id                 : ($('#role_id_update').val()== "<?php echo($role['role_id']); ?>") ? $('#role_id_update').val() :  $('#slctuserrole_update').val(),
                     <?php if($role['level']<3): ?>
-                    school_id               : $('#slctschool_update').val(),
-                    district_id             : $('#sltdistrict_update').val(),
+                        school_id               : $('#sltschool_update').val(),
+                        district_id             : $('#sltdistrict_update').val(),
+                    <?php endif; ?>
+                    <?php if($role['level']==3): ?>
+                        school_id               : $('#sltschool_update').val(),
                     <?php endif; ?>
                     access                  : $('#user_access_permission_update').val(),
                     ajax                    : '1'
                 };
+
                 $.ajax({
                     url: "<?php echo base_url('user/update'); ?>",
                     type: 'POST',
@@ -455,26 +541,62 @@ if(isset($viewform)){
           //  alert(this.value);
             var form_data = {
                 ajax:           '1',
-                district_id:    this.value
+                district_id:    (this.value != 'Null') ? this.value : -1
             };
+
 
             $.ajax({
                 url: "<?php echo base_url('school/get_schools_in_district'); ?>",
                 type: 'POST',
                 data: form_data,
-                success: function(response){
+                success: function (response) {
                     var schools = JSON.parse(response);
                     var schoolElement = $("#sltschool");
                     schoolElement.empty(); // remove the old options
 
-                    $.each(schools, function(key, value){
+                    schoolElement.append($("<option></option>")
+                        .attr("value", "")
+                        .text("--Select--"));
+
+                    $.each(schools, function (key, value) {
                         schoolElement.append($("<option></option>")
                             .attr("value", value.id)
                             .text(value.name));
                     });
                 }
             });
+
         });
+
+        function getDistrictSchools(){
+
+            var form_data = {
+                ajax:           '1'
+                <?php echo((isset($adminDistrict) && !empty($adminDistrict))? ", district_id:".$adminDistrict."" : "");?>
+            };
+
+
+            $.ajax({
+                url: "<?php echo base_url('school/get_schools_in_district'); ?>",
+                type: 'POST',
+                data: form_data,
+                success: function (response) {
+                    var schools = JSON.parse(response);
+                    var schoolElement = $("#sltschool");
+                    schoolElement.empty(); // remove the old options
+
+                    schoolElement.append($("<option></option>")
+                        .attr("value", "")
+                        .text("--Select--"));
+
+                    $.each(schools, function (key, value) {
+                        schoolElement.append($("<option></option>")
+                            .attr("value", value.id)
+                            .text(value.name));
+                    });
+                }
+            });
+        }
 
             /**
             * Block User functionality
@@ -486,12 +608,16 @@ if(isset($viewform)){
                 blockUserDialog.dialog('open');
                 return false;
             });
+            /**
+             * Unblock User functionality
+             * */
+             $(document).on('click', '.unblockUserLink', function(){
 
-            $('.unblockUserLink').click(function(){
                 var id = $(this).attr('id');
                 $('#selectedUserId').val(id);
                 unblockUserDialog.dialog('open');
                 return false;
+
             });
 
             function getSelectedId(){
@@ -551,46 +677,121 @@ if(isset($viewform)){
             * Load District dropdown when district admin is selected 
             */
             if($('select#slctuserrole').val() == 3){
-                 $('#districtRow').css('display', 'table-row');
-                 $('#schoolRow').css('display', 'none');
+                $('#viewonlyRow').css('display', 'none');
+                $('#districtRow').css('display', 'table-row');
+                $('#schoolRow').css('display', 'none');
+                $('#sltschool').val(null);
+                $('#sltdistrict option[value=""]').each(function(){
+                    $(this).remove();
+                });
+                toggleNone = true;
                 $('#sltdistrict').rules("add", "required");
                 $('#districtRow span').addClass("required");
             }
             if($('select#slctuserrole').val() == 2){
-                 $('#schoolRow').css('display', 'none');
-                 $('#districtRow').css('display', 'none');
+                $('#viewonlyRow').css('display', 'none');
+                $('#schoolRow').css('display', 'none');
+                $('#districtRow').css('display', 'none');
+                $('#sltschool').val('Null');
+                $('#sltdistrict').val('Null');
             }
             if($('select#slctuserrole').val() == 4){
-                 $('#schoolRow').css('display', 'table-row');
-                 $('#districtRow').css('display', 'table-row');
-                 $('#sltdistrict').attr("required", false);
-                 $('#sltdistrict').rules("remove", "required");
-                $('#districtRow span').removeClass("required");
+                $('#viewonlyRow').css('display', 'none');
+                $('#schoolRow').css('display', 'table-row');
+                $('#districtRow').css('display', 'table-row');
+                $('#sltdistrict').attr("required", false);
+                $('#sltdistrict').rules("remove", "required");
+                $('#districtRow span').addClass("required");
             }
-            if($('select#slctuserrole').val() == 5){
-                 $('#schoolRow').css('display', 'table-row');
-                 $('#districtRow').css('display', 'table-row');
+            if($('select#slctuserrole').val() == 5){ // if School user
+                $('#viewonlyRow').css('display', 'table-row');
+                $('#schoolRow').css('display', 'table-row');
+
+
+                <?php if($role['level']>=3): ?>// if logged in as District or School admin, remove the district
+                    $('#sltdistrict').val(null);
+                    $('#sltdistrict').attr("required", false);
+                    $('#sltdistrict').rules("remove", "required");
+                <?php else: ?>//Else show the district as optional for State and Super admins
+                    $('#districtRow').css('display', 'table-row');
+                    $('#sltdistrict').attr("required", false);
+                    $('#sltdistrict').rules("remove", "required");
+                <?php endif; ?>
             }
 
             $('select#slctuserrole').on('change', function() {
+                $('#viewonlyRow').css('display', 'none');
+
                 if(this.value == 3){ // District Admin selected
-                    $('#districtRow').css('display', 'table-row');
+
                     $('#schoolRow').css('display', 'none');
-                    $('#sltdistrict').rules("add", "required");
-                    $('#districtRow span').addClass("required");
+                    $('#sltschool').val('Null');
+                    <?php if($role['level']!=3): ?>
+                        $('#sltdistrict option[value=""]').each(function(){
+                            $(this).remove();
+                        });
+                        toggleNone = true;
+
+
+                        $('#districtRow').css('display', 'table-row');
+                        $('#sltdistrict').rules("add", "required");
+                        $('#districtRow span').addClass("required");
+                    <?php endif; ?>
                 }
                 else if(this.value==2){ // State Admin selected
                     $('#districtRow').css('display', 'none');
                     $('#schoolRow').css('display', 'none');
+                    $('#sltdistrict').val('Null');
+                    $('#sltschool').val('Null');
                 }
                 else if(this.value == 4){ //School admin selected
                     $('#schoolRow').css('display', 'table-row');
-                    $('#districtRow').css('display', 'table-row');
+                    $('#sltschool').val('Null');
+                    <?php if($role['level']!=3): ?>
+                        $('#districtRow').css('display', 'table-row');
+                        $('#sltdistrict').attr("required", false);
+                        $('#sltdistrict').rules("remove", "required");
+                        if(toggleNone == true){
+                            /*$('#sltdistrict').prepend($("<option></option>")
+                                .attr("value","")
+                                .text("None"));*/
+                            $("<option></option>")
+                                .val('')
+                                .html("None")
+                                .insertAfter($('#sltdistrict').children().first());
+                            toggleNone = false;
+                        }
+                        $('#sltdistrict').val('Null');
+                        $('#districtRow span').addClass("required");
+                    <?php else: ?>
+                        getDistrictSchools();
+                    <?php endif; ?>
+                }else if(this.value == 5){ //School User selected
+                    $('#viewonlyRow').css('display', 'table-row');
+                    $('#schoolRow').css('display', 'table-row');
+
+                    //if user is being added by district or school admin, remove the district
+                    <?php if($role['level']>=3): ?>
+                    $('#districtRow').css('display', 'none');
+                    $('#sltdistrict').val(null);
                     $('#sltdistrict').attr("required", false);
                     $('#sltdistrict').rules("remove", "required");
-                    $('#districtRow span').removeClass("required");
-                }else if(this.value == 5){
-                     $('#schoolRow').css('display', 'table-row');
+                    getDistrictSchools();
+                    if(toggleNone == true){
+                        /*$('#sltdistrict').prepend($("<option></option>")
+                            .attr("value", "")
+                            .text("None"));*/
+                        $("<option></option>")
+                            .val('')
+                            .html("None")
+                            .insertAfter($('#sltdistrict').children().first());
+                        toggleNone = false;
+                    }
+                    $('#sltdistrict').val('Null');
+                    <?php else: ?> // Else show the district for State and Super admins
+                    $('#districtRow').css('display', 'table-row');
+                    $('#sltdistrict').attr("required", true);
+                    <?php endif; ?>
                 }
                 
 

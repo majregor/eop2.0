@@ -7,7 +7,7 @@
  */
 ?>
 
-<h1>Create School</h1>
+<h1>Create New School</h1>
 <?php
     echo form_open('school/add', array('class'=>'school_form', 'id'=>'school_form'));
 ?>
@@ -30,7 +30,7 @@
             </td>
         </tr>
         <tr>
-            <td> Screen Name:</td>
+            <td><span class="required">&nbsp;</span> Screen Name:</td>
             <td>
                 <?php
                 $inputAttributes = array(
@@ -45,17 +45,17 @@
         
         <?php if($role['create_district']=='y'): ?>
             <tr id="districtRow">
-                <td>District:</td>
+                <td><span class="required">*</span> District:</td>
                 <td>
                   <?php
                         $options = array();
                         $options[''] = '--Select--';
-                        $options['']    =   'None';
+                        $options['0']    =   'None';
                         foreach($districts as $rowIndex => $row){
                             $options[$row['id']] = $row['name'];
                         }
 
-                        $otherAttributes = 'id="sltdistrict" style=""';
+                        $otherAttributes = 'id="sltdistrict" required style=""';
                         reset($options);
                         $first_key = key($options);
                         echo form_dropdown('sltdistrict', $options, "$first_key", $otherAttributes);
@@ -69,7 +69,7 @@
                 <?php
                 $attributes = array(
                     'name'  =>  'school_form_submit',
-                    'value' =>  'Save',
+                    'value' =>  'Create New School',
                     'id'    =>  'school_form_submit',
                     'style' =>  ''
                 );

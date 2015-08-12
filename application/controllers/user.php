@@ -29,6 +29,7 @@ class User extends CI_Controller{
             // Load the user_model that will handle most database operations
             $this->load->model('user_model');
             $this->load->model('school_model');
+            $this->load->model('district_model');
 
             $host_state = $this->registry_model->getValue('host_state');
             $this->session->set_userdata('host_state', $host_state);
@@ -52,6 +53,12 @@ class User extends CI_Controller{
         $users = $this->user_model->getUsers();
          // Get the role access permissions for the logged in user
         $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
+        // Get the district admin's district
+        $distAdminDistrict = '';
+        if($this->session->userdata['role']['level'] == 3){ // District admin logged in
+            $districtRow = $this->user_model->getUserDistrict($this->session->userdata('user_id'));
+            $distAdminDistrict = $districtRow[0]['did'];
+        }
 
         if($this->session->userdata['role']['level']<=4){ // Stop school users from accessing this section of the web app
             $templateData = array(
@@ -62,7 +69,8 @@ class User extends CI_Controller{
                 'roles'         =>  $roles,
                 'districts'     =>  $districts,
                 'schools'       =>  $schools,
-                'role'          =>  $role
+                'role'          =>  $role,
+                'adminDistrict' =>  $distAdminDistrict
 
             );
             $this->template->load('template', 'users_screen', $templateData);
@@ -102,8 +110,9 @@ class User extends CI_Controller{
                 'phone'         =>  $this->input->post('phone'),
                 'district'      =>  ($this->input->post('sltdistrict') == FALSE) ? '' : $this->input->post('sltdistrict'),
                 'school'        =>  ($this->input->post('sltschool') == FALSE) ? '' : $this->input->post('sltschool'),
-                'read_only'     =>  $this->input->post('user_access_permission')
+                'read_only'     =>  ($this->input->post('user_access_permission')) ? $this->input->post('user_access_permission') : 'n'
             );
+
 
             if($this->input->post('sltschool')){ // If there is a school selected, get the school's district if it's under one and associate it to the user
                 $school_id = $this->input->post('sltschool');
@@ -123,13 +132,23 @@ class User extends CI_Controller{
                 $data['school'] = $schoolRow[0]['sid'];
             }
 
+            if($data['role_id'] <= 3 ){ //If we are adding a district, or state admin or super user, remove school association
+                if($data['role_id']<=2){ // The state admin and super, remove school and district association
+                    $data['school'] = '';
+                    $data['district'] = '';
+                }
+                else{
+                    $data['school'] = '';
+                }
+            }
+
             $savedRecs = $this->user_model->addUser($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
-                $this->session->set_flashdata('success', ' New User Added Successfully!');
+                $this->session->set_flashdata('success', ' New user created successfully!');
             }
             else{
-                $this->session->set_flashdata('error', ' Failed to save user!');
+                $this->session->set_flashdata('error', ' New user creation failed!');
             }
 
             $templateData = array(
@@ -145,13 +164,19 @@ class User extends CI_Controller{
             //Get the User roles available
             $roles = $this->user_model->getAllRoles();
             //Get the districts available in the state
-            $districts = $this->user_model->getDistricts($this->session->userdata('host_state'));
+            $districts = $this->district_model->getDistricts($this->session->userdata('host_state'));
             //Get the districts available in the state
             $schools = $this->school_model->getSchools($this->session->userdata('host_state'));
             // Get all registered users
             $users = $this->user_model->getUsers();
              // Get the role access permissions for the logged in user
             $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
+            // Get the district admin's district
+            $distAdminDistrict = '';
+            if($this->session->userdata['role']['level'] == 3){ // District admin logged in
+                $districtRow = $this->user_model->getUserDistrict($this->session->userdata('user_id'));
+                $distAdminDistrict = $districtRow[0]['did'];
+            }
 
             $templateData = array(
                 'page'          =>  'users',
@@ -162,7 +187,8 @@ class User extends CI_Controller{
                 'districts'     =>  $districts,
                 'schools'       =>  $schools,
                 'users'         =>  $users,
-                'role'          =>  $role
+                'role'          =>  $role,
+                'adminDistrict' =>  $distAdminDistrict
             );
             $this->template->load('template', 'users_screen', $templateData);
         }
@@ -195,11 +221,24 @@ class User extends CI_Controller{
 
             $savedRecs = $this->user_model->update($data);
 
+            //If the user's role has been changed to a district, state or super admin, unlink the user from their school
+            if($this->input->post('role_id')<=3){
+                $this->user_model->unlinkUserFromSchool($data['user_id']);
+            }
+
+            /*//If the user's role has been changed to a school user or school admin, unlink the user from a district
+            if($this->input->post('role_id')>=4){
+                $this->user_model->unlinkUserFromDistrict($data['user_id']);
+            }*/
+
             if(is_numeric($savedRecs) && $savedRecs>=1){ //User information saved successfully
-                $this->session->set_flashdata('success', 'User profile updated successfully!');
+                $this->session->set_flashdata('success', 'User updated successfully!');
+            }
+            elseif(is_numeric($savedRecs) && $savedRecs==0){
+                //Do nothing
             }
             else{
-                $this->session->set_flashdata('error', ' User profile update failed!');
+                $this->session->set_flashdata('error', ' User update failed!');
             }
 
             $this->output->set_output($this->ajax_reload());
@@ -213,17 +252,26 @@ class User extends CI_Controller{
                     $data = array(
                         'first_name'        =>  $this->input->post('fname'),
                         'last_name'         =>  $this->input->post('last_name'),
-                        'phone'             =>  $this->input->post('phone')
+                        'phone'             =>  $this->input->post('phone'),
+                        'email'             =>  $this->input->post('email'),
+                        'username'          =>  $this->input->post('username')
                         );
 
                     $savedRecs = $this->user_model->updatePersonalAccount($this->session->userdata('user_id'), $data);
 
-                    if(is_numeric($savedRecs) && $savedRecs>=1){ //User profile updated successfully
-                        $this->session->set_flashdata('success', 'User profile updated successfully!');
+                    if(is_numeric($savedRecs)){
+
+                        if( $savedRecs>=1){ //User profile updated successfully
+                            $this->session->set_flashdata('success', 'User updated successfully!');
+                        }
+                        elseif($savedRecs ==0){
+                            //$this->session->set_flashdata('success', 'User profile has been updated successfully!');
+                        }
+                        else{
+                            $this->session->set_flashdata('error', ' User update failed!');
+                        }
                     }
-                    else{
-                        $this->session->set_flashdata('error', ' User profile update failed!');
-                    }
+
 
                     redirect('/user/profile');
                 }
@@ -237,10 +285,16 @@ class User extends CI_Controller{
                         $savedRecs = $this->user_model->resetPwd($this->session->userdata('user_id'), md5($newPwd));
 
                         if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                            $this->session->set_flashdata('success', 'Password was reset Successfully!');
+                            $this->session->set_flashdata('success', 'Password reset successfully!');
+                        }
+                        elseif(is_numeric($savedRecs) && $savedRecs == 0){
+                            $this->session->set_flashdata('success', 'Password reset successfully!');
+                        }
+                        elseif(is_numeric($savedRecs) && $savedRecs < 0){
+                            $this->session->set_flashdata('error', ' Password reset failed!');
                         }
                         else{
-                            $this->session->set_flashdata('error', ' Password Reset Failed!');
+                            $this->session->set_flashdata('error', ' Password reset failed!');
                         }
                     }
                     else{
@@ -252,7 +306,7 @@ class User extends CI_Controller{
             }else{
 
                 $this->session->set_flashdata('error', ' Form not submitted properly');
-                redirect('user/profile');
+                redirect('/user/profile');
             }
         }
     }
@@ -271,10 +325,16 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->resetPwd($user_id, $new_password);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'Password was reset Successfully!');
+                $this->session->set_flashdata('success', 'Password reset successfully!');
+            }
+            elseif(is_numeric($savedRecs) && $savedRecs == 0){
+                $this->session->set_flashdata('success', 'Password reset successfully!');
+            }
+            elseif(is_numeric($savedRecs) && $savedRecs < 0){
+                $this->session->set_flashdata('error', ' Password reset failed!');
             }
             else{
-                $this->session->set_flashdata('error', ' Password Reset Failed!');
+                $this->session->set_flashdata('error', ' Password reset failed!');
             }
 
             $this->output->set_output($this->ajax_reload());
@@ -296,7 +356,7 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->block($user_id);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'User Blocked!');
+                $this->session->set_flashdata('success', 'User blocked successfully!');
             }
             else{
                 $this->session->set_flashdata('error', ' User blocking failed!');
@@ -321,10 +381,10 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->unblock($user_id);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'User Unblocked!');
+                $this->session->set_flashdata('success', 'User activated successfully!');
             }
             else{
-                $this->session->set_flashdata('error', ' Operation failed!');
+                $this->session->set_flashdata('error', ' User activation failed!');
             }
 
             $this->output->set_output($this->ajax_reload());
@@ -387,6 +447,40 @@ class User extends CI_Controller{
             $email = $this->input->post('email');
 
             if($this->user_model->checkUseremail($email)){
+                $this->output->set_output(json_encode(FALSE)); // Reject entry if email exists
+            }else{
+                $this->output->set_output(json_encode(TRUE)); // Accept entry
+            }
+        }
+        else{
+            // Do nothing if its not an ajax request
+        }
+    }
+
+
+    public function checkusernameUpdate(){
+        if($this->input->post('ajax')){ //If it's a ajax request
+            $username = $this->input->post('username');
+            $uid      = $this->input->post('id');
+
+            if($this->user_model->checkUsernameUpdate($username, $uid)){
+                $this->output->set_output(json_encode(FALSE)); // Reject entry if username exists
+            }else{
+                $this->output->set_output(json_encode(TRUE)); // Accept entry of new username
+            }
+        }
+        else{
+            // Do nothing if its not an ajax request
+        }
+    }
+
+
+    public function checkuseremailUpdate(){
+        if($this->input->post('ajax')){ //If it's a ajax request
+            $email = $this->input->post('email');
+            $uid      = $this->input->post('id');
+
+            if($this->user_model->checkUseremailUpdate($email, $uid)){
                 $this->output->set_output(json_encode(FALSE)); // Reject entry if email exists
             }else{
                 $this->output->set_output(json_encode(TRUE)); // Accept entry

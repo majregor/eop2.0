@@ -28,6 +28,7 @@ class School extends CI_Controller{
             $this->load->model('user_model');
             $this->load->model('school_model');
             $this->load->model('access_model');
+            $this->load->model('report_model');
 
             $host_state = $this->registry_model->getValue('host_state');
             $this->session->set_userdata('host_state', $host_state);
@@ -53,6 +54,17 @@ class School extends CI_Controller{
         $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
         // Get the EOP access setting to the state
         $stateEOPAccess = $this->access_model->getStateAccess();
+
+        //Get schools that have report data
+        foreach($schools as &$school){
+
+            if($this->report_model->hasData($school['id'])){
+                $school['has_data'] = true;
+                $school['last_modified'] = $this->report_model->getLastModifiedDate($school['id']);
+            }else{
+                $school['has_data'] = false;
+            }
+        }
 
         if($role['level']<4){ // If not a Super, State or District admin don't load
             $templateData = array(
@@ -110,7 +122,7 @@ class School extends CI_Controller{
             $savedRecs = $this->school_model->addSchool($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
-                $this->session->set_flashdata('success', ' New School Added Successfully!');
+                $this->session->set_flashdata('success', ' New school created successfully!');
             }
             else{
                 $this->session->set_flashdata('error', ' School creation failed!');
@@ -132,6 +144,17 @@ class School extends CI_Controller{
             $role = $this->user_model->getUserRole($this->session->userdata('user_id'));
             // Get the EOP access setting to the state
             $stateEOPAccess = $this->access_model->getStateAccess();
+
+            //Get schools that have report data
+            foreach($schools as &$school){
+
+                if($this->report_model->hasData($school['id'])){
+                    $school['has_data'] = true;
+                    $school['last_modified'] = $this->report_model->getLastModifiedDate($school['id']);
+                }else{
+                    $school['has_data'] = false;
+                }
+            }
 
             $templateData = array(
                 'page'          =>  'users',
@@ -168,10 +191,10 @@ class School extends CI_Controller{
             $savedRecs = $this->school_model->update($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
-                $this->session->set_flashdata('success', 'School profile updated successfully!');
+                $this->session->set_flashdata('success', 'School updated successfully!');
             }
             else{
-                $this->session->set_flashdata('error', ' School profile update failed!');
+                $this->session->set_flashdata('error', ' School update failed!');
             }
 
             $this->output->set_output($this->ajax_reload());
@@ -203,7 +226,7 @@ class School extends CI_Controller{
      * AJAX Action returns schools in a requested user's district
      * @method get_schools_in_my_district
      */
-    public function get_schools_in_my_district(){
+    public function get_schools_in_my_district($user = ''){
         if($this->input->post('ajax')){ // If form was submitted using ajax
 
             $user_id = $this->input->post('user_id');
@@ -213,8 +236,37 @@ class School extends CI_Controller{
 
             $this->output->set_output(json_encode($schools));
         }
-        else{ // Do nothing
+        else{
+            if($user==''){
+                $user_id = $this->session->userdata('user_id');
+            }else{
+                $user_id = $user;
+            }
 
+            $district_id = $this->user_model->getUserDistrict($user_id)[0]['did'];
+
+            $schools = $this->school_model->getDistrictSchools($district_id);
+
+            return $schools;
+        }
+    }
+
+    /**
+     * AJAX Action returns all schools
+     * @method get_schools
+     */
+    public function get_schools(){
+        if($this->input->post('ajax')){ // If form was submitted using ajax
+
+            $schools = $this->school_model->getSchools();
+
+            $this->output->set_output(json_encode($schools));
+        }
+        else{
+
+            $schools = $this->school_model->getSchools();
+
+            return $schools;
         }
     }
 

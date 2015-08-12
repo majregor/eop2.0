@@ -1,6 +1,6 @@
 body{
-	background-image:url("../img/loginbg.jpg");
-	background-color: #132141;
+    background-image:url("../img/loginbg.jpg");
+    background-color: #132141;
 }
 #container {
 	width:780px;
@@ -69,35 +69,36 @@ a.signin.menu-open span {
 	color:#789;
 }
 #signin_menu {
-	/*display:none;*/
-	background-color:#ffffff;
-	/*position:absolute;*/
-	/*width:610px;*/
-	/*width:450px;*/
-	z-index:100;
-	border: 1px solid #fff;
-	text-align:left;
-	padding:12px;
-	top: 50px;
-	left: 50%;
-	margin-top: 0px;
-	/*margin-left: -225px;/*to align to the center horizontally*/
-	color:#789;
-	font-size:11px;
-	border-radius:5px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px ;
+    /*display:none;*/
+    background-color:#ffffff;
+    /*position:absolute;*/
+    /*width:610px;*/
+    /*width:450px;*/
+    z-index:100;
+    border: 1px solid #fff;
+    text-align:left;
+    padding:12px;
+    top: 50px;
+    left: 50%;
+    margin-top: 0px;
+    /*margin-left: -225px;/*to align to the center horizontally*/
+    color:#789;
+    font-size:11px;
+    border-radius:5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px ;
+    float:left;
 }
-#signin_menu input[type=text], input[type=email], #signin_menu input[type=password]{
-	display:block;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border:1px solid #ACE;
-	font-size:15px;
-	margin: 5px 0 10px;
-	padding:5px;
-	width:203px;
-	
+#signin_menu input[type=text], #signin_menu input[type=password]{
+    display:block;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border:1px solid #ACE;
+    font-size:15px;
+    margin: 5px 0 10px;
+    padding:5px;
+    width:203px;
+
 }
 .cool{
 	display:block;
@@ -126,7 +127,7 @@ a.signin.menu-open span {
 	margin:5px 0;
 }
 #signin_menu p a {
-	color:#27B!important;
+    color:#84B537 !important;
 }
 .signin_submit {
 	-moz-border-radius:4px;
@@ -267,13 +268,16 @@ h4 { margin:5px 5px 5px 80px;padding:0; font-size:16px; }
 login
 ------------------------*/
 p.logotxt {
-	font-family: "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
-	font-style:italic;
-	font-weight:bolder;
-	font-size: 2.5em;
-	color: #ffffff;
-	background-color:;
-	padding: 1%;
+    display: block;
+    width: 250px;
+    font-family: "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
+    font-style:italic;
+    font-weight:bolder;
+    font-size: 2.5em;
+    color: #ffffff;
+    padding: 1%;
+    float: left;
+    margin:0px;
 }
 p.DOEcr {
 	padding: 10px 5px;
@@ -282,25 +286,22 @@ p.DOEcr {
 	float: right;
 }
 
-fieldset#signin_menu {
-	background-color:;
-}
 
 p.logintxttop {
-	display: block;
-	position: relative;
-	color: #ffffff;
-	top: -11.8px;
-	left: -1.55%;
-	padding: 20px 10px;
-	width: 100.6%;
-	line-height: 1.35em;
-	font-size: 1em;
-	border-radius: 5px 5px 0px 0px;
-	-webkit-border-radius: 5px 5px 0px 0px;
-	-moz-border-radius: 5px 5px 0px 0px;
-	background-color: #005990;
-	letter-spacing: .5px;
+    display: block;
+    position: relative;
+    color: #ffffff;
+    top: -11.8px;
+    left: -1.55%;
+    padding: 20px 10px;
+    width: 100.6%;
+    line-height: 1.35em;
+    font-size: 1em;
+    border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    background-color: #005990;
+    letter-spacing: .5px;
 }
 
 p.logintxtbtm {
@@ -321,12 +322,17 @@ p.logintxtbtm {
 }
 
 #logos 	{
-	display: block;
-	position: relative;
-	padding: 5px 0;
+    display: block;
+    width: 780px;
+    position: relative;
 }
 
-.DOEDlogo {
-	float: right;
+#logos img.REMSlogo, #logos img.DOEDlogo {
+    float: right !important;
+    margin-bottom: 10px;
+}
+
+img.REMSlogo {
+    padding-right: 15px;
 }
 

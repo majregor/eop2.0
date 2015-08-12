@@ -36,6 +36,10 @@ a:visited {
     float: right;
     display:inline;
 }
+.grey{
+    color:#AAA;
+    font-style: italic;
+}
 .sb-toggle-left {
     font-family: Helvetica, Arial, sans-serif;
     color: #FFFFFF;
@@ -417,9 +421,9 @@ li.active6 {
 .left {
     float: left;
 }
-input[type=button], input[type=submit] {
+input[type=button], input[type=submit], input[type=reset] {
     position: relative;
-    display: block;
+    display: inline-block;
     color:#fff;
     background: #0172B8;
     border: none;
@@ -816,7 +820,6 @@ display: none;
 a.bt:hover{ 
 z-index:25; 
 color: #0172b8; 
-background:;
 }
 a.bt:hover span.thebubble{ 
 display:block; 
@@ -835,7 +838,6 @@ opacity: 0.90;*/
 a.bt:hover span.top{ 
 display: block; 
 padding: 8px 8px 0; 
-background: url(bubble.gif) no-repeat top; 
 }
 
 a.bt:hover span.middle{ 
@@ -856,7 +858,6 @@ a.bt:hover span.bottom{
 display: block; 
 padding:3px 8px 10px; 
 color: #000000; 
-background: url(bubble.gif) no-repeat bottom;
 }
 .content{
     overflow-x: hidden;
@@ -1004,7 +1005,7 @@ em.revoke{background-image: url(../img/check_mark_cross.png);}
 }
 
 
-.adminTable tr:nth-child(even) {background: #EEE}
+.adminTable tr:nth-child(even), .reportTable tr:nth-child(odd) {background: #EEE}
 .adminTable tr:nth-child(odd) {background: #CCC}
 
 .approved_button {
@@ -1033,7 +1034,7 @@ em.revoke{background-image: url(../img/check_mark_cross.png);}
     border-radius: 3px 3px 0px 0px;
     border-width: 1px 1px 0px;
     border-style: solid solid none;
-    border-color: #D8D8D8 #D8D8D8 -moz-use-text-color;
+    border-color: #D8D8D8 -moz-use-text-color: #D8D8D8;
     -moz-border-top-colors: none;
     -moz-border-right-colors: none;
     -moz-border-bottom-colors: none;
@@ -1105,6 +1106,16 @@ a.current{
 .padded-content{
   padding: 20px;
 }
+
+#loading{ z-index:10000; display:block; width:100%; height:100%; margin:0px; background-color:#999999; position:absolute; opacity: .50; /* Standard: FF gt 1.5, Opera, Safari, CSS3 */
+    filter: alpha(opacity=50); /* IE lt 8 */
+    -ms-filter: "alpha(opacity=50)"; /* IE 8 */
+    -khtml-opacity: .50; /* Safari 1.x */
+    -moz-opacity: .50; /* FF lt 1.5, Netscape */
+    align-content:center; text-align:center; verticle-align:center}
+#loading img{width:30px; height:30px; position:fixed; top:50%; left:50%}
+#loading span{display:block;width:auto; margin-top: 35px; position:fixed; top:50%; left:50%}
+.empty{color:#CCC; font-style: italic;}
 
 
 

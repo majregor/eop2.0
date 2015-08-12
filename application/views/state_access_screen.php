@@ -17,7 +17,7 @@
 ?>
     <div id="errorDiv">
         <div class="notify notify-red">
-            <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+            <span class="symbol icon-error"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('error'));?>
         </div>
     </div>
 
@@ -28,13 +28,16 @@ if((null != $this->session->flashdata('success'))):
     ?>
     <div id="errorDiv">
         <div class="notify notify-green">
-            <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+            <span class="symbol icon-tick"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('success'));?>
         </div>
     </div>
 
 <?php endif; ?>
 
-
+<?php if((null == $this->session->flashdata('success')) && (null == $this->session->flashdata('error')) ): ?>
+    <div id="errorDiv">
+    </div>
+<?php endif; ?>
 
 <?php 
 // Include the admin menu
@@ -63,7 +66,7 @@ include('embeds/admin_menu.php');
                             <button value="" class="btn-revoke"><em class="leftImage revoke"></em>Disable</button>
                             <script>
                                 $(document).ready(function(){
-                                    $(".status").html('Enabled');
+                                    $(".status").html('enabled');
                                 });
                             </script>
                         <?php endif; ?>
@@ -71,7 +74,7 @@ include('embeds/admin_menu.php');
                          <button value="" class="btn-approve"><em class="leftImage approve"></em>Enable</button>
                             <script>
                                 $(document).ready(function(){
-                                    $(".status").html('Disabled');
+                                    $(".status").html('disabled');
                                 });
                             </script>
                         <?php endif; ?>
@@ -93,7 +96,7 @@ include('embeds/admin_menu.php');
                             <button value="" class="btn-revoke"><em class="leftImage revoke"></em>Disable</button>
                             <script>
                                 $(document).ready(function(){
-                                    $(".status").html('Enabled');
+                                    $(".status").html('enabled');
                                 });
                             </script>
                         <?php endif; ?>
@@ -101,7 +104,7 @@ include('embeds/admin_menu.php');
                          <button value="" class="btn-approve"><em class="leftImage approve"></em>Enable</button>
                             <script>
                                 $(document).ready(function(){
-                                    $(".status").html('Disabled');
+                                    $(".status").html('disabled');
                                 });
                             </script>
                         <?php endif; ?>
@@ -123,7 +126,7 @@ include('embeds/admin_menu.php');
                             <button value="" class="btn-revoke"><em class="leftImage revoke"></em>Disable</button>
                             <script>
                                 $(document).ready(function(){
-                                    $(".status").html('Disabled');
+                                    $(".status").html('disabled');
                                 });
                             </script>
                         <?php endif; ?>
@@ -131,7 +134,7 @@ include('embeds/admin_menu.php');
                          <button value="" class="btn-approve"><em class="leftImage approve"></em>Enable</button>
                             <script>
                                 $(document).ready(function(){
-                                    $(".status").html('Disabled');
+                                    $(".status").html('disabled');
                                 });
                             </script>
                         <?php endif; ?>
@@ -152,7 +155,7 @@ include('embeds/admin_menu.php');
 
 <?php if($role['level']==3): //District administrator ?>
     <div style="margin:20px auto; width:500px; font-weight: bold; font-size:12px;">
-        <p><em>State Administrator access to your school EOPs is currently <span class="status"></span>.</em></p>
+        <p><em>State Administrator access to school EOPs in your district is currently <span class="status"></span>.</em></p>
     </div>
 <?php endif; ?>
 
@@ -200,7 +203,17 @@ include('embeds/admin_menu.php');
                        $('#state_access_icon').addClass('approved_button');
                         var btnString = "<button value='' class='btn-revoke'><em class='leftImage revoke'></em>Disable</button>";
                         $('.approval-holder').html(btnString);
-                        $('.status').html('Enabled');
+                        $('.status').html('enabled');
+                        $("#errorDiv").html("" +
+                            "<div class='notify notify-green'>" +
+                            "<span class='symbol icon-tick'></span>&nbsp;&nbsp;" +
+                            <?php if($role['level']<=3): //District administrator ?>
+                                "State Administrator access to school EOPs enabled successfully!" +
+                                <?php else: ?>
+                                "State Administrator access to school EOP enabled successfully!" +
+                            <?php endif; ?>
+                            "</div>"
+                        );
                     }
                     else{
                         alert('Operation failed, Please refresh page and try again!')
@@ -234,7 +247,17 @@ include('embeds/admin_menu.php');
                         $('#state_access_icon').addClass('revoked_button');
                         var btnString = "<button value='' class='btn-approve'><em class='leftImage approve'></em>Enable</button>";
                         $('.approval-holder').html(btnString);
-                        $('.status').html('Disabled');
+                        $('.status').html('disabled');
+                        $("#errorDiv").html("" +
+                                            "<div class='notify notify-green'>" +
+                                            "<span class='symbol icon-tick'></span>&nbsp;&nbsp;"+
+                                            <?php if($role['level']<=3): //District administrator ?>
+                                                "State Administrator access to school EOPs disabled successfully!" +
+                                                <?php else: ?>
+                                                "State Administrator access to school EOP disabled successfully!" +
+                                            <?php endif; ?>
+                                            "</div>"
+                        );
                     }
                     else{
                         alert('Operation failed, Please refresh page and try again!')

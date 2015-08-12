@@ -15,7 +15,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 <fieldset>
     <input type="hidden" name="user_id_update" id="user_id_update" value="">
     <input type="hidden" name="role_id_update" id="role_id_update" value="">
-    <legend>Personal Information</legend>
+    <!--<legend>Personal Information</legend>-->
     <p>
         <span class="required">*</span>
         <label for="first_name_update">First Name:</label>
@@ -62,7 +62,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
     </p>
     <p>
         <span class="required">*</span>
-        <label for="username_update">user ID:</label>
+        <label for="username_update">User ID:</label>
         <?php
         $inputAttributes = array(
             'name'      =>  'username_update',
@@ -86,44 +86,45 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         echo form_input($inputAttributes);
         ?>
     </p>
-</fieldset>
 
-<fieldset>
-    <legend for="slctuserrole_update">EOP Access</legend>
     <p>
-        <label for="slctuserrole_update">User's Role</label>
+        <span>&nbsp;</span>
+        <label for="slctuserrole_update">User Role:</label>
         <?php
         $options = array();
-        $options['empty'] = '--Select--';
+        //$options['empty'] = '--Select--';
         foreach($roles as $rowIndex => $row){
             $options[$row['role_id']] = $row['title'];
         }
 
-        $otherAttributes = 'id="slctuserrole_update" disabled="disabled" style=""';
+        $otherAttributes = 'id="slctuserrole_update"  style=""';
         reset($options);
         $first_key = key($options);
         echo form_dropdown('slctuserrole_update', $options, "$first_key", $otherAttributes);
         ?>
     </p>
     <?php if($role['level']<2): ?>
-    <p id="districtInputHolder">
-        <label for="sltdistrict_update">District</label>
-        <?php
-        $options = array();
-        $options['empty'] = '--Select--';
-        foreach($districts as $rowIndex => $row){
-            $options[$row['id']] = $row['name'];
-        }
+        <p id="districtInputHolder">
+            <span>&nbsp;</span>
+            <label for="sltdistrict_update">District:</label>
+            <?php
+            $options = array();
+            $options['empty'] = '--Select--';
+            foreach($districts as $rowIndex => $row){
+                $options[$row['id']] = $row['name'];
+            }
 
-        $otherAttributes = 'id="sltdistrict_update" style=""';
-        reset($options);
-        $first_key = key($options);
-        echo form_dropdown('sltdistrict_update', $options, "$first_key", $otherAttributes);
-        ?>
-    </p>
+            $otherAttributes = 'id="sltdistrict_update" style=""';
+            reset($options);
+            $first_key = key($options);
+            echo form_dropdown('sltdistrict_update', $options, "$first_key", $otherAttributes);
+            ?>
+        </p>
+    <?php endif; ?>
 
-
+    <?php if($role['level']<2 || $role['level']==3)://Only Super admin and district admin should change user's school ?>
     <p id="SchoolInputHolder">
+        <span>&nbsp;</span>
         <label for="sltschool_update">School:</label>
         <?php
         $options = array();
@@ -141,7 +142,8 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 
     <?php endif; ?>
 
-    <p>
+    <p id="viewonlyInputHolder">
+        <span>&nbsp;</span>
         <label for="user_access_permission_update">View Only:</label>
         <?php
         $options = array(
@@ -155,14 +157,67 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 
     </p>
 </fieldset>
-<?php
-$attributes = array(
-    'name'  =>  'update_user_submit',
-    'value' =>  'Update',
-    'id'    =>  'update_user_submit',
-    'style' =>  ''
-);
-?>
-<?php echo form_submit($attributes); ?>
+
 
 <?php echo(form_close()); ?>
+
+<script>
+    $(document).ready(function(){
+        $("#slctuserrole_update").change(function(){
+            if($(this).val()==3){
+                $("#districtInputHolder").show();
+                $("#SchoolInputHolder").hide();
+            }
+            else if($(this).val()==4 || $(this).val()==5){
+                $("#districtInputHolder").show();
+                $("#SchoolInputHolder").show();
+            }
+            else if($(this).val()==1 || $(this).val()==2){
+                $("#districtInputHolder").hide();
+                $("#SchoolInputHolder").hide();
+            }
+        });
+
+
+        $("#sltdistrict_update").change(function(){
+            var district_id = $(this).val();
+            get_schools_in_district(district_id);
+        });
+
+
+
+
+
+
+
+        function get_schools_in_district(district_id){
+            //  alert(this.value);
+            var form_data = {
+                ajax:           '1',
+                district_id:    (district_id != 'Null') ? district_id : -1
+            };
+
+
+            $.ajax({
+                url: "<?php echo base_url('school/get_schools_in_district'); ?>",
+                type: 'POST',
+                data: form_data,
+                success: function (response) {
+                    var schools = JSON.parse(response);
+                    var schoolElement = $("#sltschool_update");
+                    schoolElement.empty(); // remove the old options
+
+                    schoolElement.append($("<option></option>")
+                        .attr("value", "")
+                        .text("--Select--"));
+
+                    $.each(schools, function (key, value) {
+                        schoolElement.append($("<option></option>")
+                            .attr("value", value.id)
+                            .text(value.name));
+                    });
+                }
+            });
+        }
+    });
+</script>

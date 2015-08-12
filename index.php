@@ -18,7 +18,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-	define('ENVIRONMENT', 'development');
+	define('ENVIRONMENT', 'development'); //@todo change to production before deployment
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -27,6 +27,17 @@
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
+
+/*
+ * ---------------------------------------------------------------
+ * SET DEFAULT TIME ZONE
+ * ---------------------------------------------------------------
+ */
+if( ! ini_get('date.timezone') )
+{
+    date_default_timezone_set('America/New_York');
+}
+
 
 if (defined('ENVIRONMENT'))
 {

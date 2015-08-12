@@ -29,7 +29,7 @@ class Login extends CI_Controller{
             }
             else{
                 //Load the login form page
-                $this->login_form();
+                redirect('/login/validate');
 
             }
         }else{ // Redirect to app which will initiate the install process
@@ -42,55 +42,62 @@ class Login extends CI_Controller{
 		$username 	= $this->input->post('username');
 		$password 	= $this->input->post('password');
 
-		$check	=	$this->user_model->validate($username, $password);
+        if(!empty($username) && !empty($password)){
+            $check	=	$this->user_model->validate($username, $password);
 
-		if($check){ // Login credentials match
+            if($check){ // Login credentials match
 
-            $userStatus = $this->user_model->getStatus($username);
+                $userStatus = $this->user_model->getStatus($username);
 
-            if($userStatus == 'active'){ // User is active
-                $sessionData = array(
-                    'is_logged_in'	=>	TRUE,
-                    'username'		=>	$username,
-                    'role'          => $this->user_model->getUserRoleByUsername($username)
-                );
+                if($userStatus == 'active'){ // User is active
+                    $sessionData = array(
+                        'is_logged_in'	=>	TRUE,
+                        'username'		=>	$username,
+                        'role'          => $this->user_model->getUserRoleByUsername($username)
+                    );
 
-                //Get the host state and add to session
-                $this->session->set_userdata('host_state', $this->registry_model->getValue('host_state'));
+                    //Get the host state and add to session
+                    $this->session->set_userdata('host_state', $this->registry_model->getValue('host_state'));
 
-                // Load user's school into session object for school users and school administrators
-                if($sessionData['role']['level']>3){
+                    // Load user's school into session object for school users and school administrators
+                    if($sessionData['role']['level']>3){
 
-                    $userRow = $this->user_model->getUser($username, 'username');
-                    $this->school_model->attach_to_session($userRow[0]['school_id']);
+                        $userRow = $this->user_model->getUser($username, 'username');
+                        $this->school_model->attach_to_session($userRow[0]['school_id']);
 
+                    }
+
+
+                    $this->session->set_userdata($sessionData);
+
+                    //Redirect to the home page
+                    redirect('/home');
+                }elseif($userStatus == 'blocked'){ // User is blocked
+
+                    //Create flash error message and send back to login page
+                    $this->session->set_flashdata('error', 'Your account has been blocked!');
+                    $this->login_form();
                 }
 
-
-                $this->session->set_userdata($sessionData);
-
-                //Redirect to the home page
-                redirect('/home');
-            }elseif($userStatus == 'blocked'){ // User is blocked
+            }
+            else{ // Login failed
 
                 //Create flash error message and send back to login page
-                $this->session->set_flashdata('error', 'Your account has been blocked!');
+                $this->session->set_flashdata('error', 'Login failed! Please provide a valid user ID and password');
                 $this->login_form();
             }
-
-		}
-		else{ // Login failed
-
-            //Create flash error message and send back to login page
-            $this->session->set_flashdata('error', 'Login Failed: Invalid User Id or Password!');
+        }else{
+            $this->session->set_flashdata('error', 'Login failed! Please provide a valid user ID and password');
             $this->login_form();
-		}
+        }
+
+
 	}
 
     /**
      * Action for loading the login form view
      */
-    public function login_form(){
+    public function login_form($message=''){
 
         $templateData = array(
             'page'          =>  'login',

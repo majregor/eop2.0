@@ -1,0 +1,67 @@
+
+Structure of recursive entity array
+
+[0]=> Array(
+				[id]=>2
+				[type_id]=>3
+				[sid]=>
+				[name]=>macregors
+				[title]=>macregor
+				[owner]=>17
+				[parent]=>
+				[weight]=>
+				[created]=>2015-06-08 16:47:21
+				[timestamp]=>2015-06-08 16:47:21
+				[description]=>
+				[type]=>th
+				[type_title]=>
+				[school]=>
+				[school screen name]=>
+				[children]=>Array (
+									[0] => Array (
+													[id] => 5
+													[type_id] => 4
+													[sid] =>
+													[name] => goal 1
+													[title] => goal 1
+													[owner] => 17
+													[parent] => 2
+													[weight] =>
+													[created] => 2015-06-10 10:26:29
+													[timestamp] => 2015-06-10 10:26:29
+													[description] =>
+													[type] => g1
+													[type_title]=>
+													[school] =>
+													[school screen name] =>
+													[children] => Array ( )
+													[fields]    => Array(
+													                        [0]=> Array(
+                                                                                            [id]=>
+                                                                                            [entity_id]=>
+                                                                                            [name]=>
+                                                                                            [title]=>
+                                                                                            [weight]=>
+                                                                                            [created]=>
+                                                                                            [timestamp]=>
+                                                                                            [type]=>
+                                                                                            [body]=>
+                                                                                        )
+													                    )
+												)
+								    )
+				[fields]=>Array (
+				                    [0]=> Array(
+				                                [id]=>
+                                                [entity_id]=>
+                                                [name]=>
+                                                [title]=>
+                                                [weight]=>
+                                                [created]=>
+                                                [timestamp]=>
+                                                [type]=>
+                                                [body]=>
+				                    )
+
+				                )
+			)

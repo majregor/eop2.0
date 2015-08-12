@@ -16,7 +16,7 @@
       <h3 class="clicker resources exampleimg">Examples</h3>
 <ul class="reveal">
   <UL>
-    <LI><A href="resources/Example of a Course of Action_Function.pdf" target="_blank">An Example of a Course of Action  </A>
+    <LI><A href="<?php echo(base_url());?>assets/resources/Example_of_a_Course_of_Action_Function.pdf" target="_blank">An Example of a Course of Action  </A>
     <LI><A href="http://rems.ed.gov/ToolBox.aspx" target="_blank">Scenarios in REMS Tool Box for Use in Scenario-Based Planning </A></LI>
   </UL>
 </UL>

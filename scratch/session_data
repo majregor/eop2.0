@@ -21,6 +21,7 @@ $this->session->userdata['role']['edit_user']
 $this->session->userdata['role']['alter_state_access']
 $this->session->userdata['role']['edit_entity']
 $this->session->userdata['role']['level']
+$this->session->userdata['role']['read_only']
 
 ** Available when school is selected, mostly for district admin, school admin and school users
 
