@@ -31,7 +31,7 @@ $entities = $page_vars['entities'];
         ?>
         <div id="errorDiv">
             <div class="notify notify-red">
-                <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+                <span class="symbol icon-error"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('error'));?>
             </div>
         </div>
 
@@ -42,7 +42,7 @@ $entities = $page_vars['entities'];
         ?>
         <div id="errorDiv">
             <div class="notify notify-green">
-                <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+                <span class="symbol icon-tick"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('success'));?>
             </div>
         </div>
 
@@ -101,7 +101,7 @@ $entities = $page_vars['entities'];
     </div>
 </div>
 
-<div id="new-fn-dialog" title="New Function">
+<div id="new-fn-dialog" title="Create Custom Function">
     <?php $this->load->view('forms/function'); ?>
 </div>
 
@@ -294,7 +294,7 @@ $entities = $page_vars['entities'];
             var g3TxtCtl = $('#txtg3');
 
             if(validateError){
-                alert('Function field is required!');
+                alert('Please select a function');
                 $(focusElement).focus();
                 return false;
             }else {
@@ -423,22 +423,22 @@ $entities = $page_vars['entities'];
 
                         var functions = JSON.parse(response);
 
-                        var functionElements = $("select");
+                        var functionElements = $("select:not(#slctsubdistrictselection)");
                         $.each(functionElements, function(key, value){
-                            var myList =[];
 
-                            for(var i=0; i<value.options.length; i++){
-                                if(value.options[i].value) myList.push(value.options[i].value);
-                            }
+                            $(value).empty();
 
                             $.each(functions, function (k, v) {
-                                if($.inArray(v.id, myList) == -1){
+
                                     $(value).append($("<option></option>")
                                         .attr("value", v.id)
                                         .text(v.name));
-                                }
 
                             });
+                            //Add the last option "Other"
+                            $(value).append($("<option></option>")
+                                .attr("value", "other")
+                                .text("Other"));
                         });
 
 

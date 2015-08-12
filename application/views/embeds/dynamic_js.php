@@ -1,7 +1,7 @@
 <?php
 
 //If its district admin and there's a school loaded in session object
- if($this->session->userdata['role']['level']==3 && $this->session->userdata('loaded_school')){
+ if($this->session->userdata['role']['level']==3 && $this->session->userdata('loaded_school') && !empty($this->session->userdata['loaded_school']['id'])){
      ?>
 
      <script type="text/javascript">
@@ -163,7 +163,7 @@
 
      </script>
 <?php
- } elseif($this->session->userdata['role']['level']<2 && $this->session->userdata('loaded_school')){
+ } elseif($this->session->userdata['role']['level']<2 && $this->session->userdata('loaded_school') && !empty($this->session->userdata['loaded_school']['id'])){
      ?>
      <script type="text/javascript">
          $(document).ready(function() {

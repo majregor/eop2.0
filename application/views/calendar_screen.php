@@ -11,7 +11,7 @@ if($this->session->userdata['role']['read_only']=='y'){
     $controlStatus = "disabled";
 }
 if($this->session->userdata['role']['level']==3){
-    if(isset($this->session->userdata['loaded_school']) && !empty($this->session->userdata['loaded_school'])){
+    if(isset($this->session->userdata['loaded_school']['id']) && !empty($this->session->userdata['loaded_school']['id'])){
 
     }else {
         ?>
@@ -37,7 +37,7 @@ if($this->session->userdata['role']['level']==3){
                 <?php if($this->session->userdata['role']['level'] !=2): ?>
                 <tr>
                     <td class="txtb">School: </td>
-                    <td><span><?php echo(isset($this->session->userdata['loaded_school'])? $this->session->userdata['loaded_school']['name'] :""); ?></span></td>
+                    <td><span><?php echo(isset($this->session->userdata['loaded_school']['id'])? $this->session->userdata['loaded_school']['name'] :""); ?></span></td>
                 </tr>
                 <?php endif; ?>
                 <tr>
@@ -460,30 +460,33 @@ if($this->session->userdata['role']['level']==3){
             selectable: true,
             selectHelper: true,
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
-            select: function(start, end) {
-                //var title = prompt('Event Title:');
-                global_start = start;
-                global_end = end;
+                select: function(start, end) {
+                    //var title = prompt('Event Title:');
+                    global_start = start;
+                    global_end = end;
 
-                $("#selectedDate").html(start.toISOString());
+                    $("#selectedDate").html(start.toISOString());
 
 
-                populateStartEndLists();
-                <?php if($this->session->userdata['role']['level']!=3): ?>
-                    dialog.dialog( "open" );
-                <?php else: ?>
-                    <?php if(isset($this->session->userdata['loaded_school']) && !empty($this->session->userdata['loaded_school'])): ?>
+                    populateStartEndLists();
+                    <?php if($this->session->userdata['role']['level']!=3): ?>
                         dialog.dialog( "open" );
                     <?php else: ?>
-                        blockUserDialog.dialog("open");
+                        <?php if(isset($this->session->userdata['loaded_school']['id']) && !empty($this->session->userdata['loaded_school']['id'])): ?>
+                            dialog.dialog( "open" );
+                        <?php else: ?>
+                            blockUserDialog.dialog("open");
+                        <?php endif; ?>
                     <?php endif; ?>
-                <?php endif; ?>
 
 
-                $('#calendar').fullCalendar('unselect');
-            },
+                    $('#calendar').fullCalendar('unselect');
+                },
+                editable: true,
+            <?php else: ?>
+                editable: false,
             <?php endif; ?>
-            editable: true,
+
             eventLimit: true, // allow "more" link when too many events
 
             events: {
@@ -525,6 +528,9 @@ if($this->session->userdata['role']['level']==3){
                 var eventLocation = calEvent.location;
                 var eventBody = calEvent.body;
 
+                if(eventEnds == null || eventEnds === "undefined"){
+                    eventEnds = eventStarts;
+                }
 
                 var finalString = "Event: " + eventTitle + "\n";
                 finalString += "School: " + eventSchool + "\n";
@@ -571,6 +577,59 @@ if($this->session->userdata['role']['level']==3){
                 $("#location-ed").val(selectedEventLocation);
                 $("#body-ed").val(selectedEventBody);
                 editDialog.dialog( "open" );
+            },
+
+            eventDrop: function(event, delta, revertFunc){
+                //alert(event.title + " was dropped on " + event.id);
+
+               /*
+               if(!confirm("Are you sure about this change?")){
+                    revertFunc();
+                }
+                */
+
+                    if(event.end == null){
+                        event.end = event.start;
+                    }
+
+                    $.ajax({
+                        url: '<?php echo(base_url("calendar/updateEventDate")) ?>',
+                        data: {
+                            ajax:       1,
+                            id:         event.id,
+                            start:      event.start.format(),
+                            end:        event.end.format()
+                        },
+                        type:'POST',
+                        async: false, // Prevents page from navigating to other page before ajax call completes
+                        success:function(response){
+                            //Do nothing
+                        },
+                        error:function(error){
+                            alert(error);
+                        }
+                    });
+            },
+
+            eventResize: function(event, delta, revertFunc){
+
+                $.ajax({
+                    url: '<?php echo(base_url("calendar/updateEventDate")) ?>',
+                    data: {
+                        ajax:       1,
+                        id:         event.id,
+                        start:      event.start.format(),
+                        end:        event.end.format()
+                    },
+                    type:'POST',
+                    async: false, // Prevents page from navigating to other page before ajax call completes
+                    success:function(response){
+                        //Do nothing
+                    },
+                    error:function(error){
+                        alert(error);
+                    }
+                });
             }
 
         });

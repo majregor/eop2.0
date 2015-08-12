@@ -4,6 +4,15 @@ class App extends CI_Controller {
 
     public $data = array();
 
+    public function __construct(){
+        parent::__construct();
+
+        // Load the registry module
+        $this->load->model('registry_model');
+
+    }
+
+
 	/**
 	 * Index Page for this controller.
 	 *
@@ -28,8 +37,7 @@ class App extends CI_Controller {
 
         }
         else{
-            // Load the registry module
-            $this->load->model('registry_model');
+
             $is_installed = $this->registry_model->getValue('install_status');
             $host_state = $this->registry_model->getValue('host_state');
             $this->session->set_userdata(array('install_status' => $is_installed));
@@ -148,9 +156,6 @@ class App extends CI_Controller {
                                 $this->template->load('install/template', 'install/install_screen', $data);
                             }
                         }
-                        else{
-
-                        }
                         break;
                     case "database_settings":
                         $install_step_status = $this->session->userdata('install_step_status');
@@ -254,7 +259,6 @@ class App extends CI_Controller {
                                     'state_permission'  =>  'deny'
                                 );
 
-                                $this->load->model('registry_model');
                                 $savedRecs = $this->registry_model->addVariables($registryData);
 
                                 if(is_numeric($savedRecs) && $savedRecs>=1 &&
@@ -322,6 +326,8 @@ class App extends CI_Controller {
         }
         else{
 
+            $install_status ="";
+
             switch ($install_status) {
                 case '':
                     # code...
@@ -337,7 +343,6 @@ class App extends CI_Controller {
         }
     }
 
-    
 
     /**
      * Function returns JSON formatted install progress information to AJAX calls

@@ -145,10 +145,10 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->addUser($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
-                $this->session->set_flashdata('success', ' New User Added Successfully!');
+                $this->session->set_flashdata('success', ' New user created successfully!');
             }
             else{
-                $this->session->set_flashdata('error', ' Failed to save user!');
+                $this->session->set_flashdata('error', ' New user creation failed!');
             }
 
             $templateData = array(
@@ -232,10 +232,13 @@ class User extends CI_Controller{
             }*/
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //User information saved successfully
-                $this->session->set_flashdata('success', 'User profile has been updated successfully!');
+                $this->session->set_flashdata('success', 'User updated successfully!');
+            }
+            elseif(is_numeric($savedRecs) && $savedRecs==0){
+                //Do nothing
             }
             else{
-                $this->session->set_flashdata('error', ' User profile update failed!');
+                $this->session->set_flashdata('error', ' User update failed!');
             }
 
             $this->output->set_output($this->ajax_reload());
@@ -251,17 +254,24 @@ class User extends CI_Controller{
                         'last_name'         =>  $this->input->post('last_name'),
                         'phone'             =>  $this->input->post('phone'),
                         'email'             =>  $this->input->post('email'),
-                        'username'             =>  $this->input->post('username')
+                        'username'          =>  $this->input->post('username')
                         );
 
                     $savedRecs = $this->user_model->updatePersonalAccount($this->session->userdata('user_id'), $data);
 
-                    if(is_numeric($savedRecs) && $savedRecs>=1){ //User profile updated successfully
-                        $this->session->set_flashdata('success', 'User profile has been updated successfully!');
+                    if(is_numeric($savedRecs)){
+
+                        if( $savedRecs>=1){ //User profile updated successfully
+                            $this->session->set_flashdata('success', 'User updated successfully!');
+                        }
+                        elseif($savedRecs ==0){
+                            //$this->session->set_flashdata('success', 'User profile has been updated successfully!');
+                        }
+                        else{
+                            $this->session->set_flashdata('error', ' User update failed!');
+                        }
                     }
-                    else{
-                        $this->session->set_flashdata('error', ' User profile update failed!');
-                    }
+
 
                     redirect('/user/profile');
                 }
@@ -275,10 +285,16 @@ class User extends CI_Controller{
                         $savedRecs = $this->user_model->resetPwd($this->session->userdata('user_id'), md5($newPwd));
 
                         if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                            $this->session->set_flashdata('success', 'Password was reset Successfully!');
+                            $this->session->set_flashdata('success', 'Password reset successfully!');
+                        }
+                        elseif(is_numeric($savedRecs) && $savedRecs == 0){
+                            $this->session->set_flashdata('success', 'Password reset successfully!');
+                        }
+                        elseif(is_numeric($savedRecs) && $savedRecs < 0){
+                            $this->session->set_flashdata('error', ' Password reset failed!');
                         }
                         else{
-                            $this->session->set_flashdata('error', ' Password Reset Failed!');
+                            $this->session->set_flashdata('error', ' Password reset failed!');
                         }
                     }
                     else{
@@ -290,7 +306,7 @@ class User extends CI_Controller{
             }else{
 
                 $this->session->set_flashdata('error', ' Form not submitted properly');
-                redirect('user/profile');
+                redirect('/user/profile');
             }
         }
     }
@@ -309,10 +325,16 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->resetPwd($user_id, $new_password);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'Password was reset Successfully!');
+                $this->session->set_flashdata('success', 'Password reset successfully!');
+            }
+            elseif(is_numeric($savedRecs) && $savedRecs == 0){
+                $this->session->set_flashdata('success', 'Password reset successfully!');
+            }
+            elseif(is_numeric($savedRecs) && $savedRecs < 0){
+                $this->session->set_flashdata('error', ' Password reset failed!');
             }
             else{
-                $this->session->set_flashdata('error', ' Password Reset Failed!');
+                $this->session->set_flashdata('error', ' Password reset failed!');
             }
 
             $this->output->set_output($this->ajax_reload());
@@ -334,7 +356,7 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->block($user_id);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'User profile has been blocked!');
+                $this->session->set_flashdata('success', 'User blocked successfully!');
             }
             else{
                 $this->session->set_flashdata('error', ' User blocking failed!');
@@ -359,10 +381,10 @@ class User extends CI_Controller{
             $savedRecs = $this->user_model->unblock($user_id);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){ //Password reset successfully
-                $this->session->set_flashdata('success', 'User profile has been activated!');
+                $this->session->set_flashdata('success', 'User activated successfully!');
             }
             else{
-                $this->session->set_flashdata('error', ' Operation failed!');
+                $this->session->set_flashdata('error', ' User activation failed!');
             }
 
             $this->output->set_output($this->ajax_reload());

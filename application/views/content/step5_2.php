@@ -38,7 +38,7 @@ $entities = $page_vars['entities'];
         ?>
         <div id="errorDiv">
             <div class="notify notify-red">
-                <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+                <span class="symbol icon-error"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('error'));?>
             </div>
         </div>
 
@@ -49,7 +49,7 @@ $entities = $page_vars['entities'];
         ?>
         <div id="errorDiv">
             <div class="notify notify-green">
-                <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+                <span class="symbol icon-tick"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('success'));?>
             </div>
         </div>
 
@@ -114,7 +114,7 @@ $entities = $page_vars['entities'];
     </div>
 </div>
 
-<div id="new-fn-dialog" title="New Function">
+<div id="new-fn-dialog" title="Create Custom Function">
     <?php $this->load->view('forms/function'); ?>
 </div>
 
@@ -256,7 +256,7 @@ $entities = $page_vars['entities'];
             }
             else{
 
-                alert('Function field is required!');
+                alert('Please select a function');
                 $('#slctg1fn').addClass("error");
                 focusElement = $('#slctg1fn');
                 validateError = true;

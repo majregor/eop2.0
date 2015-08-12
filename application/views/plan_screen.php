@@ -2,7 +2,7 @@
 $content_file_to_load = $page."_". $step . ".php";
 
 if($this->session->userdata['role']['level']<=3 ){
-    if($this->session->userdata('loaded_school')){
+    if($this->session->userdata('loaded_school') && !empty($this->session->userdata['loaded_school']['id'])){
         //Do nothing
     }else{
 

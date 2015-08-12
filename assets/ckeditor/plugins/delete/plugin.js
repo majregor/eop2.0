@@ -23,7 +23,16 @@ CKEDITOR.plugins.add('delete',
 });
 
 function deleteDialog(editor) {
-    if(confirm('This will permanently delete the Objective and Function. Do yo want to continue?')){
+    var step    =   editor.element.getAttribute('step');
+    var confirmMessage = "";
+
+    if(step=="3/3" || step == "5/2"){
+        confirmMessage = "This will permanently delete the objective and corresponding function. Do you want to continue?";
+    }else if(step == "3/4" || step=="5/3"){
+        confirmMessage = "This will permanently delete the objective. Do you want to continue?";
+    }
+
+    if(confirm(confirmMessage)){
 
         var itemId = editor.element.getAttribute('data-id');
         var index = editor.element.getAttribute('item-index');
@@ -32,12 +41,14 @@ function deleteDialog(editor) {
 
         var formData = {
             ajax: 1,
-            entityId: itemId
+            entityId: itemId,
+            randomNumber: Math.random()
         };
 
         $.ajax({
             url: '../../plan/removeObjective',
             data: formData,
+            cache: false,
             type: 'POST',
             success: function (response) {
                 if(response == 'deleted'){

@@ -323,8 +323,10 @@ class Report extends CI_Controller{
         $this->EOP_type = 'internal';
         $this->EOP_ctype = 'internal';
         if(!empty($school[0]['preferences'])) {
-            $this->EOP_type     = json_decode($school[0]['preferences'])->main->basic_plan_source;
-            $this->EOP_ctype    = json_decode($school[0]['preferences'])->cover->basic_plan_source;
+            $preferencesObj = json_decode($school[0]['preferences']);
+
+            $this->EOP_type     = isset($preferencesObj->main)  ? $preferencesObj->main->basic_plan_source  : 'internal';
+            $this->EOP_ctype    = isset($preferencesObj->cover) ? $preferencesObj->cover->basic_plan_source : 'internal';
         }
 
         //Make file name from the school's name
@@ -458,7 +460,7 @@ class Report extends CI_Controller{
 
         $this->makeTHAnnexes($THData, $section);
 
-        $this->flushToBrowser($fileName);
+        //$this->flushToBrowser($fileName);
 
     }
 
@@ -914,10 +916,15 @@ class Report extends CI_Controller{
             //Get sections from the loaded document
             foreach ($phpword->getSections() as $loadedSection) {
                 $this->word->insertSection($loadedSection);
+
+                //todo Continue here
+                print_r($loadedSection->getElements());
+                exit;
             }
 
             if(count($this->word->getSections()) > 0)
                 $this->word->getLastSection()->addPageBreak();
+
 
         }
     }

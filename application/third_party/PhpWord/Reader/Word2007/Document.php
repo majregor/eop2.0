@@ -50,9 +50,12 @@ class Document extends AbstractPart
         $readMethods = array('w:p' => 'readWPNode', 'w:tbl' => 'readTable', 'w:sectPr' => 'readWSectPrNode');
 
         $nodes = $xmlReader->getElements('w:body/*');
+
         if ($nodes->length > 0) {
             $section = $this->phpWord->addSection();
             foreach ($nodes as $node) {
+                /** todo loop through un supported tags and get out the w:p paragraph tags */
+                echo $node->nodeName ."<br/>";
                 if (isset($readMethods[$node->nodeName])) {
                     $readMethod = $readMethods[$node->nodeName];
                     $this->$readMethod($xmlReader, $node, $section);
@@ -155,6 +158,7 @@ class Document extends AbstractPart
         if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
             $section->addPageBreak(); // PageBreak
         }
+
 
         // Paragraph
         $this->readParagraph($xmlReader, $node, $section);

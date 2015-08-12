@@ -107,3 +107,12 @@ EOF;
 
     }
 }
+
+if(!function_exists('convertToCalendarEvent')){
+    function convertToCalendarEvent($time){
+
+        $timestamp = strtotime($time);
+
+        return date ( 'c', $timestamp );
+    }
+}

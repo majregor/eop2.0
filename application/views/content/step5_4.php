@@ -15,7 +15,7 @@ if((null != $this->session->flashdata('error'))):
     ?>
     <div id="errorDiv">
         <div class="notify notify-red">
-            <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+            <span class="symbol icon-error"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('error'));?>
         </div>
     </div>
 
@@ -26,7 +26,7 @@ if((null != $this->session->flashdata('success'))):
     ?>
     <div id="errorDiv">
         <div class="notify notify-green">
-            <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+            <span class="symbol icon-tick"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('success'));?>
         </div>
     </div>
 
@@ -59,25 +59,28 @@ if((null != $this->session->flashdata('success'))):
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/forms.css"/>
 
-<div class="col-half left" style="margin: 20px;">
-    <form>
-    <input id="useInternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='internal')? "checked disabled" : ""); ?> name="internalEOP" ><label for="useInternal">Use Internal Basic Plan</label>
-    <input id="useExternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='external')? "checked disabled" : ""); ?> name="externalEOP"><label for="useExternal">Use Uploaded Basic Plan</label>
-    </form>
-</div>
-
+<?php if($this->session->userdata['role']['read_only']=='n'): ?>
+    <div class="col-half left" style="margin: 20px;">
+        <form>
+        <input id="useInternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='internal')? "checked disabled" : ""); ?> name="internalEOP" ><label for="useInternal">Use Internal Basic Plan</label>
+        <input id="useExternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='external')? "checked disabled" : ""); ?> name="externalEOP"><label for="useExternal">Use Uploaded Basic Plan</label>
+        </form>
+    </div>
+<?php endif; ?>
 
 
 
 
 <?php if($EOP_type == 'external'): ?>
-    <div>
-        <form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo base_url(); ?>report/upload">
-            <input type="file" name="userfile" id="userfile" required="required" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-doc, .doc, .docx" />
-            <input type="button" value="Start Upload" id="uploadButton" />
-            <input type="hidden" name="docType" value="main"/>
-        </form>
-    </div>
+    <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+        <div>
+            <form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo base_url(); ?>report/upload">
+                <input type="file" name="userfile" id="userfile" required="required" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, .docx" />
+                <input type="button" value="Start Upload" id="uploadButton" />
+                <input type="hidden" name="docType" value="main"/>
+            </form>
+        </div>
+    <?php endif; ?>
     <br style="clear:both;" />
 <table class="resultsFinal">
     <tr>
@@ -92,17 +95,21 @@ if((null != $this->session->flashdata('success'))):
         <td style="vertical-align: middle;">1.0 Cover Page</td>
         <td align="middle">
 
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
             <input id="useInternalCover" type="checkbox" autocomplete="off" <?php echo(($EOP_ctype=='internal')? "checked disabled" : ""); ?> name="internalcEOP" ><label for="useInternalCover">Use Internal Cover Page</label>
             <input id="useExternalCover" type="checkbox" autocomplete="off" <?php echo(($EOP_ctype=='external')? "checked disabled" : ""); ?> name="externalcEOP"><label  for="useExternalCover">Use Uploaded Cover Page</label>
 <br />
+            <?php endif; ?>
             <?php if($EOP_ctype == 'external'): ?>
-                <div>
-                    <form enctype="multipart/form-data" id="uploadCoverForm" method="post" action="<?php echo base_url(); ?>report/upload">
-                        <input type="file" name="userfile" id="userfile" required="required" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-doc, .doc, .docx" />
-                        <input type="button" value="Start Upload" id="uploadCoverButton" />
-                        <input type="hidden" name="docType" value="cover"/>
-                    </form>
-                </div>
+                <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                    <div>
+                        <form enctype="multipart/form-data" id="uploadCoverForm" method="post" action="<?php echo base_url(); ?>report/upload">
+                            <input type="file" name="userfile" id="userfile" required="required" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-doc, .doc, .docx" />
+                            <input type="button" value="Start Upload" id="uploadCoverButton" />
+                            <input type="hidden" name="docType" value="cover"/>
+                        </form>
+                    </div>
+                <?php endif; ?>
             <?php else: ?>
                 <?php
                 $mode = 'add';

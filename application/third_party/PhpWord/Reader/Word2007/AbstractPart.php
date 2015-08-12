@@ -102,6 +102,7 @@ abstract class AbstractPart
      */
     protected function readParagraph(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart = 'document')
     {
+
         // Paragraph style
         $paragraphStyle = null;
         $headingMatches = array();
@@ -136,7 +137,7 @@ abstract class AbstractPart
                     }
                 }
             }
-            $parent->addPreserveText($textContent, $fontStyle, $paragraphStyle);
+            $parent->addPreserveText(htmlspecialchars($textContent), $fontStyle, $paragraphStyle);
 
         // List item
         } elseif ($xmlReader->elementExists('w:pPr/w:numPr', $domNode)) {
@@ -147,7 +148,7 @@ abstract class AbstractPart
             foreach ($nodes as $node) {
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
-            $parent->addListItem($textContent, $levelId, null, "PHPWordList{$numId}", $paragraphStyle);
+            $parent->addListItem(htmlspecialchars($textContent), $levelId, null, "PHPWordList{$numId}", $paragraphStyle);
 
         // Heading
         } elseif (!empty($headingMatches)) {
@@ -156,7 +157,7 @@ abstract class AbstractPart
             foreach ($nodes as $node) {
                 $textContent .= $xmlReader->getValue('w:t', $node);
             }
-            $parent->addTitle($textContent, $headingMatches[1]);
+            $parent->addTitle(htmlspecialchars($textContent), $headingMatches[1]);
 
         // Text and TextRun
         } else {
@@ -207,7 +208,7 @@ abstract class AbstractPart
             $textContent = $xmlReader->getValue('w:r/w:t', $domNode);
             $target = $this->getMediaTarget($docPart, $rId);
             if (!is_null($target)) {
-                $parent->addLink($target, $textContent, $fontStyle, $paragraphStyle);
+                $parent->addLink($target, htmlspecialchars($textContent), $fontStyle, $paragraphStyle);
             }
         } else {
             // Footnote
@@ -234,13 +235,13 @@ abstract class AbstractPart
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
                     $textContent = "<Object: {$target}>";
-                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
+                    $parent->addText(htmlspecialchars($textContent), $fontStyle, $paragraphStyle);
                 }
 
             // TextRun
             }else {
                 $textContent = $xmlReader->getValue('w:t', $domNode);
-                $parent->addText($textContent, $fontStyle, $paragraphStyle);
+                $parent->addText(htmlspecialchars($textContent), $fontStyle, $paragraphStyle);
             }
         }
     }
