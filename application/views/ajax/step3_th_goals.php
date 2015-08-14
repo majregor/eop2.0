@@ -79,7 +79,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                             <?php echo($value['name']);?>
                                         </option>
                                     <?php endforeach; ?>
-                                    <option value="other">Other</option>
+                                    <option value="">Other</option>
                                 </select>
 
                             </td>
@@ -131,7 +131,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                             <?php echo($value['name']);?>
                                         </option>
                                     <?php endforeach; ?>
-                                    <option value="other">Other</option>
+                                    <option value="">Other</option>
                                 </select>
 
                             </td>

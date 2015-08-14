@@ -914,12 +914,15 @@ class Report extends CI_Controller{
             $phpword = \PhpOffice\PhpWord\IOFactory::load(dirname($_SERVER["SCRIPT_FILENAME"]) . "/uploads/" . $fileData->file_name);
 
             //Get sections from the loaded document
+
+
             foreach ($phpword->getSections() as $loadedSection) {
+
                 $this->word->insertSection($loadedSection);
 
-                //todo Continue here
+               /* //todo Continue here
                 print_r($loadedSection->getElements());
-                exit;
+                exit;*/
             }
 
             if(count($this->word->getSections()) > 0)

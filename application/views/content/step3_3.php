@@ -373,11 +373,12 @@ $entities = $page_vars['entities'];
             return false;
         });
 
+
         $(document).on('change','select', function(){
             if($(this).val() !=""){
                 $(this).removeClass('error');
             }
-            if($(this).val().trim()=="other"){
+            if($("option:selected", this).text().trim().toLowerCase()=="other"){
                 $("#new-fn-dialog").dialog('open');
                 return false;
             }
@@ -426,13 +427,22 @@ $entities = $page_vars['entities'];
                         var functionElements = $("select:not(#slctsubdistrictselection)");
                         $.each(functionElements, function(key, value){
 
+                            var selectedOption = $(value).val();
+
                             $(value).empty();
 
                             $.each(functions, function (k, v) {
 
+                                if(selectedOption == v.id){
+                                    $(value).append($("<option></option>")
+                                        .attr("value", v.id)
+                                        .attr("selected", "selected")
+                                        .text(v.name));
+                                }else{
                                     $(value).append($("<option></option>")
                                         .attr("value", v.id)
                                         .text(v.name));
+                                }
 
                             });
                             //Add the last option "Other"
@@ -450,6 +460,7 @@ $entities = $page_vars['entities'];
                 }
             });
 
+            $("#newFnForm")[0].reset();
             $("#new-fn-dialog").dialog("close");
             return false;
         }

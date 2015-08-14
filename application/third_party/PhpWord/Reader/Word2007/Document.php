@@ -47,15 +47,13 @@ class Document extends AbstractPart
         $this->phpWord = $phpWord;
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
-        $readMethods = array('w:p' => 'readWPNode', 'w:tbl' => 'readTable', 'w:sectPr' => 'readWSectPrNode');
+        $readMethods = array('w:sdt' => 'readSdt', 'w:p' => 'readWPNode', 'w:tbl' => 'readTable', 'w:sectPr' => 'readWSectPrNode');
 
         $nodes = $xmlReader->getElements('w:body/*');
 
         if ($nodes->length > 0) {
             $section = $this->phpWord->addSection();
             foreach ($nodes as $node) {
-                /** todo loop through un supported tags and get out the w:p paragraph tags */
-                echo $node->nodeName ."<br/>";
                 if (isset($readMethods[$node->nodeName])) {
                     $readMethod = $readMethods[$node->nodeName];
                     $this->$readMethod($xmlReader, $node, $section);
@@ -171,6 +169,34 @@ class Document extends AbstractPart
             }
             $section = $this->phpWord->addSection();
         }
+    }
+
+    /**
+     * Read w:sdt (EOP customization)
+     *
+     * @param XMLReader $XMLReader
+     * @param \DOMElement $node
+     * @param Section $section
+     */
+    private function readSdt(XMLReader $xmlReader, \DOMElement $domNode, Section &$section){
+
+        $readMethods = array('w:p' => 'readWPNode', 'w:tbl' => 'readTable', 'w:sectPr' => 'readWSectPrNode');
+
+        if ($xmlReader->elementExists('w:sdtContent', $domNode)) {
+            $nodes = $xmlReader->getElements('w:sdtContent/*', $domNode);
+
+            if ($nodes->length > 0) {
+                foreach ($nodes as $node) {
+                    //echo $node->nodeName."<br/>";
+                    if (isset($readMethods[$node->nodeName])) {
+                        $readMethod = $readMethods[$node->nodeName];
+                        $this->$readMethod($xmlReader, $node, $section);
+                    }
+                }
+            }
+
+        }
+
     }
 
     /**

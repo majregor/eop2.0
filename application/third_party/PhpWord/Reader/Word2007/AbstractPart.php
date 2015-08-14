@@ -113,6 +113,7 @@ abstract class AbstractPart
             }
         }
 
+
         // PreserveText
         if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
             $ignoreText = false;
@@ -221,21 +222,64 @@ abstract class AbstractPart
 
             // Image
             } elseif ($xmlReader->elementExists('w:pict', $domNode)) {
+
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:pict/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
                     $imageSource = "zip://{$this->docFile}#{$target}";
                     $parent->addImage($imageSource);
                 }
+            }
+            //Drawing
+            elseif($xmlReader->elementExists('w:drawing', $domNode)) {
 
-            // Object
-            } elseif ($xmlReader->elementExists('w:object', $domNode)) {
+                $nodes = $xmlReader->getElements('w:drawing/*', $domNode);
+                if ($nodes->length > 0) {
+                    foreach ($nodes as $node) {
+
+                        if($node->nodeName =="wp:inline" || $node->nodeName=="wp:anchor"){
+
+                            $childNodes = $xmlReader->getElements('*', $node);
+
+                            if($childNodes->length > 0){
+
+                                foreach($childNodes as $childNode){
+                                    //echo $childNode->nodeName."<br/>";
+                                    if($childNode->nodeName == "a:graphic"){
+                                        if($xmlReader->elementExists('a:graphicData', $childNode)){
+                                            $polo = $xmlReader->getElement('a:graphicData', $childNode);
+                                            foreach($polo->childNodes as $cc){
+                                                echo $cc->hasChildNodes();//todo left off here
+                                            }
+                                            echo('<br><br>');
+                                            //if($xmlReader->elementExists('pic:pic', $polo))
+                                            //echo ($polo->nodeName.'here');
+                                        }
+
+
+                                        /*$rId = $xmlReader->getAttribute('id', $childNode);
+                                        $target = $this->getMediaTarget($docPart, 'rId'.$rId);
+                                        if (!is_null($target)) {
+                                            $imageSource = "zip://{$this->docFile}#{$target}";
+                                            echo $imageSource;
+                                            //$parent->addImage($imageSource);
+                                        }*/
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            //Object
+            }
+            elseif ($xmlReader->elementExists('w:object', $domNode)) {
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:object/o:OLEObject');
                 // $rIdIcon = $xmlReader->getAttribute('r:id', $domNode, 'w:object/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
                     $textContent = "<Object: {$target}>";
-                    $parent->addText(htmlspecialchars($textContent), $fontStyle, $paragraphStyle);
+                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
 
             // TextRun

@@ -49,10 +49,9 @@ if((null != $this->session->flashdata('success'))):
 <div class="col-half left">
     <p>Your planning team will begin developing a draft of the school EOP with the Basic Plan section. The Basic Plan section provides an overview of the school’s approach to emergency operations and often consists of several subsections, as listed below. You may manually create the Basic Plan section by clicking the Add button for each of the subsections below and then following the directions for that subsection. If you are modifying previously saved subsections, please click the Edit button for the corresponding subsection.</p>
     <p>If your school or district already has an up-to-date Basic Plan section (provided as a Microsoft Word document), you may upload the Basic Plan into EOP ASSIST.
-        In order to integrate it into your school EOP, you will need to manually cut and paste this section into the downloaded school EOP found in
-        the <a href="<?php echo base_url(); ?>report" id="reportManagementLink">My EOP</a> feature. To upload your Basic Plan section, click the Browse button below and select the appropriate file.
-        After the page is refreshed, your uploaded Basic Plan will be found in the first row of the table below. Only one uploaded Basic Plan section will be saved in EOP ASSIST
-        at a time and must be separately downloaded from this page and inserted each time the school EOP is downloaded.<br />
+        To upload your Basic Plan section, click the Use Uploaded Basic Plan button below. Then click the Choose File button that appears and select the appropriate
+        file. After the page is refreshed, your uploaded Basic Plan will be found in the first row of the table below. Only one uploaded Basic Plan section will be
+        saved in EOP ASSIST at a time.<br />
     </p>
 </div>
 <br style="clear:both;" />
@@ -84,9 +83,9 @@ if((null != $this->session->flashdata('success'))):
     <br style="clear:both;" />
 <table class="resultsFinal">
     <tr>
-        <th scope="col" style="vertical-align: middle; horiz-align: center; text-align: center;">Uploaded Basic Plan</strong></th>
-        <td>
-            <div id="filesTable">
+        <th width="20%" scope="col" style="vertical-align: middle; horiz-align: center; text-align: center;">Uploaded Basic Plan</strong></th>
+        <td width="80%">
+            <div  id="filesTable">
 
             </div>
         </td>
