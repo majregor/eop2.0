@@ -460,7 +460,7 @@ class Report extends CI_Controller{
 
         $this->makeTHAnnexes($THData, $section);
 
-        //$this->flushToBrowser($fileName);
+        $this->flushToBrowser($fileName);
 
     }
 
@@ -920,14 +920,10 @@ class Report extends CI_Controller{
 
                 $this->word->insertSection($loadedSection);
 
-               /* //todo Continue here
-                print_r($loadedSection->getElements());
-                exit;*/
             }
 
             if(count($this->word->getSections()) > 0)
                 $this->word->getLastSection()->addPageBreak();
-
 
         }
     }

@@ -154,7 +154,7 @@ class Document extends AbstractPart
     {
         // Page break
         if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
-            $section->addPageBreak(); // PageBreak
+            $section->addPageBreak(); // PageBreak todo figure out page break issue...
         }
 
 
@@ -187,7 +187,6 @@ class Document extends AbstractPart
 
             if ($nodes->length > 0) {
                 foreach ($nodes as $node) {
-                    //echo $node->nodeName."<br/>";
                     if (isset($readMethods[$node->nodeName])) {
                         $readMethod = $readMethods[$node->nodeName];
                         $this->$readMethod($xmlReader, $node, $section);
@@ -196,7 +195,6 @@ class Document extends AbstractPart
             }
 
         }
-
     }
 
     /**

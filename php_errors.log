@@ -303,3 +303,39 @@ Stack trace:
 #5  in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php on line 228
 [31-Jul-2015 13:35:43 America/New_York] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/controllers/report.php on line 901
 [31-Jul-2015 13:37:24 America/New_York] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/controllers/report.php on line 902
+[04-Aug-2015 17:51:31 UTC] PHP Warning:  phpinfo(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected the timezone 'UTC' for now, but please set date.timezone to select your timezone. in /Users/GMajwega/Sites/eop2.0/info.php on line 1
+[05-Aug-2015 16:27:13 America/New_York] PHP Fatal error:  Cannot use object of type CI_DB_mysqli_driver as array in /Users/GMajwega/Sites/eop2.0/application/models/registry_model.php on line 46
+[06-Aug-2015 12:32:02 America/New_York] PHP Fatal error:  Call to a member function test() on a non-object in /Users/GMajwega/Sites/eop2.0/application/controllers/app.php on line 343
+[06-Aug-2015 15:16:46 America/New_York] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/controllers/report.php on line 533
+[06-Aug-2015 15:16:49 America/New_York] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/controllers/report.php on line 533
+[13-Aug-2015 15:54:00 America/New_York] PHP Fatal error:  Uncaught exception 'BadMethodCallException' with message 'Method addobject is not defined.' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/PhpWord.php:151
+Stack trace:
+#0 /Users/GMajwega/Sites/eop2.0/application/controllers/report.php(915): PhpOffice\PhpWord\PhpWord->__call('addObject', Array)
+#1 /Users/GMajwega/Sites/eop2.0/application/controllers/report.php(915): Word->addObject('/Users/GMajwega...')
+#2 /Users/GMajwega/Sites/eop2.0/application/controllers/report.php(476): Report->insertUploadedCoverPage(Object(stdClass))
+#3 /Users/GMajwega/Sites/eop2.0/application/controllers/report.php(390): Report->makeCoverPage(Array)
+#4 [internal function]: Report->make('5')
+#5 /Users/GMajwega/Sites/eop2.0/system/core/CodeIgniter.php(360): call_user_func_array(Array, Array)
+#6 /Users/GMajwega/Sites/eop2.0/index.php(213): require_once('/Users/GMajwega...')
+#7 {main}
+  thrown in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/PhpWord.php on line 151
+[14-Aug-2015 16:29:22 America/New_York] PHP Fatal error:  Uncaught exception 'PhpOffice\PhpWord\Exception\InvalidImageException' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/Image.php:383
+Stack trace:
+#0 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/Image.php(138): PhpOffice\PhpWord\Element\Image->checkImage('zip:///Users/GM...')
+#1 [internal function]: PhpOffice\PhpWord\Element\Image->__construct('zip:///Users/GM...')
+#2 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(145): ReflectionClass->newInstanceArgs(Array)
+#3 [internal function]: PhpOffice\PhpWord\Element\AbstractContainer->addElement('Image', 'zip:///Users/GM...')
+#4 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(112): call_user_func_array(Array, Array)
+#5 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(253): PhpOffice\PhpWord\Element\AbstractContainer->__call('addImage', Array)
+#6 /Users/GMajwega/Sites/eop2.0/application/third in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/Image.php on line 383
+[14-Aug-2015 17:07:42 America/New_York] PHP Fatal error:  Cannot use object of type DOMNodeList as array in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php on line 251
+[17-Aug-2015 10:35:50 America/New_York] PHP Fatal error:  Call to undefined method DOMNamedNodeMap::NS() in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php on line 265
+[17-Aug-2015 16:54:03 UTC] PHP Warning:  phpinfo(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected the timezone 'UTC' for now, but please set date.timezone to select your timezone. in /Users/GMajwega/Sites/eop2.0/info.php on line 1
+[17-Aug-2015 17:01:27 America/New_York] PHP Fatal error:  Uncaught exception 'BadMethodCallException' with message 'Cannot add PageBreak in TextRun.' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php:238
+Stack trace:
+#0 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(130): PhpOffice\PhpWord\Element\AbstractContainer->checkValidity('PageBreak')
+#1 [internal function]: PhpOffice\PhpWord\Element\AbstractContainer->addElement('PageBreak')
+#2 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(112): call_user_func_array(Array, Array)
+#3 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(229): PhpOffice\PhpWord\Element\AbstractContainer->__call('addPageBreak', Array)
+#4 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(229): PhpOffice\PhpWord\Element\TextRun->addPageBreak()
+#5 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPa in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php on line 238

@@ -176,6 +176,7 @@ abstract class AbstractPart
                         $node,
                         //($runLinkCount > 1) ? $parent->addTextRun($paragraphStyle) : $parent, Godfrey modification
                         $parentTextRun,
+                        $parent,
                         $docPart,
                         $paragraphStyle
                     );
@@ -196,8 +197,20 @@ abstract class AbstractPart
      *
      * @todo Footnote paragraph style
      */
-    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
+    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $section = null, $docPart, $paragraphStyle = null)
     {
+
+
+        foreach($domNode->childNodes as $childNode){
+
+
+            if($childNode->nodeType == XML_ELEMENT_NODE){
+
+                $this->readRun($xmlReader, $childNode, $parent, $section, $docPart);
+            }
+
+        }
+
         if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
             return;
         }
@@ -212,8 +225,16 @@ abstract class AbstractPart
                 $parent->addLink($target, htmlspecialchars($textContent), $fontStyle, $paragraphStyle);
             }
         } else {
+            //Page Break
+            if($xmlReader->elementExists('w:br', $domNode)){
+                $type = $xmlReader->getAttribute('w:type', $domNode, 'w:br');
+                if($type == 'page'){
+                    //todo figure out extra page break issue...
+                    $section->addPageBreak(); // PageBreak
+                }
+            }
             // Footnote
-            if ($xmlReader->elementExists('w:footnoteReference', $domNode)) {
+            elseif ($xmlReader->elementExists('w:footnoteReference', $domNode)) {
                 $parent->addFootnote();
 
             // Endnote
@@ -233,6 +254,8 @@ abstract class AbstractPart
             //Drawing
             elseif($xmlReader->elementExists('w:drawing', $domNode)) {
 
+                $rId = null;
+
                 $nodes = $xmlReader->getElements('w:drawing/*', $domNode);
                 if ($nodes->length > 0) {
                     foreach ($nodes as $node) {
@@ -247,23 +270,50 @@ abstract class AbstractPart
                                     //echo $childNode->nodeName."<br/>";
                                     if($childNode->nodeName == "a:graphic"){
                                         if($xmlReader->elementExists('a:graphicData', $childNode)){
-                                            $polo = $xmlReader->getElement('a:graphicData', $childNode);
-                                            foreach($polo->childNodes as $cc){
-                                                echo $cc->hasChildNodes();//todo left off here
+                                            $graphicDataNode = $xmlReader->getElement('a:graphicData', $childNode);
+                                            foreach($graphicDataNode->childNodes as $graphicDataChildNode){ //the pic:pic node
+                                                if($graphicDataChildNode->hasChildNodes()){
+                                                    $supportedNodes = array('nonVisualProperties'=>'pic:nvPicPr', 'image'=>'pic:blipFill', 'shape'=>'pic:spPr');
+                                                    foreach($graphicDataChildNode->childNodes as $graphicDataGrandChildNode){
+
+                                                        switch($graphicDataGrandChildNode->nodeName){
+
+                                                            case $supportedNodes['nonVisualProperties']:
+                                                                break;
+                                                            case $supportedNodes['image']:
+                                                                foreach($graphicDataGrandChildNode->childNodes as $imageDataNode){
+                                                                    if($imageDataNode->nodeName=='a:blip'){
+                                                                        if($imageDataNode->hasAttributes()){
+                                                                            $attributes = $imageDataNode->attributes;
+                                                                            if($attributes->length > 0){
+                                                                                for($i=0; $i <$attributes->length; $i++){
+                                                                                    if($attributes->item($i)->nodeName =='r:embed'){
+                                                                                        $rId = $attributes->item($i)->nodeValue;
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                                break;
+                                                            case $supportedNodes['shape']:
+                                                                break;
+                                                        }
+                                                    }
+
+                                                    if($rId !== null && $rId !=''){
+                                                        $target = $this->getMediaTarget($docPart, $rId);
+                                                        if (!is_null($target)) {
+                                                            $imageSource = "zip://{$this->docFile}#{$target}";
+                                                            $parent->addImage($imageSource);
+                                                        }
+                                                    }
+                                                }
                                             }
-                                            echo('<br><br>');
-                                            //if($xmlReader->elementExists('pic:pic', $polo))
-                                            //echo ($polo->nodeName.'here');
+
+
                                         }
-
-
-                                        /*$rId = $xmlReader->getAttribute('id', $childNode);
-                                        $target = $this->getMediaTarget($docPart, 'rId'.$rId);
-                                        if (!is_null($target)) {
-                                            $imageSource = "zip://{$this->docFile}#{$target}";
-                                            echo $imageSource;
-                                            //$parent->addImage($imageSource);
-                                        }*/
                                     }
                                 }
                             }
