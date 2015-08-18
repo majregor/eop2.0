@@ -199,12 +199,15 @@ abstract class AbstractPart
      */
     protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $section = null, $docPart, $paragraphStyle = null)
     {
-
+        $ignoredElements = array('mc:Fallback','wp:positionH', 'wp:positionV', );
 
         foreach($domNode->childNodes as $childNode){
 
+            if($childNode->nodeName =='w:p'){
+                $parent->addTextBreak();
+            }
 
-            if($childNode->nodeType == XML_ELEMENT_NODE){
+            if($childNode->nodeType == XML_ELEMENT_NODE && !in_array($childNode->nodeName, $ignoredElements)){
 
                 $this->readRun($xmlReader, $childNode, $parent, $section, $docPart);
             }
@@ -227,9 +230,7 @@ abstract class AbstractPart
         } else {
             //Page Break
             if($xmlReader->elementExists('w:br', $domNode)){
-                $type = $xmlReader->getAttribute('w:type', $domNode, 'w:br');
-                if($type == 'page'){
-                    //todo figure out extra page break issue...
+                if($xmlReader->getAttribute('w:type', $domNode, 'w:br') == 'page'){
                     $section->addPageBreak(); // PageBreak
                 }
             }

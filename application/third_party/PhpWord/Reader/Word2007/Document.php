@@ -27,8 +27,7 @@ use PhpOffice\PhpWord\Shared\XMLReader;
  * @since 0.10.0
  * @SuppressWarnings(PHPMD.UnusedPrivateMethod) For readWPNode
  */
-class Document extends AbstractPart
-{
+class Document extends AbstractPart {
     /**
      * PhpWord object
      *
@@ -42,8 +41,7 @@ class Document extends AbstractPart
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @return void
      */
-    public function read(PhpWord $phpWord)
-    {
+    public function read(PhpWord $phpWord){
         $this->phpWord = $phpWord;
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
@@ -152,11 +150,10 @@ class Document extends AbstractPart
      */
     private function readWPNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
     {
-        // Page break
-        if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
-            $section->addPageBreak(); // PageBreak todo figure out page break issue...
-        }
-
+        // Page break ****** Customization here, Page breaks now handled by readRun method in AbstractPart.php ********
+        /*if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
+            $section->addPageBreak();
+        }*/
 
         // Paragraph
         $this->readParagraph($xmlReader, $node, $section);
@@ -193,7 +190,6 @@ class Document extends AbstractPart
                     }
                 }
             }
-
         }
     }
 
@@ -205,8 +201,7 @@ class Document extends AbstractPart
      * @param \PhpOffice\PhpWord\Element\Section &$section
      * @return void
      */
-    private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
-    {
+    private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section){
         $style = $this->readSectionStyle($xmlReader, $node);
         $section->setStyle($style);
         $this->readHeaderFooter($style, $section);
