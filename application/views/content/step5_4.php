@@ -15,7 +15,7 @@ if((null != $this->session->flashdata('error'))):
     ?>
     <div id="errorDiv">
         <div class="notify notify-red">
-            <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+            <span class="symbol icon-error"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('error'));?>
         </div>
     </div>
 
@@ -26,7 +26,7 @@ if((null != $this->session->flashdata('success'))):
     ?>
     <div id="errorDiv">
         <div class="notify notify-green">
-            <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+            <span class="symbol icon-tick"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('success'));?>
         </div>
     </div>
 
@@ -49,41 +49,43 @@ if((null != $this->session->flashdata('success'))):
 <div class="col-half left">
     <p>Your planning team will begin developing a draft of the school EOP with the Basic Plan section. The Basic Plan section provides an overview of the school’s approach to emergency operations and often consists of several subsections, as listed below. You may manually create the Basic Plan section by clicking the Add button for each of the subsections below and then following the directions for that subsection. If you are modifying previously saved subsections, please click the Edit button for the corresponding subsection.</p>
     <p>If your school or district already has an up-to-date Basic Plan section (provided as a Microsoft Word document), you may upload the Basic Plan into EOP ASSIST.
-        In order to integrate it into your school EOP, you will need to manually cut and paste this section into the downloaded school EOP found in
-        the <a href="<?php echo base_url(); ?>report" id="reportManagementLink">My EOP</a> feature. To upload your Basic Plan section, click the Browse button below and select the appropriate file.
-        After the page is refreshed, your uploaded Basic Plan will be found in the first row of the table below. Only one uploaded Basic Plan section will be saved in EOP ASSIST
-        at a time and must be separately downloaded from this page and inserted each time the school EOP is downloaded.<br />
+        To upload your Basic Plan section, click the Use Uploaded Basic Plan button below. Then click the Choose File button that appears and select the appropriate
+        file. After the page is refreshed, your uploaded Basic Plan will be found in the first row of the table below. Only one uploaded Basic Plan section will be
+        saved in EOP ASSIST at a time.<br />
     </p>
 </div>
 <br style="clear:both;" />
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/forms.css"/>
 
-<div class="col-half left" style="margin: 20px;">
-    <form>
-    <input id="useInternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='internal')? "checked disabled" : ""); ?> name="internalEOP" ><label for="useInternal">Use Internal Basic Plan</label>
-    <input id="useExternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='external')? "checked disabled" : ""); ?> name="externalEOP"><label for="useExternal">Use Uploaded Basic Plan</label>
-    </form>
-</div>
-
+<?php if($this->session->userdata['role']['read_only']=='n'): ?>
+    <div class="col-half left" style="margin: 20px;">
+        <form>
+        <input id="useInternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='internal')? "checked disabled" : ""); ?> name="internalEOP" ><label for="useInternal">Use Internal Basic Plan</label>
+        <input id="useExternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='external')? "checked disabled" : ""); ?> name="externalEOP"><label for="useExternal">Use Uploaded Basic Plan</label>
+        </form>
+    </div>
+<?php endif; ?>
 
 
 
 
 <?php if($EOP_type == 'external'): ?>
-    <div>
-        <form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo base_url(); ?>report/upload">
-            <input type="file" name="userfile" id="userfile" required="required" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-doc, .doc, .docx" />
-            <input type="button" value="Start Upload" id="uploadButton" />
-            <input type="hidden" name="docType" value="main"/>
-        </form>
-    </div>
+    <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+        <div>
+            <form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo base_url(); ?>report/upload">
+                <input type="file" name="userfile" id="userfile" required="required" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, .docx" />
+                <input type="button" value="Start Upload" id="uploadButton" />
+                <input type="hidden" name="docType" value="main"/>
+            </form>
+        </div>
+    <?php endif; ?>
     <br style="clear:both;" />
 <table class="resultsFinal">
     <tr>
-        <th scope="col" style="vertical-align: middle; horiz-align: center; text-align: center;">Uploaded Basic Plan</strong></th>
-        <td>
-            <div id="filesTable">
+        <th width="20%" scope="col" style="vertical-align: middle; horiz-align: center; text-align: center;">Uploaded Basic Plan</strong></th>
+        <td width="80%">
+            <div  id="filesTable">
 
             </div>
         </td>
@@ -92,17 +94,21 @@ if((null != $this->session->flashdata('success'))):
         <td style="vertical-align: middle;">1.0 Cover Page</td>
         <td align="middle">
 
+            <?php if($this->session->userdata['role']['read_only']=='n'): ?>
             <input id="useInternalCover" type="checkbox" autocomplete="off" <?php echo(($EOP_ctype=='internal')? "checked disabled" : ""); ?> name="internalcEOP" ><label for="useInternalCover">Use Internal Cover Page</label>
             <input id="useExternalCover" type="checkbox" autocomplete="off" <?php echo(($EOP_ctype=='external')? "checked disabled" : ""); ?> name="externalcEOP"><label  for="useExternalCover">Use Uploaded Cover Page</label>
 <br />
+            <?php endif; ?>
             <?php if($EOP_ctype == 'external'): ?>
-                <div>
-                    <form enctype="multipart/form-data" id="uploadCoverForm" method="post" action="<?php echo base_url(); ?>report/upload">
-                        <input type="file" name="userfile" id="userfile" required="required" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-doc, .doc, .docx" />
-                        <input type="button" value="Start Upload" id="uploadCoverButton" />
-                        <input type="hidden" name="docType" value="cover"/>
-                    </form>
-                </div>
+                <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+                    <div>
+                        <form enctype="multipart/form-data" id="uploadCoverForm" method="post" action="<?php echo base_url(); ?>report/upload">
+                            <input type="file" name="userfile" id="userfile" required="required" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-doc, .doc, .docx" />
+                            <input type="button" value="Start Upload" id="uploadCoverButton" />
+                            <input type="hidden" name="docType" value="cover"/>
+                        </form>
+                    </div>
+                <?php endif; ?>
             <?php else: ?>
                 <?php
                 $mode = 'add';

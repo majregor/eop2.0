@@ -38,6 +38,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                     <textarea
                                         name="txt<?php  echo($fnChild['type']);?>obj<?php echo($key);?>"
                                         id="txt<?php    echo($fnChild['type']);?>obj<?php echo($key);?>"
+                                        step="3/4"
                                         <?php echo($controlStatus); ?>
                                         class="<?php    echo($fnChild['type']);?>Obj"
                                         data-id="<?php echo($grandChild['id']);?>"

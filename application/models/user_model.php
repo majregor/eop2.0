@@ -223,7 +223,7 @@ class User_model extends CI_Model {
 
         if(is_array($returnData) && count($returnData)>0){
             foreach($returnData as &$returnDataRow){
-                if(empty($returnData['district_id'])){
+                if(empty($returnDataRow['district_id'])){
                     $var = $this->getUserDistrictFromSchool($returnDataRow['user_id']);
                     $returnDataRow['district_id']= $var['district_id'];
                     $returnDataRow['district']= $var['district'];
@@ -318,6 +318,7 @@ class User_model extends CI_Model {
 
                     $ret = $q->result_array();
                     $userids = array();
+
                     if(is_array($ret) && count($ret)>0){
                         foreach($ret as $key=>$row){
                             $userids[] = $row['user_id'];
@@ -325,10 +326,17 @@ class User_model extends CI_Model {
                     }
 
 
-                    $this->db->select('A.*')
-                        ->from('eop_view_user A')
-                        ->where(array('district_id'=> $districtId))
-                        ->or_where_in('user_id', $userids);
+                    if(count($userids)>0){
+                        $this->db->select('A.*')
+                            ->from('eop_view_user A')
+                            ->where(array('district_id'=> $districtId))
+                            ->or_where_in('user_id', $userids);
+                    }else{
+                        $this->db->select('A.*')
+                            ->from('eop_view_user A')
+                            ->where(array('district_id'=> $districtId));
+                    }
+
 
                     $query = $this->db->get();
 

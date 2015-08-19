@@ -38,7 +38,7 @@ $entities = $page_vars['entities'];
         ?>
         <div id="errorDiv">
             <div class="notify notify-red">
-                <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+                <span class="symbol icon-error"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('error'));?>
             </div>
         </div>
 
@@ -49,7 +49,7 @@ $entities = $page_vars['entities'];
         ?>
         <div id="errorDiv">
             <div class="notify notify-green">
-                <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+                <span class="symbol icon-tick"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('success'));?>
             </div>
         </div>
 
@@ -114,7 +114,7 @@ $entities = $page_vars['entities'];
     </div>
 </div>
 
-<div id="new-fn-dialog" title="New Function">
+<div id="new-fn-dialog" title="Create Custom Function">
     <?php $this->load->view('forms/function'); ?>
 </div>
 
@@ -256,7 +256,6 @@ $entities = $page_vars['entities'];
             }
             else{
 
-                alert('Function field is required!');
                 $('#slctg1fn').addClass("error");
                 focusElement = $('#slctg1fn');
                 validateError = true;
@@ -300,7 +299,7 @@ $entities = $page_vars['entities'];
             var g3CAData        = g3Element.val();
 
             if(validateError){
-                alert('Function field is required!');
+                alert('Please select a function');
                 $(focusElement).focus();
                 return false;
             }else {
@@ -395,7 +394,7 @@ $entities = $page_vars['entities'];
                 $(this).removeClass('error');
             }
 
-            if($(this).val().trim()=="other"){
+            if($("option:selected", this).text().trim().toLowerCase()=="other"){
                 $("#new-fn-dialog").dialog('open');
                 return false;
             }
@@ -411,6 +410,15 @@ $entities = $page_vars['entities'];
             show:           {
                 effect:     'scale',
                 duration: 200
+            },
+            buttons: {
+                "Save": function(){
+                    $("#newFnForm").submit();
+                },
+                Cancel: function() {
+                    $("#newFnForm")[0].reset();
+                    $( this ).dialog( "close" );
+                }
             }
         });
 
@@ -432,25 +440,31 @@ $entities = $page_vars['entities'];
 
                         var functions = JSON.parse(response);
 
-                        var functionElements = $("select");
+                        var functionElements = $("select:not(#slctsubdistrictselection)");
                         $.each(functionElements, function(key, value){
-                            var myList =[];
 
-                            for(var i=0; i<value.options.length; i++){
-                                if(value.options[i].value) myList.push(value.options[i].value);
-                            }
+                            var selectedOption = $(value).val();
+
+                            $(value).empty();
 
                             $.each(functions, function (k, v) {
-                                if($.inArray(v.id, myList) == -1){
+
+                                if(selectedOption == v.id){
+                                    $(value).append($("<option></option>")
+                                        .attr("value", v.id)
+                                        .attr("selected", "selected")
+                                        .text(v.name));
+                                }else{
                                     $(value).append($("<option></option>")
                                         .attr("value", v.id)
                                         .text(v.name));
                                 }
 
                             });
-
-
-
+                            //Add the last option "Other"
+                            $(value).append($("<option></option>")
+                                .attr("value", "other")
+                                .text("Other"));
                         });
 
 
@@ -460,6 +474,7 @@ $entities = $page_vars['entities'];
                 }
             });
 
+            $("#newFnForm")[0].reset();
             $("#new-fn-dialog").dialog("close");
             return false;
         }

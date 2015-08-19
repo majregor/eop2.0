@@ -102,8 +102,8 @@
                     <blockquote>
                         <blockquote>
                             <blockquote>
-                                <p><strong>Description:</strong> A school threat assessment analyzes communication and behaviors to determine whether or not a student, staff member, or other person may pose a threat. These assessments must be based on fact; must comply with applicable privacy, civil rights, and other applicable laws; and are often conducted by multidisciplinary threat assessment teams. While a planning team may include the creation of a threat assessment team in its plan, the assessment team is a separate entity from the planning team and meets on its own regular schedule.</p>
-                                <p><strong>Purpose:</strong> To identify students, staff, or other persons who may pose a threat--before the threat develops into an incident--and to refer those individuals for services, if appropriate.</p>
+                                <p><strong>Description:</strong> The planning team needs to know what resources will be at its disposal. A capacity assessment examines the capabilities of students and staff as well as the services and material resources of community partners. This assessment is used to identify people in the building with applicable skills (e.g., first aid certification, search and rescue training, counseling and mental health expertise, ability to assist individuals with disabilities and others with access and functional needs). Equipment and supplies should also be inventoried. The inventory should include an evaluation of equipment and supplies uniquely for individuals with disabilities, such as evacuation chairs, the availability of sign language interpreters and technology used for effective communication, accessible transportation, and consumable medical supplies and durable medical equipment that may be necessary during a shelter-in-place or evacuation.</p>
+                                <p><strong>Purpose:</strong> To have an increased understanding of the resources available. Information about staff capabilities will help planners assign roles and responsibilities in the plan. </p>
                             </blockquote>
                         </blockquote>
                     </blockquote>
@@ -126,12 +126,15 @@
 </div><!-- /col-half --><!-- /col-half -->
 
 <div class="col-half left">
+    <div style="display: none;" id="dynamic-message">
+
+    </div>
     <?php
     if((null != $this->session->flashdata('success'))):
         ?>
         <div id="errorDiv">
             <div class="notify notify-green">
-                <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+                <span class="symbol icon-tick"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('success'));?>
             </div>
         </div>
 
@@ -141,7 +144,7 @@
         ?>
         <div id="errorDiv">
             <div class="notify notify-red">
-                <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+                <span class="symbol icon-error"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('error'));?>
             </div>
         </div>
 
@@ -194,6 +197,8 @@
                     try {
                         var res = JSON.parse(response);
                         if (res.saved == true) {
+
+                            $("#dynamic-message").html("<div id='errorDiv'> <div class='notify notify-green'> <span class='symbol icon-tick'></span>&nbsp;&nbsp;  Data was saved successfully! </div> </div>").show();
 
                             clearFormInputFields(); // Clear form data from the fields
                             loadThreatsAndHazards();

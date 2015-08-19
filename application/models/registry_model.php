@@ -8,15 +8,12 @@
 
 class Registry_model extends CI_Model {
 
-    private $id;
-    private $variables = array();
-
     public function __construct(){
         parent::__construct();
     }
  
     function addVariable($key, $value){
-        $data = array("key"=>$key, "value"=>$value);
+        $data = array("rkey"=>$key, "value"=>$value);
         $this->db->insert('eop_registry', $data);
         return $this->db->affected_rows();
     }
@@ -25,7 +22,7 @@ class Registry_model extends CI_Model {
         $recordsArray=array();
         foreach($data as $key=>$value){
             array_push($recordsArray, array(
-                'key'       =>  $key,
+                'rkey'       =>  $key,
                 'value'     =>  $value));
         }
 
@@ -34,17 +31,14 @@ class Registry_model extends CI_Model {
 
     }
 
-    function getAllVariables(){
-
-    }
-
-    function getVariable($id){
-
-    }
-
     function getValue($key){
-        $sql = "SELECT * FROM eop_registry WHERE `key` = ? LIMIT 1"; 
-        $query = $this->db->query($sql, array($key));
+
+        $this->db->select("*")
+            ->from("eop_registry")
+            ->where(array("rkey"=>$key))
+            ->limit(1);
+
+        $query = $this->db->get();
 
         if ($query->num_rows() > 0){
             return $query->row()->value;
@@ -56,7 +50,7 @@ class Registry_model extends CI_Model {
 
 
     function hasKey($key){
-        $query = $this->db->get_where("eop_registry", array("key"=>$key));
+        $query = $this->db->get_where("eop_registry", array("rkey"=>$key));
 
         if($query->num_rows()>0){
             return true;
@@ -68,6 +62,15 @@ class Registry_model extends CI_Model {
 
     function hasValue($value){
 
+        $query = $this->db->get_where("eop_registry", array("value"=>$value));
+
+        if($query->num_rows()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 
     function update($key, $value){
@@ -76,7 +79,7 @@ class Registry_model extends CI_Model {
             'value'    =>  $value
         );
 
-        $this->db->where('key', $key);
+        $this->db->where('rkey', $key);
         $this->db->update('eop_registry', $updateData);
 
         return $this->db->affected_rows();
@@ -84,12 +87,34 @@ class Registry_model extends CI_Model {
 
     function updateValue($value){
 
+        $updateData = array(
+            'value'    =>  $value
+        );
+
+        $this->db->where('value', $value);
+        $this->db->update('eop_registry', $updateData);
+
+        return $this->db->affected_rows();
+
     }
     function updateKey($key){
+
+        $updateData = array(
+            'rkey'    =>  $key
+        );
+
+        $this->db->where('rkey', $key);
+        $this->db->update('eop_registry', $updateData);
+
+        return $this->db->affected_rows();
 
     }
 
     function delete($key){
+
+        $this->db->delete('eop_registry', array('rkey' => $key));
+
+        return $this->db->affected_rows();
 
     }
 

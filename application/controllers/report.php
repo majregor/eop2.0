@@ -19,6 +19,7 @@ class Report extends CI_Controller{
     var $school_id = null;
     var $EOP_type = 'internal';
     var $EOP_ctype = 'internal';
+    var $numbered_lists = 0;
 
     public function __construct(){
         parent::__construct();
@@ -323,8 +324,10 @@ class Report extends CI_Controller{
         $this->EOP_type = 'internal';
         $this->EOP_ctype = 'internal';
         if(!empty($school[0]['preferences'])) {
-            $this->EOP_type     = json_decode($school[0]['preferences'])->main->basic_plan_source;
-            $this->EOP_ctype    = json_decode($school[0]['preferences'])->cover->basic_plan_source;
+            $preferencesObj = json_decode($school[0]['preferences']);
+
+            $this->EOP_type     = isset($preferencesObj->main)  ? $preferencesObj->main->basic_plan_source  : 'internal';
+            $this->EOP_ctype    = isset($preferencesObj->cover) ? $preferencesObj->cover->basic_plan_source : 'internal';
         }
 
         //Make file name from the school's name
@@ -560,11 +563,12 @@ class Report extends CI_Controller{
             return;
         }
 
+        $section->addTitle('Basic Plan', 1); //This should be set regardless of data existing in the section
+
         if(is_array($data) && count($data)>0){
 
             $html_dom = $this->simple_html_dom;
 
-            $section->addTitle('Basic Plan', 1);
             $section->addTitle('1. Introductory Material', 2);
 
             //Add sub-section 1.1
@@ -641,6 +645,8 @@ class Report extends CI_Controller{
 
             $section->addPageBreak(); //New Page
 
+        }else{
+            $section->addPageBreak(); //New Page
         }
 
 
@@ -912,8 +918,12 @@ class Report extends CI_Controller{
             $phpword = \PhpOffice\PhpWord\IOFactory::load(dirname($_SERVER["SCRIPT_FILENAME"]) . "/uploads/" . $fileData->file_name);
 
             //Get sections from the loaded document
+
+
             foreach ($phpword->getSections() as $loadedSection) {
+
                 $this->word->insertSection($loadedSection);
+
             }
 
             if(count($this->word->getSections()) > 0)
@@ -923,9 +933,11 @@ class Report extends CI_Controller{
     }
 
     function makeFunctionalAnnexes($data, $section){
+
+        $section->addTitle('Functional Annexes', 1); //Title should exist regardless of availability of data
+
         if(is_array($data) && count($data)>0) {
 
-            $section->addTitle('Functional Annexes', 1);
             $html_dom = $this->simple_html_dom;
             $numItems= count($data);
             $i = 0;
@@ -988,13 +1000,17 @@ class Report extends CI_Controller{
 
             }
 
+        }else{
+            $section->addPageBreak(); //New Page
         }
 
     }
 
     function makeTHAnnexes($data, $section){
+
+        $section->addTitle('Threat- and Hazard-Specific Annexes', 1); //Title should be set regardless of availability of data
+
         if(is_array($data) && count($data)>0) {
-            $section->addTitle('Threat- and Hazard-Specific Annexes', 1);
             $html_dom = $this->simple_html_dom;
             $numItems= count($data);
             $i = 0;
@@ -1053,6 +1069,8 @@ class Report extends CI_Controller{
                     $section->addPageBreak(); //New Page
                 }
             }
+        }else{
+            //Do nothing
         }
     }
 
@@ -1098,6 +1116,7 @@ class Report extends CI_Controller{
                     'pseudo_list_indicator_character' => 'l ', // l Gives a circle or m for round bullet point with wingdings.
                     'table_allowed' => TRUE, // Note, if you are adding this html into a PHPWord table you should set this to FALSE: tables cannot be nested in PHPWord.
                     'treat_div_as_paragraph' => TRUE, // If set to TRUE, each new div will trigger a new line in the Word document.
+                    'numbered_lists' => &$this->numbered_lists,
 
                     // Optional - no default:
                     'style_sheet' => htmltodocx_styles_example(), // This is an array (the "style sheet") - returned by htmltodocx_styles_example() here (in styles.inc) - see this function for an example of how to construct this array.
@@ -1124,6 +1143,7 @@ class Report extends CI_Controller{
                     'pseudo_list_indicator_character' => 'l ', // Gives a circle bullet point with wingdings.
                     'table_allowed' => TRUE, // Note, if you are adding this html into a PHPWord table you should set this to FALSE: tables cannot be nested in PHPWord.
                     'treat_div_as_paragraph' => TRUE, // If set to TRUE, each new div will trigger a new line in the Word document.
+                    'numbered_lists' => &$this->numbered_lists,
 
                     // Optional - no default:
                     'style_sheet' => htmltodocx_styles_example(), // This is an array (the "style sheet") - returned by htmltodocx_styles_example() here (in styles.inc) - see this function for an example of how to construct this array.

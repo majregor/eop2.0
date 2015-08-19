@@ -83,11 +83,11 @@ class Login extends CI_Controller{
             else{ // Login failed
 
                 //Create flash error message and send back to login page
-                $this->session->set_flashdata('error', 'Login Failed: Invalid User Id or Password!');
+                $this->session->set_flashdata('error', 'Login failed! Please provide a valid user ID and password');
                 $this->login_form();
             }
         }else{
-            $this->session->set_flashdata('error', 'Login Failed: Invalid User Id or Password!');
+            $this->session->set_flashdata('error', 'Login failed! Please provide a valid user ID and password');
             $this->login_form();
         }
 

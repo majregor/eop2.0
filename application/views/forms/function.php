@@ -7,7 +7,7 @@ echo form_open('', array('class'=>'newFnForm', 'id'=>'newFnForm'));
     <fieldset id="newfnform">
         <input type="hidden" id="fnid" name="fnid"/>
 
-        <legend>Create Custom Function</legend>
+        <legend>&nbsp;</legend>
         <p>
             <label for="txtfn"> Function:</label>
 

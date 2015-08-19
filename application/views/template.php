@@ -85,6 +85,7 @@
     </head>
 
     <body>
+
     <div id='loading'><img alt="loading" src="<?php echo base_url(); ?>assets/img/loading.gif"><span>Loading...</span></div>
 
     <?php if(isset($page) && $page=='login') {

@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:o="urn:schemas-microsoft-com:office:office"
+            xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+            xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+            xmlns:v="urn:schemas-microsoft-com:vml"
+            xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+            xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+            xmlns:w10="urn:schemas-microsoft-com:office:word"
+            xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+            xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+            xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+            xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+            xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+            xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+            mc:Ignorable="w14 wp14">
+    <w:body>
+        <w:sdt>
+            <w:sdtPr>
+                <w:id w:val="-1224297519"/>
+                <w:docPartObj>
+                    <w:docPartGallery w:val="Cover Pages"/>
+                    <w:docPartUnique/>
+                </w:docPartObj>
+            </w:sdtPr>
+            <w:sdtEndPr/>
+            <w:sdtContent>
+                <w:p w14:paraId="733428BC" w14:textId="77777777" w:rsidR="00350E9A" w:rsidRDefault="00350E9A"/>
+                <w:p w14:paraId="78EBFFCA" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="001D076A" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:rPr>
+                            <w:noProof/>
+                        </w:rPr>
+                        <mc:AlternateContent>
+                            <mc:Choice Requires="wps">
+                                <w:drawing>
+                                    <wp:anchor distT="0" distB="0" distL="182880" distR="182880" simplePos="0" relativeHeight="251659264" behindDoc="0" locked="0" layoutInCell="1" allowOverlap="1" wp14:anchorId="0078C9BB" wp14:editId="34DFB51F">
+                                        <wp:simplePos x="0" y="0"/>
+                                        <wp:positionH relativeFrom="margin">
+                                            <wp:posOffset>123825</wp:posOffset>
+                                        </wp:positionH>
+                                        <wp:positionV relativeFrom="page">
+                                            <wp:posOffset>1999615</wp:posOffset>
+                                        </wp:positionV>
+                                        <wp:extent cx="5267325" cy="6715125"/>
+                                        <wp:effectExtent l="0" t="0" r="9525" b="9525"/>
+                                        <wp:wrapSquare wrapText="bothSides"/>
+                                        <wp:docPr id="131" name="Text Box 131"/>
+                                        <wp:cNvGraphicFramePr/>
+                                        <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+                                            <a:graphicData uri="http://schemas.microsoft.com/office/word/2010/wordprocessingShape">
+                                                <wps:wsp>
+                                                    <wps:cNvSpPr txBox="1"/>
+                                                    <wps:spPr>
+                                                        <a:xfrm>
+                                                            <a:off x="0" y="0"/>
+                                                            <a:ext cx="5267325" cy="6715125"/>
+                                                        </a:xfrm>
+                                                        <a:prstGeom prst="rect">
+                                                            <a:avLst/>
+                                                        </a:prstGeom>
+                                                        <a:noFill/>
+                                                        <a:ln w="6350">
+                                                            <a:noFill/>
+                                                        </a:ln>
+                                                        <a:effectLst/>
+                                                    </wps:spPr>
+                                                    <wps:style>
+                                                        <a:lnRef idx="0">
+                                                            <a:schemeClr val="accent1"/>
+                                                        </a:lnRef>
+                                                        <a:fillRef idx="0">
+                                                            <a:schemeClr val="accent1"/>
+                                                        </a:fillRef>
+                                                        <a:effectRef idx="0">
+                                                            <a:schemeClr val="accent1"/>
+                                                        </a:effectRef>
+                                                        <a:fontRef idx="minor">
+                                                            <a:schemeClr val="dk1"/>
+                                                        </a:fontRef>
+                                                    </wps:style>
+                                                    <wps:txbx>
+                                                        <w:txbxContent>
+                                                            <w:p w14:paraId="5455B1A8" w14:textId="5364AFC7" w:rsidR="00262438" w:rsidRDefault="00262438" w:rsidP="001D076A">
+                                                                <w:pPr>
+                                                                    <w:pStyle w:val="NoSpacing"/>
+                                                                    <w:spacing w:before="40" w:after="560" w:line="216" w:lineRule="auto"/>
+                                                                    <w:rPr>
+                                                                        <w:color w:val="4F81BD" w:themeColor="accent1"/>
+                                                                        <w:sz w:val="72"/>
+                                                                        <w:szCs w:val="72"/>
+                                                                    </w:rPr>
+                                                                </w:pPr>
+                                                            </w:p>
+                                                            <w:p w14:paraId="768D54FE" w14:textId="76BB67BD" w:rsidR="00262438" w:rsidRDefault="00C14DE3" w:rsidP="007D5F90">
+                                                                <w:pPr>
+                                                                    <w:pStyle w:val="NoSpacing"/>
+                                                                    <w:spacing w:before="40" w:after="560" w:line="216" w:lineRule="auto"/>
+                                                                    <w:ind w:left="720"/>
+                                                                    <w:rPr>
+                                                                        <w:color w:val="4F81BD" w:themeColor="accent1"/>
+                                                                        <w:sz w:val="72"/>
+                                                                        <w:szCs w:val="72"/>
+                                                                    </w:rPr>
+                                                                </w:pPr>
+                                                                <w:sdt>
+                                                                    <w:sdtPr>
+                                                                        <w:rPr>
+                                                                            <w:b/>
+                                                                            <w:color w:val="4F81BD" w:themeColor="accent1"/>
+                                                                            <w:sz w:val="72"/>
+                                                                            <w:szCs w:val="72"/>
+                                                                        </w:rPr>
+                                                                        <w:alias w:val="Title"/>
+                                                                        <w:tag w:val=""/>
+                                                                        <w:id w:val="151731938"/>
+                                                                        <w:dataBinding w:prefixMappings="xmlns:ns0='http://purl.org/dc/elements/1.1/' xmlns:ns1='http://schemas.openxmlformats.org/package/2006/metadata/core-properties' " w:xpath="/ns1:coreProperties[1]/ns0:title[1]" w:storeItemID="{6C3C8BC8-F283-45AE-878A-BAB7291924A1}"/>
+                                                                        <w:text/>
+                                                                    </w:sdtPr>
+                                                                    <w:sdtEndPr/>
+                                                                    <w:sdtContent>
+                                                                        <w:r w:rsidR="00A57A13">
+                                                                            <w:rPr>
+                                                                                <w:b/>
+                                                                                <w:color w:val="4F81BD" w:themeColor="accent1"/>
+                                                                                <w:sz w:val="72"/>
+                                                                                <w:szCs w:val="72"/>
+                                                                            </w:rPr>
+                                                                            <w:t>EOP Cover Page for Testing in QA</w:t>
+                                                                        </w:r>
+                                                                    </w:sdtContent>
+                                                                </w:sdt>
+                                                            </w:p>
+                                                            <w:sdt>
+                                                                <w:sdtPr>
+                                                                    <w:rPr>
+                                                                        <w:b/>
+                                                                        <w:caps/>
+                                                                        <w:color w:val="215868" w:themeColor="accent5" w:themeShade="80"/>
+                                                                        <w:sz w:val="28"/>
+                                                                        <w:szCs w:val="28"/>
+                                                                    </w:rPr>
+                                                                    <w:alias w:val="Subtitle"/>
+                                                                    <w:tag w:val=""/>
+                                                                    <w:id w:val="-2090151685"/>
+                                                                    <w:dataBinding w:prefixMappings="xmlns:ns0='http://purl.org/dc/elements/1.1/' xmlns:ns1='http://schemas.openxmlformats.org/package/2006/metadata/core-properties' " w:xpath="/ns1:coreProperties[1]/ns0:subject[1]" w:storeItemID="{6C3C8BC8-F283-45AE-878A-BAB7291924A1}"/>
+                                                                    <w:text/>
+                                                                </w:sdtPr>
+                                                                <w:sdtEndPr/>
+                                                                <w:sdtContent>
+                                                                    <w:p w14:paraId="270281BF" w14:textId="77777777" w:rsidR="00262438" w:rsidRDefault="00262438" w:rsidP="007D5F90">
+                                                                        <w:pPr>
+                                                                            <w:pStyle w:val="NoSpacing"/>
+                                                                            <w:spacing w:before="40" w:after="40"/>
+                                                                            <w:ind w:left="720"/>
+                                                                            <w:rPr>
+                                                                                <w:caps/>
+                                                                                <w:color w:val="215868" w:themeColor="accent5" w:themeShade="80"/>
+                                                                                <w:sz w:val="28"/>
+                                                                                <w:szCs w:val="28"/>
+                                                                            </w:rPr>
+                                                                        </w:pPr>
+                                                                        <w:r w:rsidRPr="001D076A">
+                                                                            <w:rPr>
+                                                                                <w:b/>
+                                                                                <w:caps/>
+                                                                                <w:color w:val="215868" w:themeColor="accent5" w:themeShade="80"/>
+                                                                                <w:sz w:val="28"/>
+                                                                                <w:szCs w:val="28"/>
+                                                                            </w:rPr>
+                                                                            <w:t>User Guide</w:t>
+                                                                        </w:r>
+                                                                    </w:p>
+                                                                </w:sdtContent>
+                                                            </w:sdt>
+                                                            <w:p w14:paraId="26383E67" w14:textId="77777777" w:rsidR="00262438" w:rsidRDefault="00C14DE3" w:rsidP="001D076A">
+                                                                <w:pPr>
+                                                                    <w:pStyle w:val="NoSpacing"/>
+                                                                    <w:spacing w:before="80" w:after="40"/>
+                                                                    <w:ind w:left="720"/>
+                                                                    <w:rPr>
+                                                                        <w:caps/>
+                                                                        <w:color w:val="4BACC6" w:themeColor="accent5"/>
+                                                                        <w:sz w:val="24"/>
+                                                                        <w:szCs w:val="24"/>
+                                                                    </w:rPr>
+                                                                </w:pPr>
+                                                                <w:sdt>
+                                                                    <w:sdtPr>
+                                                                        <w:rPr>
+                                                                            <w:caps/>
+                                                                            <w:color w:val="4BACC6" w:themeColor="accent5"/>
+                                                                            <w:sz w:val="24"/>
+                                                                            <w:szCs w:val="24"/>
+                                                                        </w:rPr>
+                                                                        <w:alias w:val="Author"/>
+                                                                        <w:tag w:val=""/>
+                                                                        <w:id w:val="-1536112409"/>
+                                                                        <w:dataBinding w:prefixMappings="xmlns:ns0='http://purl.org/dc/elements/1.1/' xmlns:ns1='http://schemas.openxmlformats.org/package/2006/metadata/core-properties' " w:xpath="/ns1:coreProperties[1]/ns0:creator[1]" w:storeItemID="{6C3C8BC8-F283-45AE-878A-BAB7291924A1}"/>
+                                                                        <w:text/>
+                                                                    </w:sdtPr>
+                                                                    <w:sdtEndPr/>
+                                                                    <w:sdtContent>
+                                                                        <w:r w:rsidR="00262438">
+                                                                            <w:rPr>
+                                                                                <w:caps/>
+                                                                                <w:color w:val="4BACC6" w:themeColor="accent5"/>
+                                                                                <w:sz w:val="24"/>
+                                                                                <w:szCs w:val="24"/>
+                                                                            </w:rPr>
+                                                                            <w:t>Synergy Enterprises</w:t>
+                                                                        </w:r>
+                                                                    </w:sdtContent>
+                                                                </w:sdt>
+                                                                <w:r w:rsidR="00262438">
+                                                                    <w:rPr>
+                                                                        <w:caps/>
+                                                                        <w:color w:val="4BACC6" w:themeColor="accent5"/>
+                                                                        <w:sz w:val="24"/>
+                                                                        <w:szCs w:val="24"/>
+                                                                    </w:rPr>
+                                                                    <w:t>, INC</w:t>
+                                                                </w:r>
+                                                            </w:p>
+                                                        </w:txbxContent>
+                                                    </wps:txbx>
+                                                    <wps:bodyPr rot="0" spcFirstLastPara="0" vertOverflow="overflow" horzOverflow="overflow" vert="horz" wrap="square" lIns="0" tIns="0" rIns="0" bIns="0" numCol="1" spcCol="0" rtlCol="0" fromWordArt="0" anchor="t" anchorCtr="0" forceAA="0" compatLnSpc="1">
+                                                        <a:prstTxWarp prst="textNoShape">
+                                                            <a:avLst/>
+                                                        </a:prstTxWarp>
+                                                        <a:noAutofit/>
+                                                    </wps:bodyPr>
+                                                </wps:wsp>
+                                            </a:graphicData>
+                                        </a:graphic>
+                                        <wp14:sizeRelH relativeFrom="margin">
+                                            <wp14:pctWidth>0</wp14:pctWidth>
+                                        </wp14:sizeRelH>
+                                        <wp14:sizeRelV relativeFrom="page">
+                                            <wp14:pctHeight>0</wp14:pctHeight>
+                                        </wp14:sizeRelV>
+                                    </wp:anchor>
+                                </w:drawing>
+                            </mc:Choice>
+                            <mc:Fallback>
+                                <w:pict>
+                                    <v:shapetype id="_x0000_t202" coordsize="21600,21600" o:spt="202" path="m,l,21600r21600,l21600,xe">
+                                        <v:stroke joinstyle="miter"/>
+                                        <v:path gradientshapeok="t" o:connecttype="rect"/>
+                                    </v:shapetype>
+                                    <v:shape id="Text Box 131" o:spid="_x0000_s1026" type="#_x0000_t202" style="position:absolute;margin-left:9.75pt;margin-top:157.45pt;width:414.75pt;height:528.75pt;z-index:251659264;visibility:visible;mso-wrap-style:square;mso-width-percent:0;mso-height-percent:0;mso-wrap-distance-left:14.4pt;mso-wrap-distance-top:0;mso-wrap-distance-right:14.4pt;mso-wrap-distance-bottom:0;mso-position-horizontal:absolute;mso-position-horizontal-relative:margin;mso-position-vertical:absolute;mso-position-vertical-relative:page;mso-width-percent:0;mso-height-percent:0;mso-width-relative:margin;mso-height-relative:page;v-text-anchor:top" o:gfxdata="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&#xA;" filled="f" stroked="f" strokeweight=".5pt">
+                                        <v:textbox inset="0,0,0,0">
+                                            <w:txbxContent>
+                                                <w:p w14:paraId="5455B1A8" w14:textId="5364AFC7" w:rsidR="00262438" w:rsidRDefault="00262438" w:rsidP="001D076A">
+                                                    <w:pPr>
+                                                        <w:pStyle w:val="NoSpacing"/>
+                                                        <w:spacing w:before="40" w:after="560" w:line="216" w:lineRule="auto"/>
+                                                        <w:rPr>
+                                                            <w:color w:val="4F81BD" w:themeColor="accent1"/>
+                                                            <w:sz w:val="72"/>
+                                                            <w:szCs w:val="72"/>
+                                                        </w:rPr>
+                                                    </w:pPr>
+                                                </w:p>
+                                                <w:p w14:paraId="768D54FE" w14:textId="76BB67BD" w:rsidR="00262438" w:rsidRDefault="00C14DE3" w:rsidP="007D5F90">
+                                                    <w:pPr>
+                                                        <w:pStyle w:val="NoSpacing"/>
+                                                        <w:spacing w:before="40" w:after="560" w:line="216" w:lineRule="auto"/>
+                                                        <w:ind w:left="720"/>
+                                                        <w:rPr>
+                                                            <w:color w:val="4F81BD" w:themeColor="accent1"/>
+                                                            <w:sz w:val="72"/>
+                                                            <w:szCs w:val="72"/>
+                                                        </w:rPr>
+                                                    </w:pPr>
+                                                    <w:sdt>
+                                                        <w:sdtPr>
+                                                            <w:rPr>
+                                                                <w:b/>
+                                                                <w:color w:val="4F81BD" w:themeColor="accent1"/>
+                                                                <w:sz w:val="72"/>
+                                                                <w:szCs w:val="72"/>
+                                                            </w:rPr>
+                                                            <w:alias w:val="Title"/>
+                                                            <w:tag w:val=""/>
+                                                            <w:id w:val="151731938"/>
+                                                            <w:dataBinding w:prefixMappings="xmlns:ns0='http://purl.org/dc/elements/1.1/' xmlns:ns1='http://schemas.openxmlformats.org/package/2006/metadata/core-properties' " w:xpath="/ns1:coreProperties[1]/ns0:title[1]" w:storeItemID="{6C3C8BC8-F283-45AE-878A-BAB7291924A1}"/>
+                                                            <w:text/>
+                                                        </w:sdtPr>
+                                                        <w:sdtEndPr/>
+                                                        <w:sdtContent>
+                                                            <w:r w:rsidR="00A57A13">
+                                                                <w:rPr>
+                                                                    <w:b/>
+                                                                    <w:color w:val="4F81BD" w:themeColor="accent1"/>
+                                                                    <w:sz w:val="72"/><w:szCs w:val="72"/>
+                                                                </w:rPr>
+                                                                <w:t>EOP Cover Page for Testing in QA</w:t>
+                                                            </w:r>
+                                                        </w:sdtContent>
+                                                    </w:sdt>
+                                                </w:p>
+                                                <w:sdt>
+                                                    <w:sdtPr>
+                                                        <w:rPr>
+                                                            <w:b/>
+                                                            <w:caps/>
+                                                            <w:color w:val="215868" w:themeColor="accent5" w:themeShade="80"/>
+                                                            <w:sz w:val="28"/>
+                                                            <w:szCs w:val="28"/>
+                                                        </w:rPr>
+                                                        <w:alias w:val="Subtitle"/>
+                                                        <w:tag w:val=""/>
+                                                        <w:id w:val="-2090151685"/>
+                                                        <w:dataBinding w:prefixMappings="xmlns:ns0='http://purl.org/dc/elements/1.1/' xmlns:ns1='http://schemas.openxmlformats.org/package/2006/metadata/core-properties' " w:xpath="/ns1:coreProperties[1]/ns0:subject[1]" w:storeItemID="{6C3C8BC8-F283-45AE-878A-BAB7291924A1}"/>
+                                                        <w:text/>
+                                                    </w:sdtPr>
+                                                    <w:sdtEndPr/>
+                                                    <w:sdtContent>
+                                                        <w:p w14:paraId="270281BF" w14:textId="77777777" w:rsidR="00262438" w:rsidRDefault="00262438" w:rsidP="007D5F90">
+                                                            <w:pPr>
+                                                                <w:pStyle w:val="NoSpacing"/>
+                                                                <w:spacing w:before="40" w:after="40"/>
+                                                                <w:ind w:left="720"/>
+                                                                <w:rPr>
+                                                                    <w:caps/>
+                                                                    <w:color w:val="215868" w:themeColor="accent5" w:themeShade="80"/>
+                                                                    <w:sz w:val="28"/>
+                                                                    <w:szCs w:val="28"/>
+                                                                </w:rPr>
+                                                            </w:pPr>
+                                                            <w:r w:rsidRPr="001D076A">
+                                                                <w:rPr>
+                                                                    <w:b/>
+                                                                    <w:caps/>
+                                                                    <w:color w:val="215868" w:themeColor="accent5" w:themeShade="80"/>
+                                                                    <w:sz w:val="28"/>
+                                                                    <w:szCs w:val="28"/>
+                                                                </w:rPr>
+                                                                <w:t>User Guide</w:t>
+                                                            </w:r>
+                                                        </w:p>
+                                                    </w:sdtContent>
+                                                </w:sdt>
+                                                <w:p w14:paraId="26383E67" w14:textId="77777777" w:rsidR="00262438" w:rsidRDefault="00C14DE3" w:rsidP="001D076A">
+                                                    <w:pPr>
+                                                        <w:pStyle w:val="NoSpacing"/>
+                                                        <w:spacing w:before="80" w:after="40"/>
+                                                        <w:ind w:left="720"/>
+                                                        <w:rPr>
+                                                            <w:caps/>
+                                                            <w:color w:val="4BACC6" w:themeColor="accent5"/>
+                                                            <w:sz w:val="24"/>
+                                                            <w:szCs w:val="24"/>
+                                                        </w:rPr>
+                                                    </w:pPr>
+                                                    <w:sdt>
+                                                        <w:sdtPr>
+                                                            <w:rPr>
+                                                                <w:caps/>
+                                                                <w:color w:val="4BACC6" w:themeColor="accent5"/>
+                                                                <w:sz w:val="24"/>
+                                                                <w:szCs w:val="24"/>
+                                                            </w:rPr>
+                                                            <w:alias w:val="Author"/>
+                                                            <w:tag w:val=""/>
+                                                            <w:id w:val="-1536112409"/>
+                                                            <w:dataBinding w:prefixMappings="xmlns:ns0='http://purl.org/dc/elements/1.1/' xmlns:ns1='http://schemas.openxmlformats.org/package/2006/metadata/core-properties' " w:xpath="/ns1:coreProperties[1]/ns0:creator[1]" w:storeItemID="{6C3C8BC8-F283-45AE-878A-BAB7291924A1}"/>
+                                                            <w:text/>
+                                                        </w:sdtPr>
+                                                        <w:sdtEndPr/>
+                                                        <w:sdtContent>
+                                                            <w:r w:rsidR="00262438">
+                                                                <w:rPr>
+                                                                    <w:caps/>
+                                                                    <w:color w:val="4BACC6" w:themeColor="accent5"/>
+                                                                    <w:sz w:val="24"/>
+                                                                    <w:szCs w:val="24"/>
+                                                                </w:rPr>
+                                                                <w:t>Synergy Enterprises</w:t>
+                                                            </w:r>
+                                                        </w:sdtContent>
+                                                    </w:sdt>
+                                                    <w:r w:rsidR="00262438">
+                                                        <w:rPr>
+                                                            <w:caps/>
+                                                            <w:color w:val="4BACC6" w:themeColor="accent5"/>
+                                                            <w:sz w:val="24"/>
+                                                            <w:szCs w:val="24"/>
+                                                        </w:rPr>
+                                                        <w:t>, INC</w:t>
+                                                    </w:r>
+                                                </w:p>
+                                            </w:txbxContent>
+                                        </v:textbox>
+                                        <w10:wrap type="square" anchorx="margin" anchory="page"/>
+                                    </v:shape>
+                                </w:pict>
+                            </mc:Fallback>
+                        </mc:AlternateContent>
+                    </w:r>
+                    <w:r w:rsidR="00350E9A">
+                        <w:rPr>
+                            <w:noProof/>
+                        </w:rPr>
+                        <mc:AlternateContent>
+                            <mc:Choice Requires="wps">
+                                <w:drawing>
+                                    <wp:anchor distT="0" distB="0" distL="114300" distR="114300" simplePos="0" relativeHeight="251658240" behindDoc="0" locked="0" layoutInCell="1" allowOverlap="1" wp14:anchorId="053423DC" wp14:editId="3C505360">
+                                        <wp:simplePos x="0" y="0"/>
+                                        <wp:positionH relativeFrom="margin">
+                                            <wp:align>right</wp:align>
+                                        </wp:positionH>
+                                        <mc:AlternateContent>
+                                            <mc:Choice Requires="wp14">
+                                                <wp:positionV relativeFrom="page">
+                                                    <wp14:pctPosVOffset>2300</wp14:pctPosVOffset>
+                                                </wp:positionV>
+                                            </mc:Choice>
+                                            <mc:Fallback>
+                                                <wp:positionV relativeFrom="page">
+                                                    <wp:posOffset>231140</wp:posOffset>
+                                                </wp:positionV></mc:Fallback>
+                                        </mc:AlternateContent>
+                                        <wp:extent cx="594360" cy="987552"/>
+                                        <wp:effectExtent l="0" t="0" r="0" b="5080"/>
+                                        <wp:wrapNone/>
+                                        <wp:docPr id="132" name="Rectangle 132"/>
+                                        <wp:cNvGraphicFramePr>
+                                            <a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/>
+                                        </wp:cNvGraphicFramePr>
+                                        <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+                                            <a:graphicData uri="http://schemas.microsoft.com/office/word/2010/wordprocessingShape">
+                                                <wps:wsp>
+                                                    <wps:cNvSpPr>
+                                                        <a:spLocks noChangeAspect="1"/>
+                                                    </wps:cNvSpPr>
+                                                    <wps:spPr>
+                                                        <a:xfrm>
+                                                            <a:off x="0" y="0"/><a:ext cx="594360" cy="987552"/>
+                                                        </a:xfrm>
+                                                        <a:prstGeom prst="rect">
+                                                            <a:avLst/>
+                                                        </a:prstGeom>
+                                                        <a:ln>
+                                                            <a:noFill/>
+                                                        </a:ln>
+                                                    </wps:spPr>
+                                                    <wps:style>
+                                                        <a:lnRef idx="2">
+                                                            <a:schemeClr val="accent1">
+                                                                <a:shade val="50000"/>
+                                                            </a:schemeClr>
+                                                        </a:lnRef>
+                                                        <a:fillRef idx="1">
+                                                            <a:schemeClr val="accent1"/>
+                                                        </a:fillRef>
+                                                        <a:effectRef idx="0">
+                                                            <a:schemeClr val="accent1"/>
+                                                        </a:effectRef>
+                                                        <a:fontRef idx="minor">
+                                                            <a:schemeClr val="lt1"/>
+                                                        </a:fontRef>
+                                                    </wps:style>
+                                                    <wps:txbx>
+                                                        <w:txbxContent>
+                                                            <w:sdt>
+                                                                <w:sdtPr>
+                                                                    <w:rPr>
+                                                                        <w:color w:val="FFFFFF" w:themeColor="background1"/>
+                                                                        <w:sz w:val="24"/>
+                                                                        <w:szCs w:val="24"/>
+                                                                    </w:rPr>
+                                                                    <w:alias w:val="Year"/>
+                                                                    <w:tag w:val=""/>
+                                                                    <w:id w:val="-785116381"/>
+                                                                    <w:dataBinding w:prefixMappings="xmlns:ns0='http://schemas.microsoft.com/office/2006/coverPageProps' " w:xpath="/ns0:CoverPageProperties[1]/ns0:PublishDate[1]" w:storeItemID="{55AF091B-3C7A-41E3-B477-F2FDAA23CFDA}"/>
+                                                                    <w:date w:fullDate="2015-01-01T00:00:00Z">
+                                                                        <w:dateFormat w:val="yyyy"/>
+                                                                        <w:lid w:val="en-US"/>
+                                                                        <w:storeMappedDataAs w:val="dateTime"/>
+                                                                        <w:calendar w:val="gregorian"/>
+                                                                    </w:date>
+                                                                </w:sdtPr>
+                                                                <w:sdtEndPr/>
+                                                                <w:sdtContent>
+                                                                    <w:p w14:paraId="6B87892E" w14:textId="77777777" w:rsidR="00262438" w:rsidRDefault="00262438">
+                                                                        <w:pPr>
+                                                                            <w:pStyle w:val="NoSpacing"/>
+                                                                            <w:jc w:val="right"/>
+                                                                            <w:rPr>
+                                                                                <w:color w:val="FFFFFF" w:themeColor="background1"/>
+                                                                                <w:sz w:val="24"/>
+                                                                                <w:szCs w:val="24"/>
+                                                                            </w:rPr>
+                                                                        </w:pPr>
+                                                                        <w:r>
+                                                                            <w:rPr>
+                                                                                <w:color w:val="FFFFFF" w:themeColor="background1"/>
+                                                                                <w:sz w:val="24"/>
+                                                                                <w:szCs w:val="24"/>
+                                                                            </w:rPr>
+                                                                            <w:t>2015</w:t>
+                                                                        </w:r>
+                                                                    </w:p>
+                                                                </w:sdtContent>
+                                                            </w:sdt>
+                                                        </w:txbxContent>
+                                                    </wps:txbx>
+                                                    <wps:bodyPr rot="0" spcFirstLastPara="0" vertOverflow="overflow" horzOverflow="overflow" vert="horz" wrap="square" lIns="45720" tIns="45720" rIns="45720" bIns="45720" numCol="1" spcCol="0" rtlCol="0" fromWordArt="0" anchor="b" anchorCtr="0" forceAA="0" compatLnSpc="1">
+                                                        <a:prstTxWarp prst="textNoShape">
+                                                            <a:avLst/>
+                                                        </a:prstTxWarp>
+                                                        <a:noAutofit/>
+                                                    </wps:bodyPr>
+                                                </wps:wsp>
+                                            </a:graphicData>
+                                        </a:graphic>
+                                        <wp14:sizeRelH relativeFrom="page">
+                                            <wp14:pctWidth>7600</wp14:pctWidth>
+                                        </wp14:sizeRelH>
+                                        <wp14:sizeRelV relativeFrom="page">
+                                            <wp14:pctHeight>9800</wp14:pctHeight>
+                                        </wp14:sizeRelV>
+                                    </wp:anchor>
+                                </w:drawing>
+                            </mc:Choice>
+                            <mc:Fallback>
+                                <w:pict>
+                                    <v:rect id="Rectangle 132" o:spid="_x0000_s1027" style="position:absolute;margin-left:-4.4pt;margin-top:0;width:46.8pt;height:77.75pt;z-index:251658240;visibility:visible;mso-wrap-style:square;mso-width-percent:76;mso-height-percent:98;mso-top-percent:23;mso-wrap-distance-left:9pt;mso-wrap-distance-top:0;mso-wrap-distance-right:9pt;mso-wrap-distance-bottom:0;mso-position-horizontal:right;mso-position-horizontal-relative:margin;mso-position-vertical-relative:page;mso-width-percent:76;mso-height-percent:98;mso-top-percent:23;mso-width-relative:page;mso-height-relative:page;v-text-anchor:bottom" o:gfxdata="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&#xA;" fillcolor="#4f81bd [3204]" stroked="f" strokeweight="2pt">
+                                        <v:path arrowok="t"/>
+                                        <o:lock v:ext="edit" aspectratio="t"/>
+                                        <v:textbox inset="3.6pt,,3.6pt">
+                                            <w:txbxContent>
+                                                <w:sdt>
+                                                    <w:sdtPr>
+                                                        <w:rPr>
+                                                            <w:color w:val="FFFFFF" w:themeColor="background1"/>
+                                                            <w:sz w:val="24"/>
+                                                            <w:szCs w:val="24"/>
+                                                        </w:rPr>
+                                                        <w:alias w:val="Year"/>
+                                                        <w:tag w:val=""/>
+                                                        <w:id w:val="-785116381"/>
+                                                        <w:dataBinding w:prefixMappings="xmlns:ns0='http://schemas.microsoft.com/office/2006/coverPageProps' " w:xpath="/ns0:CoverPageProperties[1]/ns0:PublishDate[1]" w:storeItemID="{55AF091B-3C7A-41E3-B477-F2FDAA23CFDA}"/>
+                                                        <w:date w:fullDate="2015-01-01T00:00:00Z">
+                                                            <w:dateFormat w:val="yyyy"/>
+                                                            <w:lid w:val="en-US"/>
+                                                            <w:storeMappedDataAs w:val="dateTime"/>
+                                                            <w:calendar w:val="gregorian"/>
+                                                        </w:date>
+                                                    </w:sdtPr>
+                                                    <w:sdtEndPr/>
+                                                    <w:sdtContent>
+                                                        <w:p w14:paraId="6B87892E" w14:textId="77777777" w:rsidR="00262438" w:rsidRDefault="00262438">
+                                                            <w:pPr>
+                                                                <w:pStyle w:val="NoSpacing"/>
+                                                                <w:jc w:val="right"/>
+                                                                <w:rPr>
+                                                                    <w:color w:val="FFFFFF" w:themeColor="background1"/>
+                                                                    <w:sz w:val="24"/>
+                                                                    <w:szCs w:val="24"/>
+                                                                </w:rPr>
+                                                            </w:pPr>
+                                                            <w:r>
+                                                                <w:rPr>
+                                                                    <w:color w:val="FFFFFF" w:themeColor="background1"/>
+                                                                    <w:sz w:val="24"/>
+                                                                    <w:szCs w:val="24"/>
+                                                                </w:rPr>
+                                                                <w:t>2015</w:t>
+                                                            </w:r>
+                                                        </w:p>
+                                                    </w:sdtContent>
+                                                </w:sdt>
+                                            </w:txbxContent>
+                                        </v:textbox>
+                                        <w10:wrap anchorx="margin" anchory="page"/>
+                                    </v:rect>
+                                </w:pict>
+                            </mc:Fallback>
+                        </mc:AlternateContent>
+                    </w:r>
+                    <w:r w:rsidR="00350E9A">
+                        <w:br w:type="page"/>
+                    </w:r>
+                    <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+                    <w:bookmarkEnd w:id="0"/>
+                </w:p>
+                <w:p w14:paraId="51AACB0E" w14:textId="203CB201" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:pPr>
+                        <w:pStyle w:val="Heading1"/>
+                    </w:pPr>
+                    <w:r>
+                        <w:lastRenderedPageBreak/>
+                        <w:t>SCHOOLS COVERED</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="538582A4" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRPr="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13"/>
+                <w:p w14:paraId="2D7B845F" w14:textId="10C0DB53" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Walton Elementary School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="7691EE8D" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Curley High School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="57798059" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Spalding High School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="6B3DAA2D" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Walsh Middle School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37B66401" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Central High School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="6B27442A" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:proofErr w:type="spellStart"/>
+                    <w:r>
+                        <w:t>Shehan</w:t>
+                    </w:r>
+                    <w:proofErr w:type="spellEnd"/>
+                    <w:r>
+                        <w:t xml:space="preserve"> School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="5C6EFC3D" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Baum High School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="28CF891A" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Gerson Middle School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="3CCB7539" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t xml:space="preserve">Linda </w:t>
+                    </w:r>
+                    <w:proofErr w:type="spellStart"/>
+                    <w:r>
+                        <w:t>Billian</w:t>
+                    </w:r>
+                    <w:proofErr w:type="spellEnd"/>
+                    <w:r>
+                        <w:t xml:space="preserve"> Middle School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="645CF02F" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Mary Stein Middle School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="5C772B2A" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Wilson High School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="62BFE045" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Jackson Elementary School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="760B9420" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:proofErr w:type="spellStart"/>
+                    <w:r>
+                        <w:t>Blakefield</w:t>
+                    </w:r>
+                    <w:proofErr w:type="spellEnd"/><w:r>
+                    <w:t xml:space="preserve"> Elementary School</w:t>
+                </w:r>
+                </w:p>
+                <w:p w14:paraId="353E8065" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Maryvale High School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="39D06467" w14:textId="77777777" w:rsidR="00A57A13" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:proofErr w:type="spellStart"/>
+                    <w:r>
+                        <w:t>Leezen</w:t>
+                    </w:r>
+                    <w:proofErr w:type="spellEnd"/>
+                    <w:r>
+                        <w:t xml:space="preserve"> High School</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="1E716D3F" w14:textId="0AA8A8B9" w:rsidR="00806AFE" w:rsidRDefault="00A57A13" w:rsidP="00A57A13">
+                    <w:r>
+                        <w:t>Eagan Elementary School</w:t>
+                    </w:r>
+                </w:p>
+            </w:sdtContent>
+        </w:sdt>
+        <w:sectPr w:rsidR="00806AFE" w:rsidSect="00350E9A">
+            <w:headerReference w:type="default" r:id="rId10"/>
+            <w:pgSz w:w="12240" w:h="15840"/>
+            <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/>
+            <w:pgNumType w:start="0"/>
+            <w:cols w:space="720"/>
+            <w:titlePg/>
+            <w:docGrid w:linePitch="360"/>
+        </w:sectPr>
+    </w:body>
+</w:document>

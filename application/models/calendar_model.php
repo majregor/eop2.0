@@ -25,12 +25,23 @@ class Calendar_model extends CI_Model {
 
     function getEvents($data=''){
 
+        $concatString="CONCAT(B.name, '-', A.title)";
+
         if($data ==''){
+
+            switch($this->db->dbdriver){
+                case 'mysqli':
+                    $concatString   =   "CONCAT(B.name, '-', A.title)";
+                    break;
+                case 'sqlsrv':
+                    $concatString   =   "B.name + '-' + A.title";
+                    break;
+            }
 
             if($this->session->userdata['role']['level']>=4){ //School Admins and Users
                 //Load calendar events for their respective school only
                 $conditions['sid'] = $this->session->userdata['loaded_school']['id'];
-                $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title , A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school" , FALSE)
+                $this->db->select("A.id, A.title AS official, $concatString AS title , A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school" , FALSE)
                     ->from('eop_calendar A')
                     ->join('eop_school B', 'A.sid = B.id')
                     ->where($conditions);
@@ -44,7 +55,7 @@ class Calendar_model extends CI_Model {
                     $schoolIds[] = $school['id'];
                 }
 
-                $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title , A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
+                $this->db->select("A.id, A.title AS official, $concatString AS title , A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
                     ->from('eop_calendar A')
                     ->join('eop_school B', 'A.sid = B.id')
                     ->where_in('sid', $schoolIds);
@@ -59,7 +70,7 @@ class Calendar_model extends CI_Model {
                     ->where($conditions);
             }
             else{
-                $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title, A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
+                $this->db->select("A.id, A.title AS official, $concatString AS title, A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
                     ->from('eop_calendar A')
                     ->join('eop_school B', 'A.sid = B.id');
             }
@@ -69,7 +80,7 @@ class Calendar_model extends CI_Model {
         }else{
 
             $conditions=$data;
-            $this->db->select("A.id, A.title AS official, CONCAT(B.name,' - ', A.title) AS title, A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
+            $this->db->select("A.id, A.title AS official, $concatString AS title, A.body,  A.start_time , A.end_time, A.location, A.sid, B.name AS school", FALSE)
                 ->from('eop_calendar A')
                 ->join('eop_school B', 'A.sid = B.id')
                 ->where($conditions);

@@ -175,7 +175,30 @@ class Plan_model extends CI_Model {
         return $entityRowsArray;
     }
 
+
     private function getChildren($id){
+        $children = array();
+
+        $this->db->select('*')
+            ->from('eop_view_entities')
+            ->where(array('parent'=>$id));
+
+        $query = $this->db->get();
+
+        $resultArray = $query->result_array();
+
+        foreach($resultArray as $value){
+
+            if(!array_key_exists('children', $value)){
+                $value['children'] = $this->getChildren($value['id']);
+                $value['fields'] = $this->getFields($value['id']);
+            }
+            array_push($children, $value);
+        }
+        return $children;
+    }
+
+    /*private function getChildren($id){
         $children = array();
 
         $query = $this->db->get('eop_view_entities');
@@ -194,7 +217,7 @@ class Plan_model extends CI_Model {
             }
         }
         return $children;
-    }
+    }*/
 
     public function getFields($id){
 

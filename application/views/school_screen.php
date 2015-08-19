@@ -20,7 +20,7 @@
 ?>
     <div id="errorDiv">
         <div class="notify notify-red">
-            <span class="symbol icon-error"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('error'));?>
+            <span class="symbol icon-error"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('error'));?>
         </div>
     </div>
 
@@ -31,7 +31,7 @@ if((null != $this->session->flashdata('success'))):
     ?>
     <div id="errorDiv">
         <div class="notify notify-green">
-            <span class="symbol icon-tick"></span>&nbsp;&nbsp; ! <?php echo($this->session->flashdata('success'));?>
+            <span class="symbol icon-tick"></span>&nbsp;&nbsp;  <?php echo($this->session->flashdata('success'));?>
         </div>
     </div>
 
@@ -91,7 +91,8 @@ if(isset($viewform)){
                 <?php 
                     if($role['level']==2){
                         $viewEOP = false;
-                        if($stateEOPAccess=='write' || $stateEOPAccess=='read'){
+
+                        if($stateEOPAccess=='write' || $stateEOPAccess=='read'){ //Check state access at the state level
                             $dpermission = NULL;
                             foreach($districts as $dkey=>$dvalue){
                                 if($value['district_id'] == $dvalue['id']){
@@ -100,12 +101,21 @@ if(isset($viewform)){
                                 }
                             }
 
-                            if(null!=$dpermission && $dpermission=='write'){
-                                $viewEOP = true;
+
+                            if(null!=$dpermission && $dpermission=='write'){ //Check state access at the district level
+
+                                if(isset($value['state_permission']) && $value['state_permission']=='write'){ //Check state access at the school level
+                                    $viewEOP = true;
+                                }else{
+                                    $viewEOP = false;
+                                }
+
                             }
                             elseif(null==$dpermission && $value['state_permission']=='write'){
                                 $viewEOP = true;
                             }
+
+
                         }
 
                         if($viewEOP){

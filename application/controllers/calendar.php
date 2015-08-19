@@ -127,6 +127,22 @@ class Calendar extends CI_Controller{
 
     }
 
+    public function updateEventDate(){
+        if($this->input->post('ajax')){
+            $id = $this->input->post('id');
+
+            $data = array(
+                'start_time'    =>  convertToCalendarEvent($this->input->post('start')),
+                'end_time'      =>  convertToCalendarEvent($this->input->post('end'))
+            );
+
+            $savedRecs = $this->calendar_model->updateEvent($id, $data);
+        }
+        else{
+            redirect('/calendar');
+        }
+    }
+
     public function delete(){
 
         if($this->input->post('ajax')){

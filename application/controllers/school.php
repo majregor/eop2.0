@@ -122,7 +122,7 @@ class School extends CI_Controller{
             $savedRecs = $this->school_model->addSchool($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
-                $this->session->set_flashdata('success', ' New School Added Successfully!');
+                $this->session->set_flashdata('success', ' New school created successfully!');
             }
             else{
                 $this->session->set_flashdata('error', ' School creation failed!');
@@ -191,10 +191,10 @@ class School extends CI_Controller{
             $savedRecs = $this->school_model->update($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
-                $this->session->set_flashdata('success', 'School profile updated successfully!');
+                $this->session->set_flashdata('success', 'School updated successfully!');
             }
             else{
-                $this->session->set_flashdata('error', ' School profile update failed!');
+                $this->session->set_flashdata('error', ' School update failed!');
             }
 
             $this->output->set_output($this->ajax_reload());

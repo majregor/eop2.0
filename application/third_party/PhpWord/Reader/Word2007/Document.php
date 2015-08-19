@@ -27,8 +27,7 @@ use PhpOffice\PhpWord\Shared\XMLReader;
  * @since 0.10.0
  * @SuppressWarnings(PHPMD.UnusedPrivateMethod) For readWPNode
  */
-class Document extends AbstractPart
-{
+class Document extends AbstractPart {
     /**
      * PhpWord object
      *
@@ -42,14 +41,14 @@ class Document extends AbstractPart
      * @param \PhpOffice\PhpWord\PhpWord $phpWord
      * @return void
      */
-    public function read(PhpWord $phpWord)
-    {
+    public function read(PhpWord $phpWord){
         $this->phpWord = $phpWord;
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
-        $readMethods = array('w:p' => 'readWPNode', 'w:tbl' => 'readTable', 'w:sectPr' => 'readWSectPrNode');
+        $readMethods = array('w:sdt' => 'readSdt', 'w:p' => 'readWPNode', 'w:tbl' => 'readTable', 'w:sectPr' => 'readWSectPrNode');
 
         $nodes = $xmlReader->getElements('w:body/*');
+
         if ($nodes->length > 0) {
             $section = $this->phpWord->addSection();
             foreach ($nodes as $node) {
@@ -151,10 +150,10 @@ class Document extends AbstractPart
      */
     private function readWPNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
     {
-        // Page break
-        if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
-            $section->addPageBreak(); // PageBreak
-        }
+        // Page break ****** Customization here, Page breaks now handled by readRun method in AbstractPart.php ********
+        /*if ($xmlReader->getAttribute('w:type', $node, 'w:r/w:br') == 'page') {
+            $section->addPageBreak();
+        }*/
 
         // Paragraph
         $this->readParagraph($xmlReader, $node, $section);
@@ -170,6 +169,31 @@ class Document extends AbstractPart
     }
 
     /**
+     * Read w:sdt (EOP customization)
+     *
+     * @param XMLReader $XMLReader
+     * @param \DOMElement $node
+     * @param Section $section
+     */
+    private function readSdt(XMLReader $xmlReader, \DOMElement $domNode, Section &$section){
+
+        $readMethods = array('w:p' => 'readWPNode', 'w:tbl' => 'readTable', 'w:sectPr' => 'readWSectPrNode');
+
+        if ($xmlReader->elementExists('w:sdtContent', $domNode)) {
+            $nodes = $xmlReader->getElements('w:sdtContent/*', $domNode);
+
+            if ($nodes->length > 0) {
+                foreach ($nodes as $node) {
+                    if (isset($readMethods[$node->nodeName])) {
+                        $readMethod = $readMethods[$node->nodeName];
+                        $this->$readMethod($xmlReader, $node, $section);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Read w:sectPr node.
      *
      * @param \PhpOffice\PhpWord\Shared\XMLReader $xmlReader
@@ -177,8 +201,7 @@ class Document extends AbstractPart
      * @param \PhpOffice\PhpWord\Element\Section &$section
      * @return void
      */
-    private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section)
-    {
+    private function readWSectPrNode(XMLReader $xmlReader, \DOMElement $node, Section &$section){
         $style = $this->readSectionStyle($xmlReader, $node);
         $section->setStyle($style);
         $this->readHeaderFooter($style, $section);

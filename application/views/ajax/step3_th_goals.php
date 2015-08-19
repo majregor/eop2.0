@@ -79,7 +79,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                             <?php echo($value['name']);?>
                                         </option>
                                     <?php endforeach; ?>
-                                    <option value="other">Other</option>
+                                    <option value="">Other</option>
                                 </select>
 
                             </td>
@@ -95,6 +95,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                     <textarea
                                         name="txt<?php  echo($thChild['type']);?>obj<?php echo($key);?>"
                                         id="txt<?php    echo($thChild['type']);?>obj<?php echo($key);?>"
+                                        step="3/3"
                                         <?php echo($controlStatus); ?>
                                         class="<?php    echo($thChild['type']);?>Obj"
                                         data-id="<?php echo($grandChild['id']);?>"
@@ -130,7 +131,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                             <?php echo($value['name']);?>
                                         </option>
                                     <?php endforeach; ?>
-                                    <option value="other">Other</option>
+                                    <option value="">Other</option>
                                 </select>
 
                             </td>
