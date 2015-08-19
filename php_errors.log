@@ -341,3 +341,50 @@ Stack trace:
 #5 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPa in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php on line 238
 [18-Aug-2015 15:24:59 America/New_York] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/helpers/h2d_htmlconverter_helper.php on line 587
 [18-Aug-2015 15:39:21 America/New_York] PHP Fatal error:  Call to a member function addText() on a non-object in /Users/GMajwega/Sites/eop2.0/application/helpers/h2d_htmlconverter_helper.php on line 577
+[19-Aug-2015 09:37:02 America/New_York] PHP Fatal error:  Class 'Style' not found in /Users/GMajwega/Sites/eop2.0/application/helpers/h2d_htmlconverter_helper.php on line 581
+[19-Aug-2015 09:38:31 America/New_York] PHP Fatal error:  Call to a member function getIndex() on a non-object in /Users/GMajwega/Sites/eop2.0/application/helpers/h2d_htmlconverter_helper.php on line 582
+[19-Aug-2015 10:12:06 America/New_York] PHP Fatal error:  Call to undefined method PhpOffice\PhpWord\Style\ListItem::setNumId() in /Users/GMajwega/Sites/eop2.0/application/helpers/h2d_htmlconverter_helper.php on line 587
+[19-Aug-2015 11:51:56 America/New_York] PHP Fatal error:  Undefined class constant 'TYPE_PURE_NUMBER_NESTED' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Style/ListItem.php on line 133
+[19-Aug-2015 14:10:27 America/New_York] PHP Fatal error:  Uncaught exception 'BadMethodCallException' with message 'Cannot add PreserveText in Section.' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php:238
+Stack trace:
+#0 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(130): PhpOffice\PhpWord\Element\AbstractContainer->checkValidity('PreserveText')
+#1 [internal function]: PhpOffice\PhpWord\Element\AbstractContainer->addElement('PreserveText', 'URL:\xC2\xA0{ HYPERLI...', NULL, Array)
+#2 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(112): call_user_func_array(Array, Array)
+#3 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\AbstractContainer->__call('addPreserveText', Array)
+#4 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\Section->addPreserveText('URL:\xC2\xA0{ HYPERLI...', NULL, Ar in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php on line 238
+[19-Aug-2015 14:27:18 America/New_York] PHP Fatal error:  Uncaught exception 'BadMethodCallException' with message 'Cannot add PreserveText in Section.' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php:238
+Stack trace:
+#0 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(130): PhpOffice\PhpWord\Element\AbstractContainer->checkValidity('PreserveText')
+#1 [internal function]: PhpOffice\PhpWord\Element\AbstractContainer->addElement('PreserveText', 'URL:\xC2\xA0{ HYPERLI...', NULL, Array)
+#2 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(112): call_user_func_array(Array, Array)
+#3 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\AbstractContainer->__call('addPreserveText', Array)
+#4 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\Section->addPreserveText('URL:\xC2\xA0{ HYPERLI...', NULL, Ar in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php on line 238
+[19-Aug-2015 14:27:20 America/New_York] PHP Fatal error:  Uncaught exception 'BadMethodCallException' with message 'Cannot add PreserveText in Section.' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php:238
+Stack trace:
+#0 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(130): PhpOffice\PhpWord\Element\AbstractContainer->checkValidity('PreserveText')
+#1 [internal function]: PhpOffice\PhpWord\Element\AbstractContainer->addElement('PreserveText', 'URL:\xC2\xA0{ HYPERLI...', NULL, Array)
+#2 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(112): call_user_func_array(Array, Array)
+#3 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\AbstractContainer->__call('addPreserveText', Array)
+#4 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\Section->addPreserveText('URL:\xC2\xA0{ HYPERLI...', NULL, Ar in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php on line 238
+[19-Aug-2015 14:27:21 America/New_York] PHP Fatal error:  Uncaught exception 'BadMethodCallException' with message 'Cannot add PreserveText in Section.' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php:238
+Stack trace:
+#0 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(130): PhpOffice\PhpWord\Element\AbstractContainer->checkValidity('PreserveText')
+#1 [internal function]: PhpOffice\PhpWord\Element\AbstractContainer->addElement('PreserveText', 'URL:\xC2\xA0{ HYPERLI...', NULL, Array)
+#2 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(112): call_user_func_array(Array, Array)
+#3 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\AbstractContainer->__call('addPreserveText', Array)
+#4 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\Section->addPreserveText('URL:\xC2\xA0{ HYPERLI...', NULL, Ar in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php on line 238
+[19-Aug-2015 14:35:42 America/New_York] PHP Fatal error:  Uncaught exception 'BadMethodCallException' with message 'Cannot add PreserveText in Section.' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php:238
+Stack trace:
+#0 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(130): PhpOffice\PhpWord\Element\AbstractContainer->checkValidity('PreserveText')
+#1 [internal function]: PhpOffice\PhpWord\Element\AbstractContainer->addElement('PreserveText', 'URL:\xC2\xA0{ HYPERLI...', NULL, NULL)
+#2 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(112): call_user_func_array(Array, Array)
+#3 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\AbstractContainer->__call('addPreserveText', Array)
+#4 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\Section->addPreserveText('URL:\xC2\xA0{ HYPERLI...', NULL, NUL in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php on line 238
+[19-Aug-2015 14:35:43 America/New_York] PHP Fatal error:  Uncaught exception 'BadMethodCallException' with message 'Cannot add PreserveText in Section.' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php:238
+Stack trace:
+#0 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(130): PhpOffice\PhpWord\Element\AbstractContainer->checkValidity('PreserveText')
+#1 [internal function]: PhpOffice\PhpWord\Element\AbstractContainer->addElement('PreserveText', 'URL:\xC2\xA0{ HYPERLI...', NULL, NULL)
+#2 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php(112): call_user_func_array(Array, Array)
+#3 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\AbstractContainer->__call('addPreserveText', Array)
+#4 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\Section->addPreserveText('URL:\xC2\xA0{ HYPERLI...', NULL, NUL in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php on line 238
+[19-Aug-2015 15:15:29 America/New_York] PHP Fatal error:  Undefined class constant 'TYPE_PURE_NUMBER_NESTED' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Style/ListItem.php on line 133

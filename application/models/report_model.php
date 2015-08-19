@@ -12,7 +12,7 @@ class Report_model extends CI_Model {
 
         $schools = null;
 
-        $this->db->select('sid')
+        $this->db->select('sid', 'description')
             ->distinct('sid')
             ->from('eop_view_entities')
             ->where(array('sid is not null'=>Null));

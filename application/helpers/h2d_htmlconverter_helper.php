@@ -487,6 +487,7 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
       
       case 'ul':
         $state['list_total_count'] = count($element->children);
+        $state['listStyle'] = array('listType'=>\PhpOffice\PhpWord\Style\ListItem::TYPE_BULLET_FILLED);
         // We use this to be able to add the ordered list spaceAfter onto the
         // last list element. All ol children should be li elements.
         _htmltodocx_add_list_start_end_spacing_style($state);
@@ -519,7 +520,22 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
       break;
       
       case 'ol':
-        $state['list_total_count'] = count($element->children); 
+        $state['list_total_count'] = count($element->children);
+
+        if(isset($state['numbered_lists'])){
+          if($state['numbered_lists']<32){
+            $state['numbered_lists'] ++;
+          }else{
+            $state['numbered_lists'] = 0;
+          }
+        }else{
+          $state['numbered_lists'] = 0;
+        }
+
+        $var = ("TYPE_PURE_NUMBER_NESTED_".$state['numbered_lists']);
+
+        $state['listStyle'] = array('listType'=>constant("\PhpOffice\PhpWord\Style\ListItem::$var"));
+
         // We use this to be able to add the ordered list spaceAfter onto the
         // last list element. All ol children should be li elements.
         _htmltodocx_add_list_start_end_spacing_style($state);
@@ -571,8 +587,10 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
         }
 
         // We create a new text run for each element:
-        $listStyle = array('listType'=>\PhpOffice\PhpWord\Style\ListItem::TYPE_PURE_NUMBER_NESTED);
-          $state['textrun'] = $phpword_element->addListItemRun($state['current_list_depth'], $listStyle/*, $state['current_style']*/);
+          $listStyle = isset($state['listStyle']) ? $state['listStyle'] : array('listType'=>\PhpOffice\PhpWord\Style\ListItem::TYPE_BULLET_FILLED);
+          $state['textrun'] = $phpword_element->addListItemRun($state['current_list_depth'], $listStyle);
+
+
 
         if (in_array('li', $allowed_children)) {
           $state['list_number']++;
