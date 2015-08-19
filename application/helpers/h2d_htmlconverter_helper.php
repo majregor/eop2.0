@@ -571,7 +571,8 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
         }
 
         // We create a new text run for each element:
-          $state['textrun'] = $phpword_element->addListItemRun($state['current_list_depth']/*, $state['current_style']*/);
+        $listStyle = array('listType'=>\PhpOffice\PhpWord\Style\ListItem::TYPE_PURE_NUMBER_NESTED);
+          $state['textrun'] = $phpword_element->addListItemRun($state['current_list_depth'], $listStyle/*, $state['current_style']*/);
 
         if (in_array('li', $allowed_children)) {
           $state['list_number']++;

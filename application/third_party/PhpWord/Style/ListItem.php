@@ -34,6 +34,7 @@ class ListItem extends AbstractStyle
     const TYPE_NUMBER = 7;
     const TYPE_NUMBER_NESTED = 8;
     const TYPE_ALPHANUM = 9;
+    const TYPE_PURE_NUMBER_NESTED = 78;
 
     /**
      * Legacy list type
@@ -93,7 +94,8 @@ class ListItem extends AbstractStyle
         $enum = array(
             self::TYPE_SQUARE_FILLED, self::TYPE_BULLET_FILLED,
             self::TYPE_BULLET_EMPTY, self::TYPE_NUMBER,
-            self::TYPE_NUMBER_NESTED, self::TYPE_ALPHANUM
+            self::TYPE_NUMBER_NESTED, self::TYPE_ALPHANUM,
+            self::TYPE_PURE_NUMBER_NESTED
         );
         $this->listType = $this->setEnumVal($value, $enum, $this->listType);
         $this->getListTypeStyle();
@@ -243,6 +245,20 @@ class ListItem extends AbstractStyle
                     8 => '1, lowerRoman, %9., right, 6480, 6480, 180, , ',
                 ),
             ),
+            self::TYPE_PURE_NUMBER_NESTED => array(
+                'type' => 'multilevel',
+                'levels' => array(
+                    0 => '1, decimal, %1., left, 360, 360, 360, , ',
+                    1 => '1, decimal, %2., left, 792, 792, 432, , ',
+                    2 => '1, decimal, %3., left, 1224, 1224, 504, , ',
+                    3 => '1, decimal, %4., left, 1800, 1728, 648, , ',
+                    4 => '1, decimal, %5., left, 2520, 2232, 792, , ',
+                    5 => '1, decimal, %6., left, 2880, 2736, 936, , ',
+                    6 => '1, decimal, %7., left, 3600, 3240, 1080, , ',
+                    7 => '1, decimal, %8., left, 3960, 3744, 1224, , ',
+                    8 => '1, decimal, %9., left, 4680, 4320, 1440, , ',
+                ),
+            )
         );
 
         // Populate style and register to global Style register
