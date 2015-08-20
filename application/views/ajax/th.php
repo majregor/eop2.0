@@ -23,7 +23,7 @@ if(isset($thData) && is_array($thData) && count($thData)>0) {
                             <a href="" class="editThLink"
                                 id="<?php echo $value['id'];?>"
                                 data-name="<?php echo $value['name']; ?>" >
-                                Edit
+                                Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" />
                             </a>
                         </div>
                     <?php endif; ?>

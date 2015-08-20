@@ -1,12 +1,8 @@
 
 <div id="container">
 
-    <div id="logos">
+    
         <p class="logotxt">EOP ASSIST</p>
-
-        <a href="http://www.ed.gov/" target="_blank" title="Department of Education"><img class="DOEDlogo" src="<?php echo base_url(); ?>assets/img/DOElogo.png"></a>
-        <a href="http://rems.ed.gov/" target="_blank" title="Readiness and Emergency Management for Schools"><img class="REMSlogo" src="<?php echo base_url(); ?>assets/img/REMS-TA-Center.png"></a>
-    </div>
 
 
     <fieldset id="signin_menu">
@@ -27,7 +23,7 @@
             <h3>
                 <span style="color:red">* &nbsp;</span>
                 <span style="color:#59B"><strong>Required Field</strong></span>
-            </h3>
+            </h3></p>
             <h5>
                 <!-- User Authentication is enforced. Please enter credentials to login.-->
             </h5>
@@ -82,7 +78,13 @@
 
 
         <p class="logintxtbtm">EOP ASSIST is being made available to the public pursuant to the following conditions.   The U.S. Department of Education is making the software available to the public and grants the public the worldwide, non-exclusive, royalty-free right to use and distribute the software created pursuant to the ED-ESE-12-O-0036 contract, for only non-commercial and educational purposes.  This license does not include the right to modify the code of the software tool or create derivative works therefrom.  If you have any questions regarding whether a proposed use is allowable under this license or want to request a particular use, please contact Madeline Sullivan at (202) 453-6705.<br><br>
-            THE U.S. DEPARTMENT OF EDUCATION IS PROVIDING THE SOFTWARE AS IT IS, AND MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE WORK—EXPRESS, IMPLIED, STATUTORY OR OTHERWISE, INCLUDING WITHOUT LIMITATION WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR THE PRESENCE OR ABSENCE OF LATENT OR OTHER DEFECTS, ACCURACY, OR THE PRESENCE OR ABSENCE OF ERRORS, WHETHER OR NOT DISCOVERABLE, ALL TO THE GREATEST EXTENT PERMISSIBLE UNDER FEDERAL LAW.</p>
+            THE U.S. DEPARTMENT OF EDUCATION IS PROVIDING THE SOFTWARE AS IT IS, AND MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE WORK—EXPRESS, IMPLIED, STATUTORY OR OTHERWISE, INCLUDING WITHOUT LIMITATION WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR THE PRESENCE OR ABSENCE OF LATENT OR OTHER DEFECTS, ACCURACY, OR THE PRESENCE OR ABSENCE OF ERRORS, WHETHER OR NOT DISCOVERABLE, ALL TO THE GREATEST EXTENT PERMISSIBLE UNDER FEDERAL LAW.<br><br>
+            
+		
+            <a href="http://www.ed.gov/" target="_blank" title="Department of Education"><img class="DOEDlogo" src="<?php echo base_url(); ?>assets/img/DOElogo.png"></a>
+			<a href="http://rems.ed.gov/" target="_blank" title="Readiness and Emergency Management for Schools"><img class="REMSlogo" src="<?php echo base_url(); ?>assets/img/REMS-TA-Center.png"></a>
+		</p>
+
 
     </fieldset>
     <p class="DOEcr">2015 &copy; United States Department of Education</p>

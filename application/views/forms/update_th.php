@@ -6,10 +6,8 @@ echo form_open('plan/update/entity/th', array('class'=>'updateThForm', 'id'=>'up
     </style>
     <fieldset id="updatethform">
         <input type="hidden" id="updateid" name="updateid"/>
-
-        <legend>Name &nbsp;</legend>
             <p>
-                <label for="updatetxtname"> </label>
+                <label for="updatetxtname"> Name: </label>
 
                     <?php
                     $inputAttributes = array(

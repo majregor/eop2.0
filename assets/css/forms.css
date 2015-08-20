@@ -37,8 +37,9 @@ table.editOne tr.added table tbody td.txtnorm, table.editTwo tr.added table tbod
 }
 
 table.editOne select, table.editTwo select, table.editThree select {
-	background-color: rgba(147, 160, 54, 0.15);
-	border-color: rgba(147, 160, 54, 1);
+	height: 23px;
+/*	background-color: rgba(147, 160, 54, 0.15);
+	border-color: rgba(147, 160, 54, 1);*/
 }
 
 /*------------------------------------------------------------
@@ -47,24 +48,27 @@ RESULTS DISPLAY PAGE
 table.results {
 	width: 100%;
 	border-collapse: collapse;
-	border: 1px solid #cccccc;
-    /*table-layout: fixed;*/
+/*	border: 1px solid #cccccc;
+*/}
+
+table.results tr:nth-child(even) {
+    background-color:#D9EAF4;
 }
 
-/*table.results tr:nth-child(even) {
-    background-color:#CF9;
+table.results tr:nth-child(odd) {
+	background: #f3f3f3;
 }
-*/
-table.results th, table.results td { 
-	border: 1px solid #cccccc;
+
+table.results td { 
+	border: 1px solid #FFFFFF;
 	vertical-align: text-top;
 	padding: 0 10px;
-	line-height: 35px;
+	line-height: 25px;
 }
 
 
 table.results th {
-	height: 10px;
+	height: 35px;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
 	background-color: #0172b8;
@@ -73,11 +77,13 @@ table.results th {
 	text-align: center;
 	width: 75%;
 	vertical-align: middle;
+	border: 1px solid #FFFFFF;
 }
 
 table.results tr.even {
-	background-color: #efefef;
+	background-color: #000;
 }
+
 
 /*-----------final result page-------*/
 table.resultsFinal {
@@ -107,7 +113,7 @@ table.resultsFinal th {
 }
 
 table.resultsFinal tr.planEven td { 
-	border: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
 	vertical-align: text-top;
 	padding: 0 10px;
 	line-height: 35px;
@@ -159,7 +165,6 @@ EDIT DISPLAY PAGE
 
 table.editOne, table.editTwo, table.editThree {
 	width: 100%;
-    table-layout: fixed;
 	border-collapse: collapse;
 /*	background-color: #eee;*/
 	margin: 10px 0;
@@ -207,13 +212,15 @@ table.editOne tr.add table tbody{
 table.editOne td.txtb, table.editTwo td.txtb, table.editThree td.txtb {
 	vertical-align: middle;
 	font-weight: 800;
-	width: 15%;
-	/*float: left;*/
+	font-size: 1.05em;
+	color: #000;
+	/*width: 15%;
+	float: left;*/
 }
 
 table.editOne td.txtnorm, table.editTwo td.txtnorm, table.editThree td.txtnorm {
 	vertical-align: middle;
-	width: 15%;
+	width: 15%;	
 	/*float: left;*/
 }
 
@@ -230,6 +237,8 @@ table.editUpdate {
 
 table.editUpdate tr td {
 	border: none;
+	background-color: #eee;
+	padding: 20px 10px;
 }
 
 /*-----------AddMore-------*/
@@ -267,13 +276,17 @@ a#showTeamManagementFormLinkId {
 }
 
 fieldset, form {
-    		border: none;
-    /* background-color: #eee;*/
-    margin: 5px 0px;
+    border: none;
+	margin: 5px 0px;
+    background-color: none; 	
 }
 
 fieldset#updatethform  {
-    border:1px solid gainsboro;
+    border: none;
+}
+
+fieldset.th,fieldset.tm {
+	background-color: #D9EAF4;
 }
 
 /*------------------------------------------------------------
@@ -282,11 +295,11 @@ team management form/table
 table.tmform {
 /*	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", serif;
 */	width: 100%;
-	background-color: #eee;
+	background-color: #d9eaf4;
 	margin: 0 auto;
 	vertical-align: text-top;
 	float: left;
-	padding: 1% 64% 1% 1%;
+	padding: 1%;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -301,10 +314,11 @@ table.tmform tr td {
 }
 
 table.tmform td.txtb {
-	width: 50%;
-	padding: 8px;
+	width: 9%;
+	padding: 7px;
 	vertical-align: text-top;
 	font-weight: 800;
+	text-align:right;
 }
 
 table.sctable, table.sctable tr, table.sctable td {
@@ -397,15 +411,14 @@ th management form/table (thmanagementform.php)
 table.thform {
 	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", serif;
 	width: 100%;
-	background-color: #eee;
+	background-color: #D9EAF4;
 	margin: 0 auto;
 	vertical-align: text-top;
 	float: left;
-	padding: 1% 64% 1% 1%;
+	padding: 1%;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
-	line-height: 60px;
 }
 
 table.thform tr {
@@ -428,6 +441,7 @@ table.sctable, table.sctable tr, table.sctable td {
 	margin: 0;
 	padding-bottom: 5px;
 }
+
 
 /*------------------------
 th list edit (showeditfieldsofth.php)
@@ -460,7 +474,12 @@ table.thedit td.txtb {
 	font-weight: 800;
 }
 
-
+img#editIcon {
+	position: relative;
+	width: 15px;
+	height: 15px;
+	top: 3px;
+}
 
 /*------------------------
 select threats and hazards list result 
@@ -500,3 +519,38 @@ table.action th, table.actionfunction th{
 	background-color: #efefef;
 }*/
 
+/*--------------------------------------------------------------
+NEW 3-3
+Goals and Objectives for Threats Hazards
+--------------------------------------------------------------*/
+
+#goalFirstDivToRefresh table.results {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#goalFirstDivToRefresh table.results tr:nth-child(4n){
+	background-color: #F3F3F3;
+}
+
+
+/*--------------------------------------------------------------
+3-3 Goals and Objectives for Threats Hazards, ADD Drop Down Form
+--------------------------------------------------------------*/
+
+#goalFirstDivToRefresh table.results tr:nth-child(odd) {
+	background: #F3F3F3; /*#EAEAEA;*/
+}
+
+#goalFirstDivToRefresh table.results tr td.txtnorm{
+    background-color: #eee;
+}
+
+table.editOne tr td, table.editTwo tr td, table.editThree tr td {
+	background-color: #eee;
+	padding: 10px 10px;
+}
+
+table.editUpdate {
+	
+}

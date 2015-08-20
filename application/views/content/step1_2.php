@@ -300,20 +300,20 @@
 
         //Team management functionality
 
-        $('#teamManagementForm').hide();
+       /* $('#teamManagementForm').hide();*/
 
         $('html, body').animate({
             'scrollTop' : $("#teamManagementForm").position().top
         });
 
-        $('#showTeamManagementFormLinkId').click(function(){
+        /*$('#showTeamManagementFormLinkId').click(function(){
             $('#teamManagementForm').show('slow');
             return false;
-        });
+        });*/
 
-        $('#btncancel').click(function(){
+        /*$('#btncancel').click(function(){
             $('#teamManagementForm').hide();
-        });
+        });*/
 
        /* $('#hideTeamManagementFormLinkId').click(function(){
             $('#teamManagementForm').hide('slow');
@@ -355,7 +355,7 @@
                     if(res.saved==true){
 
                         clearFormInputFields(); // Clear form data from the fields
-                        $('#teamManagementForm').hide('slow');
+                        /*$('#teamManagementForm').hide('slow');*/
                         loadTeams();
                     }
                     else{
