@@ -433,7 +433,7 @@ input[type=button], input[type=submit], input[type=reset] {
     font-size: .9em;
     outline: none !important;
 }
-input[type=button]:hover,input[type=submit]:hover  {
+input[type=button]:hover,input[type=submit]:hover, input[type=reset]:hover  {
     background: #4CA6DB;
 }
 
@@ -862,6 +862,9 @@ color: #000000;
 .content{
     overflow-x: hidden;
 }
+
+
+
 
 /**
 **** Added by Godfrey as part of 2.0 Major upgrade

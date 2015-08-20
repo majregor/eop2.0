@@ -121,15 +121,15 @@ $entities = $page_vars['entities'];
                         <?php endforeach; ?>
                         <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                             <?php if($mode=='add'):?>
-                                <a href="#" id="<?php echo $value['id'];?>" class="addFnActionLink">Add</a>
+                                <a href="#" id="<?php echo $value['id'];?>" class="addFnActionLink">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                             <?php else: ?>
-                                <a href="#" id="<?php echo $value['id'];?>" class="editFnActionLink">Edit</a>
+                                <a href="#" id="<?php echo $value['id'];?>" class="editFnActionLink">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                             <?php endif; ?>
                         <?php else: ?>
                             <?php if($mode=='add'): ?>
                                 <span class="empty">No Data</span>
                             <?php else: ?>
-                                <a href="#" id="<?php echo $value['id'];?>" class="viewFnActionLink">View</a>
+                                <a href="#" id="<?php echo $value['id'];?>" class="viewFnActionLink">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                             <?php endif; ?>
                         <?php endif; ?>
 

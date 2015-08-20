@@ -94,13 +94,13 @@ $entities = $page_vars['entities'];
                     <td align="center">
                         <?php if($value['description'] == 'live' && !empty($value['description'])): ?>
                             <?php if($this->session->userdata['role']['read_only']=='n') { ?>
-                                <a href="#" id="<?php echo($value['id']); ?>" class="editFieldsLink">Edit</a>
+                                <a href="#" id="<?php echo($value['id']); ?>" class="editFieldsLink">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                             <?php
                             }else{ ?>
-                                <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View</a>
+                                <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                             <?php } ?>
                         <?php else: ?>
-                            <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View</a>
+                            <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                         <?php endif; ?>
                     </td>
                 </tr>
