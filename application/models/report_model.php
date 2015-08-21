@@ -12,10 +12,18 @@ class Report_model extends CI_Model {
 
         $schools = null;
 
-        $this->db->select('sid', 'description')
+
+        $this->db->select('sid')
             ->distinct('sid')
             ->from('eop_view_entities')
-            ->where(array('sid is not null'=>Null));
+            ->where("sid IS NOT NULL AND (
+                                            id IN (select distinct(entity_id) FROM eop_field where body !='')
+                                          OR
+                                            description like '{%}'
+                                          )",
+                NULL,
+                FALSE);
+        //FALSE stops codeigniter from escaping the select statement which might be detrimental.
 
         $query = $this->db->get();
 

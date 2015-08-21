@@ -302,10 +302,11 @@
 
        /* $('#teamManagementForm').hide();*/
 
-        $('html, body').animate({
-            'scrollTop' : $("#teamManagementForm").position().top
-        });
-
+        <?php if($this->session->userdata['role']['read_only']=='n'): ?>
+            $('html, body').animate({
+                'scrollTop' : $("#teamManagementForm").position().top
+            });
+        <?php endif; ?>
         /*$('#showTeamManagementFormLinkId').click(function(){
             $('#teamManagementForm').show('slow');
             return false;

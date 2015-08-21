@@ -388,3 +388,4 @@ Stack trace:
 #3 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\AbstractContainer->__call('addPreserveText', Array)
 #4 /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Reader/Word2007/AbstractPart.php(141): PhpOffice\PhpWord\Element\Section->addPreserveText('URL:\xC2\xA0{ HYPERLI...', NULL, NUL in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Element/AbstractContainer.php on line 238
 [19-Aug-2015 15:15:29 America/New_York] PHP Fatal error:  Undefined class constant 'TYPE_PURE_NUMBER_NESTED' in /Users/GMajwega/Sites/eop2.0/application/third_party/PhpWord/Style/ListItem.php on line 133
+[21-Aug-2015 12:44:59 America/New_York] PHP Parse error:  parse error in /Users/GMajwega/Sites/eop2.0/application/models/report_model.php on line 27

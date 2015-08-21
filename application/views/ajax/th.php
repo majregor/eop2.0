@@ -33,7 +33,7 @@ if(isset($thData) && is_array($thData) && count($thData)>0) {
 
     </table>
 
-    <div id="update-th-dialog" title="Edit Threat &amp; Hazard">
+    <div id="update-th-dialog" title="Edit Threat or Hazard">
         <?php $this->load->view('forms/update_th'); ?>
     </div>
 
