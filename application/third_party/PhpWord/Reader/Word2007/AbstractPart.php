@@ -199,17 +199,18 @@ abstract class AbstractPart
      */
     protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $section = null, $docPart, $paragraphStyle = null)
     {
+
         $ignoredElements = array('mc:Fallback','wp:positionH', 'wp:positionV', );
 
         foreach($domNode->childNodes as $childNode){
 
             if($childNode->nodeName =='w:p'){
-                $parent->addTextBreak();
+                $parent->addTextBreak(null, $paragraphStyle);
             }
 
             if($childNode->nodeType == XML_ELEMENT_NODE && !in_array($childNode->nodeName, $ignoredElements)){
 
-                $this->readRun($xmlReader, $childNode, $parent, $section, $docPart);
+                $this->readRun($xmlReader, $childNode, $parent, $section, $docPart, $paragraphStyle);
             }
 
         }
@@ -228,10 +229,12 @@ abstract class AbstractPart
                 $parent->addLink($target, htmlspecialchars($textContent), $fontStyle, $paragraphStyle);
             }
         } else {
-            //Page Break
+            //Page and Text Breaks
             if($xmlReader->elementExists('w:br', $domNode)){
                 if($xmlReader->getAttribute('w:type', $domNode, 'w:br') == 'page'){
                     $section->addPageBreak(); // PageBreak
+                }else{
+                    $parent->addTextBreak(null, $paragraphStyle);
                 }
             }
             // Footnote
@@ -293,6 +296,8 @@ abstract class AbstractPart
                                                                                     }
                                                                                 }
                                                                             }
+                                                                        }elseif($imageDataNode->nodeName=='a:stretch'){
+
                                                                         }
                                                                     }
                                                                 }
@@ -307,7 +312,17 @@ abstract class AbstractPart
                                                         $target = $this->getMediaTarget($docPart, $rId);
                                                         if (!is_null($target)) {
                                                             $imageSource = "zip://{$this->docFile}#{$target}";
-                                                            $parent->addImage($imageSource);
+
+                                                            //Calculate image dimensions
+                                                            $imageStyle = array();
+                                                            if($imageSize = getimagesize($imageSource)){
+                                                                $imageWidth = $imageSize[0];
+                                                                $imageHeight = $imageSize[1];
+                                                                $pageWidth = $section->getStyle()->getPageSizeW();
+
+                                                                $imageStyle = $this->processImageDimensions($imageWidth, $imageHeight, $pageWidth);
+                                                            }
+                                                            $parent->addImage($imageSource, $imageStyle);
                                                         }
                                                     }
                                                 }
@@ -341,6 +356,33 @@ abstract class AbstractPart
         }
     }
 
+    /**
+     * Calculate Image dimensions
+     *
+     * @return array
+     */
+    private function processImageDimensions($imgWidth, $imgHeight, $pageSizeW){
+
+        $maxWidth = \PhpOffice\PhpWord\Shared\Drawing::twipsToPixels($pageSizeW);
+
+        $threshold = $maxWidth - (0.1 * $maxWidth);
+
+        if($imgWidth > $threshold){
+            $ratio = $imgHeight / $imgWidth;
+            $imgWidth = $threshold;
+            $imgHeight = intval($ratio * $imgWidth);
+        }
+
+        return array(
+            'width'             =>  $imgWidth,
+            'height'            =>  $imgHeight,
+            'marginTop'         =>  1,
+            'marginLeft'        =>  1,
+            'wrappingStyle'     =>  \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_INLINE
+        );
+
+
+    }
     /**
      * Read w:tbl.
      *
@@ -546,20 +588,27 @@ abstract class AbstractPart
     protected function readStyleDefs(XMLReader $xmlReader, \DOMElement $parentNode = null, $styleDefs = array())
     {
         $styles = array();
+        $isList = false; // Godfrey addition to fix indentation on paragraph lists from read documents...
 
         foreach ($styleDefs as $styleProp => $styleVal) {
             @list($method, $element, $attribute, $expected) = $styleVal;
 
             if ($xmlReader->elementExists($element, $parentNode)) {
-                $node = $xmlReader->getElement($element, $parentNode);
+                if($element !='w:ind' && !$isList){
+                    $node = $xmlReader->getElement($element, $parentNode);
 
-                // Use w:val as default if no attribute assigned
-                $attribute = ($attribute === null) ? 'w:val' : $attribute;
-                $attributeValue = $xmlReader->getAttribute($attribute, $node);
+                    // Use w:val as default if no attribute assigned
+                    $attribute = ($attribute === null) ? 'w:val' : $attribute;
+                    $attributeValue = $xmlReader->getAttribute($attribute, $node);
 
-                $styleValue = $this->readStyleDef($method, $attributeValue, $expected);
-                if ($styleValue !== null) {
-                    $styles[$styleProp] = $styleValue;
+                    if($attributeValue == 'ListParagraph'){
+                        $isList = true;
+                    }
+                    /*echo $attributeValue . '<br/>';*/
+                    $styleValue = $this->readStyleDef($method, $attributeValue, $expected);
+                    if ($styleValue !== null) {
+                        $styles[$styleProp] = $styleValue;
+                    }
                 }
             }
         }

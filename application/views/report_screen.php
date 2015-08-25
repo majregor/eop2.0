@@ -63,6 +63,7 @@ $role_level = $this->session->userdata['role']['level'];
 
         <?php if($this->session->userdata['role']['role_id']<=3): ?>
             $('#myEOPReportTbl').DataTable({
+                "order" : [[0, "desc"]],
                 "bFilter": false, // For the search text box
                 "bInfo": true, // For the "Showing 1 to 10 of x entries" text at the bottom
                 "columnDefs": [
@@ -71,6 +72,7 @@ $role_level = $this->session->userdata['role']['level'];
             });
         <?php else: ?>
             $('#myEOPReportTbl').DataTable({
+                "order" : [[0, "desc"]],
                 "bFilter": false, // For the search text box
                 "bInfo": true, // For the "Showing 1 to 10 of x entries" text at the bottom
                 "columnDefs": [
