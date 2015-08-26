@@ -236,15 +236,7 @@
             </div>
         </ul>
         <p> <br/>
-            At this point in the planning process, who is currently on your school&rsquo;s planning team? Click the
-            Create New Team Member button below to identify the members of your team and the stakeholder groups
-            represented by your team. If your team has already identified the members of your planning team and
-            wishes to modify any of their information, please click the Edit button for the respective team member
-            in the table below. Pre-populated fields will appear with previously saved information. After editing
-            the fields with new information, click the Update button. Likewise, if your team would like to remove a
-            team member from the list, click the Delete button. You will be asked to confirm this deletion. Click the
-            OK button. Please note that deleting team members from this table does not affect users&rsquo; access to
-            EOP ASSIST.
+            At this point in the planning process, who is currently on your school’s planning team? Use the form below to identify the members of your team and the stakeholder groups represented by your team. If your team has already identified the members of your planning team and wishes to modify any of their information, please click the Edit button for the respective team member in the table below. Pre-populated fields will appear with previously saved information. After editing the fields with new information, click the Save button. Likewise, if your team would like to remove a team member from the list, click the Delete button. You will be asked to confirm this deletion. Click Yes to confirm or Cancel if you pressed the Delete button in error. Please note that deleting team members from this table does not affect users’ access to EOP ASSIST.
         </p>
     </div>
 
