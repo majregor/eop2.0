@@ -80,7 +80,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                             <?php echo($value['name']);?>
                                         </option>
                                     <?php endforeach; ?>
-                                    <option value="other">Other</option>
+                                    <option value="">Other</option>
                                 </select>
 
                             </td>
@@ -89,7 +89,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
 
                 <?php foreach($thChild['children'] as $key => $grandChild): ?>
                     <?php if($grandChild['type']=="obj"): // Get only grandchildren of type obj ?>
-                        <tr id="objRow<?php echo($key);?>">
+                        <tr id="objRow<?php echo($thChild['type'].''.$key);?>">
                             <td class="txnorm">Objective:</td>
                             <td>
                                 <?php foreach($grandChild['fields'] as $field): ?>
@@ -103,6 +103,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                         data-field-id="<?php echo($field['id']);?>"
                                         item-index = "<?php echo($key);?>"
                                         canRemove = <?php echo(($key==0)? "no": "yes"); ?>
+                                        ent-type = "<?php echo($thChild['type']); ?>"
                                         style="width:100%" rows="4"><?php echo($field['body']); ?></textarea>
                                 <?php endforeach; ?>
                             </td>
@@ -116,7 +117,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                             }
                         }
                         ?>
-                        <tr id="functionRow<?php echo($key); ?>">
+                        <tr id="functionRow<?php echo($thChild['type'].''.$key); ?>">
                             <td class="txtnorm">Function:</td>
                             <td>
                                 <select
@@ -132,7 +133,7 @@ $controlStatus = ($action=='view') ? "disabled" : "";
                                             <?php echo($value['name']);?>
                                         </option>
                                     <?php endforeach; ?>
-                                    <option value="other">Other</option>
+                                    <option value="">Other</option>
                                 </select>
 
                             </td>

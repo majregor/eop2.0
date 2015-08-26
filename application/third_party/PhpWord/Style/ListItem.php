@@ -34,6 +34,39 @@ class ListItem extends AbstractStyle
     const TYPE_NUMBER = 7;
     const TYPE_NUMBER_NESTED = 8;
     const TYPE_ALPHANUM = 9;
+    const TYPE_PURE_NUMBER_NESTED_0 = 78;
+    const TYPE_PURE_NUMBER_NESTED_1 = 79;
+    const TYPE_PURE_NUMBER_NESTED_2 = 80;
+    const TYPE_PURE_NUMBER_NESTED_3 = 81;
+    const TYPE_PURE_NUMBER_NESTED_4 = 82;
+    const TYPE_PURE_NUMBER_NESTED_5 = 83;
+    const TYPE_PURE_NUMBER_NESTED_6 = 84;
+    const TYPE_PURE_NUMBER_NESTED_7 = 85;
+    const TYPE_PURE_NUMBER_NESTED_8 = 86;
+    const TYPE_PURE_NUMBER_NESTED_9 = 87;
+    const TYPE_PURE_NUMBER_NESTED_10 = 88;
+    const TYPE_PURE_NUMBER_NESTED_11 = 89;
+    const TYPE_PURE_NUMBER_NESTED_12 = 90;
+    const TYPE_PURE_NUMBER_NESTED_13 = 91;
+    const TYPE_PURE_NUMBER_NESTED_14 = 92;
+    const TYPE_PURE_NUMBER_NESTED_15 = 93;
+    const TYPE_PURE_NUMBER_NESTED_16 = 94;
+    const TYPE_PURE_NUMBER_NESTED_17 = 95;
+    const TYPE_PURE_NUMBER_NESTED_18 = 96;
+    const TYPE_PURE_NUMBER_NESTED_19 = 97;
+    const TYPE_PURE_NUMBER_NESTED_20 = 98;
+    const TYPE_PURE_NUMBER_NESTED_21 = 99;
+    const TYPE_PURE_NUMBER_NESTED_22 = 101;
+    const TYPE_PURE_NUMBER_NESTED_23 = 102;
+    const TYPE_PURE_NUMBER_NESTED_24 = 103;
+    const TYPE_PURE_NUMBER_NESTED_25 = 104;
+    const TYPE_PURE_NUMBER_NESTED_26 = 105;
+    const TYPE_PURE_NUMBER_NESTED_27 = 106;
+    const TYPE_PURE_NUMBER_NESTED_28 = 107;
+    const TYPE_PURE_NUMBER_NESTED_29 = 108;
+    const TYPE_PURE_NUMBER_NESTED_30 = 109;
+    const TYPE_PURE_NUMBER_NESTED_31 = 110;
+    const TYPE_PURE_NUMBER_NESTED_32 = 111;
 
     /**
      * Legacy list type
@@ -93,7 +126,40 @@ class ListItem extends AbstractStyle
         $enum = array(
             self::TYPE_SQUARE_FILLED, self::TYPE_BULLET_FILLED,
             self::TYPE_BULLET_EMPTY, self::TYPE_NUMBER,
-            self::TYPE_NUMBER_NESTED, self::TYPE_ALPHANUM
+            self::TYPE_NUMBER_NESTED, self::TYPE_ALPHANUM,
+            self::TYPE_PURE_NUMBER_NESTED_0,
+            self::TYPE_PURE_NUMBER_NESTED_1,
+            self::TYPE_PURE_NUMBER_NESTED_2,
+            self::TYPE_PURE_NUMBER_NESTED_3,
+            self::TYPE_PURE_NUMBER_NESTED_4,
+            self::TYPE_PURE_NUMBER_NESTED_5,
+            self::TYPE_PURE_NUMBER_NESTED_6,
+            self::TYPE_PURE_NUMBER_NESTED_7,
+            self::TYPE_PURE_NUMBER_NESTED_8,
+            self::TYPE_PURE_NUMBER_NESTED_9,
+            self::TYPE_PURE_NUMBER_NESTED_10,
+            self::TYPE_PURE_NUMBER_NESTED_11,
+            self::TYPE_PURE_NUMBER_NESTED_12,
+            self::TYPE_PURE_NUMBER_NESTED_13,
+            self::TYPE_PURE_NUMBER_NESTED_14,
+            self::TYPE_PURE_NUMBER_NESTED_15,
+            self::TYPE_PURE_NUMBER_NESTED_16,
+            self::TYPE_PURE_NUMBER_NESTED_17,
+            self::TYPE_PURE_NUMBER_NESTED_18,
+            self::TYPE_PURE_NUMBER_NESTED_19,
+            self::TYPE_PURE_NUMBER_NESTED_20,
+            self::TYPE_PURE_NUMBER_NESTED_21,
+            self::TYPE_PURE_NUMBER_NESTED_22,
+            self::TYPE_PURE_NUMBER_NESTED_23,
+            self::TYPE_PURE_NUMBER_NESTED_24,
+            self::TYPE_PURE_NUMBER_NESTED_25,
+            self::TYPE_PURE_NUMBER_NESTED_26,
+            self::TYPE_PURE_NUMBER_NESTED_27,
+            self::TYPE_PURE_NUMBER_NESTED_28,
+            self::TYPE_PURE_NUMBER_NESTED_29,
+            self::TYPE_PURE_NUMBER_NESTED_30,
+            self::TYPE_PURE_NUMBER_NESTED_31,
+            self::TYPE_PURE_NUMBER_NESTED_32
         );
         $this->listType = $this->setEnumVal($value, $enum, $this->listType);
         $this->getListTypeStyle();
@@ -156,6 +222,21 @@ class ListItem extends AbstractStyle
 
         // Property mapping for numbering level information
         $properties = array('start', 'format', 'text', 'align', 'tabPos', 'left', 'hanging', 'font', 'hint');
+
+        $pure_numbered_nested_array = array(
+            'type' => 'multilevel',
+            'levels' => array(
+                0 => '1, decimal, %1., left, 360, 720,      360, , ',
+                1 => '1, decimal, %2., left, 792, 792,      360, , ',
+                2 => '1, decimal, %3., left, 1224, 1224,    360, , ',
+                3 => '1, decimal, %4., left, 1800, 1728,    360, , ',
+                4 => '1, decimal, %5., left, 2520, 2232,    360, , ',
+                5 => '1, decimal, %6., left, 2880, 2736,    360, , ',
+                6 => '1, decimal, %7., left, 3600, 3240,    360, , ',
+                7 => '1, decimal, %8., left, 3960, 3744,    360, , ',
+                8 => '1, decimal, %9., left, 4680, 4320,    360, , ',
+            ),
+        );
 
         // Legacy level information
         $listTypeStyles = array(
@@ -243,6 +324,39 @@ class ListItem extends AbstractStyle
                     8 => '1, lowerRoman, %9., right, 6480, 6480, 180, , ',
                 ),
             ),
+            self::TYPE_PURE_NUMBER_NESTED_0     => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_1     => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_2     => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_3     => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_4     => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_5     => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_6     => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_7     => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_8     => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_9     => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_10    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_11    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_12    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_13    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_14    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_15    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_16    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_17    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_18    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_19    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_20    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_21    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_22    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_23    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_24    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_25    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_26    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_27    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_28    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_29    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_30    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_31    => $pure_numbered_nested_array,
+            self::TYPE_PURE_NUMBER_NESTED_32    => $pure_numbered_nested_array
         );
 
         // Populate style and register to global Style register

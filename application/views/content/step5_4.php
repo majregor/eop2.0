@@ -47,12 +47,12 @@ if((null != $this->session->flashdata('success'))):
 
 
 <div class="col-half left">
-    <p>Your planning team will begin developing a draft of the school EOP with the Basic Plan section. The Basic Plan section provides an overview of the school’s approach to emergency operations and often consists of several subsections, as listed below. You may manually create the Basic Plan section by clicking the Add button for each of the subsections below and then following the directions for that subsection. If you are modifying previously saved subsections, please click the Edit button for the corresponding subsection.</p>
-    <p>If your school or district already has an up-to-date Basic Plan section (provided as a Microsoft Word document), you may upload the Basic Plan into EOP ASSIST.
-        In order to integrate it into your school EOP, you will need to manually cut and paste this section into the downloaded school EOP found in
-        the <a href="<?php echo base_url(); ?>report" id="reportManagementLink">My EOP</a> feature. To upload your Basic Plan section, click the Browse button below and select the appropriate file.
-        After the page is refreshed, your uploaded Basic Plan will be found in the first row of the table below. Only one uploaded Basic Plan section will be saved in EOP ASSIST
-        at a time and must be separately downloaded from this page and inserted each time the school EOP is downloaded.<br />
+    <p>Your planning team will begin developing a draft of the school EOP with the Basic Plan section. The Basic Plan section provides an overview of the school’s approach to emergency operations and often consists of several subsections, as listed below. You may manually create the Basic Plan section by selecting Create Basic Plan below. Then click the Add button for each of the subsections below and follow the directions for that subsection. If you are modifying previously saved subsections, please click the Edit button for the corresponding subsection.</p>
+    <p>If your school or district already has an up-to-date Basic Plan section (provided as a Microsoft Word document),
+        you may upload the Basic Plan into EOP ASSIST. To upload your Basic Plan section, select Use Uploaded Basic Plan
+        below. Then click the Choose File button that appears and select the appropriate file. After the page is refreshed,
+        your uploaded Basic Plan will be found in the first row of the table below. Only one uploaded Basic Plan section will
+        be saved in EOP ASSIST at a time.<br />
     </p>
 </div>
 <br style="clear:both;" />
@@ -62,7 +62,7 @@ if((null != $this->session->flashdata('success'))):
 <?php if($this->session->userdata['role']['read_only']=='n'): ?>
     <div class="col-half left" style="margin: 20px;">
         <form>
-        <input id="useInternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='internal')? "checked disabled" : ""); ?> name="internalEOP" ><label for="useInternal">Use Internal Basic Plan</label>
+        <input id="useInternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='internal')? "checked disabled" : ""); ?> name="internalEOP" ><label for="useInternal">Create Basic Plan</label>
         <input id="useExternal" type="checkbox" autocomplete="off" <?php echo(($EOP_type=='external')? "checked disabled" : ""); ?> name="externalEOP"><label for="useExternal">Use Uploaded Basic Plan</label>
         </form>
     </div>
@@ -84,9 +84,9 @@ if((null != $this->session->flashdata('success'))):
     <br style="clear:both;" />
 <table class="resultsFinal">
     <tr>
-        <th scope="col" style="vertical-align: middle; horiz-align: center; text-align: center;">Uploaded Basic Plan</strong></th>
-        <td>
-            <div id="filesTable">
+        <th width="20%" scope="col" style="vertical-align: middle; horiz-align: center; text-align: center;">Uploaded Basic Plan</strong></th>
+        <td width="80%">
+            <div  id="filesTable">
 
             </div>
         </td>
@@ -96,7 +96,7 @@ if((null != $this->session->flashdata('success'))):
         <td align="middle">
 
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
-            <input id="useInternalCover" type="checkbox" autocomplete="off" <?php echo(($EOP_ctype=='internal')? "checked disabled" : ""); ?> name="internalcEOP" ><label for="useInternalCover">Use Internal Cover Page</label>
+            <input id="useInternalCover" type="checkbox" autocomplete="off" <?php echo(($EOP_ctype=='internal')? "checked disabled" : ""); ?> name="internalcEOP" ><label for="useInternalCover">Create Cover Page</label>
             <input id="useExternalCover" type="checkbox" autocomplete="off" <?php echo(($EOP_ctype=='external')? "checked disabled" : ""); ?> name="externalcEOP"><label  for="useExternalCover">Use Uploaded Cover Page</label>
 <br />
             <?php endif; ?>
@@ -130,15 +130,15 @@ if((null != $this->session->flashdata('success'))):
                 ?>
                 <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                     <?php if($mode=='add'): ?>
-                        <a href="#" class="showAddForm" id="showForm1Link">Add</a>
+                        <a href="#" class="showAddForm" id="showForm1Link">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                     <?php else: ?>
-                        <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm1Link">Edit</a>
+                        <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm1Link">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                     <?php endif; ?>
                 <?php else: ?>
                     <?php if($mode=='add'): ?>
                         <span class="empty">No Data</span>
                     <?php else: ?>
-                        <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm1Link">View</a>
+                        <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm1Link">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                     <?php endif; ?>
                 <?php endif; ?>
             <?php endif; ?>
@@ -188,15 +188,15 @@ if((null != $this->session->flashdata('success'))):
             ?>
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                 <?php if($mode=='add'): ?>
-                    <a href="#" class="showAddForm" id="showForm1Link">Add</a>
+                    <a href="#" class="showAddForm" id="showForm1Link">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                 <?php else: ?>
-                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm1Link">Edit</a>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm1Link">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                 <?php endif; ?>
                 <?php else: ?>
                     <?php if($mode=='add'): ?>
                         <span class="empty">No Data</span>
                     <?php else: ?>
-                        <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm1Link">View</a>
+                        <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm1Link">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                     <?php endif; ?>
             <?php endif; ?>
 
@@ -234,15 +234,15 @@ if((null != $this->session->flashdata('success'))):
             ?>
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                 <?php if($mode=='add'): ?>
-                    <a href="#" class="showAddForm" id="showForm2Link">Add</a>
+                    <a href="#" class="showAddForm" id="showForm2Link">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                 <?php else: ?>
-                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm2Link">Edit</a>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm2Link">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                 <?php endif; ?>
             <?php else: ?>
                 <?php if($mode=='add'): ?>
                     <span class="empty">No Data</span>
                 <?php else: ?>
-                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm2Link">View</a>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm2Link">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                 <?php endif; ?>
             <?php endif; ?>
 
@@ -277,15 +277,15 @@ if((null != $this->session->flashdata('success'))):
             ?>
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                 <?php if($mode=='add'): ?>
-                    <a href="#" class="showAddForm" id="showForm3Link">Add</a>
+                    <a href="#" class="showAddForm" id="showForm3Link">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                 <?php else: ?>
-                    <a href="#" class="showEditForm"  data-entity-id="<?php echo($entityId); ?>" id="editForm3Link">Edit</a>
+                    <a href="#" class="showEditForm"  data-entity-id="<?php echo($entityId); ?>" id="editForm3Link">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                 <?php endif; ?>
             <?php else: ?>
                 <?php if($mode=='add'): ?>
                     <span class="empty">No Data</span>
                 <?php else: ?>
-                    <a href="#" class="showViewForm"  data-entity-id="<?php echo($entityId); ?>" id="viewForm3Link">View</a>
+                    <a href="#" class="showViewForm"  data-entity-id="<?php echo($entityId); ?>" id="viewForm3Link">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                 <?php endif; ?>
             <?php endif; ?>
 
@@ -320,15 +320,15 @@ if((null != $this->session->flashdata('success'))):
             ?>
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                 <?php if($mode=='add'): ?>
-                    <a href="#" class="showAddForm" id="showForm4Link">Add</a>
+                    <a href="#" class="showAddForm" id="showForm4Link">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                 <?php else: ?>
-                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm4Link">Edit</a>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm4Link">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                 <?php endif; ?>
             <?php else: ?>
                 <?php if($mode=='add'): ?>
                     <span class="empty">No Data</span>
                 <?php else: ?>
-                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm4Link">View</a>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm4Link">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                 <?php endif; ?>
             <?php endif; ?>
 
@@ -363,15 +363,15 @@ if((null != $this->session->flashdata('success'))):
             ?>
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                 <?php if($mode=='add'): ?>
-                    <a href="#" class="showAddForm" id="showForm5Link">Add</a>
+                    <a href="#" class="showAddForm" id="showForm5Link">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                 <?php else: ?>
-                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm5Link">Edit</a>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm5Link">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                 <?php endif; ?>
             <?php else: ?>
                 <?php if($mode=='add'): ?>
                     <span class="empty">No Data</span>
                 <?php else: ?>
-                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm5Link">View</a>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm5Link">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                 <?php endif; ?>
             <?php endif; ?>
 
@@ -405,15 +405,15 @@ if((null != $this->session->flashdata('success'))):
             ?>
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                 <?php if($mode=='add'): ?>
-                    <a href="#" class="showAddForm" id="showForm6Link">Add</a>
+                    <a href="#" class="showAddForm" id="showForm6Link">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                 <?php else: ?>
-                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm6Link">Edit</a>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm6Link">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                 <?php endif; ?>
             <?php else: ?>
                 <?php if($mode=='add'): ?>
                     <span class="empty">No Data</span>
                 <?php else: ?>
-                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm6Link">View</a>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm6Link">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                 <?php endif; ?>
             <?php endif; ?>
 
@@ -448,15 +448,15 @@ if((null != $this->session->flashdata('success'))):
             ?>
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                 <?php if($mode=='add'): ?>
-                    <a href="#" class="showAddForm" id="showForm7Link">Add</a>
+                    <a href="#" class="showAddForm" id="showForm7Link">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                 <?php else: ?>
-                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm7Link">Edit</a>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm7Link">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                 <?php endif; ?>
             <?php else: ?>
                 <?php if($mode=='add'): ?>
                     <span class="empty">No Data</span>
                 <?php else: ?>
-                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm7Link">View</a>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm7Link">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                 <?php endif; ?>
             <?php endif; ?>
 
@@ -491,15 +491,15 @@ if((null != $this->session->flashdata('success'))):
             ?>
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                 <?php if($mode=='add'): ?>
-                    <a href="#" class="showAddForm" id="showForm8Link">Add</a>
+                    <a href="#" class="showAddForm" id="showForm8Link">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                 <?php else: ?>
-                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm8Link">Edit</a>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm8Link">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                 <?php endif; ?>
             <?php else: ?>
                 <?php if($mode=='add'): ?>
                     <span class="empty">No Data</span>
                 <?php else: ?>
-                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm8Link">View </a>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm8Link">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                 <?php endif; ?>
             <?php endif; ?>
 
@@ -534,15 +534,15 @@ if((null != $this->session->flashdata('success'))):
             ?>
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                 <?php if($mode=='add'): ?>
-                    <a href="#" class="showAddForm" id="showForm9Link">Add</a>
+                    <a href="#" class="showAddForm" id="showForm9Link">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                 <?php else: ?>
-                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm9Link">Edit</a>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm9Link">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                 <?php endif; ?>
             <?php else: ?>
                 <?php if($mode=='add'): ?>
                     <span class="empty">No Data</span>
                 <?php else: ?>
-                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm9Link">View</a>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm9Link">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                 <?php endif; ?>
             <?php endif; ?>
 
@@ -577,15 +577,15 @@ if((null != $this->session->flashdata('success'))):
             ?>
             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                 <?php if($mode=='add'): ?>
-                    <a href="#"class="showAddForm" id="showForm10Link">Add</a>
+                    <a href="#"class="showAddForm" id="showForm10Link">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                 <?php else: ?>
-                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm10Link">Edit</a>
+                    <a href="#" class="showEditForm" data-entity-id="<?php echo($entityId); ?>" id="editForm10Link">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                 <?php endif; ?>
             <?php else: ?>
                 <?php if($mode=='add'): ?>
                     <span class="empty">No Data</span>
                 <?php else: ?>
-                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm10Link">View</a>
+                    <a href="#" class="showViewForm" data-entity-id="<?php echo($entityId); ?>" id="viewForm10Link">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                 <?php endif; ?>
             <?php endif; ?>
 

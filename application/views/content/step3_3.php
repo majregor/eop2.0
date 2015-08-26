@@ -62,12 +62,12 @@ $entities = $page_vars['entities'];
                         <td align="center">
                         <?php if($value['description'] == 'live' && !empty($value['description'])): ?>
                             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
-                                <a href="#" id="<?php echo $value['id'];?>" class="editFieldsLink">Edit</a>
+                                <a href="#" id="<?php echo $value['id'];?>" class="editFieldsLink">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                             <?php else: ?>
-                                <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View</a>
+                                <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                             <?php endif; ?>
                         <?php else: ?>
-                                <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View</a>
+                                <a href="#" id="<?php echo $value['id'];?>" class="viewFieldsLink">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                         <?php endif; ?>
                         </td>
                     </tr>
@@ -82,7 +82,7 @@ $entities = $page_vars['entities'];
                                         <td><?php echo $value['name']; ?></td>
                                         <td align="center">
                                             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
-                                                <a href="#" id="<?php echo $value['id'];?>" class="addFieldsLink">Add</a>
+                                                <a href="#" id="<?php echo $value['id'];?>" class="addFieldsLink">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                                                 <?php else: ?>
                                                     No data to view
                                             <?php endif; ?>
@@ -373,11 +373,12 @@ $entities = $page_vars['entities'];
             return false;
         });
 
+
         $(document).on('change','select', function(){
             if($(this).val() !=""){
                 $(this).removeClass('error');
             }
-            if($(this).val().trim()=="other"){
+            if($("option:selected", this).text().trim().toLowerCase()=="other"){
                 $("#new-fn-dialog").dialog('open');
                 return false;
             }
@@ -426,13 +427,22 @@ $entities = $page_vars['entities'];
                         var functionElements = $("select:not(#slctsubdistrictselection)");
                         $.each(functionElements, function(key, value){
 
+                            var selectedOption = $(value).val();
+
                             $(value).empty();
 
                             $.each(functions, function (k, v) {
 
+                                if(selectedOption == v.id){
+                                    $(value).append($("<option></option>")
+                                        .attr("value", v.id)
+                                        .attr("selected", "selected")
+                                        .text(v.name));
+                                }else{
                                     $(value).append($("<option></option>")
                                         .attr("value", v.id)
                                         .text(v.name));
+                                }
 
                             });
                             //Add the last option "Other"
@@ -450,6 +460,7 @@ $entities = $page_vars['entities'];
                 }
             });
 
+            $("#newFnForm")[0].reset();
             $("#new-fn-dialog").dialog("close");
             return false;
         }

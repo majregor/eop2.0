@@ -10,8 +10,8 @@
     <?php if((isset($fileData['main']['file_name']) || isset($fileData['cover']['file_name']) ) && (!empty($fileData['main']) || !empty($fileData['cover']))): ?>
         <table class="filedl">
             <tr>
-                <th scope="col" style="width:40%;">File Name</th>
-                <th scope="col" style="width:12%;">Type</th>
+                <th scope="col" style="width:30%;">File Name</th>
+                <th scope="col" style="width:22%;">Type</th>
                 <th scope="col" style="width:34%;">Upload Date</th>
                 <th scope="col" style="width:14%;">Download</th>
                 <?php if($this->session->userdata['role']['read_only']=='n'): ?>
@@ -24,7 +24,7 @@
                     <?php if(isset($fileInfo['file_name']) && !empty($fileInfo['file_name']) && is_file($fileInfo['full_path'])): ?>
                         <tr>
                             <td><a href="<?php echo(base_url("/uploads/")."/".$fileInfo['file_name']);?>" target="_blank"><?php echo($fileInfo['file_name']);?></a></td>
-                            <td><?php echo($key); ?></td>
+                            <td><?php echo(($key=='cover') ? 'Cover Page': 'Basic Plan'); ?></td>
                             <td><?php echo(date("F d Y H:i:s", filemtime($fileInfo['full_path'])));?></td>
                             <td><a href="<?php echo(base_url("/uploads/")."/".$fileInfo['file_name']);?>" target="_blank" title="Download file">Download</a></a></td>
                             <?php if($this->session->userdata['role']['read_only']=='n'): ?>

@@ -433,7 +433,7 @@ input[type=button], input[type=submit], input[type=reset] {
     font-size: .9em;
     outline: none !important;
 }
-input[type=button]:hover,input[type=submit]:hover  {
+input[type=button]:hover,input[type=submit]:hover, input[type=reset]:hover  {
     background: #4CA6DB;
 }
 
@@ -863,6 +863,9 @@ color: #000000;
     overflow-x: hidden;
 }
 
+
+
+
 /**
 **** Added by Godfrey as part of 2.0 Major upgrade
 */
@@ -1116,6 +1119,79 @@ a.current{
 #loading img{width:30px; height:30px; position:fixed; top:50%; left:50%}
 #loading span{display:block;width:auto; margin-top: 35px; position:fixed; top:50%; left:50%}
 .empty{color:#CCC; font-style: italic;}
+
+/*
+Team List Table
+*/
+table#teamListTable tr:nth-of-type(even){
+    background: #eee;
+}
+@media only screen and (max-width: 768px), (min-device-width: 768px) and (max-device-width: 1024px) {
+
+    table#teamListTable, #teamListTable thead, #teamListTable tbody, #teamListTable th, #teamListTable td, #teamListTable tr {
+        display: block;
+    }
+    #teamListTable thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    #teamListTable tr {
+        border: 1px solid #ccc;
+    }
+
+    #teamListTable td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50% !important;
+    }
+
+    #teamListTable td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 11px;
+    }
+
+    #teamListTable td:nth-of-type(1):before {
+        content: "Name";
+    }
+
+    #teamListTable td:nth-of-type(2):before {
+        content: "Title";
+    }
+
+    #teamListTable td:nth-of-type(3):before {
+        content: "Organization";
+    }
+
+    #teamListTable td:nth-of-type(4):before {
+        content: "Email";
+    }
+
+    #teamListTable td:nth-of-type(5):before {
+        content: "Phone";
+    }
+
+    #teamListTable td:nth-of-type(6):before {
+        content: "Stakeholder category";
+    }
+
+    #teamListTable td:nth-of-type(7):before {
+        content: "Action";
+    }
+
+    #teamListTable td:nth-of-type(8):before {
+        content: "Action";
+    }
+}
 
 
 

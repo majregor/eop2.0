@@ -1,5 +1,5 @@
 body{
-    background-image:url("../img/loginbg.jpg");
+    background-image:url("../img/loginbg.png");
     background-color: #132141;
 }
 #container {
@@ -270,8 +270,7 @@ login
 p.logotxt {
     display: block;
     width: 250px;
-    font-family: "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
-    font-style:italic;
+    font-style:normal;
     font-weight:bolder;
     font-size: 2.5em;
     color: #ffffff;
@@ -308,17 +307,17 @@ p.logintxtbtm {
 	display: block;
 	position: relative;
 	color: #ffffff;
-	top: 11.8px;
 	left: -1.55%;
-	padding: 20px 10px;	
+	padding: 10px;	
 	width: 100.6%;
 	line-height: 1.35em;
 	font-size: .85em;
 	border-radius: 0px 0px 5px 5px;
 	-webkit-border-radius: 0px 0px 5px 5px;
 	-moz-border-radius: 0px 0px 5px 5px ;
-	background-color: #84B537;
 	letter-spacing: .5px;
+	background-color: #85962A;
+	top: 12px;
 }
 
 #logos 	{
@@ -327,12 +326,13 @@ p.logintxtbtm {
     position: relative;
 }
 
-#logos img.REMSlogo, #logos img.DOEDlogo {
-    float: right !important;
+#logos img.DOEDlogo {
+    float: left !important;
     margin-bottom: 10px;
 }
 
 img.REMSlogo {
     padding-right: 15px;
+	float: right;
 }
 

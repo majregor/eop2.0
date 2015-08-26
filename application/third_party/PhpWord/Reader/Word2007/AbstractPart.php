@@ -113,6 +113,7 @@ abstract class AbstractPart
             }
         }
 
+
         // PreserveText
         if ($xmlReader->elementExists('w:r/w:instrText', $domNode)) {
             $ignoreText = false;
@@ -175,6 +176,7 @@ abstract class AbstractPart
                         $node,
                         //($runLinkCount > 1) ? $parent->addTextRun($paragraphStyle) : $parent, Godfrey modification
                         $parentTextRun,
+                        $parent,
                         $docPart,
                         $paragraphStyle
                     );
@@ -195,8 +197,24 @@ abstract class AbstractPart
      *
      * @todo Footnote paragraph style
      */
-    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $docPart, $paragraphStyle = null)
+    protected function readRun(XMLReader $xmlReader, \DOMElement $domNode, $parent, $section = null, $docPart, $paragraphStyle = null)
     {
+
+        $ignoredElements = array('mc:Fallback','wp:positionH', 'wp:positionV', );
+
+        foreach($domNode->childNodes as $childNode){
+
+            if($childNode->nodeName =='w:p'){
+                $parent->addTextBreak(null, $paragraphStyle);
+            }
+
+            if($childNode->nodeType == XML_ELEMENT_NODE && !in_array($childNode->nodeName, $ignoredElements)){
+
+                $this->readRun($xmlReader, $childNode, $parent, $section, $docPart, $paragraphStyle);
+            }
+
+        }
+
         if (!in_array($domNode->nodeName, array('w:r', 'w:hyperlink'))) {
             return;
         }
@@ -211,8 +229,16 @@ abstract class AbstractPart
                 $parent->addLink($target, htmlspecialchars($textContent), $fontStyle, $paragraphStyle);
             }
         } else {
+            //Page and Text Breaks
+            if($xmlReader->elementExists('w:br', $domNode)){
+                if($xmlReader->getAttribute('w:type', $domNode, 'w:br') == 'page'){
+                    $section->addPageBreak(); // PageBreak
+                }else{
+                    $parent->addTextBreak(null, $paragraphStyle);
+                }
+            }
             // Footnote
-            if ($xmlReader->elementExists('w:footnoteReference', $domNode)) {
+            elseif ($xmlReader->elementExists('w:footnoteReference', $domNode)) {
                 $parent->addFootnote();
 
             // Endnote
@@ -221,21 +247,105 @@ abstract class AbstractPart
 
             // Image
             } elseif ($xmlReader->elementExists('w:pict', $domNode)) {
+
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:pict/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
                     $imageSource = "zip://{$this->docFile}#{$target}";
                     $parent->addImage($imageSource);
                 }
+            }
+            //Drawing
+            elseif($xmlReader->elementExists('w:drawing', $domNode)) {
 
-            // Object
-            } elseif ($xmlReader->elementExists('w:object', $domNode)) {
+                $rId = null;
+
+                $nodes = $xmlReader->getElements('w:drawing/*', $domNode);
+                if ($nodes->length > 0) {
+                    foreach ($nodes as $node) {
+
+                        if($node->nodeName =="wp:inline" || $node->nodeName=="wp:anchor"){
+
+                            $childNodes = $xmlReader->getElements('*', $node);
+
+                            if($childNodes->length > 0){
+
+                                foreach($childNodes as $childNode){
+                                    //echo $childNode->nodeName."<br/>";
+                                    if($childNode->nodeName == "a:graphic"){
+                                        if($xmlReader->elementExists('a:graphicData', $childNode)){
+                                            $graphicDataNode = $xmlReader->getElement('a:graphicData', $childNode);
+                                            foreach($graphicDataNode->childNodes as $graphicDataChildNode){ //the pic:pic node
+                                                if($graphicDataChildNode->hasChildNodes()){
+                                                    $supportedNodes = array('nonVisualProperties'=>'pic:nvPicPr', 'image'=>'pic:blipFill', 'shape'=>'pic:spPr');
+                                                    foreach($graphicDataChildNode->childNodes as $graphicDataGrandChildNode){
+
+                                                        switch($graphicDataGrandChildNode->nodeName){
+
+                                                            case $supportedNodes['nonVisualProperties']:
+                                                                break;
+                                                            case $supportedNodes['image']:
+                                                                foreach($graphicDataGrandChildNode->childNodes as $imageDataNode){
+                                                                    if($imageDataNode->nodeName=='a:blip'){
+                                                                        if($imageDataNode->hasAttributes()){
+                                                                            $attributes = $imageDataNode->attributes;
+                                                                            if($attributes->length > 0){
+                                                                                for($i=0; $i <$attributes->length; $i++){
+                                                                                    if($attributes->item($i)->nodeName =='r:embed'){
+                                                                                        $rId = $attributes->item($i)->nodeValue;
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }elseif($imageDataNode->nodeName=='a:stretch'){
+
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                                break;
+                                                            case $supportedNodes['shape']:
+                                                                break;
+                                                        }
+                                                    }
+
+                                                    if($rId !== null && $rId !=''){
+                                                        $target = $this->getMediaTarget($docPart, $rId);
+                                                        if (!is_null($target)) {
+                                                            $imageSource = "zip://{$this->docFile}#{$target}";
+
+                                                            //Calculate image dimensions
+                                                            $imageStyle = array();
+                                                            if($imageSize = getimagesize($imageSource)){
+                                                                $imageWidth = $imageSize[0];
+                                                                $imageHeight = $imageSize[1];
+                                                                $pageWidth = $section->getStyle()->getPageSizeW();
+
+                                                                $imageStyle = $this->processImageDimensions($imageWidth, $imageHeight, $pageWidth);
+                                                            }
+                                                            $parent->addImage($imageSource, $imageStyle);
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            //Object
+            }
+            elseif ($xmlReader->elementExists('w:object', $domNode)) {
                 $rId = $xmlReader->getAttribute('r:id', $domNode, 'w:object/o:OLEObject');
                 // $rIdIcon = $xmlReader->getAttribute('r:id', $domNode, 'w:object/v:shape/v:imagedata');
                 $target = $this->getMediaTarget($docPart, $rId);
                 if (!is_null($target)) {
                     $textContent = "<Object: {$target}>";
-                    $parent->addText(htmlspecialchars($textContent), $fontStyle, $paragraphStyle);
+                    $parent->addText($textContent, $fontStyle, $paragraphStyle);
                 }
 
             // TextRun
@@ -246,6 +356,33 @@ abstract class AbstractPart
         }
     }
 
+    /**
+     * Calculate Image dimensions
+     *
+     * @return array
+     */
+    private function processImageDimensions($imgWidth, $imgHeight, $pageSizeW){
+
+        $maxWidth = \PhpOffice\PhpWord\Shared\Drawing::twipsToPixels($pageSizeW);
+
+        $threshold = $maxWidth - (0.1 * $maxWidth);
+
+        if($imgWidth > $threshold){
+            $ratio = $imgHeight / $imgWidth;
+            $imgWidth = $threshold;
+            $imgHeight = intval($ratio * $imgWidth);
+        }
+
+        return array(
+            'width'             =>  $imgWidth,
+            'height'            =>  $imgHeight,
+            'marginTop'         =>  1,
+            'marginLeft'        =>  1,
+            'wrappingStyle'     =>  \PhpOffice\PhpWord\Style\Image::WRAPPING_STYLE_INLINE
+        );
+
+
+    }
     /**
      * Read w:tbl.
      *
@@ -451,20 +588,27 @@ abstract class AbstractPart
     protected function readStyleDefs(XMLReader $xmlReader, \DOMElement $parentNode = null, $styleDefs = array())
     {
         $styles = array();
+        $isList = false; // Godfrey addition to fix indentation on paragraph lists from read documents...
 
         foreach ($styleDefs as $styleProp => $styleVal) {
             @list($method, $element, $attribute, $expected) = $styleVal;
 
             if ($xmlReader->elementExists($element, $parentNode)) {
-                $node = $xmlReader->getElement($element, $parentNode);
+                if($element !='w:ind' && !$isList){
+                    $node = $xmlReader->getElement($element, $parentNode);
 
-                // Use w:val as default if no attribute assigned
-                $attribute = ($attribute === null) ? 'w:val' : $attribute;
-                $attributeValue = $xmlReader->getAttribute($attribute, $node);
+                    // Use w:val as default if no attribute assigned
+                    $attribute = ($attribute === null) ? 'w:val' : $attribute;
+                    $attributeValue = $xmlReader->getAttribute($attribute, $node);
 
-                $styleValue = $this->readStyleDef($method, $attributeValue, $expected);
-                if ($styleValue !== null) {
-                    $styles[$styleProp] = $styleValue;
+                    if($attributeValue == 'ListParagraph'){
+                        $isList = true;
+                    }
+                    /*echo $attributeValue . '<br/>';*/
+                    $styleValue = $this->readStyleDef($method, $attributeValue, $expected);
+                    if ($styleValue !== null) {
+                        $styles[$styleProp] = $styleValue;
+                    }
                 }
             }
         }

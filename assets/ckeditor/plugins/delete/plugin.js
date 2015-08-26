@@ -36,8 +36,11 @@ function deleteDialog(editor) {
 
         var itemId = editor.element.getAttribute('data-id');
         var index = editor.element.getAttribute('item-index');
-        var objRow = document.getElementById("objRow"+index);
-        var functionRow = document.getElementById("functionRow"+index);
+        var entType = editor.element.getAttribute('ent-type');
+        var objRow = document.getElementById("objRow"+entType+index);
+        if(step=="3/3" || step == "5/2") {
+            var functionRow = document.getElementById("functionRow" + entType + index);
+        }
 
         var formData = {
             ajax: 1,
@@ -48,12 +51,13 @@ function deleteDialog(editor) {
         $.ajax({
             url: '../../plan/removeObjective',
             data: formData,
-            cache: false,
             type: 'POST',
             success: function (response) {
                 if(response == 'deleted'){
-                    objRow.remove();
-                    functionRow.remove();
+                    objRow.parentNode.removeChild(objRow);
+                    if(step=="3/3" || step == "5/2") {
+                        functionRow.parentNode.removeChild(functionRow);
+                    }
                 }
                 //alert(response);
             }

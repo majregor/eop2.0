@@ -487,6 +487,7 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
       
       case 'ul':
         $state['list_total_count'] = count($element->children);
+        $state['listStyle'] = array('listType'=>\PhpOffice\PhpWord\Style\ListItem::TYPE_BULLET_FILLED);
         // We use this to be able to add the ordered list spaceAfter onto the
         // last list element. All ol children should be li elements.
         _htmltodocx_add_list_start_end_spacing_style($state);
@@ -519,7 +520,22 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
       break;
       
       case 'ol':
-        $state['list_total_count'] = count($element->children); 
+        $state['list_total_count'] = count($element->children);
+
+        if(isset($state['numbered_lists'])){
+          if($state['numbered_lists']<32){
+            $state['numbered_lists'] ++;
+          }else{
+            $state['numbered_lists'] = 0;
+          }
+        }else{
+          $state['numbered_lists'] = 0;
+        }
+
+        $var = ("TYPE_PURE_NUMBER_NESTED_".$state['numbered_lists']);
+
+        $state['listStyle'] = array('listType'=>constant("\PhpOffice\PhpWord\Style\ListItem::$var"));
+
         // We use this to be able to add the ordered list spaceAfter onto the
         // last list element. All ol children should be li elements.
         _htmltodocx_add_list_start_end_spacing_style($state);
@@ -532,10 +548,16 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
             // then subsequent text will go in that text run (if it isn't 
             // re-initialised), which would mean that text after this list
             // would appear before it in the Word document.
-          }
-          array_unshift($state['parents'], 'ol');
-          htmltodocx_insert_html_recursive($phpword_element, $element->nodes, $state);
-          array_shift($state['parents']);
+          }elseif($state['pseudo_list']==true) {
+              array_unshift($state['parents'], 'ol');
+              $state['current_list_depth']++;//todo set default list style
+              htmltodocx_insert_html_recursive($phpword_element, $element->nodes, $state);
+              array_shift($state['parents']);
+              $state['current_list_depth']--;
+          }else{
+                //Modification for numbered list elements formatting
+              _htmltodocx_add_list_items($phpword_element, $element->nodes, $state);
+            }
         }
         else {
           $state['textrun'] = $phpword_element->createTextRun();
@@ -547,7 +569,7 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
         // You cannot style individual pieces of text in a list element so we do it
         // with text runs instead. This does not allow us to indent lists at all, so
         // we can't show nesting.
-        
+
         // Before and after spacings:
         if ($state['list_number'] === 0) {
           $state['current_style'] = array_merge($state['current_style'], $state['list_style_before']); 
@@ -565,9 +587,11 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
         }
 
         // We create a new text run for each element:
-        //$state['textrun'] = $phpword_element->createTextRun($state['current_style']);
-          $state['textrun'] = $phpword_element->addListItemRun($state['current_list_depth']/*, $state['current_style']*/);
-        
+          $listStyle = isset($state['listStyle']) ? $state['listStyle'] : array('listType'=>\PhpOffice\PhpWord\Style\ListItem::TYPE_BULLET_FILLED);
+          $state['textrun'] = $phpword_element->addListItemRun($state['current_list_depth'], $listStyle);
+
+
+
         if (in_array('li', $allowed_children)) {
           $state['list_number']++;
           if ($state['parents'][0] == 'ol') {
@@ -759,7 +783,7 @@ function _htmltodocx_add_list_items(&$phpword_element, $html_dom_array, &$state)
         foreach ($html_dom_array as $element) {
             switch ($element->tag) {
                 case 'li':
-                    $section->addListItem($element->innertext);
+                    $section->addListItem($element->innertext );
                     break;
             }
         }

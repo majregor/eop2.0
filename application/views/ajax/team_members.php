@@ -27,7 +27,8 @@
 
 if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
     ?>
-    <table class="teamresult">
+    <table id="teamListTable" class="teamresult" width="100%">
+        <thead>
         <tr>
             <th scope="col">Name</th>
             <th scope="col">Title</th>
@@ -39,12 +40,14 @@ if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
                 <a href="<?php echo(base_url('report/export/members'));?>" target="_blank"><input type="button" value="Export List" style="border: 1px solid #ddd;" /></a>
             </th>
         </tr>
+        </thead>
+        <tbody>
         <?php foreach ($memberData as $key => $value): ?>
             <tr>
-                <td scope="col"><?php echo $value['name']; ?></td>
+                <td scope="col"><div style="word-wrap: break-word; nowrap:wrap; max-width:120px"><?php echo $value['name']; ?></div></td>
                 <td scope="col"><?php echo $value['title']; ?></td>
-                <td scope="col"><?php echo $value['organization']; ?></td>
-                <td scope="col"><a href="mailto:<?php echo $value['email']; ?>"><?php echo $value['email']; ?></a></td>
+                <td scope="col"><div style="word-wrap: break-word; nowrap:wrap; max-width:120px"><?php echo $value['organization']; ?></div></td>
+                <td scope="col"><div style="word-wrap: break-word; nowrap:wrap; max-width:120px"><a href="mailto:<?php echo $value['email']; ?>"><?php echo $value['email']; ?></a></div></td>
                 <td scope="col"><?php echo $value['phone']; ?></td>
                 <td scope="col"><?php echo str_replace(",", "<br />", $value['interest']); ?></td>
                 <?php if($this->session->userdata['role']['read_only']=='n'): ?>
@@ -75,6 +78,7 @@ if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
 
             </tr>
         <?php endforeach; ?>
+        </tbody>
     </table>
     <div id="delete_team-member-dialog" title="Delete Team Member">
         <p style="margin-top:20px;">Are you sure you want to delete this team member?</p>

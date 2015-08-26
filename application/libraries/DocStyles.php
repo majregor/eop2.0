@@ -7,7 +7,7 @@ class DocStyles {
         2 =>    array('size'=>14, 'color'=>'666666', 'bold'=>true),
         3 =>    array('size'=>12, 'color'=>'666666', 'bold'=>true),
         4 =>    array('size'=>12, 'color'=>'666666'),
-        5 =>    array('size'=>8, 'color'=>'666666')
+        5 =>    array('size'=>12, 'color'=>'666666')
     );
 
     var  $fontStyles = array(

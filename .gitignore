@@ -14,3 +14,9 @@ php_errors.log
 .idea/dataSources.ids
 
 .htaccess
+
+application/config/config.php
+
+application/config/config.php
+
+php_errors.log

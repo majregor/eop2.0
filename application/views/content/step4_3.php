@@ -122,22 +122,22 @@ $entities = $page_vars['entities'];
                         <?php if($value['description'] == 'live' && !empty($value['description'])): ?>
                             <?php if($this->session->userdata['role']['read_only']=='n'): ?>
                                 <?php if($mode=='add'): ?>
-                                    <a href="#" id="<?php echo $value['id'];?>" class="addThActionLink">Add</a>
+                                    <a href="#" id="<?php echo $value['id'];?>" class="addThActionLink">Add <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/add_icon.png" /></a>
                                     <?php else: ?>
-                                        <a href="#" id="<?php echo $value['id'];?>" class="editThActionLink">Edit</a>
+                                        <a href="#" id="<?php echo $value['id'];?>" class="editThActionLink">Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" /></a>
                                 <?php endif; ?>
                             <?php else: ?>
                                 <?php if($mode=='add'): ?>
                                     <span class="empty">No Data</span>
                                 <?php else: ?>
-                                        <a href="#" id="<?php echo $value['id'];?>" class="viewThActionLink">View</a>
+                                        <a href="#" id="<?php echo $value['id'];?>" class="viewThActionLink">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                                 <?php endif; ?>
                             <?php endif; ?>
                         <?php else: ?>
                             <?php if($mode=='add'): ?>
                                 <span class="empty">No Data</span>
                             <?php else: ?>
-                                <a href="#" id="<?php echo $value['id'];?>" class="viewThActionLink">View</a>
+                                <a href="#" id="<?php echo $value['id'];?>" class="viewThActionLink">View <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/view_icon.png" /></a>
                             <?php endif; ?>
                         <?php endif; ?>
                     </td>
