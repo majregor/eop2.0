@@ -31,7 +31,7 @@ $role_level = $this->session->userdata['role']['level'];
             }
         ?>
             <tr>
-                <td><?php echo($school[0]['last_modified']); ?></td>
+                <td><?php echo(date_format(date_create($school[0]['last_modified']), 'm/d/Y g:i a')); ?></td>
                 <?php if($role_level<=3): ?>
                     <td><?php echo($school[0]['name']); ?></td>
                 <?php endif; ?>

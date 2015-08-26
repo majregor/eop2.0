@@ -465,7 +465,7 @@ if($this->session->userdata['role']['level']==3){
                     global_start = start;
                     global_end = end;
 
-                    $("#selectedDate").html(start.toISOString());
+                    $("#selectedDate").html(start.format("L"));
 
 
                     populateStartEndLists();
