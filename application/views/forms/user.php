@@ -176,7 +176,7 @@
     <?php endif; ?>
 
         <tr id="viewonlyRow" style="display: none;">
-            <td><span class="required">*</span> View-Only:</td>
+            <td><span class="required">*</span> View Only:</td>
             <td>
                 <?php
                     $options = array(
