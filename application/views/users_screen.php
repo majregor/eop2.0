@@ -423,7 +423,8 @@ if(isset($viewform)){
                         appendedValue = role;
                     }
 
-                    $('#slctuserrole_update').attr("disabled", true);
+                //Lock admins from editing fellow admin's roles by uncommenting here
+                    //$('#slctuserrole_update').attr("disabled", true);
 
                 }else{
                     $('#slctuserrole_update').attr("disabled", false);
