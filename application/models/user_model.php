@@ -379,9 +379,9 @@ class User_model extends CI_Model {
 
                 return $returnData;
             }
-            //For State admin return all users except Super admin and school user
+            //For State admin return all users except Super admin
             elseif($this->session->userdata['role']['level'] == 2){
-                $excludedRoles = array('1', '5' );
+                $excludedRoles = array('1');
                 $this->db->where_not_in('role_id', $excludedRoles);
                 $query = $this->db->get('eop_view_user');
 
