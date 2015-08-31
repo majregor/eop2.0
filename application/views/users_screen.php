@@ -434,6 +434,7 @@ if(isset($viewform)){
                         appendedValue=null;
                     }
                 }
+
                 $('#slctuserrole_update').val(role);
 
                 if(role >= 2){
@@ -461,7 +462,7 @@ if(isset($viewform)){
 
                 <?php endif; ?>
 
-                if(role >3){
+                if(role >3 ){
                     $('#districtInputHolder').hide();
                 }
                 else{
@@ -476,6 +477,9 @@ if(isset($viewform)){
                 }else{
                     $('#viewonlyInputHolder').show();
                 }
+                    if(role <=2 ){
+                        $('#districtInputHolder').hide();
+                    }
 
                 //Open the update user dialog form
                 $("#update-user-dialog").dialog('open');

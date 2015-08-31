@@ -65,6 +65,7 @@ class District_model extends CI_Model {
             $this->db->select('A.*, B.uid')
                         ->from('eop_district A')
                         ->join('eop_user2district B', 'A.id = B.did')
+                        ->order_by('A.name', 'ASC')
                         ->where(array('uid'=> $this->session->userdata('user_id')));
 
             $query = $this->db->get();
@@ -73,7 +74,7 @@ class District_model extends CI_Model {
         }
         // For Super and State admins return all districts in the state or EOP installation
         else{
-            $query = $this->db->get_where('eop_district', $conditions);
+            $query = $this->db->order_by('name', 'ASC')->get_where('eop_district', $conditions);
             return $query->result_array();
         }
     }

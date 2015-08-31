@@ -59,7 +59,7 @@ if((null != $this->session->flashdata('success'))):
                     'id'        =>  'fname',
                     'required'  =>  'required',
                     'minlength'  =>  '3',
-                    'size'      =>   '55',
+                    'size'      =>   '35',
                     'value'     =>      $user[0]['first_name']
                 );
                 echo form_input($inputAttributes);
@@ -74,7 +74,7 @@ if((null != $this->session->flashdata('success'))):
                     'id'        =>  'last_name',
                     'required'  =>  'required',
                     'minlength'  =>  '3',
-                    'size'      =>  '55',
+                    'size'      =>  '35',
                     'value'     =>      $user[0]['last_name']
                 );
                 echo form_input($inputAttributes);
@@ -87,7 +87,7 @@ if((null != $this->session->flashdata('success'))):
                 $inputAttributes = array(
                     'name'      =>  'phone',
                     'id'        =>  'phone',
-                    'size'      =>  '30',
+                    'size'      =>  '35',
                     'value'     =>    $user[0]['phone']
                 );
                 echo form_input($inputAttributes);
@@ -103,7 +103,7 @@ if((null != $this->session->flashdata('success'))):
                         'required'  =>  'required',
                         'minlength' =>  '3',
                         'type'      =>  'email',
-                        'size'      =>  '50',
+                        'size'      =>  '35',
                         'value'     =>  $user[0]['email'],
                         'disabled'  => 'disabled'
                     );
@@ -119,7 +119,7 @@ if((null != $this->session->flashdata('success'))):
                     'id'        =>  'username',
                     'required'  =>  'required',
                     'minlength' =>  '2',
-                    'size'      =>  '50',
+                    'size'      =>  '35',
                     'value'     =>  $user[0]['username'],
                     'disabled'  =>  'disabled'
                 );
@@ -129,14 +129,14 @@ if((null != $this->session->flashdata('success'))):
             <p>
                 <label>Role</label>
                 <br/>
-                <input type="text" value="<?php echo($user[0]['role']); ?>" disabled="disabled" />
+                <input type="text" value="<?php echo($user[0]['role']); ?>" disabled="disabled" size= "35" />
             </p>
 
             <?php if($role['level']==3): ?>
             <p>
                 <label>District</label>
                 <br/>
-                <input type="text" value="<?php echo($user[0]['district']); ?>" disabled="disabled" />
+                <input type="text" value="<?php echo($user[0]['district']); ?>" disabled="disabled" size= "35" />
             </p>
             <?php endif; ?>
 
@@ -144,7 +144,7 @@ if((null != $this->session->flashdata('success'))):
             <p>
                 <label>School</label>
                 <br/>
-                <input type="text" value="<?php echo($user[0]['school']); ?>" disabled="disabled" />
+                <input type="text" value="<?php echo($user[0]['school']); ?>" disabled="disabled" size= "35" />
             </p>
             <?php endif; ?>
             <p>

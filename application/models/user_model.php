@@ -524,7 +524,7 @@ class User_model extends CI_Model {
      */
     function getDistricts($state){
 
-        $query = $this->db->get_where('eop_district', array('state_val' => $state));
+        $query = $this->db->order_by('name', 'ASC')->get_where('eop_district', array('state_val' => $state));
         return $query->result_array();
 
     }
@@ -542,7 +542,7 @@ class User_model extends CI_Model {
             $conditions['district_id'] = $district;
         }
 
-        $query = $this->db->get_where('eop_school', $conditions);
+        $query = $this->db->order_by('name', 'ASC')->get_where('eop_school', $conditions);
         return $query->result_array();
 
     }
