@@ -20,6 +20,8 @@
     </LI>
     <LI><A href="https://www.llis.dhs.gov/HSEEP/Documents/exercise-plan-template" target="_blank">Homeland Security Exercise Plan Template</A>
     </LI>
- </UL>
+    <li><a href="http://rems.ed.gov/ResourceSubmission/ResourceSubmissions.aspx" target="_blank"> Submit your example to the REMS Tool Box</a></li>
+
+</UL>
  </UL>
 </div>

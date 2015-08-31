@@ -16,7 +16,9 @@
         <h3 class="clicker resources exampleimg">Examples</h3>
 <ul class="reveal">
 <UL>
-  <LI><A href="<?php echo(base_url());?>assets/resources/Examples_of_Goals_and_Objectives_Threats_and_Hazards.pdf" target="_blank">Examples of Goals and Objectives for Threats and Hazards  </A>
+  <LI><A href="<?php echo(base_url());?>assets/resources/Examples_of_Goals_and_Objectives_Threats_and_Hazards.pdf" target="_blank">Examples of Goals and Objectives for Threats and Hazards  </A></li>
+    <li><a href="http://rems.ed.gov/ResourceSubmission/ResourceSubmissions.aspx" target="_blank"> Submit your example to the REMS Tool Box</a></li>
+
 </UL>
 </UL>
 </div>
