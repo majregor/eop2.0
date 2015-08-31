@@ -27,6 +27,9 @@
 
 if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
     ?>
+    <div id="export_list_button">
+        <a href="<?php echo(base_url('report/export/members'));?>" target="_blank"><input type="button" value="Export List" style="border: 1px solid #ddd;" /></a>
+    </div>
     <table id="teamListTable" class="teamresult" width="100%">
         <thead>
         <tr>

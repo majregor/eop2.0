@@ -866,9 +866,9 @@ color: #000000;
 
 
 
-/**
+/**********************************************************************************************************************
 **** Added by Godfrey as part of 2.0 Major upgrade
-*/
+***********************************************************************************************************************
 /* Users management
 */
 .adminMenu{
@@ -1123,10 +1123,21 @@ a.current{
 /*
 Team List Table
 */
+/* Hide the export button */
+#export_list_button {
+    display: none;
+}
 table#teamListTable tr:nth-of-type(even){
     background: #eee;
 }
 @media only screen and (max-width: 768px), (min-device-width: 768px) and (max-device-width: 1024px) {
+
+    /**SHOW THE EXPORT BUTTON*/
+
+    #export_list_button{
+        display: block;
+        margin: 10px;
+    }
 
     table#teamListTable, #teamListTable thead, #teamListTable tbody, #teamListTable th, #teamListTable td, #teamListTable tr {
         display: block;
