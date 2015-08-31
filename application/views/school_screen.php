@@ -50,18 +50,18 @@ if(isset($viewform)){
 
 <div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>school/add">Create New School</a></div>
 
-<div>
+<div style="overflow: auto;">
     <!-- Hidden field used to store selected user id -->
     <input type="hidden" id="selectedSchoolId" value="" />
-    <table id="schoolManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="100%" style="display: block; font-size:13px;">
+    <table id="schoolManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="99%" style="display: block; font-size:13px;">
 
         <thead>
             <tr>
-                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;School Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>School Name</th>
                 <th>School Screen Name</th>
                  <?php 
                     if($role['create_district']=='y'){
-                        echo (" <th>&nbsp;&nbsp;&nbsp;&nbsp;District&nbsp;&nbsp;&nbsp;&nbsp;</th>");
+                        echo (" <th>District</th>");
                         echo("<th>District Screen Name</th>");
                     }
                 ?>
@@ -154,10 +154,12 @@ if(isset($viewform)){
 
         <tfoot>
             <tr>
-                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;School Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>School Name</th>
+                <th>School Screen Name</th>
                  <?php 
                     if($role['create_district']=='y'){
-                        echo (" <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;District&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>");
+                        echo (" <th>District</th>");
+                        echo (" <th>District Screen Name</th>");
                     }
                 ?>
                 <th>EOP</th>

@@ -49,10 +49,10 @@ if(isset($viewform)){
 <?php if($role['level']<5): ?>
 <div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>user/add">Create New User</a></div>
 <?php endif; ?>
-<div>
+<div style="overflow: auto;">
     <!-- Hidden field used to store selected user id -->
     <input type="hidden" id="selectedUserId" value="" />
-    <table id="userManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="100%" style="display: block; font-size:13px;">
+    <table id="userManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="99%" style="display: block; font-size:13px;">
 
         <thead>
             <tr>
@@ -100,7 +100,7 @@ if(isset($viewform)){
                          <?php echo $value['district'] ?>
                     </td>
                 <?php endif; ?>
-                <td>
+                <td style="word-wrap: break-word; nowrap:wrap; max-width:80px">
                      <?php echo (($value['read_only']=='n')? 'No':'Yes'); ?>
                 </td>
                 <td>

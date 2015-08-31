@@ -53,16 +53,16 @@ if(isset($viewform)){
 
     <div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>district/add">Create New District</a></div>
 <?php endif; ?>
-<div>
+<div style="overflow: auto;">
     <!-- Hidden field used to store selected user id -->
     <input type="hidden" id="selectedDistrictId" value="" />
-    <table id="districtManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="100%" style="width:100%;display: block; font-size:13px;">
+    <table id="districtManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="99%" style="width:100%;display: block; font-size:13px;">
 
         <thead>
             <tr>
-                <th>&nbsp;&nbsp;&nbsp;&nbsp;District&nbsp;&nbsp;Name&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Screen&nbsp;&nbsp;Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                <th>&nbsp;&nbsp;&nbsp;&nbsp;Modify&nbsp;&nbsp;District&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th>District Name</th>
+                <th>Screen Name</th>
+                <th>Modify District</th>
             </tr>
         </thead>
 
