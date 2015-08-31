@@ -103,7 +103,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         echo form_dropdown('slctuserrole_update', $options, "$first_key", $otherAttributes);
         ?>
     </p>
-    <?php if($role['level']<2): ?>
+    <?php if($role['level']<=2):  // Super and State admin should edit user districts ?>
         <p id="districtInputHolder">
             <span>&nbsp;</span>
             <label for="sltdistrict_update">District:</label>
@@ -122,7 +122,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         </p>
     <?php endif; ?>
 
-    <?php if($role['level']<2 || $role['level']==3)://Only Super admin and district admin should change user's school ?>
+    <?php if($role['level']<=3)://Only Super admin, state admin and district admin should change user's school ?>
     <p id="SchoolInputHolder">
         <span>&nbsp;</span>
         <label for="sltschool_update">School:</label>

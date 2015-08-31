@@ -127,9 +127,10 @@ if(isset($viewform)){
                         Edit
                     </a>
                      &nbsp;|&nbsp;
-                    <?php if($value['status'] == 'active'): ?>
+                    <?php if($value['status'] == 'active' && $value['user_id'] != $this->session->userdata('user_id')): ?>
                         <a class="blockUserLink"
-                           id="<?php echo($value['user_id']); ?>" href="/user">
+                           id="<?php echo($value['user_id']); ?>" href="/user"
+                            >
                             Block
                         </a>
 
@@ -436,7 +437,7 @@ if(isset($viewform)){
 
                 if(role >= 2){
 
-                    <?php if($role['level']==3): ?> // If logged in as a district admin, show the school to enable school changes
+                    <?php if($role['level']==3 || $role['level']==2): ?> // If logged in as a district or state admin, show the school to enable school changes
                         if(role >3){
                             $('#SchoolInputHolder').show();
                             $('#sltschool_update').val(school);
@@ -444,7 +445,7 @@ if(isset($viewform)){
                             $('#SchoolInputHolder').hide();
                         }
                     <?php endif; ?>
-                    <?php if($role['level']!=3): ?>
+                    <?php if($role['level']>3 || $role['level']<2): ?>
                         $('#SchoolInputHolder').hide();
                     <?php endif; ?>
                 }
@@ -459,11 +460,12 @@ if(isset($viewform)){
 
                 <?php endif; ?>
 
-                if(role >3 || role==2){
+                if(role >3){
                     $('#districtInputHolder').hide();
                 }
                 else{
                     $('#districtInputHolder').show();
+                    $('#sltdistrict_update').val(district);
                 }
                 $('#user_access_permission_update').val(access);
                 $('#user_id_update').val(id);
