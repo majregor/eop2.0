@@ -16,6 +16,9 @@ $role_level = $this->session->userdata['role']['level'];
                 <?php if($role_level<=3): ?>
                 <th>School</th>
                 <?php endif; ?>
+                <?php if($role_level<2): ?>
+                    <th>District</th>
+                <?php endif; ?>
                 <th>Basic Plan Source</th>
                 <th>School EOP</th>
             </tr>
@@ -35,6 +38,9 @@ $role_level = $this->session->userdata['role']['level'];
                 <?php if($role_level<=3): ?>
                     <td><?php echo($school[0]['name']); ?></td>
                 <?php endif; ?>
+                <?php if($role_level<2): ?>
+                    <td><?php echo($school[0]['district']); ?></td>
+                <?php endif; ?>
                 <td>
                     <?php echo($EOP_type=='internal')? "Internal": "External / Uploaded"; ?>
                 </td>
@@ -50,6 +56,9 @@ $role_level = $this->session->userdata['role']['level'];
             <?php if($role_level<=3): ?>
                 <th>School</th>
             <?php endif; ?>
+            <?php if($role_level<2): ?>
+                <th>District</th>
+            <?php endif; ?>
             <th>Basic Plan Source</th>
             <th>School EOP</th>
         </tr>
@@ -61,7 +70,17 @@ $role_level = $this->session->userdata['role']['level'];
     $(document).ready(function(){
         $("#arrow_nav").hide();
 
-        <?php if($this->session->userdata['role']['role_id']<=3): ?>
+        <?php if($this->session->userdata['role']['role_id']<2): ?>
+        $('#myEOPReportTbl').DataTable({
+            "order" : [[0, "desc"]],
+            "bFilter": false, // For the search text box
+            "bInfo": true, // For the "Showing 1 to 10 of x entries" text at the bottom
+            "columnDefs": [
+                {"orderable": false, "targets": [3,4] }
+            ]
+        });
+        <?php else: ?>
+            <?php if($this->session->userdata['role']['role_id']<=3): ?>
             $('#myEOPReportTbl').DataTable({
                 "order" : [[0, "desc"]],
                 "bFilter": false, // For the search text box
@@ -70,7 +89,7 @@ $role_level = $this->session->userdata['role']['level'];
                     {"orderable": false, "targets": [2,3] }
                 ]
             });
-        <?php else: ?>
+            <?php else: ?>
             $('#myEOPReportTbl').DataTable({
                 "order" : [[0, "desc"]],
                 "bFilter": false, // For the search text box
@@ -79,6 +98,8 @@ $role_level = $this->session->userdata['role']['level'];
                     {"orderable": false, "targets": [2] }
                 ]
             });
+            <?php endif; ?>
         <?php endif; ?>
+
     });
 </script>

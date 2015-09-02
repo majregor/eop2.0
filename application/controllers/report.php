@@ -309,8 +309,8 @@ class Report extends CI_Controller{
                             'id'                    => null,
                             'district-id'           => 0,
                             'state'                 => $state,
-                            'name'                  => $state . ' State School',
-                            'screen_name'           => $state . ' State School',
+                            'name'                  => 'State of '.$state,
+                            'screen_name'           => 'State of '.$state,
                             'has_data'              => true,
                             'last_modified'         => $this->report_model->getLastModifiedDate(null),
                             'preferences'           => $preferences
@@ -362,8 +362,8 @@ class Report extends CI_Controller{
                         'id' => null,
                         'district-id' => 0,
                         'state' => $loaded_state,
-                        'name' => $loaded_state . ' State School',
-                        'screen_name' => $loaded_state . ' State School',
+                        'name' =>  "State of $loaded_state Sample",
+                        'screen_name' => "State of $loaded_state Sample",
                         'has_data' => true,
                         'last_modified' => $this->report_model->getLastModifiedDate(null)
                     )

@@ -9,6 +9,11 @@ class Migrate extends CI_Controller {
 
         // Load  modules
         $this->load->model('migrate_model');
+        $this->load->model('registry_model');
+        $this->load->model('district_model');
+        $this->load->model('school_model');
+        $this->load->model('user_model');
+        $this->load->model('plan_model');
 
     }
 
@@ -81,8 +86,20 @@ EOF;
 
                 }else{
 
-                    $feedback = array();
-                    $this->migrate_user_data($db_obj);
+                    header('Content-Type: text/octet-stream');
+                    header('Cache-Control: no-cache');
+
+                    //Migrate district data
+                    //$this->migrate_district_data($db_obj);
+
+                    //Migrate school data
+                    //$this->migrate_school_data($db_obj);
+
+                    //Migrate user data
+                    //$this->migrate_user_data($db_obj);
+
+                    //Migrate threats & hazard data
+                    $this->migrate_th_data($db_obj);
                 }
 
             }catch(Exception $e){
@@ -97,29 +114,145 @@ EOF;
 
     /**
      * @param $db_obj
-     * @return array
+     */
+    private function migrate_district_data($db_obj){
+
+        $serverTime = time();
+
+        $obsolete_district_data = $this->migrate_model->getObsoleteDistricts($db_obj);
+
+        if(is_array($obsolete_district_data) && count($obsolete_district_data) > 0){ //If records are returned
+
+            $num_recs = count($obsolete_district_data);
+            $processedRecs = 0;
+
+            $message = "Migrating Districts...";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach($obsolete_district_data as $key=>$record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                //Copy record data into new database
+                $data = array(
+
+                    'name'            =>  $record['code'],
+                    'screen_name'     =>  $record['display_name'],
+                    'state_val'       =>  $this->registry_model->getValue('host_state')
+                );
+
+                $savedRecs = $this->district_model->addDistrict($data);
+
+                $status = (is_numeric($savedRecs) && $savedRecs >=1) ? 'Success' : 'Failure';
+                $this->send_message($serverTime, $percentage . '% user data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+            }
+        }else{
+
+            // No data
+
+        }
+    }
+
+    /**
+     * @param $db_obj
+     */
+    private function migrate_school_data($db_obj){
+
+        $serverTime = time();
+
+        $obsolete_school_data = $this->migrate_model->getObsoleteSchools($db_obj);
+
+
+        if(is_array($obsolete_school_data) && count($obsolete_school_data) > 0){ //If records are returned
+
+            $num_recs = count($obsolete_school_data);
+            $processedRecs = 0;
+
+            $message = "Migrating Schools...";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach($obsolete_school_data as $key=>$record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+                $district = $this->district_model->getDistrictByName($record['district']);
+
+                //Copy record data into new database
+                $data = array(
+
+                    'name'            =>  $record['code'],
+                    'screen_name'     =>  $record['display_name'],
+                    'district_id'     =>  (!empty($district) && is_array($district)) ? $district[0]['id']: null
+                );
+
+                $savedRecs = $this->school_model->addSchool($data);
+
+                $status = (is_numeric($savedRecs) && $savedRecs >=1) ? 'Success' : 'Failure';
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+            }
+        }else{
+
+            // No data
+
+        }
+    }
+
+
+    /**
+     * @param $db_obj
+     * @return void
      */
     private function migrate_user_data($db_obj){
-        header('Content-Type: text/octet-stream');
-        header('Cache-Control: no-cache');
 
-        $messages = array();
+
         $serverTime = time();
 
         $obsolete_users_data = $this->migrate_model->getObsoleteUsers($db_obj);
 
         if(is_array($obsolete_users_data) && count($obsolete_users_data)>0){ //If records  are returned
+
             $num_recs = count($obsolete_users_data);
             $processedRecs = 0;
+
+            $message = "Migrating Users...";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
 
             foreach($obsolete_users_data as $key=>$record){
                 $processedRecs ++;
 
                 $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $district = $this->district_model->getDistrictByName($record['district']);
+                $school = $this->school_model->getSchoolByName($record['school']);
+
                 //Copy record data into new database
+                $data = array(
+                    'role_id'       =>  ($record['user_role'] == '01A') ? 3 : (($record['user_role'] == '02A') ? 4 : 5),
+                    'first_name'    =>  $record['first_name'],
+                    'last_name'     =>  $record['last_name'],
+                    'email'         =>  $record['email'],
+                    'username'      =>  $record['user_id'],
+                    'password'      =>  $record['password'],
+                    'phone'         =>  $record['phone_number'],
+                    'district'      =>  (!empty($district) && is_array($district)) ? $district[0]['id']: '',
+                    'school'        =>  (!empty($school) && is_array($school)) ? $school[0]['id']: '',
+                    'read_only'     =>  'n'
+                );
+
+                $savedRecs = $this->user_model->addUser($data);
+
+                $status = (is_numeric($savedRecs) && $savedRecs >=1) ? 'Success' : 'Failure';
 
 
-                $this->send_message($serverTime, $percentage . '% user data migration complete. server time: ' . date("h:i:s", time()) , $percentage);
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
 
                 sleep(1);
 
@@ -128,51 +261,107 @@ EOF;
 
         }else{
 
-            $messages = array(
-                'status'    =>  'error',
-                'message'   =>  "User table 'tbl_user' was empty! No user data was migrated"
-            );
+            //No data
         }
 
     }
 
-    public function feed(){
-        $this->template->set('page_title', 'Data Migration');
-        $data = array(
-            'page'  =>  'feedback'
-        );
-        $this->template->load('migrate/template', 'migrate/feedback', $data);
-    }
-
-
-    /**
-     * Function returns JSON formatted install progress information to AJAX calls
-     */
-    public function stream()
-    {
-        //type octet-stream. make sure apache does not gzip this type, else it would get buffered
-        //header('Content-Type: text/octet-stream');
-        header('Cache-Control: no-cache'); // recommended to prevent caching of event data.
-
+    private function migrate_th_data($db_obj){
 
 
         $serverTime = time();
 
-        //LONG RUNNING TASK
-        for($i = 0; $i < 10; $i++)
-        {
-            //Hard work!!
+        $obsolete_th_data = $this->migrate_model->getObsoleteThs($db_obj);
+
+        if(is_array($obsolete_th_data) && count($obsolete_th_data)>0){ //If records  are returned
+
+            $num_recs = count($obsolete_th_data);
+            $processedRecs = 0;
+
+            $message = "Migrating Threats and Hazards...";
+            $this->send_message($serverTime, $message, 0);
             sleep(1);
 
-            //send status message
-            $p = ($i+1)*10; //Progress
+            foreach($obsolete_th_data as $key=>$record){
+                $processedRecs ++;
 
-            $this->send_message($serverTime, $p . '% complete. server time: ' . date("h:i:s", time()) , $p);
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+                //Copy record data into new database
+                $data = array(
+                    'name'      =>      $record['th_name'],
+                    'title'     =>      $record['th_name'],
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('th', 'name')
+                );
+
+                $savedRecs = $this->plan_model->addThreatAndHazard($data);
+
+                $status = (is_numeric($savedRecs) && $savedRecs >=1) ? 'Success' : 'Failure';
+
+                if(is_numeric($savedRecs) && $savedRecs >= 1){ //todo continue working on Threats and hazard migration
+
+                    $condition = array('name'=>$record['name']);
+                    $migrated_th = $this->plan_model->getEntities('th', $condition, true, array('orderby'=>'timestamp', 'type'=>'DESC'));
+
+                    if(!empty($migrated_th) && is_array($migrated_th)) {
+
+                        //Add field to newly migrated TH to indicate that it has been initiated
+                        $fieldData = array(
+                            'entity_id' => $migrated_th[0]['id'],
+                            'name' => 'TH Field',
+                            'title' => 'Threats and Hazards Default Field',
+                            'weight' => 1,
+                            'type' => 'text',
+                            'body' => ''
+                        );
+
+                        $recs = $this->plan_model->addField($fieldData);
+                    }
+                }
+
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+
+
+        }else{
+
+            //No data
         }
-        sleep(1);
-        $this->send_message($serverTime, 'message','COMPLETE');
 
     }
+
+    /*function test(){
+
+        $config['hostname'] = 'localhost';
+        $config['username'] = 'root';
+        $config['password'] = 'glyde1';
+        $config['database'] = 'eop';
+        $config['dbdriver'] = strtolower('mysql');
+        $config['dbprefix'] = "";
+        $config['pconnect'] = FALSE;
+        $config['db_debug'] = FALSE;
+        $config['cache_on'] = FALSE;
+        $config['cachedir'] = "";
+        $config['char_set'] = "utf8";
+        $config['dbcollat'] = "utf8_general_ci";
+
+        $db_obj = $this->load->database($config, TRUE);
+        $obsolete_users_data = $this->migrate_model->getObsoleteThs($db_obj);
+
+        print_r($obsolete_users_data);
+        $school = $this->school_model->getSchoolByName('aasdfas');
+        echo('<br>');
+        print_r($school);
+    }*/
+
     /**
     Send a partial message
      */

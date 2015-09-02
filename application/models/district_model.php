@@ -88,5 +88,15 @@ class District_model extends CI_Model {
 
     }
 
+    function getDistrictByName($name){
+
+        $conditions = array('name'=>$name);
+
+        $query = $this->db->get_where('eop_district', $conditions);
+
+        return $query->result_array();
+
+    }
+
 
 }

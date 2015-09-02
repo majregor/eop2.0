@@ -14,77 +14,55 @@ class Migrate_model extends CI_Model {
 
     }
 
+    /**
+     *
+     * @param $db_obj
+     * @return mixed
+     */
     public function getObsoleteUsers($db_obj){
 
-        $query = $db_obj->get('tbl_user');
+        $db_obj->select('A.*, C.code AS district, E.code school')
+            ->from('tbl_user A')
+            ->join('tbl_user_district B',       'A.id = B.user_id',         'left')
+            ->join('tbl_district C',            'B.district_id = C.id',     'left')
+            ->join('tbl_user_sub_district D',   'A.id = D.user_id',         'left')
+            ->join('tbl_sub_district E',        'D.sub_district_id = E.id', 'left');
+
+        $query = $db_obj->get();
 
         return $query->result_array();
     }
 
-    public function getDistrictWideStateAccess($district){
+    public function getObsoleteDistricts($db_obj){
 
- 
-        $districtRow = $this->district_model->getDistrict($district);
+        $query = $db_obj->get('tbl_district');
 
-        return $districtRow[0]['state_permission'];
+        return $query->result_array();
     }
 
-    public function getSchoolWideStateAccess($school){
-        $schoolRow = $this->school_model->getSchool($school);
+    public function getObsoleteSchools($db_obj){
 
-        return $schoolRow[0]['state_permission'];
+        $db_obj->select('A.*, B.code AS district')
+            ->from('tbl_sub_district A')
+            ->join('tbl_district B', 'A.district_id = B.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
     }
 
-    public function grantStatewideAccess(){
-        return $this->registry_model->update('state_permission', 'write');
+    public function getObsoleteThs($db_obj){
+
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_th A')
+            ->join('tbl_user_sub_district B', 'A.modified_by = B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id = C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
     }
 
-    public function revokeStatewideAccess(){
-       return $this->registry_model->update('state_permission', 'deny');
-    }
-
-    public function grantDistrictWideAccess($did){
-        $data = array(
-            'state_permission' => 'write'
-            );
-        return $this->district_model->updateDistrict($did, $data);
-    }
-    public function revokeDistrictWideAccess($did){
-         $data = array(
-            'state_permission' => 'deny'
-            );
-        return $this->district_model->updateDistrict($did, $data);
-    }
-
-
-    public function grantSchoolWideAccess($sid){
-
-        $data = array(
-            'state_permission' => 'write'
-            );
-        return $this->school_model->updateSchool($sid, $data);
-
-    }
-
-    public function revokeSchoolWideAccess($sid){
-
-        $data = array(
-            'state_permission' => 'deny'
-            );
-        return $this->school_model->updateSchool($sid, $data);
-
-    }
-
-    /**
-     * @method getStateAccess
-     *  State Access to EOP
-     */
-    public function getStateAccess(){
-
-        $stateAccess = $this->getStateWideStateAccess();
-
-        return $stateAccess;
-    }
 
 
 }

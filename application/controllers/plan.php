@@ -271,12 +271,7 @@ class Plan extends CI_Controller{
 
     }
 
-    public function test(){
-        //$thData = $this->plan_model->getEntities('th',null,true);
-        $ff = $this->input->post('q4Rows');
-        $data =array('dump' => $ff);
-        $this->load->view('test', $data);
-    }
+
 
     /**
      * Action to add new items

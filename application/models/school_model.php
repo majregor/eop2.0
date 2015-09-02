@@ -105,6 +105,14 @@ class School_model extends CI_Model {
         return $query->result_array();
     }
 
+    function getSchoolByName($name){
+
+        $condition = array('name' => $name);
+        $query = $this->db->get_where('eop_school', $condition);
+
+        return $query->result_array();
+    }
+
 
     function deleteSchool($id){
 
