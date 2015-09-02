@@ -29,6 +29,14 @@ if((null != $this->session->flashdata('error'))):
 <?php endif; ?>
 
 <div class=" boxed-group" style="text-align:center; margin-top:20px;">
+    <p>Progress</p>
+
+    <div style="border:1px solid #ccc; width:80%; height:20px; overflow:auto; background:#eee; display: block; margin: 10px auto;">
+        <div id="progressor" style="background:#07c; width:0%; height:100%;"></div>
+    </div>
+
+    <div style="display:block;border:1px solid #000; padding:10px; width:80%; height:auto; overflow:auto; background:#eee; margin: 10px auto;" id="divProgress"></div>
+
     <h3 id="pane-title">EOP ASSIST 1.0 Database Information</h3>
     <div class="boxed-group-inner clearfix" style="padding: 10px;">
 
@@ -73,6 +81,7 @@ if((null != $this->session->flashdata('error'))):
                     'name'      =>  'database_host',
                     'id'        =>  'database_host',
                     'value'     =>  'localhost',
+                    'required'  =>  'required',
                     'minlength'  =>  '3',
                     'size'      =>   '65%'
                 );
@@ -87,6 +96,7 @@ if((null != $this->session->flashdata('error'))):
                 $inputAttributes = array(
                     'name'      =>  'database_name',
                     'id'        =>  'database_name',
+                    'required'  =>  'required',
                     'value'     =>  '',
                     'minlength'  =>  '3',
                     'size'      =>   '65%'
@@ -103,6 +113,7 @@ if((null != $this->session->flashdata('error'))):
                 $inputAttributes = array(
                     'name'      =>  'database_user_name',
                     'id'        =>  'database_user_name',
+                    'required'  =>  'required',
                     'value'     =>  '',
                     'minlength'  =>  '3',
                     'size'      =>   '65%'
@@ -119,11 +130,12 @@ if((null != $this->session->flashdata('error'))):
                 $inputAttributes = array(
                     'name'      =>  'database_password',
                     'id'        =>  'database_password',
+                    'required'  =>  'required',
                     'value'     =>  '',
                     'minlength'  =>  '3',
                     'size'      =>   '65%'
                 );
-                echo form_input($inputAttributes);
+                echo form_password($inputAttributes);
                 ?>
             </p>
             <p>
@@ -152,5 +164,94 @@ if((null != $this->session->flashdata('error'))):
         </div>
     </div>
 </div>
+<script language="JavaScript" type="text/javascript">
+
+    $(document).ready(function(){
+
+        $("#database_form").validate({
+            submitHandler:AJAXPost
+        });
+
+    });
+
+    function AJAXPost() {
+        var elem   = document.getElementById("database_form").elements;
+        var url    = document.getElementById("database_form").action;
+        var params = "";
+        var value;
+
+        for (var i = 0; i < elem.length; i++) {
+            if (elem[i].tagName == "SELECT") {
+                value = elem[i].options[elem[i].selectedIndex].value;
+            } else {
+                value = elem[i].value;
+            }
+            params += elem[i].name + "=" + encodeURIComponent(value) + "&";
+        }
+
+        try {
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                var xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                var xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xmlhttp.previous_text = '';
+            xmlhttp.onerror = function() { log_message("[XHR] Fatal Error."); };
+
+            xmlhttp.onreadystatechange = function()
+            {
+                try
+                {
+                    /*if(xmlhttp.readyState < 4){
+                        document.getElementById('divProgress').innerHTML="Loading<br>";
+                    }*/
+                    if (xmlhttp.readyState > 2)
+                    {
+                        var new_response = xmlhttp.responseText.substring(xmlhttp.previous_text.length);
+                        var result = JSON.parse( new_response );
+                        log_message(result.message);
+
+                        //update the progressbar
+                        document.getElementById('progressor').style.width = result.progress + "%";
+                        xmlhttp.previous_text = xmlhttp.responseText;
+                    }
+                }
+                catch (e)
+                {
+                    //log_message("<b>[XHR] Exception: " + e + "</b>");
+                }
+
+
+            };
+
+            xmlhttp.open("POST", url, true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.setRequestHeader("Content-length", params.length);
+            xmlhttp.setRequestHeader("Connection", "close");
+            xmlhttp.send(params);
+
+        }
+        catch (e)
+        {
+            log_message("<b>[XHR] Exception: " + e + "</b>");
+        }
+    }
+
+
+
+    function doClear()
+    {
+        document.getElementById("divProgress").innerHTML = "";
+    }
+
+    function log_message(message)
+    {
+        document.getElementById("divProgress").innerHTML += message + '<br />';
+    }
+
+</script>
 
 

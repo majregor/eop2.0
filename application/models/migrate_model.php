@@ -6,19 +6,19 @@
  * Time: 1:03 PM
  */
 
-class Access_model extends CI_Model {
+class Migrate_model extends CI_Model {
 
     public function __construct(){
         parent::__construct();
         $this->load->dbforge();
-        $this->load->model('school_model');
-        $this->load->model('district_model');
 
     }
 
-    public function getStateWideStateAccess(){
+    public function getObsoleteUsers($db_obj){
 
-        return $this->registry_model->getValue('state_permission');
+        $query = $db_obj->get('tbl_user');
+
+        return $query->result_array();
     }
 
     public function getDistrictWideStateAccess($district){
