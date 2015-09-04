@@ -109,7 +109,8 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
             <label for="sltdistrict_update">District:</label>
             <?php
             $options = array();
-            $options['empty'] = '--Select--';
+            $options[''] = '--Select--';
+            $options['none']    =   'None';
             foreach($districts as $rowIndex => $row){
                 $options[$row['id']] = $row['name'];
             }
@@ -128,7 +129,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         <label for="sltschool_update">School:</label>
         <?php
         $options = array();
-        $options['empty'] = '--Select--';
+        $options[''] = '--Select--';
         foreach($schools as $rowIndex => $row){
             $options[$row['id']] = $row['name'];
         }

@@ -8,9 +8,7 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 //echo @$this->session->userdata['database']['hostname'];
 ?>
     <div id="left-pane" style="width:30%; float:left; display:block;">
-        <p>
-        <a href="http://rems.ed.gov/" target="_blank"><img src="<?php echo base_url(); ?>assets/img/REMS-TA-Center.png" width="161" height="59" class="REMSlogo"></a>
-        </p>
+
         <ul class="task-list">
             <li id="step_hosting_level" class="<?php echo ($step=='hosting_level')? 'active': (is_null($step1)? '':'done'); ?>">
                 Choose Hosting Level

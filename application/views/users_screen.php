@@ -319,6 +319,20 @@ if(isset($viewform)){
     });
 
 
+        $(document).on('submit', '#user_form', function(){
+
+            if($('#districtRow').css("display") != "none"){
+
+                var selectedDistrict = $('#sltdistrict').val();
+
+                if(selectedDistrict == "Null" || selectedDistrict == "-1" || selectedDistrict == -1){
+                    $('#sltdistrict').addClass("error");
+                    $('#sltdistrict').focus();
+                    return false;
+                }
+            }
+
+        });
 
 
     /**
@@ -464,10 +478,14 @@ if(isset($viewform)){
 
                 if(role >3 ){
                     $('#districtInputHolder').hide();
+                    $('#sltdistrict_update').attr('required', false);
+                    $('#sltdistrict_update').rules('remove', 'required');
                 }
                 else{
                     $('#districtInputHolder').show();
                     $('#sltdistrict_update').val(district);
+                    $('#sltdistrict_update').attr('required', true);
+                    $('#sltdistrict_update').rules('add', 'required');
                 }
                 $('#user_access_permission_update').val(access);
                 $('#user_id_update').val(id);

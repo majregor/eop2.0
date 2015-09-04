@@ -32,8 +32,8 @@ class App extends CI_Controller {
 
             //echo $this->db->_error_message();
            //var_dump( $this->db->conn_id);
-            echo 'Database not setup';
-            echo $this->db->username;
+            //echo 'Database not setup';
+            //echo $this->db->username;
 
         }
         else{
