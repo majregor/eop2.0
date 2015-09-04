@@ -59,7 +59,7 @@ if((null != $this->session->flashdata('success'))):
                     'id'        =>  'fname',
                     'required'  =>  'required',
                     'minlength'  =>  '3',
-                    'size'      =>   '35',
+                    'size'      =>   '55',
                     'value'     =>      $user[0]['first_name']
                 );
                 echo form_input($inputAttributes);
@@ -74,7 +74,7 @@ if((null != $this->session->flashdata('success'))):
                     'id'        =>  'last_name',
                     'required'  =>  'required',
                     'minlength'  =>  '3',
-                    'size'      =>  '35',
+                    'size'      =>  '55',
                     'value'     =>      $user[0]['last_name']
                 );
                 echo form_input($inputAttributes);
@@ -87,7 +87,7 @@ if((null != $this->session->flashdata('success'))):
                 $inputAttributes = array(
                     'name'      =>  'phone',
                     'id'        =>  'phone',
-                    'size'      =>  '35',
+                    'size'      =>  '55',
                     'value'     =>    $user[0]['phone']
                 );
                 echo form_input($inputAttributes);
@@ -103,7 +103,7 @@ if((null != $this->session->flashdata('success'))):
                         'required'  =>  'required',
                         'minlength' =>  '3',
                         'type'      =>  'email',
-                        'size'      =>  '35',
+                        'size'      =>  '55',
                         'value'     =>  $user[0]['email'],
                         'disabled'  => 'disabled'
                     );
@@ -119,7 +119,7 @@ if((null != $this->session->flashdata('success'))):
                     'id'        =>  'username',
                     'required'  =>  'required',
                     'minlength' =>  '2',
-                    'size'      =>  '35',
+                    'size'      =>  '55',
                     'value'     =>  $user[0]['username'],
                     'disabled'  =>  'disabled'
                 );

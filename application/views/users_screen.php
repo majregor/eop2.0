@@ -453,7 +453,7 @@ if(isset($viewform)){
 
                 if(role >= 2){
 
-                    <?php if($role['level']==3 || $role['level']==2): ?> // If logged in as a district or state admin, show the school to enable school changes
+                    <?php if($role['level']==3 || $role['level']<=2): ?> // If logged in as a district or state admin, show the school to enable school changes
                         if(role >3){
                             $('#SchoolInputHolder').show();
                             $('#sltschool_update').val(school);
@@ -461,7 +461,7 @@ if(isset($viewform)){
                             $('#SchoolInputHolder').hide();
                         }
                     <?php endif; ?>
-                    <?php if($role['level']>3 || $role['level']<2): ?>
+                    <?php if($role['level']>3): ?>
                         $('#SchoolInputHolder').hide();
                     <?php endif; ?>
                 }
@@ -484,8 +484,8 @@ if(isset($viewform)){
                 else{
                     $('#districtInputHolder').show();
                     $('#sltdistrict_update').val(district);
-                    $('#sltdistrict_update').attr('required', true);
-                    $('#sltdistrict_update').rules('add', 'required');
+                    /*$('#sltdistrict_update').attr('required', true);
+                    $('#sltdistrict_update').rules('add', 'required');*/
                 }
                 $('#user_access_permission_update').val(access);
                 $('#user_id_update').val(id);
@@ -518,7 +518,20 @@ if(isset($viewform)){
                 },
                 buttons: {
                     "Update": function(){
-                        $("#update_user_form").submit();
+
+                        if($('#districtInputHolder').css('display') != 'none'){
+                            var selectedDistrict = $('#sltdistrict_update').val();
+
+                            if(selectedDistrict == "Null" || selectedDistrict == "-1" || selectedDistrict == -1){
+                                $('#sltdistrict_update').addClass("error");
+                                $('#sltdistrict_update').focus();
+                                return false;
+                            }else{
+                                $("#update_user_form").submit();
+                            }
+                        }else{
+                            $("#update_user_form").submit();
+                        }
                     },
                     Cancel: function() {
                         $("#update_user_form")[0].reset();

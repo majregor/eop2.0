@@ -109,8 +109,7 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
             <label for="sltdistrict_update">District:</label>
             <?php
             $options = array();
-            $options[''] = '--Select--';
-            $options['none']    =   'None';
+            $options['Null'] = '--Select--';
             foreach($districts as $rowIndex => $row){
                 $options[$row['id']] = $row['name'];
             }
@@ -165,17 +164,39 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 <script>
     $(document).ready(function(){
         $("#slctuserrole_update").change(function(){
+            $('#sltdistrict_update').removeClass('error');
+            $('#sltschool_update').removeClass('error');
+
             if($(this).val()==3){
                 $("#districtInputHolder").show();
                 $("#SchoolInputHolder").hide();
+
+                $("#sltdistrict_update > option[value='']").remove();
+                $('#sltdistrict_update option').eq(1).before($("<option></option>").val("").text("None"));
+
+
+                $('#sltschool_update').attr('required', false);
+                $('#sltschool_update').rules('remove', 'required');
             }
             else if($(this).val()==4 || $(this).val()==5){
                 $("#districtInputHolder").show();
                 $("#SchoolInputHolder").show();
+
+                $("#sltdistrict_update > option[value='']").remove();
+                $('#sltdistrict_update option').eq(1).before($("<option></option>").val("").text("None"));
+
+
+                $('#sltschool_update').attr('required', true);
+                $('#sltschool_update').rules('add', 'required');
+
+                get_schools_in_district($('#sltdistrict_update').val());
             }
             else if($(this).val()==1 || $(this).val()==2){
                 $("#districtInputHolder").hide();
                 $("#SchoolInputHolder").hide();
+
+                $('#sltschool_update').attr('required', false);
+                $('#sltschool_update').rules('remove', 'required');
             }
         });
 

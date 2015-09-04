@@ -64,12 +64,12 @@ if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
                            data-phone="<?php echo $value['phone']; ?>"
                            data-interest="<?php echo $value['interest']; ?>"
                             >
-                            Edit
+                            Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" />
                         </a>
                     </td>
 
                     <td scope="col" width="8%" align="middle">
-                        <a href="" class="teamDeleteLink" id="<?php echo $value['id']; ?>">Delete</a>
+                        <a href="" class="teamDeleteLink" id="<?php echo $value['id']; ?>">Delete <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/remove_icon.png" /></a>
                     </td>
                 <?php else: ?>
 
