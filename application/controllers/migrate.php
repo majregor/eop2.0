@@ -298,28 +298,254 @@ EOF;
                     'type_id'   =>      $this->plan_model->getEntityTypeId('th', 'name')
                 );
 
-                $savedRecs = $this->plan_model->addThreatAndHazard($data);
+                $fieldIds = array();
+                $entityIds = array();
+                $savedRecs = $this->plan_model->addThreatAndHazard($data, $entityIds, $fieldIds);
 
                 $status = (is_numeric($savedRecs) && $savedRecs >=1) ? 'Success' : 'Failure';
 
-                if(is_numeric($savedRecs) && $savedRecs >= 1){ //todo continue working on Threats and hazard migration
+                if(is_numeric($savedRecs) && $savedRecs >= 1){
 
                     $condition = array('name'=>$record['name']);
                     $migrated_th = $this->plan_model->getEntities('th', $condition, true, array('orderby'=>'timestamp', 'type'=>'DESC'));
 
                     if(!empty($migrated_th) && is_array($migrated_th)) {
 
-                        //Add field to newly migrated TH to indicate that it has been initiated
-                        $fieldData = array(
-                            'entity_id' => $migrated_th[0]['id'],
-                            'name' => 'TH Field',
-                            'title' => 'Threats and Hazards Default Field',
-                            'weight' => 1,
-                            'type' => 'text',
-                            'body' => ''
-                        );
+                        $goalData = $this->migrate_model->getTHData($db_obj, $record['id']);
 
-                        $recs = $this->plan_model->addField($fieldData);
+                        if(is_array($goalData) && count($goalData)>0){
+
+                            //Add field to newly migrated TH to indicate that it has been initiated
+                            $fieldData = array(
+                                'entity_id' => $migrated_th[0]['id'],
+                                'name' => 'TH Field',
+                                'title' => 'Threats and Hazards Default Field',
+                                'weight' => 1,
+                                'type' => 'text',
+                                'body' => ''
+                            );
+
+                            $recs = $this->plan_model->addField($fieldData);
+
+                            foreach($goalData as $goalRecords){
+
+                                //Deal with goal 1
+                                $g1 = $goalRecords['g1'];
+                                if(is_array($g1) && count($g1)>0){
+                                    $parent = $g1['parent'];
+                                    if(count($parent)>0){
+                                        $this->plan_model->updateField($fieldIds['g1']['goal'], array('body'=>$parent[0]['g1']));
+
+                                        //add goal's function
+                                        $fndata = array(
+                                            'name'      =>      $parent[0]['fn_name'],
+                                            'title'     =>      $parent[0]['fn_name'],
+                                            'parent'    =>      $entityIds['g1'],
+                                            'owner'     =>      $this->session->userdata('user_id'),
+                                            'sid'       =>      $school[0]['id'],
+                                            'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                                        );
+                                        $this->plan_model->addTHFn($fndata);
+                                    }
+
+                                    //Courses of action only existed for one goal 1
+                                    $course_of_action = $goalRecords['ca'];
+                                    if(count($course_of_action)>0){
+                                        $this->plan_model->updateField($fieldIds['g1']['course_of_action'], array('body'=>$course_of_action[0]['action_text']));
+                                    }
+
+                                    //Loop through objectives and insert respective fields and function data
+                                    $objectives = $g1['objectives'];
+                                    if(is_array($objectives) && count($objectives)>0){
+                                        foreach($objectives as $key => $objective){
+
+                                            $entityId = null;
+
+                                            if($key == 0){ //first goal objective should already exist
+                                                $entityId = $entityIds['g1Obj'];
+                                                $this->plan_model->updateField($fieldIds['g1']['objective'], array('body'=>$objective['obj']));
+                                            }else{
+
+                                                //Create new entity and field
+                                                $entityData = array(
+                                                    'name'      =>      'Goal 1 Objective',
+                                                    'title'     =>      'Objective',
+                                                    'owner'     =>      $this->session->userdata('user_id'),
+                                                    'sid'       =>      $school[0]['id'],
+                                                    'type_id'   =>      $this->plan_model->getEntityTypeId('obj', 'name'),
+                                                    'parent'    =>      $parent[0]['id'],
+                                                    'weight'    =>      $key
+                                                );
+                                                $entityId = $this->plan_model->addEntity($entityData);
+
+                                                $fieldData = array(
+                                                    'entity_id' =>      $entityId,
+                                                    'name'      =>      'Objective Field',
+                                                    'title'     =>      'Objective',
+                                                    'weight'    =>      1,
+                                                    'type'      =>      'text',
+                                                    'body'      =>      $objective['obj']
+                                                );
+                                                $this->plan_model->addField($fieldData);
+                                            }
+
+                                            //add objective's function
+                                            $fnData = array(
+                                                'name'      =>  $objective['fn_name'],
+                                                'title'     =>  $objective['fn_name'],
+                                                'parent'    =>  $entityId,
+                                                'owner'     =>  $this->session->userdata('user_id'),
+                                                'sid'       =>  $school[0]['id'],
+                                                'type_id'   =>  $this->plan_model->getEntityTypeId('fn', 'name')
+                                            );
+                                            $this->plan_model->addTHFn($fnData);
+                                        }
+                                    }
+
+
+                                }
+
+                                //Deal with goal 2
+                                $g2 = $goalRecords['g2'];
+                                if(is_array($g2) && count($g2)>0){
+                                    $parent = $g2['parent'];
+                                    if(count($parent)>0){
+                                        $this->plan_model->updateField($fieldIds['g2']['goal'], array('body'=>$parent[0]['g2']));
+
+                                        //add goal's function
+                                        $fndata = array(
+                                            'name'      =>      $parent[0]['fn_name'],
+                                            'title'     =>      $parent[0]['fn_name'],
+                                            'parent'    =>      $entityIds['g2'],
+                                            'owner'     =>      $this->session->userdata('user_id'),
+                                            'sid'       =>      $school[0]['id'],
+                                            'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                                        );
+                                        $this->plan_model->addTHFn($fndata);
+                                    }
+
+                                    $objectives = $g2['objectives'];
+                                    //Loop through objectives and insert respective fields and function data
+                                    if(is_array($objectives) && count($objectives)>0){
+                                        foreach($objectives as $key => $objective){
+
+                                            $entityId = null;
+
+                                            if($key == 0){ //first goal objective should already exist
+                                                $entityId = $entityIds['g2Obj'];
+                                                $this->plan_model->updateField($fieldIds['g2']['objective'], array('body'=>$objective['obj']));
+                                            }else{
+
+                                                //Create new entity and field
+                                                $entityData = array(
+                                                    'name'      =>      'Goal 2 Objective',
+                                                    'title'     =>      'Objective',
+                                                    'owner'     =>      $this->session->userdata('user_id'),
+                                                    'sid'       =>      $school[0]['id'],
+                                                    'type_id'   =>      $this->plan_model->getEntityTypeId('obj', 'name'),
+                                                    'parent'    =>      $parent[0]['id'],
+                                                    'weight'    =>      $key
+                                                );
+                                                $entityId = $this->plan_model->addEntity($entityData);
+
+                                                $fieldData = array(
+                                                    'entity_id' =>      $entityId,
+                                                    'name'      =>      'Objective Field',
+                                                    'title'     =>      'Objective',
+                                                    'weight'    =>      1,
+                                                    'type'      =>      'text',
+                                                    'body'      =>      $objective['obj']
+                                                );
+                                                $this->plan_model->addField($fieldData);
+                                            }
+
+                                            //add objective's function
+                                            $fnData = array(
+                                                'name'      =>  $objective['fn_name'],
+                                                'title'     =>  $objective['fn_name'],
+                                                'parent'    =>  $entityId,
+                                                'owner'     =>  $this->session->userdata('user_id'),
+                                                'sid'       =>  $school[0]['id'],
+                                                'type_id'   =>  $this->plan_model->getEntityTypeId('fn', 'name')
+                                            );
+                                            $this->plan_model->addTHFn($fnData);
+                                        }
+                                    }
+
+                                }
+
+                                //Deal with goal 3
+                                $g3 = $goalRecords['g3'];
+                                if(is_array($g3) && count($g3)>0){
+                                    $parent = $g3['parent'];
+                                    if(count($parent)>0){
+                                        $this->plan_model->updateField($fieldIds['g3']['goal'], array('body'=>$parent[0]['g3']));
+
+                                        //add goal's function
+                                        $fndata = array(
+                                            'name'      =>      $parent[0]['fn_name'],
+                                            'title'     =>      $parent[0]['fn_name'],
+                                            'parent'    =>      $entityIds['g3'],
+                                            'owner'     =>      $this->session->userdata('user_id'),
+                                            'sid'       =>      $school[0]['id'],
+                                            'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                                        );
+                                        $this->plan_model->addTHFn($fndata);
+                                    }
+
+
+
+                                    $objectives = $g3['objectives'];
+                                    //Loop through objectives and insert respective fields and function data
+                                    if(is_array($objectives) && count($objectives)>0){
+                                        foreach($objectives as $key => $objective){
+
+                                            $entityId = null;
+
+                                            if($key == 0){ //first goal objective should already exist
+                                                $entityId = $entityIds['g3Obj'];
+                                                $this->plan_model->updateField($fieldIds['g3']['objective'], array('body'=>$objective['obj']));
+                                            }else{
+
+                                                //Create new entity and field
+                                                $entityData = array(
+                                                    'name'      =>      'Goal 3 Objective',
+                                                    'title'     =>      'Objective',
+                                                    'owner'     =>      $this->session->userdata('user_id'),
+                                                    'sid'       =>      $school[0]['id'],
+                                                    'type_id'   =>      $this->plan_model->getEntityTypeId('obj', 'name'),
+                                                    'parent'    =>      $parent[0]['id'],
+                                                    'weight'    =>      $key
+                                                );
+                                                $entityId = $this->plan_model->addEntity($entityData);
+
+                                                $fieldData = array(
+                                                    'entity_id' =>      $entityId,
+                                                    'name'      =>      'Objective Field',
+                                                    'title'     =>      'Objective',
+                                                    'weight'    =>      1,
+                                                    'type'      =>      'text',
+                                                    'body'      =>      $objective['obj']
+                                                );
+                                                $this->plan_model->addField($fieldData);
+                                            }
+
+                                            //add objective's function
+                                            $fnData = array(
+                                                'name'      =>  $objective['fn_name'],
+                                                'title'     =>  $objective['fn_name'],
+                                                'parent'    =>  $entityId,
+                                                'owner'     =>  $this->session->userdata('user_id'),
+                                                'sid'       =>  $school[0]['id'],
+                                                'type_id'   =>  $this->plan_model->getEntityTypeId('fn', 'name')
+                                            );
+                                            $this->plan_model->addTHFn($fnData);
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -338,12 +564,12 @@ EOF;
 
     }
 
-    /*function test(){
+    function test(){
 
         $config['hostname'] = 'localhost';
         $config['username'] = 'root';
         $config['password'] = 'glyde1';
-        $config['database'] = 'eop';
+        $config['database'] = 'test';
         $config['dbdriver'] = strtolower('mysql');
         $config['dbprefix'] = "";
         $config['pconnect'] = FALSE;
@@ -354,13 +580,16 @@ EOF;
         $config['dbcollat'] = "utf8_general_ci";
 
         $db_obj = $this->load->database($config, TRUE);
-        $obsolete_users_data = $this->migrate_model->getObsoleteThs($db_obj);
+        $obsolete_th_data = $this->migrate_model->getObsoleteThs($db_obj);
+        $newarr = array();
 
-        print_r($obsolete_users_data);
-        $school = $this->school_model->getSchoolByName('aasdfas');
-        echo('<br>');
-        print_r($school);
-    }*/
+        foreach($obsolete_th_data as $key=>$record){
+            $newarr[] = $this->migrate_model->getTHData($db_obj, $record['id']);
+        }
+
+        print_r($newarr);
+
+    }
 
     /**
     Send a partial message

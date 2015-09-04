@@ -31,7 +31,7 @@ class Plan_model extends CI_Model {
         $this->db->delete('eop_entity', $data);
     }
 
-    public function addThreatAndHazard($data){
+    public function addThreatAndHazard($data, &$entityIds=array(), &$field_ids=array()){
 
         $this->db->insert('eop_entity', $data);
         $insertedId = $this->db->insert_id();
@@ -40,7 +40,7 @@ class Plan_model extends CI_Model {
         /**
          * Add the default goal 1, 2 and 3 objectives as children to the new Threat & Hazard
          */
-        $this->saveDefaultTHGoals($insertedId);
+        $this->saveDefaultTHGoals($insertedId, $entityIds, $field_ids);
 
         return $affected_rows;
 
@@ -293,9 +293,11 @@ class Plan_model extends CI_Model {
      * Saves the default TH Goals and their respective Objectives
      * @method saveDefaultTHGoals
      * @param int parent entity ID
+     * @param [array] by ref. holds newly created entity ids
+     * @param [array] by ref. holds newly created field ids
      * @return void
      */
-    private function saveDefaultTHGoals($parent_id){
+    private function saveDefaultTHGoals($parent_id, &$entityIds=array(), &$field_ids = array()){
         $goalData = array(
             array(
                 'name'      =>      'Goal 1',
@@ -327,9 +329,11 @@ class Plan_model extends CI_Model {
         );
 
         foreach($goalData as $key=> $goal){
+
             $this->db->insert('eop_entity', $goal);
             $inserted_id = $this->db->insert_id();
             $count = $key +1;
+            $entityIds["g{$count}"] = $inserted_id;
 
             $objectiveData = array(
                 'name'      =>      'Goal '.$count.' Objective',
@@ -361,10 +365,14 @@ class Plan_model extends CI_Model {
             );
 
             $this->db->insert('eop_field', $fieldData);
+            $inserted_field_id = $this->db->insert_id();
+            $field_ids["g{$count}"]['goal'] = $inserted_field_id;
+
 
             //Insert Objective Entity and field
             $this->db->insert('eop_entity', $objectiveData);
             $insertedObjective_id = $this->db->insert_id();
+            $entityIds["g{$count}Obj"] = $insertedObjective_id;
             $fieldData = array( //Field for the goal's objective item
                 'entity_id' =>      $insertedObjective_id,
                 'name'      =>      'Goal '.$count.' Objective Field',
@@ -374,11 +382,14 @@ class Plan_model extends CI_Model {
                 'body'      =>      ''
             );
             $this->db->insert('eop_field', $fieldData);
+            $inserted_field_id = $this->db->insert_id();
+            $field_ids["g{$count}"]['objective'] = $inserted_field_id;
 
 
             //Insert Course of Action Entity and field
             $this->db->insert('eop_entity', $courseOfActionData);
             $insertedCourseofAction_id = $this->db->insert_id();
+            $entityIds["g{$count}ca"] = $insertedCourseofAction_id;
             $fieldData = array( //Field for the goal's objective item
                 'entity_id' =>      $insertedCourseofAction_id,
                 'name'      =>      'Goal '.$count.' TH Course of Action Field',
@@ -388,6 +399,8 @@ class Plan_model extends CI_Model {
                 'body'      =>      ''
             );
             $this->db->insert('eop_field', $fieldData);
+            $inserted_field_id = $this->db->insert_id();
+            $field_ids["g{$count}"]['course_of_action'] = $inserted_field_id;
 
         }
 
