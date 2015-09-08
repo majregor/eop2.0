@@ -63,11 +63,24 @@ class Migrate_model extends CI_Model {
         return $query->result_array();
     }
 
+    public function getObsoleteFns($db_obj){
+
+            $db_obj->select('B.id, A.fn_name, E.code AS school')
+                ->from('tbl_fn A')
+                ->join('tbl_goal_second_fn B', 'A.id=B.fn_id')
+                ->join('tbl_goal_second C', 'C.id=B.goal_second_id')
+                ->join ('tbl_user_sub_district D', 'C.modified_by=D.user_id')
+                ->join('tbl_sub_district E', 'D.sub_district_id=E.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+
+    }
+
     public function getTHData($db_obj, $th_id){
 
         $data = array();
-        $action_data = array();
-
 
         //Get goal data
         for($i=1; $i<=3; $i++){
@@ -113,6 +126,61 @@ class Migrate_model extends CI_Model {
 
     }
 
+
+    public function getFNData($db_obj, $fn_id){
+
+        $data = array();
+
+        //Get goal data
+        for($i=1; $i<=3; $i++){
+
+
+            $db_obj->select("A.id, B.g{$i}, C.fn_name, B.id as goal_id")
+                ->from('tbl_goal_second_fn A')
+                ->join("tbl_goal_second_g{$i} B", 'A.id = B.goal_second_fn_id')
+                ->join('tbl_fn C', 'A.fn_id = C.id')
+                ->where(array('A.id'=>$fn_id));
+
+
+            $query = $db_obj->get();
+
+            $results = $query->result_array();
+
+
+            if(count($results)>0){
+                foreach($results as $key => $row){
+                    $data[$i-1]['parent'][] = $row;
+
+                    $db_obj -> select("*")
+                        ->from("tbl_goal_second_g{$i}_obj ")
+                        ->where( array("goal_second_g{$i}_id" => $row['goal_id']));
+
+                    $q = $db_obj ->get();
+
+                    $res = $q->result_array();
+
+                    if(is_array($res) && count($res) > 0){
+                        $data[$i-1]['objectives'] = $res;
+                    }
+                }
+            }
+        }
+
+        //Get course of action data
+        //select A.*, C.id from tbl_fn_action A join tbl_goal_second B on A.goal_second_id=B.id join tbl_goal_second_fn C ON C.goal_second_id=B.id
+        $db_obj->select('A.*, C.id')
+            ->from('tbl_fn_action A')
+            ->join('tbl_goal_second B', 'A.goal_second_id=B.id')
+            ->join('tbl_goal_second_fn C', 'C.goal_second_id=B.id')
+            ->where(array('C.id'=>$fn_id));
+
+        $query = $db_obj ->get();
+        $action_data = $query->result_array();
+
+
+        return array('g1'=>$data[0], 'g2'=>$data[1], 'g3'=>$data[2], 'ca'=>$action_data);
+
+    }
 
 
 }
