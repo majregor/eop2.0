@@ -147,7 +147,7 @@ class Migrate_model extends CI_Model {
             $results = $query->result_array();
 
 
-            if(count($results)>0){
+            if(is_array($results) && count($results)>0){
                 foreach($results as $key => $row){
                     $data[$i-1]['parent'][] = $row;
 
