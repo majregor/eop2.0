@@ -85,6 +85,8 @@ class Migrate_model extends CI_Model {
         //Get goal data
         for($i=1; $i<=3; $i++){
 
+            $data[$i-1] = array();
+
             $db_obj ->select("A.id, A.g{$i}, C.fn_name, B.th_id")
                 ->from("tbl_goal_first_g{$i} A")
                 ->join("tbl_goal_first_th B", "A.goal_first_th_id = B.id")
@@ -111,6 +113,8 @@ class Migrate_model extends CI_Model {
 
                     if(is_array($res) && count($res) > 0){
                         $data[$i-1]['objectives'] = $res;
+                    }else{
+                        $data[$i-1]['objectives'] = array();
                     }
                 }
             }
@@ -134,6 +138,7 @@ class Migrate_model extends CI_Model {
         //Get goal data
         for($i=1; $i<=3; $i++){
 
+            $data[$i-1] = array();
 
             $db_obj->select("A.id, B.g{$i}, C.fn_name, B.id as goal_id")
                 ->from('tbl_goal_second_fn A')
@@ -161,6 +166,8 @@ class Migrate_model extends CI_Model {
 
                     if(is_array($res) && count($res) > 0){
                         $data[$i-1]['objectives'] = $res;
+                    }else{
+                        $data[$i-1]['objectives'] = array();
                     }
                 }
             }

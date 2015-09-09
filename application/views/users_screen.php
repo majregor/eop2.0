@@ -123,7 +123,7 @@ if(isset($viewform)){
                        param7="<?php echo($value['district_id']); ?>"
                        param8="<?php echo($value['school_id']); ?>"
                        param9="<?php echo($value['read_only']); ?>"
-                       id="<?php echo($value['user_id']); ?>" href="/user">
+                       id="<?php echo($value['user_id']); ?>" href="<?php echo(base_url('user')); ?>">
                         Edit
                     </a>
                      &nbsp;|&nbsp;
@@ -478,14 +478,12 @@ if(isset($viewform)){
 
                 if(role >3 ){
                     $('#districtInputHolder').hide();
-                    $('#sltdistrict_update').attr('required', false);
-                    $('#sltdistrict_update').rules('remove', 'required');
+                    $('#sltdistrict_update').attr("required", false);
+
                 }
                 else{
                     $('#districtInputHolder').show();
                     $('#sltdistrict_update').val(district);
-                    /*$('#sltdistrict_update').attr('required', true);
-                    $('#sltdistrict_update').rules('add', 'required');*/
                 }
                 $('#user_access_permission_update').val(access);
                 $('#user_id_update').val(id);
