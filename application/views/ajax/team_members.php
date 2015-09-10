@@ -170,10 +170,10 @@ if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
 
 
             var b = $(this).attr('data-interest');
-            var arr = b.split(", ");
+            var arr = b.split(",");
 
             for(var i=0; i<arr.length; i++) {
-                $("input:checkbox[value='" + arr[i] +"']").prop("checked", true);
+                $("input:checkbox[value='" + arr[i].trim() +"']").prop("checked", true);
             }
 
             $("#update-team-dialog").dialog('open');

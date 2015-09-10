@@ -29,13 +29,21 @@ if((null != $this->session->flashdata('error'))):
 <?php endif; ?>
 
 <div class=" boxed-group" style="text-align:center; margin-top:20px;">
-    <p>Progress</p>
+    <div id="results-dialog" title="Progress indicator!">
+        <p>Overall Progress</p>
 
-    <div style="border:1px solid #ccc; width:80%; height:20px; overflow:auto; background:#eee; display: block; margin: 10px auto;">
-        <div id="progressor" style="background:#07c; width:0%; height:100%;"></div>
+        <div style="border:1px solid #ccc; width:80%; height:20px; overflow:auto; background:#eee; display: block; margin: 10px auto;">
+            <div id="overallprogressor" style="background:#07c; width:0%; height:100%;"></div>
+        </div>
+
+        <p>Progress</p>
+
+        <div style="border:1px solid #ccc; width:80%; height:20px; overflow:auto; background:#eee; display: block; margin: 10px auto;">
+            <div id="progressor" style="background:#07c; width:0%; height:100%;"></div>
+        </div>
+
+        <div style="display:block;border:1px solid #000; padding:10px; width:80%; height:auto; overflow:auto; background:#eee; margin: 10px auto;" id="divProgress"></div>
     </div>
-
-    <div style="display:block;border:1px solid #000; padding:10px; width:80%; height:auto; overflow:auto; background:#eee; margin: 10px auto;" id="divProgress"></div>
 
     <h3 id="pane-title">EOP ASSIST 1.0 Database Information</h3>
     <div class="boxed-group-inner clearfix" style="padding: 10px;">
@@ -172,9 +180,25 @@ if((null != $this->session->flashdata('error'))):
             submitHandler:AJAXPost
         });
 
+
+        $("#results-dialog").dialog({
+            resizable:      false,
+            minHeight:      300,
+            minWidth:       500,
+            modal:          true,
+            autoOpen:       false,
+            show:           {
+                effect:     'scale',
+                duration: 300
+            }
+        });
+
     });
 
     function AJAXPost() {
+
+        $("#results-dialog").dialog('open');
+
         var elem   = document.getElementById("database_form").elements;
         var url    = document.getElementById("database_form").action;
         var params = "";
@@ -216,6 +240,13 @@ if((null != $this->session->flashdata('error'))):
 
                         //update the progressbar
                         document.getElementById('progressor').style.width = result.progress + "%";
+                        document.getElementById('overallprogressor').style.width = result.overall_progress + "%";
+                        if(result.overall_progress >=100){
+
+                            alert("Congratulations! Data migration process completed successfully");
+                            $("#results-dialog").dialog('close');
+
+                        }
                         xmlhttp.previous_text = xmlhttp.responseText;
                     }
                 }

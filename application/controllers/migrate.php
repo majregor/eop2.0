@@ -4,6 +4,8 @@ class Migrate extends CI_Controller {
 
     public $data = array();
 
+    private $overall_progress;
+
     public function __construct(){
         parent::__construct();
 
@@ -14,6 +16,10 @@ class Migrate extends CI_Controller {
         $this->load->model('school_model');
         $this->load->model('user_model');
         $this->load->model('plan_model');
+        $this->load->model('team_model');
+        $this->load->model('calendar_model');
+
+        $this->overall_progress =0;
 
     }
 
@@ -98,6 +104,9 @@ EOF;
                     //Migrate user data
                     $this->migrate_user_data($db_obj);
 
+                    //Migrate team data
+                    $this->migrate_team_data($db_obj);
+
                     //Migrate threats & hazard data
                     $this->migrate_th_data($db_obj);
 
@@ -105,6 +114,19 @@ EOF;
                     $this->migrate_fn_data($db_obj);
 
                     //Migrate basic plan data
+                    $this->migrate_form1_data($db_obj);
+                    $this->migrate_form2_data($db_obj);
+                    $this->migrate_form3_data($db_obj);
+                    $this->migrate_form4_data($db_obj);
+                    $this->migrate_form5_data($db_obj);
+                    $this->migrate_form6_data($db_obj);
+                    $this->migrate_form7_data($db_obj);
+                    $this->migrate_form8_data($db_obj);
+                    $this->migrate_form9_data($db_obj);
+                    $this->migrate_form10_data($db_obj);
+
+                    //Migrate calendar data
+                    $this->migrate_calendar_data($db_obj);
                 }
 
             }catch(Exception $e){
@@ -229,6 +251,119 @@ EOF;
      * @param $db_obj
      * @return void
      */
+    private function migrate_team_data($db_obj){
+
+        $serverTime = time();
+        $message = "Migrating Team Data...";
+
+        $obsolete_team_data = $this->migrate_model->getObsoleteTeamMembers($db_obj);
+
+        if(is_array($obsolete_team_data) && count($obsolete_team_data)>0) { //If records  are returned
+
+            $num_recs = count($obsolete_team_data);
+            $processedRecs = 0;
+
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach ($obsolete_team_data as $key => $record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+
+                $data = array(
+                    'name'          =>  $record['team_name'],
+                    'title'         =>  $record['title'],
+                    'organization'  =>  $record['organization'],
+                    'email'         =>  $record['email'],
+                    'phone'         =>  $record['phone'],
+                    'interest'      =>  $record['interest'],
+                    'sid'           =>  (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'owner'         =>  $this->session->userdata('user_id')
+                );
+
+                $savedRecs = $this->team_model->addMember($data);
+
+                $status = (is_numeric($savedRecs)) ? 'Success' : 'Failure';
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+        }else{
+
+            //No data
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
+    private function migrate_calendar_data($db_obj){
+
+        $serverTime = time();
+        $message = "Migrating Calendar Events Data...";
+
+        $obsolete_calendar_data = $this->migrate_model->getObsoleteCalendarEvents($db_obj);
+
+        if(is_array($obsolete_calendar_data) && count($obsolete_calendar_data)>0) { //If records  are returned
+
+            $num_recs = count($obsolete_calendar_data);
+            $processedRecs = 0;
+
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach ($obsolete_calendar_data as $key => $record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+
+                $data = array(
+                    'title'         =>  $record['title'],
+                    'start_time'    =>  $record['start_time'],
+                    'end_time'      =>  $record['end_time'],
+                    'location'      =>  $record['location'],
+                    'body'          =>  $record['body'],
+                    'modified_by'   =>  $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null
+                );
+
+                $savedRecs = $this->calendar_model->addEvent($data);
+
+                $status = (is_numeric($savedRecs)) ? 'Success' : 'Failure';
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+        }else{
+
+            //No data
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
     private function migrate_user_data($db_obj){
 
 
@@ -866,7 +1001,1108 @@ EOF;
         }
     }
 
-    function test(){
+    private function migrate_form1_data($db_obj){
+
+
+        $serverTime = time();
+
+        $obsolete_form1_data = $this->migrate_model->getObsoleteForm1Data($db_obj);
+
+        if(is_array($obsolete_form1_data) && count($obsolete_form1_data)>0){ //If records  are returned
+
+            $num_recs = count($obsolete_form1_data);
+            $processedRecs = 0;
+
+            $message = "Migrating Basic Plan Section 1 Data...";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach($obsolete_form1_data as $key=>$record){
+                $processedRecs ++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+
+                //Add form1 entity
+                $entityData = array(
+                    'name'      =>      'form1',
+                    'title'     =>      'Introductory Material',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'weight'    =>      1
+                );
+
+                $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                /**
+                 * Add Children and their corresponding fields
+                 */
+                //1.0
+                $entityData = array(
+                    'name'      =>      '1.0',
+                    'title'     =>      'Cover Page',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      1
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //1.0 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Title Field',
+                    'title'     =>      'Title of the plan',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['title']
+                );
+                $this->plan_model->addField($fieldData);
+
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Date Field',
+                    'title'     =>      'Date',
+                    'weight'    =>      2,
+                    'type'      =>      'text',
+                    'body'      =>      $record['form_date']
+                );
+                $this->plan_model->addField($fieldData);
+
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'School Field',
+                    'title'     =>      'The school(s) covered by the plan',
+                    'weight'    =>      3,
+                    'type'      =>      'text',
+                    'body'      =>      $record['plan']
+                );
+                $this->plan_model->addField($fieldData);
+
+                //1.1
+                $entityData = array(
+                    'name'      =>      '1.1',
+                    'title'     =>      'Promulgation Document and Signatures',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      2
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //1.1 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Promulgation Field',
+                    'title'     =>      'Promulgation Field',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q1']
+                );
+                $this->plan_model->addField($fieldData);
+                //1.2
+                $entityData = array(
+                    'name'      =>      '1.2',
+                    'title'     =>      'Approval and Implementation',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      3
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //1.2 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Approval Field',
+                    'title'     =>      'Approval Field',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q2']
+                );
+                $this->plan_model->addField($fieldData);
+
+                $record_of_changes = $this->migrate_model->getRecordOfChanges($db_obj, $record['id']);
+                if(count($record_of_changes)>0){
+
+                    //1.3
+                    $entityData = array(
+                        'name'      =>      '1.3',
+                        'title'     =>      'Record of Changes',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      3
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+
+                    //1.3 fields
+                    $columns = array('Change Number', 'Date of Change', 'Name', 'Summary of Change');
+                    $weight = 1;
+                    foreach($record_of_changes as $position=>$record_of_change){
+
+                        switch($record_of_change['col']){
+
+                            case 1:
+                                $fieldData = array(
+                                    'entity_id' =>      $insertedChildEntityId,
+                                    'name'      =>      $columns[0],
+                                    'title'     =>      $columns[0],
+                                    'weight'    =>      $weight,
+                                    'type'      =>      'text',
+                                    'body'      =>      $record_of_change['column_value']
+                                );
+                                $this->plan_model->addField($fieldData);
+                                break;
+
+                            case 2:
+                                $fieldData = array(
+                                    'entity_id' =>      $insertedChildEntityId,
+                                    'name'      =>      $columns[1],
+                                    'title'     =>      $columns[1],
+                                    'weight'    =>      $weight,
+                                    'type'      =>      'text',
+                                    'body'      =>      $record_of_change['column_value']
+                                );
+                                $this->plan_model->addField($fieldData);
+                                break;
+                            case 3:
+                                $fieldData = array(
+                                    'entity_id' =>      $insertedChildEntityId,
+                                    'name'      =>      $columns[2],
+                                    'title'     =>      $columns[2],
+                                    'weight'    =>      $weight,
+                                    'type'      =>      'text',
+                                    'body'      =>      $record_of_change['column_value']
+                                );
+                                $this->plan_model->addField($fieldData);
+                                break;
+                            case 4:
+                                $fieldData = array(
+                                    'entity_id' =>      $insertedChildEntityId,
+                                    'name'      =>      $columns[3],
+                                    'title'     =>      $columns[3],
+                                    'weight'    =>      $weight,
+                                    'type'      =>      'text',
+                                    'body'      =>      $record_of_change['column_value']
+                                );
+                                $weight++;
+                                $this->plan_model->addField($fieldData);
+                                break;
+                        }
+                    }
+                }
+
+
+                $records_of_distribution = $this->migrate_model->getRecordOfDistribution($db_obj, $record['id']);
+                if(count($records_of_distribution)>0){
+
+                    //1.4
+                    $entityData = array(
+                        'name'      =>      '1.4',
+                        'title'     =>      'Record of Distribution',
+                        'owner'     =>      $this->session->userdata('user_id'),
+                        'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                        'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                        'parent'    =>      $insertedEntityId,
+                        'weight'    =>      4
+                    );
+                    $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+
+                    //1.4 fields
+                    $columns = array(
+                        'Title and name of person receiving the plan',
+                        'Agency (school office, government agency, or private-sector entity',
+                        'Date of delivery',
+                        'Number of copies delivered'
+                    );
+                    $weight =1;
+                    foreach($records_of_distribution as $position=>$record_of_distribution){
+
+                        switch($record_of_distribution['col']){
+
+                            case 1:
+                                $fieldData = array(
+                                    'entity_id' =>      $insertedChildEntityId,
+                                    'name'      =>      $columns[0],
+                                    'title'     =>      $columns[0],
+                                    'weight'    =>      $weight,
+                                    'type'      =>      'text',
+                                    'body'      =>      $record_of_distribution['column_value']
+                                );
+                                $this->plan_model->addField($fieldData);
+                                break;
+
+                            case 2:
+                                $fieldData = array(
+                                    'entity_id' =>      $insertedChildEntityId,
+                                    'name'      =>      $columns[1],
+                                    'title'     =>      $columns[1],
+                                    'weight'    =>      $weight,
+                                    'type'      =>      'text',
+                                    'body'      =>      $record_of_distribution['column_value']
+                                );
+                                $this->plan_model->addField($fieldData);
+                                break;
+
+                            case 3:
+                                $fieldData = array(
+                                    'entity_id' =>      $insertedChildEntityId,
+                                    'name'      =>      $columns[2],
+                                    'title'     =>      $columns[2],
+                                    'weight'    =>      $weight,
+                                    'type'      =>      'text',
+                                    'body'      =>      $record_of_distribution['column_value']
+                                );
+                                $this->plan_model->addField($fieldData);
+                                break;
+
+                            case 4:
+                                $fieldData = array(
+                                    'entity_id' =>      $insertedChildEntityId,
+                                    'name'      =>      $columns[3],
+                                    'title'     =>      $columns[3],
+                                    'weight'    =>      $weight,
+                                    'type'      =>      'text',
+                                    'body'      =>      $record_of_distribution['column_value']
+                                );
+                                $this->plan_model->addField($fieldData);
+                                $weight++;
+                                break;
+                        }
+                    }
+                }
+
+
+
+                $status = (is_numeric($insertedEntityId)) ? 'Success' : 'Failure';
+
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+
+
+        }else{
+
+            //No data
+            $message = "Migrating Basic Plan Section 1 Data...";
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
+    private function migrate_form2_data($db_obj){
+
+        $serverTime = time();
+
+        $obsolete_form2_data = $this->migrate_model->getObsoleteForm2Data($db_obj);
+
+        if(is_array($obsolete_form2_data) && count($obsolete_form2_data)>0) { //If records  are returned
+
+            $num_recs = count($obsolete_form2_data);
+            $processedRecs = 0;
+
+            $message = "Migrating Basic Plan Section 2 Data...";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach ($obsolete_form2_data as $key => $record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+                //Add form2 entity
+                $entityData = array(
+                    'name'      =>      'form2',
+                    'title'     =>      'Purpose, Scope, Situation Overview, and Assumptions',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'weight'    =>      1
+                );
+
+                $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                /**
+                 * Add Children and their corresponding fields
+                 */
+                //2.1
+                $entityData = array(
+                    'name'      =>      '2.1',
+                    'title'     =>      'Purpose',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      1
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //2.1 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Purpose Field',
+                    'title'     =>      'Purpose',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q2_1']
+                );
+                $this->plan_model->addField($fieldData);
+
+
+                //2.2
+                $entityData = array(
+                    'name'      =>      '2.2',
+                    'title'     =>      'Scope',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      2
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //2.2 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Scope',
+                    'title'     =>      'Scope',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q2_2']
+                );
+                $this->plan_model->addField($fieldData);
+
+                //2.3
+                $entityData = array(
+                    'name'      =>      '2.3',
+                    'title'     =>      'Situation Overview',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      3
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //2.3 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Situation Overview',
+                    'title'     =>      'Situation Overview',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q2_3']
+                );
+                $this->plan_model->addField($fieldData);
+
+                //2.4
+                $entityData = array(
+                    'name'      =>      '2.4',
+                    'title'     =>      'Planning Assumptions',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      3
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //2.4 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Planning Assumptions',
+                    'title'     =>      'Planning Assumptions',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q2_4']
+                );
+                $this->plan_model->addField($fieldData);
+
+                $status = (is_numeric($insertedEntityId)) ? 'Success' : 'Failure';
+
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+            }
+        }else{
+
+            //No data
+            $message = "Migrating Basic Plan Section 2 Data...";
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
+    private function migrate_form3_data($db_obj){
+
+        $serverTime = time();
+        $message = "Migrating Basic Plan Section 3 Data...";
+
+        $obsolete_form3_data = $this->migrate_model->getObsoleteForm3Data($db_obj);
+
+        if(is_array($obsolete_form3_data) && count($obsolete_form3_data)>0) { //If records  are returned
+
+            $num_recs = count($obsolete_form3_data);
+            $processedRecs = 0;
+
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach ($obsolete_form3_data as $key => $record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+
+                //Add form3 entity
+                $entityData = array(
+                    'name'      =>      'form3',
+                    'title'     =>      'Concept of Operations (CONOPS)',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'weight'    =>      1
+                );
+
+                $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                /**
+                 * Add Children and their corresponding fields
+                 */
+                //3.1
+                $entityData = array(
+                    'name'      =>      '3.1',
+                    'title'     =>      'CONOPS',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      1
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //3.1 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'CONOPS Field',
+                    'title'     =>      'CONOPS',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q3_1']
+                );
+                $this->plan_model->addField($fieldData);
+
+                $status = (is_numeric($insertedEntityId)) ? 'Success' : 'Failure';
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+        }else{
+
+            //No data
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
+    private function migrate_form4_data($db_obj){
+
+        $serverTime = time();
+        $message = "Migrating Basic Plan Section 4 Data...";
+
+        $obsolete_form4_data = $this->migrate_model->getObsoleteForm4Data($db_obj);
+
+        if(is_array($obsolete_form4_data) && count($obsolete_form4_data)>0) { //If records  are returned
+
+            $num_recs = count($obsolete_form4_data);
+            $processedRecs = 0;
+
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach ($obsolete_form4_data as $key => $record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+
+                //Add form4 entity
+                $entityData = array(
+                    'name'      =>      'form4',
+                    'title'     =>      'Organization and Assignment of Responsibilities',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'weight'    =>      1
+                );
+
+                $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                /**
+                 * Add Children and their corresponding fields
+                 */
+                //4.1
+                $entityData = array(
+                    'name'      =>      '4.1',
+                    'title'     =>      'Organization and Assignment of Responsibilities',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      1
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //4.1 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Organization Field',
+                    'title'     =>      'Organization and Assignment of Responsibilities',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q4_1']
+                );
+                $this->plan_model->addField($fieldData);
+
+                $status = (is_numeric($insertedEntityId)) ? 'Success' : 'Failure';
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+        }else{
+
+            //No data
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
+    private function migrate_form5_data($db_obj){
+
+        $serverTime = time();
+        $message = "Migrating Basic Plan Section 5 Data...";
+
+        $obsolete_form5_data = $this->migrate_model->getObsoleteForm5Data($db_obj);
+
+        if(is_array($obsolete_form5_data) && count($obsolete_form5_data)>0) { //If records  are returned
+
+            $num_recs = count($obsolete_form5_data);
+            $processedRecs = 0;
+
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach ($obsolete_form5_data as $key => $record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+
+                //Add form5 entity
+                $entityData = array(
+                    'name'      =>      'form5',
+                    'title'     =>      'Direction, Control and Coordination',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'weight'    =>      1
+                );
+
+                $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                /**
+                 * Add Children and their corresponding fields
+                 */
+                //5.1
+                $entityData = array(
+                    'name'      =>      '5.1',
+                    'title'     =>      'Direction, Control and Coordination',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      1
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //5.1 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Direction Field',
+                    'title'     =>      'Direction, Control and Coordination',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q5_1']
+                );
+                $this->plan_model->addField($fieldData);
+
+                $status = (is_numeric($insertedEntityId)) ? 'Success' : 'Failure';
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+        }else{
+
+            //No data
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
+    private function migrate_form6_data($db_obj){
+
+        $serverTime = time();
+        $message = "Migrating Basic Plan Section 6 Data...";
+
+        $obsolete_form6_data = $this->migrate_model->getObsoleteForm6Data($db_obj);
+
+        if(is_array($obsolete_form6_data) && count($obsolete_form6_data)>0) { //If records  are returned
+
+            $num_recs = count($obsolete_form6_data);
+            $processedRecs = 0;
+
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach ($obsolete_form6_data as $key => $record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+
+                //Add form6 entity
+                $entityData = array(
+                    'name'      =>      'form6',
+                    'title'     =>      'Information Collection, Analysis and Dissemination',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'weight'    =>      1
+                );
+
+                $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                /**
+                 * Add Children and their corresponding fields
+                 */
+                //6.1
+                $entityData = array(
+                    'name'      =>      '6.1',
+                    'title'     =>      'Information Collection, Analysis and Dissemination',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      1
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //6.1 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Information Field',
+                    'title'     =>      'Information Collection, Analysis and Dissemination',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q6_1']
+                );
+                $this->plan_model->addField($fieldData);
+
+                $status = (is_numeric($insertedEntityId)) ? 'Success' : 'Failure';
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+        }else{
+
+            //No data
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
+    private function migrate_form7_data($db_obj){
+
+        $serverTime = time();
+        $message = "Migrating Basic Plan Section 7 Data...";
+
+        $obsolete_form7_data = $this->migrate_model->getObsoleteForm7Data($db_obj);
+
+        if(is_array($obsolete_form7_data) && count($obsolete_form7_data)>0) { //If records  are returned
+
+            $num_recs = count($obsolete_form7_data);
+            $processedRecs = 0;
+
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach ($obsolete_form7_data as $key => $record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+
+                //Add form7 entity
+                $entityData = array(
+                    'name'      =>      'form7',
+                    'title'     =>      'Training Exercise',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'weight'    =>      1
+                );
+
+                $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                /**
+                 * Add Children and their corresponding fields
+                 */
+                //7.1
+                $entityData = array(
+                    'name'      =>      '7.1',
+                    'title'     =>      'Training Exercise',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      1
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //7.1 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Training Exercise Field',
+                    'title'     =>      'Training Exercise',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q7_1']
+                );
+                $this->plan_model->addField($fieldData);
+
+                $status = (is_numeric($insertedEntityId)) ? 'Success' : 'Failure';
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+        }else{
+
+            //No data
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
+    private function migrate_form8_data($db_obj){
+
+        $serverTime = time();
+        $message = "Migrating Basic Plan Section 8 Data...";
+
+        $obsolete_form8_data = $this->migrate_model->getObsoleteForm8Data($db_obj);
+
+        if(is_array($obsolete_form8_data) && count($obsolete_form8_data)>0) { //If records  are returned
+
+            $num_recs = count($obsolete_form8_data);
+            $processedRecs = 0;
+
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach ($obsolete_form8_data as $key => $record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+
+                //Add form8 entity
+                $entityData = array(
+                    'name'      =>      'form8',
+                    'title'     =>      'Administration, Finance, and Logistics',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'weight'    =>      1
+                );
+
+                $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                /**
+                 * Add Children and their corresponding fields
+                 */
+                //8.1
+                $entityData = array(
+                    'name'      =>      '8.1',
+                    'title'     =>      'Administration, Finance, and Logistics',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      1
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //8.1 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Administration, Finance, and Logistics Field',
+                    'title'     =>      'Administration, Finance, and Logistics',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q8_1']
+                );
+                $this->plan_model->addField($fieldData);
+
+
+                $status = (is_numeric($insertedEntityId)) ? 'Success' : 'Failure';
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+        }else{
+
+            //No data
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
+    private function migrate_form9_data($db_obj){
+
+        $serverTime = time();
+        $message = "Migrating Basic Plan Section 9 Data...";
+
+        $obsolete_form9_data = $this->migrate_model->getObsoleteForm9Data($db_obj);
+
+        if(is_array($obsolete_form9_data) && count($obsolete_form9_data)>0) { //If records  are returned
+
+            $num_recs = count($obsolete_form9_data);
+            $processedRecs = 0;
+
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach ($obsolete_form9_data as $key => $record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+
+                //Add form9 entity
+                $entityData = array(
+                    'name'      =>      'form9',
+                    'title'     =>      'Plan Development and Maintenance',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'weight'    =>      1
+                );
+
+                $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                /**
+                 * Add Children and their corresponding fields
+                 */
+                //9.1
+                $entityData = array(
+                    'name'      =>      '9.1',
+                    'title'     =>      'Plan Development and Maintenance',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      1
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //9.1 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Plan Development and Maintenance Field',
+                    'title'     =>      'Plan Development and Maintenance',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q9_1']
+                );
+                $this->plan_model->addField($fieldData);
+
+
+                $status = (is_numeric($insertedEntityId)) ? 'Success' : 'Failure';
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+        }else{
+
+            //No data
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
+    private function migrate_form10_data($db_obj){
+
+        $serverTime = time();
+        $message = "Migrating Basic Plan Section 10 Data...";
+
+        $obsolete_form10_data = $this->migrate_model->getObsoleteForm10Data($db_obj);
+
+        if(is_array($obsolete_form10_data) && count($obsolete_form10_data)>0) { //If records  are returned
+
+            $num_recs = count($obsolete_form10_data);
+            $processedRecs = 0;
+
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            foreach ($obsolete_form10_data as $key => $record) {
+                $processedRecs++;
+
+                $percentage = ceil(($processedRecs / $num_recs) * 100);
+
+                $school = $this->school_model->getSchoolByName($record['school']);
+
+
+                //Add form10 entity
+                $entityData = array(
+                    'name'      =>      'form10',
+                    'title'     =>      'Authorities and References',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'weight'    =>      1
+                );
+
+                $insertedEntityId = $this->plan_model->addEntity($entityData);
+
+                /**
+                 * Add Children and their corresponding fields
+                 */
+                //10.1
+                $entityData = array(
+                    'name'      =>      '10.1',
+                    'title'     =>      'Authorities and References',
+                    'owner'     =>      $this->session->userdata('user_id'),
+                    'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id']: null,
+                    'type_id'   =>      $this->plan_model->getEntityTypeId('bp', 'name'),
+                    'parent'    =>      $insertedEntityId,
+                    'weight'    =>      1
+                );
+                $insertedChildEntityId = $this->plan_model->addEntity($entityData);
+                //10.1 fields
+                $fieldData = array(
+                    'entity_id' =>      $insertedChildEntityId,
+                    'name'      =>      'Authorities and References Field',
+                    'title'     =>      'Authorities and References',
+                    'weight'    =>      1,
+                    'type'      =>      'text',
+                    'body'      =>      $record['q10_1']
+                );
+                $this->plan_model->addField($fieldData);
+
+                $status = (is_numeric($insertedEntityId)) ? 'Success' : 'Failure';
+
+                $this->send_message($serverTime, $percentage . '% school data migration complete. server time: ' . date("h:i:s", time()) . " [$status]", $percentage);
+
+                sleep(1);
+
+            }
+        }else{
+
+            //No data
+            $message .= "<br> Empty Data Set";
+            $this->send_message($serverTime, $message, 0);
+            sleep(1);
+
+            $percentage = 100;
+            $this->send_message($serverTime, $percentage . '% completed', $percentage);
+            sleep(1);
+        }
+
+    }
+
+        function test(){
 
         $config['hostname'] = 'localhost';
         $config['username'] = 'root';
@@ -901,7 +2137,11 @@ EOF;
      */
     function send_message($id, $message, $progress)
     {
-        $d = array('message' => $message , 'progress' => $progress);
+        if($progress >= 100){
+            $this->overall_progress += ceil(100/17);
+        }
+
+        $d = array('message' => $message , 'progress' => $progress, 'overall_progress'=>$this->overall_progress);
 
         echo json_encode($d) . PHP_EOL;
 

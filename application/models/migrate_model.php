@@ -51,6 +51,38 @@ class Migrate_model extends CI_Model {
         return $query->result_array();
     }
 
+    public function getObsoleteTeamMembers($db_obj){
+
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_team A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_team A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
+    public function getObsoleteCalendarEvents($db_obj){
+
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_event_calendar A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_event_calendar A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
     public function getObsoleteThs($db_obj){
 
         $db_obj->select('A.*, C.code AS school')
@@ -62,6 +94,7 @@ class Migrate_model extends CI_Model {
 
         return $query->result_array();
     }
+
 
     public function getObsoleteFns($db_obj){
 
@@ -77,6 +110,161 @@ class Migrate_model extends CI_Model {
         return $query->result_array();
 
     }
+
+    public function getObsoleteForm1Data($db_obj){
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_form_2 A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_form_1 A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
+    public function getObsoleteForm2Data($db_obj){
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_form_2 A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_form_2 A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
+    public function getObsoleteForm3Data($db_obj){
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_form_3 A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_form_3 A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
+    public function getObsoleteForm4Data($db_obj){
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_form_4 A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_form_4 A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
+    public function getObsoleteForm5Data($db_obj){
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_form_5 A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_form_5 A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
+    public function getObsoleteForm6Data($db_obj){
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_form_6 A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_form_6 A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
+    public function getObsoleteForm7Data($db_obj){
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_form_7 A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_form_7 A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
+    public function getObsoleteForm8Data($db_obj){
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_form_8 A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_form_8 A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
+    public function getObsoleteForm9Data($db_obj){
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_form_9 A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_form_9 A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
+    public function getObsoleteForm10Data($db_obj){
+        /**
+         * SELECT A.*, C.code AS school FROM tbl_form_10 A join tbl_user_sub_district B ON A.modified_by=B.user_id
+        join tbl_sub_district C ON B.sub_district_id=C.id;
+         */
+        $db_obj->select('A.*, C.code AS school')
+            ->from('tbl_form_10 A')
+            ->join('tbl_user_sub_district B', 'A.modified_by=B.user_id')
+            ->join('tbl_sub_district C', 'B.sub_district_id=C.id');
+
+        $query = $db_obj->get();
+
+        return $query->result_array();
+    }
+
+
+
+
+
 
     public function getTHData($db_obj, $th_id){
 
@@ -189,5 +377,30 @@ class Migrate_model extends CI_Model {
 
     }
 
+    public function getRecordOfChanges($db_obj, $form1_id){
+
+        $query = $db_obj->get_where('tbl_form_1_q3', array('form_1_id'=>$form1_id));
+
+        $result = $query->result_array();
+
+        if(is_array($result) && count($result)>0){
+            return $result;
+        }else{
+            return array();
+        }
+    }
+
+    public function getRecordOfDistribution($db_obj, $form1_id){
+
+        $query = $db_obj->get_where('tbl_form_1_q4', array('form_1_id'=>$form1_id));
+
+        $result = $query->result_array();
+
+        if(is_array($result) && count($result)>0){
+            return $result;
+        }else{
+            return array();
+        }
+    }
 
 }
