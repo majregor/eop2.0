@@ -27,9 +27,9 @@
                         </li>
                     <?php endif; ?>
                     <?php elseif($this->session->userdata['role']['level']>3):  ?>
-                    <li>
-                        <span><?php echo($this->session->userdata['loaded_school']['name']); ?></span>
-                    </li>
+                    <!--<li>
+                        <span><?php /*echo($this->session->userdata['loaded_school']['name']); */?></span>
+                    </li>-->
                     <?php else: ?>
 
                 <?php endif; ?>

@@ -132,7 +132,7 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 
             var form_data = {
                 ajax: '1'
-            };
+            };alert('here');
 
             $.ajax({
                 url: "<?php echo base_url('app/install'); ?>",

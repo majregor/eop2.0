@@ -34,6 +34,7 @@ class App extends CI_Controller {
            //var_dump( $this->db->conn_id);
             //echo 'Database not setup';
             //echo $this->db->username;
+            $this->install();
 
         }
         else{
@@ -103,13 +104,23 @@ class App extends CI_Controller {
 
                             if($this->input->post('ajax')){ // If form was submitted using ajax request
 
+
                                 $data['screen'] =   'verify_requirements';
                                 $data['step']   =   'verify_requirements';
+
                                 $this->session->set_userdata(array(
                                     'pref_hosting_level'    => $this->input->post('pref_hosting_level'),
                                     'install_step'          => 'verify_requirements',
                                     'install_step_status'   => 'initiated'
                                 ));
+
+
+                                /**
+                                 * Call method to inspect host system
+                                 * The method will return an array of status messages
+                                 */
+                                $statusMsgs = $this->checkRequirements();
+                                $data['status']=$statusMsgs;
 
                                 //$this->output->set_output(json_encode($data));
                                 $d=$this->load->view('install/embeds/verify_requirements', $data, TRUE);
@@ -127,29 +138,42 @@ class App extends CI_Controller {
                     case "verify_requirements":
                         $install_step_status = $this->session->userdata('install_step_status');
 
+                        /**
+                         * Call method to inspect host system
+                         * The method will return an array of status messages
+                         */
+                        $statusMsgs = $this->checkRequirements();
+                        $data['status']=$statusMsgs;
+
+
                         if($install_step_status == 'initiated'){
+
                             if($this->input->post('ajax')){ // If form is submitted using ajax
-
-                                /**
-                                 * Call method to inspect host system
-                                 * The method will return an array of status messages
-                                 */
-                                //$statusMsgs = checkRequirements();
+                                if($data['status']['continue']) {
 
 
-                                $data['screen'] =   'database_settings';
-                                $data['step']   =   'database_settings';
-                                $this->session->set_userdata(array(
-                                    'requirements_verified'    => 'yes',
-                                    'install_step'          => 'database_settings',
-                                    'install_step_status'   => 'initiated'
-                                ));
+                                    $data['screen'] = 'database_settings';
+                                    $data['step'] = 'database_settings';
+                                    $this->session->set_userdata(array(
+                                        'requirements_verified' => 'yes',
+                                        'install_step' => 'database_settings',
+                                        'install_step_status' => 'initiated'
+                                    ));
 
-                                //$this->output->set_output(json_encode($data));
-                                $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
+                                    //$this->output->set_output(json_encode($data));
+                                    $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
+                                }else{
+
+                                    $data['screen']    =   'verify_requirements';
+                                    $data['step']      =   'verify_requirements';
+
+                                    $this->output->set_output($this->load->view('install/embeds/verify_requirements', $data, TRUE));
+
+                                }
 
                             }
                             else{
+
                                 $data['screen']    =   'verify_requirements';
                                 $data['step']      =   'verify_requirements';
                                 $this->template->set('title', 'EOP ASSIST Installation');
@@ -375,6 +399,57 @@ class App extends CI_Controller {
         return make_config_file($configs);
 
     }
+
+    /**
+     * Check system requirements and returns mixed array status message.
+     * @return array
+     */
+    public function checkRequirements(){
+
+        $data = array();
+        $continue_install = true;
+
+        $required_libraries = array(
+            'mysql', 'mysqli', 'date', 'gd', 'libxml', 'mbstring', 'mcrypt', 'mysqlnd', 'session', 'SimpleXML', 'xml', 'xmlreader', 'xmlrpc', 'zip', 'zlib'
+        );
+        $optional_libraries = array('sqlsrv', 'pdo_sqlsrv', 'PDO_ODBC');
+
+        //PHP version check
+        $version = ceil(str_replace('.','',phpversion()));
+        if($version < 5500){
+            $continue_install = false;
+        }
+
+        $data['php'] = array(
+            'version'=>phpversion(),
+            'version_level'=>$version,
+            'sufficient'=> ($version < 5500) ? false : true,
+        );
+
+        foreach($required_libraries as $library){
+            if(!extension_loaded($library)){
+                $data['fatal_errs'][]=array(
+                    'library'=>$library,
+                    'message'=> 'Not loaded'
+                );
+                $continue_install = false;
+            }
+        }
+
+        foreach($optional_libraries as $library){
+            if(!extension_loaded($library)){
+                $data['warnings'][]=array(
+                    'library'=>$library,
+                    'message'=> 'Not loaded, Required for MS SQL SERVER'
+                );
+            }
+        }
+
+        $data['continue'] = $continue_install;
+
+        return $data;
+    }
+
     /**
      * Echo PHP installation information on the server running the Web Application
      *
