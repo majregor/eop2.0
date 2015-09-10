@@ -86,8 +86,11 @@ class Migrate extends CI_Controller {
                     user <em>$database_user_name</em> with the entered password has access privileges on the database.
 
 EOF;
+                    $serverTime = time();
+                    $this->send_message($serverTime, $message, 0);
 
                     $this->session->set_flashdata('error', $message);
+                    exit;
                     redirect('migrate');
 
                 }else{
@@ -462,7 +465,7 @@ EOF;
 
                 $fieldIds = array();
                 $entityIds = array();
-                $savedRecs = $this->plan_model->addThreatAndHazard($data, $entityIds, $fieldIds);
+                $savedRecs = $this->plan_model->addThreatAndHazard($data, $entityIds, $fieldIds, $school[0]['id']);
 
                 $status = (is_numeric($savedRecs) && $savedRecs >=1) ? 'Success' : 'Failure';
 

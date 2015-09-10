@@ -406,7 +406,7 @@ CREATE TABLE `eop_user` (
 
 LOCK TABLES `eop_user` WRITE;
 /*!40000 ALTER TABLE `eop_user` DISABLE KEYS */;
-INSERT INTO `eop_user` VALUES (17,1,'Supers','Administrator','majregor@glydenet.comp','admin','7ce8bcd42b1efa29518674ec4a99fa60','2407056732','active','2015-05-20 00:21:11','2015-08-31 14:28:20','n');
+INSERT INTO `eop_user` VALUES (17,1,'Supers','Administrator','majregor@glydenet.comp','admin','128e61891b7bf0cfafbbc589a65ce5f6','2407056732','active','2015-05-20 00:21:11','2015-08-31 14:28:20','n');
 /*!40000 ALTER TABLE `eop_user` ENABLE KEYS */;
 UNLOCK TABLES;
 

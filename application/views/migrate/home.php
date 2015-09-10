@@ -29,7 +29,7 @@ if((null != $this->session->flashdata('error'))):
 <?php endif; ?>
 
 <div class=" boxed-group" style="text-align:center; margin-top:20px;">
-    <div id="results-dialog" title="Progress indicator!">
+    <div id="results-dialog" title="Migration Progress indicator!">
         <p>Overall Progress</p>
 
         <div style="border:1px solid #ccc; width:80%; height:20px; overflow:auto; background:#eee; display: block; margin: 10px auto;">
@@ -176,15 +176,23 @@ if((null != $this->session->flashdata('error'))):
 
     $(document).ready(function(){
 
+
         $("#database_form").validate({
             submitHandler:AJAXPost
         });
 
+        var wWidth = $(window).width();
+        var dWidth = wWidth * 0.8; //this will make the dialog 80% of the window size
+
+        var wHeight = $(window).height();
+        var dHeight = wHeight * 0.6; //this will make the dialog 80% of the window size
 
         $("#results-dialog").dialog({
             resizable:      false,
             minHeight:      300,
             minWidth:       500,
+            width:          dWidth,
+            height:         dHeight,
             modal:          true,
             autoOpen:       false,
             show:           {
@@ -197,78 +205,81 @@ if((null != $this->session->flashdata('error'))):
 
     function AJAXPost() {
 
-        $("#results-dialog").dialog('open');
+        if(confirm('Warning! This operation cannot be undone, and please don\'t close the dialog window before the migration completes. Click OK to continue ?')){
+            $("#results-dialog").dialog('open');
 
-        var elem   = document.getElementById("database_form").elements;
-        var url    = document.getElementById("database_form").action;
-        var params = "";
-        var value;
+            var elem   = document.getElementById("database_form").elements;
+            var url    = document.getElementById("database_form").action;
+            var params = "";
+            var value;
 
-        for (var i = 0; i < elem.length; i++) {
-            if (elem[i].tagName == "SELECT") {
-                value = elem[i].options[elem[i].selectedIndex].value;
-            } else {
-                value = elem[i].value;
-            }
-            params += elem[i].name + "=" + encodeURIComponent(value) + "&";
-        }
-
-        try {
-            if (window.XMLHttpRequest) {
-                // code for IE7+, Firefox, Chrome, Opera, Safari
-                var xmlhttp = new XMLHttpRequest();
-            } else {
-                // code for IE6, IE5
-                var xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            for (var i = 0; i < elem.length; i++) {
+                if (elem[i].tagName == "SELECT") {
+                    value = elem[i].options[elem[i].selectedIndex].value;
+                } else {
+                    value = elem[i].value;
+                }
+                params += elem[i].name + "=" + encodeURIComponent(value) + "&";
             }
 
-            xmlhttp.previous_text = '';
-            xmlhttp.onerror = function() { log_message("[XHR] Fatal Error."); };
+            try {
+                if (window.XMLHttpRequest) {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    var xmlhttp = new XMLHttpRequest();
+                } else {
+                    // code for IE6, IE5
+                    var xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
 
-            xmlhttp.onreadystatechange = function()
-            {
-                try
+                xmlhttp.previous_text = '';
+                xmlhttp.onerror = function() { log_message("[XHR] Fatal Error."); };
+
+                xmlhttp.onreadystatechange = function()
                 {
-                    /*if(xmlhttp.readyState < 4){
-                        document.getElementById('divProgress').innerHTML="Loading<br>";
-                    }*/
-                    if (xmlhttp.readyState > 2)
+                    try
                     {
-                        var new_response = xmlhttp.responseText.substring(xmlhttp.previous_text.length);
-                        var result = JSON.parse( new_response );
-                        log_message(result.message);
+                        /*if(xmlhttp.readyState < 4){
+                         document.getElementById('divProgress').innerHTML="Loading<br>";
+                         }*/
+                        if (xmlhttp.readyState > 2)
+                        {
+                            var new_response = xmlhttp.responseText.substring(xmlhttp.previous_text.length);
+                            var result = JSON.parse( new_response );
+                            log_message(result.message);
 
-                        //update the progressbar
-                        document.getElementById('progressor').style.width = result.progress + "%";
-                        document.getElementById('overallprogressor').style.width = result.overall_progress + "%";
-                        if(result.overall_progress >=100){
+                            //update the progressbar
+                            document.getElementById('progressor').style.width = result.progress + "%";
+                            document.getElementById('overallprogressor').style.width = result.overall_progress + "%";
+                            if(result.overall_progress >=100){
 
-                            alert("Congratulations! Data migration process completed successfully");
-                            $("#results-dialog").dialog('close');
+                                alert("Congratulations! Data migration process completed successfully");
+                                $("#results-dialog").dialog('close');
 
+                            }
+                            xmlhttp.previous_text = xmlhttp.responseText;
                         }
-                        xmlhttp.previous_text = xmlhttp.responseText;
                     }
-                }
-                catch (e)
-                {
-                    //log_message("<b>[XHR] Exception: " + e + "</b>");
-                }
+                    catch (e)
+                    {
+                        //log_message("<b>[XHR] Exception: " + e + "</b>");
+                    }
 
 
-            };
+                };
 
-            xmlhttp.open("POST", url, true);
-            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xmlhttp.setRequestHeader("Content-length", params.length);
-            xmlhttp.setRequestHeader("Connection", "close");
-            xmlhttp.send(params);
+                xmlhttp.open("POST", url, true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.setRequestHeader("Content-length", params.length);
+                xmlhttp.setRequestHeader("Connection", "close");
+                xmlhttp.send(params);
 
+            }
+            catch (e)
+            {
+                log_message("<b>[XHR] Exception: " + e + "</b>");
+            }
         }
-        catch (e)
-        {
-            log_message("<b>[XHR] Exception: " + e + "</b>");
-        }
+
     }
 
 
