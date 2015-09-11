@@ -29,10 +29,29 @@
         <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.11.1.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.validate.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/additional-methods.min.js"></script>
+
+        <script language="JavaScript" type="text/javascript">
+
+            $(document).ready(function(){
+
+                $('#loading').hide();
+
+            })
+                .ajaxStart(function(){
+                    $('#loading').show();
+                })
+                .ajaxStop(function(){
+                    $('#loading').hide();
+                });
+
+        </script>
+
     </head>
 
     <body>
-        <div id="container">
+    <div id='loading'><img alt="loading" src="<?php echo base_url(); ?>assets/img/loading.gif"><span>Loading...</span></div>
+
+    <div id="container">
             <h1 class="logotxt"><?php echo($title);?></h1>
             <fieldset id="signin_menu">
 

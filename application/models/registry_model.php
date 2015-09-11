@@ -40,22 +40,32 @@ class Registry_model extends CI_Model {
 
         $query = $this->db->get();
 
-        if ($query->num_rows() > 0){
-            return $query->row()->value;
+        if($query){
+
+            if ($query->num_rows() > 0){
+                return $query->row()->value;
+            }
+            else{
+                return False;
+            }
+        }else{
+            return false;
         }
-        else{
-            return False;
-        }
+
+
     }
 
 
     function hasKey($key){
         $query = $this->db->get_where("eop_registry", array("rkey"=>$key));
 
-        if($query->num_rows()>0){
-            return true;
-        }
-        else{
+        if($query) {
+            if ($query->num_rows() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
             return false;
         }
     }

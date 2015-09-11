@@ -176,7 +176,7 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
             }
 
             var form_data = {
-                pref_database_type      : selectedDbVal,
+                database_type           : selectedDbVal,
                 host_name               : $('#host_name').val(),
                 database_name           : $('#database_name').val(),
                 database_username       : $('#database_username').val(),

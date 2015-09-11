@@ -13,5 +13,5 @@
 $config['db']['hostname'] = 'localhost';
 $config['db']['username'] = 'root';
 $config['db']['password'] = 'glyde1';
-$config['db']['database'] = 'eop2_db1';
+$config['db']['database'] = 'eop2_db2';
 $config['db']['dbdriver'] = 'mysqli';
