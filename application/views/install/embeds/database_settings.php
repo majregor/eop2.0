@@ -12,10 +12,27 @@
     </p>
 
     <p>
-        <?php echo form_radio('database_type', 'mysqli', TRUE); ?> MySQL
-        <?php echo form_radio('database_type', 'sqlite', FALSE); ?> SQLite
-        <?php echo form_radio('database_type', 'psql', FALSE); ?> PostgreSQL
-        <?php echo form_radio('database_type', 'sqlserver', FALSE); ?>SQL Server
+
+        <?php
+
+
+            $data = array(
+                'name'        => 'database_type',
+                'id'          => 'mysqlradio',
+                'value'       => 'mysqli',
+                'checked'     => TRUE,
+                'style'       => ''
+            );
+        echo form_radio($data); ?> <label for="mysqlradio">MySQL</label>
+        <?php
+            $data = array(
+                'name'        => 'database_type',
+                'id'          => 'sqlradio',
+                'value'       => 'sqlsrv',
+                'checked'     => FALSE,
+                'style'       => ''
+            );
+        echo form_radio($data); ?> <label for="sqlradio">MS SQL Server</label>
 
     </p>
     <p>

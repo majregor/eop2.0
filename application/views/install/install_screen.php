@@ -55,6 +55,14 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 
 
     <script type="text/javascript">
+        $(document).ready(function(){
+            $('#verify_requirements_form').submit(submit_verify_requirements_form);
+        });
+
+        $(document).on('submit', '#verify_requirements_form', function(){
+            submit_verify_requirements_form();
+        });
+
         $('#hosting_level_form').submit(function() {
             var selectedVal;
             var selectedOption = $("input[type='radio'][name='pref_hosting_level']:checked");
@@ -132,8 +140,7 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 
             var form_data = {
                 ajax: '1'
-            };alert('here');
-
+            };
             $.ajax({
                 url: "<?php echo base_url('app/install'); ?>",
                 type: 'POST',

@@ -22,7 +22,7 @@ class App extends CI_Controller {
 	{
         $is_logged_in = FALSE;
         $is_installed = FALSE;
-//       $this->session->sess_destroy();
+ //      $this->session->sess_destroy();
 
 
         /**
@@ -34,7 +34,7 @@ class App extends CI_Controller {
            //var_dump( $this->db->conn_id);
             //echo 'Database not setup';
             //echo $this->db->username;
-            $this->install();
+            $is_installed = false;
 
         }
         else{
@@ -74,7 +74,6 @@ class App extends CI_Controller {
     */
     public function install(){
 
-
         // installation progress variables
         $install_started = $this->session->userdata('install_started');
 
@@ -94,9 +93,7 @@ class App extends CI_Controller {
                 $this->template->load('install/template', 'install/install_screen', $data);
             }
             else{
-
                 $install_step = $this->session->userdata('install_step');
-
                 switch($install_step){
                     case "hosting_level":
                         $install_step_status = $this->session->userdata('install_step_status');
@@ -123,15 +120,12 @@ class App extends CI_Controller {
                                 $data['status']=$statusMsgs;
 
                                 //$this->output->set_output(json_encode($data));
-                                $d=$this->load->view('install/embeds/verify_requirements', $data, TRUE);
-                                $this->output->set_output($d);
+
+                                $this->output->set_output($this->load->view('install/embeds/verify_requirements', $data, TRUE));
                             }
                             else{
-                                $data['screen']     =   'hosting_level';
-                                $data['step']       =   'hosting_level';
-                                $this->template->set('title', 'EOP ASSIST Installation');
-                                $this->template->load('install/template', 'install/install_screen', $data);
-
+                                $this->session->sess_destroy();
+                                redirect("app/install");
                             }
                         }
                         break;
@@ -145,12 +139,10 @@ class App extends CI_Controller {
                         $statusMsgs = $this->checkRequirements();
                         $data['status']=$statusMsgs;
 
-
                         if($install_step_status == 'initiated'){
 
                             if($this->input->post('ajax')){ // If form is submitted using ajax
-                                if($data['status']['continue']) {
-
+                                if(count($data['status']['fatal_errs']) <=0 ){
 
                                     $data['screen'] = 'database_settings';
                                     $data['step'] = 'database_settings';
@@ -162,22 +154,19 @@ class App extends CI_Controller {
 
                                     //$this->output->set_output(json_encode($data));
                                     $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
+
                                 }else{
 
+                                    // print_r ($data['status']);
                                     $data['screen']    =   'verify_requirements';
                                     $data['step']      =   'verify_requirements';
-
                                     $this->output->set_output($this->load->view('install/embeds/verify_requirements', $data, TRUE));
 
                                 }
-
                             }
                             else{
-
-                                $data['screen']    =   'verify_requirements';
-                                $data['step']      =   'verify_requirements';
-                                $this->template->set('title', 'EOP ASSIST Installation');
-                                $this->template->load('install/template', 'install/install_screen', $data);
+                                $this->session->sess_destroy();
+                                redirect('app/install');
                             }
                         }
                         break;
@@ -407,23 +396,18 @@ class App extends CI_Controller {
     public function checkRequirements(){
 
         $data = array();
-        $continue_install = true;
+        $data['fatal_errs']=array();
+        $data['warnings']= array();
 
         $required_libraries = array(
-            'mysql', 'mysqli', 'date', 'gd', 'libxml', 'mbstring', 'mcrypt', 'mysqlnd', 'session', 'SimpleXML', 'xml', 'xmlreader', 'xmlrpc', 'zip', 'zlib'
+            'mysql', 'mysqli', 'date', 'gd', 'libxml', 'mbstring', 'mcrypt', 'mysqlnd', 'session', 'SimpleXML', 'xml', 'xmlreader', 'zip', 'zlib'
         );
         $optional_libraries = array('sqlsrv', 'pdo_sqlsrv', 'PDO_ODBC');
 
-        //PHP version check
-        $version = ceil(str_replace('.','',phpversion()));
-        if($version < 5500){
-            $continue_install = false;
-        }
 
         $data['php'] = array(
             'version'=>phpversion(),
-            'version_level'=>$version,
-            'sufficient'=> ($version < 5500) ? false : true,
+            'sufficient'=> version_compare(phpversion(), '5.5.0'),
         );
 
         foreach($required_libraries as $library){
@@ -432,7 +416,6 @@ class App extends CI_Controller {
                     'library'=>$library,
                     'message'=> 'Not loaded'
                 );
-                $continue_install = false;
             }
         }
 
@@ -444,8 +427,6 @@ class App extends CI_Controller {
                 );
             }
         }
-
-        $data['continue'] = $continue_install;
 
         return $data;
     }

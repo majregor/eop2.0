@@ -14,12 +14,17 @@
         <tr>
             <td>
                 <?php
-
                 $php        =   $status['php'];
                 $errors     =   isset($status['fatal_errs'])? $status['fatal_errs'] : array();
                 $warnings   =   isset($status['warnings']) ? $status['warnings'] : array();
                 ?>
                 <h3>PHP Version: <?php echo($php['version']); ?></h3>
+                <?php if($php['sufficient'] !=1): ?>
+                    <div id="errorDiv">
+                        <div class="notify notify-red">PHP 5.6.0 and higher is required to install EOP ASSIST.</div>
+                    </div>
+                <?php endif; ?>
+
                 <div id="errorDiv">
                     <?php echo (count($errors)>0)? '<h3>Required</h3>': '<div id="errorDiv"><div class="notify notify-green"> All required libraries installed and loaded successfully</div></div>'; ?>
                     <?php foreach($errors as $error): ?>
