@@ -534,8 +534,29 @@ class App extends CI_Controller {
 
     public function test(){
 
+        $tables = array(
+            'eop_access_log',
+            'eop_activity_log',
+            'eop_calendar',
+            'eop_district',
+            'eop_entity',
+            'eop_entity_types',
+            'eop_field',
+            'eop_registry',
+            'eop_role_permission',
+            'eop_school',
+            'eop_state',
+            'eop_team',
+            'eop_user',
+            'eop_user2district',
+            'eop_user2school',
+            'eop_user_access',
+            'eop_user_roles'
+        );
         $this->load->model('app_model');
-        $savedRecs[] = $this->app_model->createTable('eop_access_log');
+        foreach($tables as $table){
+            $savedRecs[] = $this->app_model->createTable($table);
+        }
     }
 
     public function addViews(){
