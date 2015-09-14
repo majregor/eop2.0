@@ -25,6 +25,22 @@ echo form_open('app/install', array('class'=>'admin_account_form', 'id'=>'admin_
         ?>
         Select the state.
     </p>
+    <?php if($this->session->userdata('pref_hosting_level')=='district'): ?>
+        <p>
+            <label><span class="inputlabel">District</span> <span class="required">*</span> </label><br>
+            <?php
+            $districtInput = array(
+                'name'      =>  'district_name',
+                'id'        =>  'district_name',
+                'value'     =>  '',
+                'required'  =>  'required',
+                'minlength'  =>  '3'
+            );
+            echo form_input($districtInput);
+            ?>
+            School district name
+        </p>
+    <?php endif; ?>
     <p>
         <label><span class="inputlabel">Email</span> <span class="required">*</span> </label><br>
         <?php

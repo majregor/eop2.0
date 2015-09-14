@@ -1,5 +1,5 @@
 <?php
-    echo form_open('app/install', array('class'=>'finished_form', 'id'=>'finished_form'));
+    echo form_open('/login', array('class'=>'finished_form', 'id'=>'finished_form'));
 ?>
     <h3 class="title">Configuration Completed</h3>
 <?php if(isset($error)): ?>

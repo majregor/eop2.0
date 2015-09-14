@@ -54,7 +54,7 @@ if((null != $this->session->flashdata('error'))):
             <p>EOP ASSIST uses a database system that allows large amounts of data to be stored and retrieved in a fast and efficient manner.
             </p>
 
-            <p>EOP ASSIST's database structure has been changed in order to provide new useful features that were not part of the recent version. This migration module will automatically migrate your data from the old database system into a new database system that is usable by EOP 2.0, it only requires that your old database be available.<br>Please check your database details and enter them here.
+            <p>EOP ASSIST's database structure has been changed in order to provide new useful features that were not part of the previous version. This migration module will automatically migrate your data from the old database system into a new database system that is usable by EOP ASSIST 2.0. it only requires that your old database be available.<br><br>Please check your database details and enter them here.
             </p>
         </div>
         <div class="right" style="width:60%; text-align: left;">

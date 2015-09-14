@@ -3,17 +3,35 @@
 ?>
     <h3 class="title">Select a hosting level or profile</h3>
     <p>
-        <?php echo form_radio('pref_hosting_level', 'state', FALSE); ?>
-        <span class="inputlabel">State Level</span>
+        <?php
+            $data = array(
+                'name'        => 'pref_hosting_level',
+                'id'          => 'state-radio',
+                'value'       => 'state',
+                'checked'     => FALSE,
+                'style'       => ''
+            );
+            echo form_radio($data);
+        ?>
+        <label for="state-radio" class="inputlabel">State Level</label>
         <br>
-        <label for="hosting_level">Install EOP Assist at the State Level</label>
+        <label for="state-radio">Install EOP Assist at the State Level</label>
     </p>
 
     <p>
-        <?php echo form_radio('pref_hosting_level', 'district', TRUE); ?>
-        <span class="inputlabel">District Level</span>
+        <?php
+            $data = array(
+                'name'        => 'pref_hosting_level',
+                'id'          => 'district-radio',
+                'value'       => 'district',
+                'checked'     => TRUE,
+                'style'       => ''
+            );
+        echo form_radio($data);
+        ?>
+        <label for="district-radio" class="inputlabel">District Level</label>
         <br>
-        <label for="hosting_level">Install EOP Assist at the District Level</label>
+        <label for="district-radio">Install EOP Assist at the District Level</label>
     </p>
 
     <p>

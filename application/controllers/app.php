@@ -308,10 +308,8 @@ class App extends CI_Controller {
                                         'role_id'       =>  1
                                 );
 
-
-                                $savedTables = $this->addTables();
-
-
+                                //Populate database with tables and views
+                                $this->addTables($this->session->userdata['database']['dbdriver']);
 
                                 /**
                                  * Connect to database and save the super admin settings
@@ -320,6 +318,22 @@ class App extends CI_Controller {
 
                                 $this->load->model('user_model');
                                 $savedUsers = $this->user_model->addUser($adminData);
+
+                                if($this->session->userdata('pref_hosting_level') == 'district'){
+                                    $district_name = $this->input->post('district_name');
+
+                                    if(!empty($district_name)){
+                                        $this->load->model('district_model');
+                                        $districtData = array(
+                                            'name'          =>  $district_name,
+                                            'screen_name'   =>  $district_name,
+                                            'state_val'     =>  ($this->input->post('host_state')) ? $this->input->post('host_state') :  NULL
+                                        );
+
+                                        $this->district_model->addDistrict($districtData);
+                                    }
+
+                                }
 
                                 /**
                                  * Save the selected settings into the App registry
@@ -497,9 +511,9 @@ class App extends CI_Controller {
     }
 
     /**
-     *
+     * @param $dbdriver String
      */
-    public function addTables(){
+    public function addTables($dbdriver){
 
         $this->load->model('app_model');
         $savedRecs = array();
@@ -525,14 +539,18 @@ class App extends CI_Controller {
         );
 
         foreach($tables as $table){
-            $savedRecs[] = $this->app_model->createTable($table);
+            $savedRecs[] = $this->app_model->createTable($table, $dbdriver);
         }
 
-        return $savedRecs;
+        //Initialise entity_types, states and user roles tables
+        $this->app_model->initializeTables($dbdriver);
+
+        //Create views
+        $this->app_model->createViews($dbdriver);
 
     }
 
-    public function test(){
+    public function test($dbdriver='mysqli'){
 
         $tables = array(
             'eop_access_log',
@@ -555,20 +573,14 @@ class App extends CI_Controller {
         );
         $this->load->model('app_model');
         foreach($tables as $table){
-            $savedRecs[] = $this->app_model->createTable($table);
+            $savedRecs[] = $this->app_model->createTable($table, $dbdriver);
         }
-    }
 
-    public function addViews(){
+        //Initialise entity_types, states and user roles tables
+        $this->app_model->initializeTables($dbdriver);
 
-        $this->load->model('app_model');
-
-        $views = array(
-            'eop_view_entities',
-            'eop_view_school',
-            'eop_view_school_user',
-            'eop_view_user'
-        );
+        //Create views
+        $this->app_model->createViews($dbdriver);
     }
 
     /**

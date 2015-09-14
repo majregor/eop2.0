@@ -219,6 +219,7 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
                 user_name               : $('#user_name').val(),
                 user_email              : $('#user_email').val(),
                 host_state              : $('#host_state').val(),
+                district_name           : $('#district_name').val(),
                 user_password           : $('#user_password').val(),
                 ajax                    : '1'
             };
