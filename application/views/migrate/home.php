@@ -195,6 +195,9 @@ if((null != $this->session->flashdata('error'))):
             height:         dHeight,
             modal:          true,
             autoOpen:       false,
+            close: function( event, ui ) {
+                $("#divProgress").html("");
+            },
             show:           {
                 effect:     'scale',
                 duration: 300

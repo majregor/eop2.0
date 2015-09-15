@@ -363,13 +363,16 @@ class Migrate_model extends CI_Model {
 
         //Get course of action data
         //select A.*, C.id from tbl_fn_action A join tbl_goal_second B on A.goal_second_id=B.id join tbl_goal_second_fn C ON C.goal_second_id=B.id
-        $db_obj->select('A.*, C.id')
+        /*$db_obj->select('A.*, C.id')
             ->from('tbl_fn_action A')
             ->join('tbl_goal_second B', 'A.goal_second_id=B.id')
             ->join('tbl_goal_second_fn C', 'C.goal_second_id=B.id')
-            ->where(array('C.id'=>$fn_id));
+            ->where(array('C.id'=>$fn_id, 'C.fn_id'=>'A.fn_id'));*/
 
-        $query = $db_obj ->get();
+
+        $query = $db_obj->query("select A.*, C.id, C.fn_id from tbl_fn_action A join tbl_goal_second B on
+A.goal_second_id=B.id join tbl_goal_second_fn C ON C.goal_second_id=B.id where C.id=$fn_id and C.fn_id=A.fn_id");
+
         $action_data = $query->result_array();
 
 
@@ -401,6 +404,19 @@ class Migrate_model extends CI_Model {
         }else{
             return array();
         }
+    }
+
+    public function test($db_obj){
+        /*$db_obj->select('A.*, C.id, C.fn_id as ddd')
+            ->from('tbl_fn_action A')
+            ->join('tbl_goal_second B', 'A.goal_second_id=B.id')
+            ->join('tbl_goal_second_fn C', 'C.goal_second_id=B.id')
+            ->where('C.id=2 AND ddd = fn_id');*/
+        $query = $db_obj->query("select A.*, C.id, C.fn_id from tbl_fn_action A join tbl_goal_second B on
+A.goal_second_id=B.id join tbl_goal_second_fn C ON C.goal_second_id=B.id where C.id=3 and C.fn_id=A.fn_id");
+
+        //$query = $db_obj ->get();
+        return  $query->result_array();
     }
 
 }
