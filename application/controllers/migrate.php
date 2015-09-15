@@ -481,18 +481,28 @@ EOF;
 
                         if(is_array($goalData) && count($goalData)>0){
 
-                            //Add field to newly migrated TH to indicate that it has been initiated
-                            $fieldData = array(
-                                'entity_id' => $migrated_th[0]['id'],
-                                'name' => 'TH Field',
-                                'title' => 'Threats and Hazards Default Field',
-                                'weight' => 1,
-                                'type' => 'text',
-                                'body' => ''
-                            );
+                            $th_initiated = false;
 
-                            $recs = $this->plan_model->addField($fieldData);
+                            if(isset($goalData['g1']['parent'][0]['g1']) && !empty($goalData['g1']['parent'][0]['g1']))
+                                $th_initiated = true;
+                            if(isset($goalData['g2']['parent'][0]['g2']) && !empty($goalData['g2']['parent'][0]['g2']))
+                                $th_initiated = true;
+                            if(isset($goalData['g3']['parent'][0]['g3']) && !empty($goalData['g3']['parent'][0]['g3']))
+                                $th_initiated = true;
+                            
+                            if($th_initiated) {
+                                //Add field to newly migrated TH to indicate that it has been initiated
+                                $fieldData = array(
+                                    'entity_id' => $migrated_th[0]['id'],
+                                    'name' => 'TH Field',
+                                    'title' => 'Threats and Hazards Default Field',
+                                    'weight' => 1,
+                                    'type' => 'text',
+                                    'body' => ''
+                                );
 
+                                $recs = $this->plan_model->addField($fieldData);
+                            }
 
 
                             $goalRecords = $goalData;
