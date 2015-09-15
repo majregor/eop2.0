@@ -489,7 +489,7 @@ EOF;
                                 $th_initiated = true;
                             if(isset($goalData['g3']['parent'][0]['g3']) && !empty($goalData['g3']['parent'][0]['g3']))
                                 $th_initiated = true;
-                            
+
                             if($th_initiated) {
                                 //Add field to newly migrated TH to indicate that it has been initiated
                                 $fieldData = array(

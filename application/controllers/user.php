@@ -188,7 +188,7 @@ class User extends CI_Controller{
             $templateData = array(
                 'page'          =>  'users',
                 'page_title'    =>  'User Management',
-                'step_title'    =>  'Create User',
+                'step_title'    =>  'Users',
                 'viewform'      =>  true,
                 'roles'         =>  $roles,
                 'districts'     =>  $districts,
