@@ -15,9 +15,12 @@
 
                 </li>
             <?php endif; ?>
-        <li>
-            <a href="<?php echo base_url(); ?>access">State Access</a>
-        </li>
+        <?php if($this->session->userdata('host_level')=='state'): ?>
+                <li>
+                    <a href="<?php echo base_url(); ?>access">State Access</a>
+                </li>
+        <?php endif; ?>
+
         <?php endif; ?>
     </ul>
     <br style="clear: both;"/>

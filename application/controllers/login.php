@@ -59,6 +59,9 @@ class Login extends CI_Controller{
                     //Get the host state and add to session
                     $this->session->set_userdata('host_state', $this->registry_model->getValue('host_state'));
 
+                    //Get the host level and add to session
+                    $this->session->set_userdata('host_level', $this->registry_model->getValue('host_level'));
+
                     // Load user's school into session object for school users and school administrators
                     if($sessionData['role']['level']>3){
 

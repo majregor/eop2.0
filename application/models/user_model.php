@@ -27,7 +27,6 @@ class User_model extends CI_Model {
         else{
             return false;
         }
-
     }
 
     function addUser($userData){
@@ -497,7 +496,12 @@ class User_model extends CI_Model {
 
         foreach($query->result_array() as $key=>$value){
             if($value['level'] >$userRole['level']){
-                array_push($cleanRoleData, $value);
+                if($this->session->userdata('host_level')=='district' && $value['level']==2){
+                    //do nothing
+                }else{
+                    array_push($cleanRoleData, $value);
+                }
+
             }
 
             //Add School Admin to list as an exception to enable school admins be able to add fellow school admins
