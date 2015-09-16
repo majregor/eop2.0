@@ -426,6 +426,8 @@ if(isset($viewform)){
             $('#username_update').val(user_name);
             $('#phone_update').val(phone);
 
+            get_schools_in_district(district, school);
+
 
             if(role==<?php echo($role['role_id']); ?>){
                     if($("#slctuserrole_update option[value='"+role+"']").length >0){ // Check if the value exists
@@ -476,12 +478,21 @@ if(isset($viewform)){
 
                 <?php endif; ?>
 
-                if(role >3 ){
+                if(role <3 ){
+                    $("#sltdistrict_update option[value='']").remove();
                     $('#districtInputHolder').hide();
                     $('#sltdistrict_update').attr("required", false);
-
                 }
                 else{
+
+                    $("#sltdistrict_update option[value='']").remove();
+                    if(role !=3){
+                        $("<option></option>")
+                            .val('')
+                            .html("None")
+                            .insertAfter($('#sltdistrict_update').children().first());
+                    }
+
                     $('#districtInputHolder').show();
                     $('#sltdistrict_update').val(district);
                 }
@@ -833,5 +844,45 @@ if(isset($viewform)){
 
                 
             });
+
+
+        function get_schools_in_district(district_id, school){
+            //alert(district_id);
+            var form_data = {
+                ajax:           '1',
+                district_id:    (district_id != 'Null') ? district_id : -1
+            };
+
+
+            $.ajax({
+                url: "<?php echo base_url('school/get_schools_in_district'); ?>",
+                type: 'POST',
+                data: form_data,
+                success: function (response) {
+                    var schools = JSON.parse(response);
+                    var schoolElement = $("#sltschool_update");
+                    schoolElement.empty(); // remove the old options
+
+                    schoolElement.append($("<option></option>")
+                        .attr("value", "")
+                        .text("--Select--"));
+
+                    $.each(schools, function (key, value) {
+                        if(school == value.id){
+                            schoolElement.append($("<option></option>")
+                                .attr("value", value.id)
+                                .attr("selected", "selected")
+                                .text(value.name));
+                        }else{
+                            schoolElement.append($("<option></option>")
+                                .attr("value", value.id)
+                                .text(value.name));
+                        }
+
+                    });
+                }
+            });
+        }
+
     });
 </script>
