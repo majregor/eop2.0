@@ -31,6 +31,8 @@ class Migrate extends CI_Controller {
 
 	public function index()
 	{
+        //Make sure user is logged in
+        $this->authenticate();
 
         $this->template->set('page_title', 'Data Migration');
         $data = array(
@@ -1065,6 +1067,312 @@ EOF;
                         }
                     }
                 }
+                //else try and get orphaned functions that don't have an associated Threat and Hazard goal or objective but
+                // have data in them from the old eop1.0
+                else{
+
+                    $goalData = $this->migrate_model->getFNData($db_obj, $record['id']);
+
+                    if(is_array($goalData) && count($goalData)>0) {
+
+
+                        //Add the orphan function to the database
+                        $fndata = array(
+                            'name'      =>      $record['fn_name'],
+                            'title'     =>      $record['fn_name'],
+                            'parent'    =>      1,
+                            'owner'     =>      $this->session->userdata('user_id'),
+                            'sid'       =>      (!empty($school) && is_array($school)) ? $school[0]['id'] : null,
+                            'type_id'   =>      $this->plan_model->getEntityTypeId('fn', 'name')
+                        );
+                        $fn_record_id = null;
+                        $this->plan_model->addTHFn($fndata, $fn_record_id);
+
+                        $goalRecords = $goalData;
+
+
+                        $there_is_a_goal = false;
+
+                        if (isset($goalRecords['g1']['parent'][0]['g1']) && !empty($goalRecords['g1']['parent'][0]['g1']))
+                            $there_is_a_goal = true;
+
+                        if (isset($goalRecords['g2']['parent'][0]['g2']) && !empty($goalRecords['g2']['parent'][0]['g2']))
+                            $there_is_a_goal = true;
+
+                        if (isset($goalRecords['g3']['parent'][0]['g3']) && !empty($goalRecords['g3']['parent'][0]['g3']))
+                            $there_is_a_goal = true;
+
+                        //Deal with goal 1
+                        $g1 = $goalRecords['g1'];
+                        $parent = $g1['parent'];
+                        $course_of_action = $goalRecords['ca'];
+
+                        if ($there_is_a_goal) {
+
+                            $goal1Data = array(
+                                'name' => 'Goal 1',
+                                'title' => 'Goal 1 (Before)',
+                                'owner' => $this->session->userdata('user_id'),
+                                'sid' => (!empty($school) && is_array($school)) ? $school[0]['id'] : null,
+                                'type_id' => $this->plan_model->getEntityTypeId('g1', 'name'),
+                                'parent' => $fn_record_id,
+                                'weight' => 1
+                            );
+                            $insertedGoalId = $this->plan_model->addEntity($goal1Data);
+
+                            //Add Course of action entity enter body for g1 only
+                            if (isset($course_of_action[0]['action_text']) && !empty($course_of_action[0]['action_text'])) {
+
+                                $courseOfActionData = array(
+                                    'name' => 'Goal 1 FN Course of Action',
+                                    'title' => 'Course of Action',
+                                    'owner' => $this->session->userdata('user_id'),
+                                    'sid' => (!empty($school) && is_array($school)) ? $school[0]['id'] : null,
+                                    'type_id' => $this->plan_model->getEntityTypeId('ca', 'name'),
+                                    'parent' => $insertedGoalId,
+                                    'weight' => 1
+                                );
+
+                                $newCourseofActionId = $this->plan_model->addEntity($courseOfActionData);
+
+                                $fieldData = array(
+                                    'entity_id' => $newCourseofActionId,
+                                    'name' => 'Goal 1 FN Course of Action Field',
+                                    'title' => 'Goal 1 FN Course of Action Field',
+                                    'weight' => 1,
+                                    'type' => 'text',
+                                    'body' => $course_of_action[0]['action_text']
+                                );
+                                $this->plan_model->addField($fieldData);
+                            }
+
+
+                            if (count($parent) > 0) {
+
+                                // add goal 1 field data
+                                $goal1FieldData = array(
+                                    'entity_id' => $insertedGoalId,
+                                    'name' => 'Goal 1 Function Field',
+                                    'title' => 'Goal 1 Function Field',
+                                    'weight' => 1,
+                                    'type' => 'text',
+                                    'body' => $parent[0]['g1']
+                                );
+                                $this->plan_model->addField($goal1FieldData);
+
+                            }
+
+                            //Objectives
+                            //Loop through objectives and insert respective fields data
+                            $objectives = $g1['objectives'];
+                            if (is_array($objectives) && count($objectives) > 0) {
+                                foreach ($objectives as $key => $objective) {
+
+                                    //Create new entity and field
+                                    $entityData = array(
+                                        'name' => 'Goal 1 Objective',
+                                        'title' => 'Objective',
+                                        'owner' => $this->session->userdata('user_id'),
+                                        'sid' => $school[0]['id'],
+                                        'type_id' => $this->plan_model->getEntityTypeId('obj', 'name'),
+                                        'parent' => $insertedGoalId,
+                                        'weight' => $key
+                                    );
+                                    $entityId = $this->plan_model->addEntity($entityData);
+
+                                    $fieldData = array(
+                                        'entity_id' => $entityId,
+                                        'name' => 'Objective Field',
+                                        'title' => 'Objective',
+                                        'weight' => 1,
+                                        'type' => 'text',
+                                        'body' => $objective['obj']
+                                    );
+                                    $this->plan_model->addField($fieldData);
+
+                                }
+                            }
+                        } //end if there_is_a_goal for g1
+
+
+                        //Deal with goal 2
+                        $g2 = $goalRecords['g2'];
+                        $parent = $g2['parent'];
+
+                        if ($there_is_a_goal) {
+                            $goal2Data = array(
+                                'name' => 'Goal 2',
+                                'title' => 'Goal 2 (Before)',
+                                'owner' => $this->session->userdata('user_id'),
+                                'sid' => (!empty($school) && is_array($school)) ? $school[0]['id'] : null,
+                                'type_id' => $this->plan_model->getEntityTypeId('g2', 'name'),
+                                'parent' => $fn_record_id,
+                                'weight' => 1
+                            );
+                            $insertedGoalId = $this->plan_model->addEntity($goal2Data);
+
+                            if (isset($course_of_action[0]['action_text']) && !empty($course_of_action[0]['action_text'])) {
+
+                                $courseOfActionData = array(
+                                    'name' => 'Goal 2 FN Course of Action',
+                                    'title' => 'Course of Action',
+                                    'owner' => $this->session->userdata('user_id'),
+                                    'sid' => (!empty($school) && is_array($school)) ? $school[0]['id'] : null,
+                                    'type_id' => $this->plan_model->getEntityTypeId('ca', 'name'),
+                                    'parent' => $insertedGoalId,
+                                    'weight' => 1
+                                );
+
+                                $newCourseofActionId = $this->plan_model->addEntity($courseOfActionData);
+
+                                $fieldData = array(
+                                    'entity_id' => $newCourseofActionId,
+                                    'name' => 'Goal 2 FN Course of Action Field',
+                                    'title' => 'Goal 2 FN Course of Action Field',
+                                    'weight' => 1,
+                                    'type' => 'text',
+                                    'body' => ''
+                                );
+                                $this->plan_model->addField($fieldData);
+                            }
+
+                            if (count($parent) > 0) {
+                                if (isset($parent[0]['g2']) && !empty($parent[0]['g2'])) {
+                                    // add goal 1 field data
+                                    $goal2FieldData = array(
+                                        'entity_id' => $insertedGoalId,
+                                        'name' => 'Goal 2 Function Field',
+                                        'title' => 'Goal 2 Function Field',
+                                        'weight' => 1,
+                                        'type' => 'text',
+                                        'body' => $parent[0]['g2']
+                                    );
+                                    $this->plan_model->addField($goal2FieldData);
+                                }
+                            }
+
+                            //Objectives
+                            //Loop through objectives and insert respective fields data
+                            $objectives = $g2['objectives'];
+                            if (is_array($objectives) && count($objectives) > 0) {
+                                foreach ($objectives as $key => $objective) {
+
+                                    //Create new entity and field
+                                    $entityData = array(
+                                        'name' => 'Goal 2 Objective',
+                                        'title' => 'Objective',
+                                        'owner' => $this->session->userdata('user_id'),
+                                        'sid' => $school[0]['id'],
+                                        'type_id' => $this->plan_model->getEntityTypeId('obj', 'name'),
+                                        'parent' => $insertedGoalId,
+                                        'weight' => $key
+                                    );
+                                    $entityId = $this->plan_model->addEntity($entityData);
+
+                                    $fieldData = array(
+                                        'entity_id' => $entityId,
+                                        'name' => 'Objective Field',
+                                        'title' => 'Objective',
+                                        'weight' => 1,
+                                        'type' => 'text',
+                                        'body' => $objective['obj']
+                                    );
+                                    $this->plan_model->addField($fieldData);
+
+                                }
+                            }
+                        } //end if there_is_a_goal for g2
+
+
+                        //Deal with goal 3
+                        $g3 = $goalRecords['g3'];
+                        $parent = $g3['parent'];
+
+
+                        if ($there_is_a_goal) {
+                            $goal3Data = array(
+                                'name' => 'Goal 3',
+                                'title' => 'Goal 3 (Before)',
+                                'owner' => $this->session->userdata('user_id'),
+                                'sid' => (!empty($school) && is_array($school)) ? $school[0]['id'] : null,
+                                'type_id' => $this->plan_model->getEntityTypeId('g3', 'name'),
+                                'parent' => $fn_record_id,
+                                'weight' => 1
+                            );
+                            $insertedGoalId = $this->plan_model->addEntity($goal3Data);
+
+                            if (isset($course_of_action[0]['action_text']) && !empty($course_of_action[0]['action_text'])) {
+
+                                $courseOfActionData = array(
+                                    'name' => 'Goal 3 FN Course of Action',
+                                    'title' => 'Course of Action',
+                                    'owner' => $this->session->userdata('user_id'),
+                                    'sid' => (!empty($school) && is_array($school)) ? $school[0]['id'] : null,
+                                    'type_id' => $this->plan_model->getEntityTypeId('ca', 'name'),
+                                    'parent' => $insertedGoalId,
+                                    'weight' => 1
+                                );
+
+                                $newCourseofActionId = $this->plan_model->addEntity($courseOfActionData);
+
+                                $fieldData = array(
+                                    'entity_id' => $newCourseofActionId,
+                                    'name' => 'Goal 3 FN Course of Action Field',
+                                    'title' => 'Goal 3 FN Course of Action Field',
+                                    'weight' => 1,
+                                    'type' => 'text',
+                                    'body' => ''
+                                );
+                                $this->plan_model->addField($fieldData);
+                            }
+
+                            if (count($parent) > 0) {
+                                if (isset($parent[0]['g3']) && !empty($parent[0]['g3'])) {
+                                    // add goal 3 field data
+                                    $goal3FieldData = array(
+                                        'entity_id' => $insertedGoalId,
+                                        'name' => 'Goal 3 Function Field',
+                                        'title' => 'Goal 3 Function Field',
+                                        'weight' => 1,
+                                        'type' => 'text',
+                                        'body' => $parent[0]['g3']
+                                    );
+                                    $this->plan_model->addField($goal3FieldData);
+                                }
+                            }
+
+                            //Objectives
+                            //Loop through objectives and insert respective fields data
+                            $objectives = $g3['objectives'];
+                            if (is_array($objectives) && count($objectives) > 0) {
+                                foreach ($objectives as $key => $objective) {
+
+                                    //Create new entity and field
+                                    $entityData = array(
+                                        'name' => 'Goal 3 Objective',
+                                        'title' => 'Objective',
+                                        'owner' => $this->session->userdata('user_id'),
+                                        'sid' => $school[0]['id'],
+                                        'type_id' => $this->plan_model->getEntityTypeId('obj', 'name'),
+                                        'parent' => $insertedGoalId,
+                                        'weight' => $key
+                                    );
+                                    $entityId = $this->plan_model->addEntity($entityData);
+
+                                    $fieldData = array(
+                                        'entity_id' => $entityId,
+                                        'name' => 'Objective Field',
+                                        'title' => 'Objective',
+                                        'weight' => 1,
+                                        'type' => 'text',
+                                        'body' => $objective['obj']
+                                    );
+                                    $this->plan_model->addField($fieldData);
+                                }
+                            }
+                        } //end if there_is_a_goal for g3
+                    }//End if goalData has records
+                } //End else
 
                 $this->send_message($serverTime, $percentage . '% functional goals data processed. server time: ' . date("h:i:s", time()), $percentage);
 
@@ -2236,6 +2544,20 @@ EOF;
         //PUSH THE data out by all FORCE POSSIBLE
         ob_flush();
         flush();
+    }
+
+    /**
+     * Function checks if user is logged in, redirects to login page if not.
+     * @method authenticate
+     * @return void
+     */
+    function authenticate(){
+        if($this->session->userdata('is_logged_in')){
+            //do nothing
+        }
+        else{
+            redirect('/login');
+        }
     }
 
 }

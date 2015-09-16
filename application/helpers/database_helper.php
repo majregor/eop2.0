@@ -9,46 +9,57 @@ if(!function_exists('get_default_functions')) {
 
         $functions = array(
             array(
+                'id'        =>  8,
                 'type_id'   =>  2,
                 'name'      =>  'Communications and Warning'
             ),
             array(
+                'id'        =>  9,
                 'type_id'   =>  2,
                 'name'      =>  'Evacuation'
             ),
             array(
+                'id'        =>  10,
                 'type_id'   =>  2,
                 'name'      =>  'Shelter-in-Place'
             ),
             array(
+                'id'        =>  11,
                 'type_id'   =>  2,
                 'name'      =>  'Lockdown'
             ),
             array(
+                'id'        =>  12,
                 'type_id'   =>  2,
                 'name'      =>  'Accounting for All Persons'
             ),
             array(
+                'id'        =>  13,
                 'type_id'   =>  2,
                 'name'      =>  'Family Reunification'
             ),
             array(
+                'id'        =>  14,
                 'type_id'   =>  2,
                 'name'      =>  'Continuity of Operations (COOP)'
             ),
             array(
+                'id'        =>  15,
                 'type_id'   =>  2,
                 'name'      =>  'Security'
             ),
             array(
+                'id'        =>  16,
                 'type_id'   =>  2,
                 'name'      =>  'Public Health, Medical, and Mental Health'
             ),
             array(
+                'id'        =>  17,
                 'type_id'   =>  2,
                 'name'      =>  'None'
             ),
             array(
+                'id'        =>  18,
                 'type_id'   =>  2,
                 'name'      =>  'Recovery'
             ),

@@ -46,7 +46,7 @@ class Plan_model extends CI_Model {
 
     }
 
-    public function addTHFn($data){
+    public function addTHFn($data, &$fn_id = 0){
 
         //Check if there is a top level function with the same name, if not create one before adding the current function
         $query = $this->db->get_where('eop_entity', array('type_id'=>$data['type_id'], 'name'=>$data['name'],'parent'=>null));
@@ -67,6 +67,7 @@ class Plan_model extends CI_Model {
 
         if($data['parent']!=null) {
             $this->db->insert('eop_entity', $data);
+            $fn_id = $this->db->insert_id();
             $affected_rows = $this->db->affected_rows();
         }
 

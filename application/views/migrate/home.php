@@ -257,6 +257,7 @@ if((null != $this->session->flashdata('error'))):
 
                                 alert("Congratulations! Data migration process completed successfully");
                                 $("#results-dialog").dialog('close');
+                                window.location.href="<?php echo(base_url('home')); ?>";
 
                             }
                             xmlhttp.previous_text = xmlhttp.responseText;
