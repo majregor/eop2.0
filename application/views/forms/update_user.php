@@ -176,7 +176,9 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 
 
                 $('#sltschool_update').attr('required', false);
-                $('#sltschool_update').rules('remove', 'required');
+                <?php if($role['level']!=4): ?>
+                    $('#sltschool_update').rules('remove', 'required');
+                <?php endif; ?>
             }
             else if($(this).val()==4 || $(this).val()==5){
                 $("#districtInputHolder").show();
@@ -187,9 +189,15 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 
 
                 $('#sltschool_update').attr('required', true);
-                $('#sltschool_update').rules('add', 'required');
+                <?php if($role['level']!=4): ?>
+                    $('#sltschool_update').rules('add', 'required');
+                <?php endif; ?>
 
-                get_schools_in_district($('#sltdistrict_update').val());
+                <?php if($role['level']==3): ?>
+                    get_schools_in_district(<?php echo($adminDistrict); ?>);
+                <?php else: ?>
+                    get_schools_in_district($('#sltdistrict_update').val());
+                <?php endif; ?>
             }
             else if($(this).val()==1 || $(this).val()==2){
                 $("#districtInputHolder").hide();
@@ -198,6 +206,12 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
                 $('#sltschool_update').attr('required', false);
                 $('#sltschool_update').rules('remove', 'required');
             }
+
+            if($(this).val() == 5){
+                $('#viewonlyInputHolder').show();
+            }else{
+                $('#viewonlyInputHolder').hide();
+            }
         });
 
 
@@ -205,7 +219,6 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
             var district_id = $(this).val();
             get_schools_in_district(district_id);
         });
-
 
 
 

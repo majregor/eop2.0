@@ -200,7 +200,6 @@ class User extends CI_Controller{
             $this->template->load('template', 'users_screen', $templateData);
         }
 
-
     }
 
     /**
@@ -225,6 +224,9 @@ class User extends CI_Controller{
                 'access'           =>   $this->input->post('access')
             );
 
+            // Force access (View only attribute) to 'No' for other users except school user.
+            if($this->input->post('role_id')<=4)
+                $data['access'] = 'n';
 
             $savedRecs = $this->user_model->update($data);
 

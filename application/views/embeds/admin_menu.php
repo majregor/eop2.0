@@ -15,7 +15,7 @@
 
                 </li>
             <?php endif; ?>
-        <?php if($this->session->userdata('host_level')=='state'): ?>
+        <?php if(($this->session->userdata('host_level')) && $this->session->userdata('host_level')=='state'): ?>
                 <li>
                     <a href="<?php echo base_url(); ?>access">State Access</a>
                 </li>
