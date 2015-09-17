@@ -18,7 +18,7 @@ if($this->session->userdata['role']['level']==3){
         <div id="select_school_dialog" title="Select School">
             <p style="margin-top:20px;">
 
-                <select id="sltschool" name="sltschool" required="required"></select>
+                <select id="sltschool_dialog" name="sltschool_dialog" required="required"></select>
             </p>
         </div>
     <?php
@@ -170,7 +170,7 @@ if($this->session->userdata['role']['level']==3){
             buttons: {
                 "OK": function(){
 
-                    var selectElement = $("#sltschool");
+                    var selectElement = $("#sltschool_dialog");
                     if(selectElement.val()==''){
                         selectElement.addClass('error');
                         selectElement.focus();

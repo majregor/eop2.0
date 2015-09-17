@@ -67,7 +67,7 @@
                  data: {ajax: '1', user_id:<?php echo ($this->session->userdata('user_id')); ?>},
                  success: function(response){
                      var schools = JSON.parse(response);
-                     var dialogSchoolElement = $("#sltschool");
+                     var dialogSchoolElement = $("#sltschool_dialog");
                      var pageSchoolElement = $("#slctsubdistrictselection");
                      dialogSchoolElement.empty(); // remove the old options
                      pageSchoolElement.empty();
@@ -102,7 +102,7 @@
                  buttons: {
                      "OK": function(){
 
-                         var selectElement = $("#sltschool");
+                         var selectElement = $("#sltschool_dialog");
                          if(selectElement.val()==''){
                              selectElement.addClass('error');
                              selectElement.focus();
@@ -228,7 +228,7 @@
                  data: {ajax: '1', user_id:<?php echo ($this->session->userdata('user_id')); ?>},
                  success: function(response){
                      var schools = JSON.parse(response);
-                     var dialogSchoolElement = $("#sltschool");
+                     var dialogSchoolElement = $("#sltschool_dialog");
                      var pageSchoolElement = $("#slctsubdistrictselection");
                      dialogSchoolElement.empty(); // remove the old options
                      pageSchoolElement.empty();
@@ -262,7 +262,7 @@
                  modal: true,
                  buttons: {
                      "OK": function(){
-                         var selectElement = $("#sltschool");
+                         var selectElement = $("#sltschool_dialog");
                          if(selectElement.val()==''){
                              selectElement.addClass('error');
                              selectElement.focus();
