@@ -26,6 +26,9 @@ class App_model extends CI_Model {
         if(empty($dbdriver) || $dbdriver=='')
             $dbdriver = 'mysqli';
 
+        if($dbdriver == 'sqlsrv')
+            $this->tableFields = get_sqlsrv_table_fields();
+
         switch ($table_name){
 
             case 'eop_access_log':
@@ -92,7 +95,9 @@ class App_model extends CI_Model {
                 $fields = $this->tableFields[$table_name];
                 $this->dbforge->add_field($fields);
                 $this->dbforge->add_key('id', TRUE);
-                $this->dbforge->add_key('val');
+                if($dbdriver != 'sqlsrv') {
+                    $this->dbforge->add_key('val');
+                }
                 $this->dbforge->create_table($table_name, TRUE);
                 break;
             case 'eop_team':
@@ -106,8 +111,13 @@ class App_model extends CI_Model {
                 $this->dbforge->add_field($fields);
                 $this->dbforge->add_key('user_id', TRUE);
                 $this->dbforge->create_table($table_name, TRUE);
-                $this->db->query('ALTER TABLE eop_user ADD UNIQUE INDEX (email)');
-                $this->db->query('ALTER TABLE eop_user ADD UNIQUE INDEX (username)');
+                if($dbdriver == 'mysqli') {
+                    $this->db->query('ALTER TABLE eop_user ADD UNIQUE INDEX (email)');
+                    $this->db->query('ALTER TABLE eop_user ADD UNIQUE INDEX (username)');
+                }elseif($dbdriver == 'sqlsrv') {
+                    $this->db->query('ALTER TABLE eop_user ADD UNIQUE  (email)');
+                    $this->db->query('ALTER TABLE eop_user ADD UNIQUE  (username)');
+                }
                 break;
             case 'eop_user2district':
                 $fields = $this->tableFields[$table_name];
@@ -132,7 +142,11 @@ class App_model extends CI_Model {
                 $this->dbforge->add_field($fields);
                 $this->dbforge->add_key('role_id', TRUE);
                 $this->dbforge->create_table($table_name, TRUE);
-                $this->db->query('ALTER TABLE eop_user ADD UNIQUE INDEX (title)');
+                if($dbdriver == 'mysqli') {
+                    $this->db->query('ALTER TABLE eop_user_roles ADD UNIQUE INDEX (title)');
+                }elseif($dbdriver == 'sqlsrv') {
+                    $this->db->query('ALTER TABLE eop_user_roles ADD UNIQUE  (title)');
+                }
                 break;
         }
     }
@@ -141,21 +155,57 @@ class App_model extends CI_Model {
         if(empty($dbdriver) || $dbdriver=='')
             $dbdriver = 'mysqli';
 
-        //Initialize entity_types master table
-        $data = get_default_entity_types();
-        $this->db->insert_batch('eop_entity_types', $data);
+        switch($dbdriver){
+            case 'mysqli':
+                //Initialize entity_types master table
+                $data = get_default_entity_types();
+                $this->db->insert_batch('eop_entity_types', $data);
 
-        //Initialize functions in the entity table
-        $data = get_default_functions();
-        $this->db->insert_batch('eop_entity', $data);
+                //Initialize functions in the entity table
+                $data = get_default_functions();
+                $this->db->insert_batch('eop_entity', $data);
 
-        //Initialize states table
-        $data = get_default_states();
-        $this->db->insert_batch('eop_state', $data);
+                //Initialize states table
+                $data = get_default_states();
+                $this->db->insert_batch('eop_state', $data);
 
-        //Initialize user roles master table
+                //Initialize user roles master table
 
-        $this->db->query("INSERT INTO eop_user_roles VALUES (1,'Super Admin',NULL,'Super Administrator','n','y','y','y','y','n','n','y','y','y','y',1),(2,'State Administrator',NULL,'State Administrator','n','y','y','y','y','n','n','y','y','y','y',2),(3,'District Administrator',NULL,'District Administrator','n','y','y','n','n','n','n','y','y','y','y',3),(4,'School Administrator',NULL,'School Administrator','n','y','y','n','n','n','n','y','y','y','y',4),(5,'School User',NULL,'School User','n','y','y','n','n','n','n','y','y','n','y',5)");
+                $this->db->query("INSERT INTO eop_user_roles VALUES (1,'Super Admin','Super Administrator','Super Administrator','n','y','y','y','y','n','n','y','y','y','y',1),(2,'State Administrator','State Administrator','State Administrator','n','y','y','y','y','n','n','y','y','y','y',2),(3,'District Administrator','District Administrator','District Administrator','n','y','y','n','n','n','n','y','y','y','y',3),(4,'School Administrator','School Administrator','School Administrator','n','y','y','n','n','n','n','y','y','y','y',4),(5,'School User','School User','School User','n','y','y','n','n','n','n','y','y','n','y',5)");
+                break;
+
+            case 'sqlsrv':
+                //Initialize entity_types master table
+                $data = get_default_entity_types();
+                foreach ($data as $record) {
+                    array_shift($record);
+                    $this->db->insert('eop_entity_types', $record);
+                }
+
+
+                //Initialize functions in the entity table
+                $data = get_default_functions();
+                foreach ($data as $record) {
+                    $this->db->insert('eop_entity', $record);
+                }
+
+
+                //Initialize states table
+                $data = get_default_states();
+                foreach ($data as $key => $record) {
+                    $this->db->insert('eop_state', $record);
+                }
+
+                //Initialize user roles master table
+
+                $this->db->query("INSERT INTO eop_user_roles VALUES ('Super Admin','Super Administrator','Super Administrator','n','y','y','y','y','n','n','y','y','y','y',1)");
+                $this->db->query("INSERT INTO eop_user_roles VALUES ('State Administrator','State Administrator','State Administrator','n','y','y','y','y','n','n','y','y','y','y',2)");
+                $this->db->query("INSERT INTO eop_user_roles VALUES ('District Administrator','District Administrator','District Administrator','n','y','y','n','n','n','n','y','y','y','y',3)");
+                $this->db->query("INSERT INTO eop_user_roles VALUES ('School Administrator','School Administrator','School Administrator','n','y','y','n','n','n','n','y','y','y','y',4)");
+                $this->db->query("INSERT INTO eop_user_roles VALUES ('School User','School User','School User','n','y','y','n','n','n','n','y','y','n','y',5)");
+                break;
+
+        }
 
     }
 
@@ -188,7 +238,7 @@ VIEW eop_view_entities AS
         LEFT JOIN eop_entity_types B ON ((A.type_id = B.id)))
         LEFT JOIN eop_school C ON ((A.sid = C.id)))"
         );
-
+        $orderby = ($dbdriver == 'mysqli') ? " ORDER BY A.name " : " ";
         $this->db->query(
             "CREATE
 
@@ -211,8 +261,7 @@ VIEW eop_view_school AS
     FROM
         ((eop_school A
         LEFT JOIN eop_district B ON ((A.district_id = B.id)))
-        LEFT JOIN eop_state C ON ((A.state_val = C.val)))
-    ORDER BY A.name"
+        LEFT JOIN eop_state C ON ((A.state_val = C.val))) " . $orderby
         );
         
         $this->db->query(

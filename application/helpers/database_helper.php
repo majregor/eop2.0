@@ -899,3 +899,665 @@ if(!function_exists('get_default_states')){
         return $states;
     }
 }
+
+if ( ! function_exists('get_sqlsrv_table_fields')) {
+    function get_sqlsrv_table_fields() {
+
+        $fields = array(
+            'eop_access_log'    =>  array(
+
+                'id' => array(
+                    'type'              => 'INT',
+                    'null'              => FALSE,
+                    'auto_increment'    => TRUE
+                ),
+                'timestamp DATETIME NULL DEFAULT GETDATE()',
+                'body'      =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  256,
+                    'default'       =>  NULL
+                )
+            ),
+            'eop_activity_log'  =>  array(
+
+                'id'    =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'timestamp DATETIME NULL DEFAULT GETDATE()',
+                'uid'           =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  TRUE
+                ),
+                'entity_id'     =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  TRUE
+                ),
+                'field_id'      =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  TRUE
+                ),
+                'activity'      =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  TRUE
+                ),
+                'body'          =>  array(
+                    'type'          =>  'text',
+                    'null'          =>  TRUE
+                ),
+                'description'   =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  128,
+                    'null'          =>  TRUE
+                )
+            ),
+            'eop_calendar'      =>  array(
+                'id'            =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  FALSE,
+                    'auto_increment'=>  TRUE
+                ),
+                'title'         =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  255,
+                    'null'          =>  FALSE
+                ),
+                'body'          =>  array(
+                    'type'          =>  'text',
+                    'null'          =>  FALSE
+                ),
+                'start_time'    =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  100,
+                    'null'          =>  FALSE,
+                ),
+                'end_time'      =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  100,
+                    'null'          =>  FALSE
+                ),
+                'location'      =>  array(
+                    'type'          =>  'text',
+                    'null'          =>  FALSE
+                ),
+                'modified_by'   =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  FALSE
+                ),
+                'modification_date DATETIME NOT NULL DEFAULT GETDATE()',
+                'allDay'        =>  array(
+                    'type'          =>  'INT',
+                    'default'       => 0
+                ),
+                'url'           =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  255,
+                    'null'          =>  TRUE
+                ),
+                'className'     =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  32,
+                    'null'          =>  TRUE
+                ),
+                'editable'      =>  array(
+                    'type'          =>  'INT',
+                    'default'       =>  0
+                ),
+                'startEditable'=>   array(
+                    'type'          =>  'INT',
+                    'default'       =>  0
+                ),
+                'durationEditable'=> array(
+                    'type'          =>  'INT',
+                    'default'       =>  0
+                ),
+                'rendering'     =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  255,
+                    'null'          =>  TRUE
+                ),
+                'overlap'       =>  array(
+                    'type'          =>  'INT',
+                    'default'       =>  0
+                ),
+                'source'        =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  64,
+                    'null'          =>  TRUE
+                ),
+                'color'         =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  32,
+                    'null'          =>  TRUE
+                ),
+                'backgroundColor'=> array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  32,
+                    'null'          =>  TRUE
+                ),
+                'borderColor'   =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  32,
+                    'null'          =>  TRUE
+                ),
+                'textColor'     =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  32,
+                    'null'          =>  TRUE
+                ),
+                'sid'           =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  TRUE
+                ),
+            ),
+            'eop_district'      =>  array(
+                'id'            =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'name'          =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  128,
+                    'null'              =>  FALSE
+                ),
+                'screen_name'   =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  128,
+                    'null'              =>  TRUE
+                ),
+                'description'   =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  128,
+                    'null'              =>  TRUE
+                ),
+                'state_val'     =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  8,
+                    'null'              =>  TRUE
+                ),
+                'modified_date DATETIME NULL DEFAULT GETDATE()',
+                'owner'         =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'state_permission'=>array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  45,
+                    'default'           =>  'deny'
+                )
+            ),
+            'eop_entity'    =>  array(
+                'id'            =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'type_id'       =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'sid'           =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'name'          =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  128,
+                    'null'              =>  TRUE
+                ),
+                'title'         =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  128,
+                    'null'              =>  TRUE
+                ),
+                'owner'         =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'parent'        =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'weight'        =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'created datetime DEFAULT GETDATE()',
+                'timestamp DATETIME NULL DEFAULT GETDATE()',
+                'description'   =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  'MAX',
+                    'null'              =>  TRUE
+                )
+            ),
+            'eop_entity_types'  =>  array(
+                'id'    =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  FALSE,
+                    'auto_increment'=>  TRUE
+                ),
+                'name'  =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  64,
+                    'null'          =>  TRUE
+                ),
+                'title' =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  128,
+                    'null'          =>  TRUE
+                )
+            ),
+            'eop_field'     =>  array(
+                'id'            =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  FALSE,
+                    'auto_increment'=>  TRUE
+                ),
+                'entity_id'     =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  TRUE
+                ),
+                'name'          =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  128,
+                    'null'          =>  TRUE
+                ),
+                'title'         =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  128,
+                    'null'          =>  TRUE
+                ),
+                'weight'        =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  TRUE
+                ),
+                'created datetime DEFAULT GETDATE()',
+                'timestamp DATETIME NULL DEFAULT GETDATE()',
+                'type'          =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  45,
+                    'null'          =>  TRUE
+                ),
+                'body'          =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  'MAX',
+                    'null'          =>  TRUE
+                )
+            ),
+            'eop_registry'      =>  array(
+                'id'        =>  array(
+                    'type'          =>  'INT',
+                    'null'          =>  FALSE,
+                    'auto_increment'=>  TRUE
+                ),
+                'rkey'      =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  32,
+                    'null'          =>  FALSE
+                ),
+                'value'     =>  array(
+                    'type'          =>  'varchar',
+                    'constraint'    =>  'MAX',
+                    'null'          =>  FALSE
+                ),
+                'timestamp DATETIME NULL DEFAULT GETDATE()'
+            ),
+            'eop_role_permission'       =>  array(
+                'id'        =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'rid'       =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'uid'       =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'entity_id' =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'field_id'  =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'permissions'=> array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  45,
+                    'null'              =>  TRUE
+                ),
+            ),
+            'eop_school'    =>  array(
+                'id'            =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'district_id'   =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'default'           =>  0
+                ),
+                'state_val'     =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  8,
+                    'null'              =>  TRUE
+                ),
+                'name'          =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  128,
+                    'null'              =>  TRUE
+                ),
+                'screen_name'   =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  256,
+                    'null'              =>  TRUE
+                ),
+                'description'   =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  256,
+                    'null'              =>  TRUE
+                ),
+                'created_date datetime DEFAULT GETDATE()',
+                'modified_date DATETIME NULL DEFAULT GETDATE()',
+                'owner'         =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'state_permission'=>    array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  45,
+                    'default'           =>  'deny'
+                ),
+                'sys_preferences'   =>  array(
+                    'type'              =>  'varchar',
+                    'constant'          =>  'MAX',
+                    'null'              =>  TRUE
+                ),
+            ),
+            'eop_state'     =>  array(
+                'id'        =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'val'       =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  8,
+                    'null'              =>  FALSE
+                ),
+                'name'      =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  64,
+                    'null'              =>  FALSE
+                ),
+                'screen_name'   =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  128,
+                    'null'              =>  TRUE
+                )
+            ),
+            'eop_team'      =>  array(
+                'id'            =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'name'          =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  255,
+                    'null'              =>  FALSE
+                ),
+                'title'         =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  255,
+                    'null'              =>  TRUE
+                ),
+                'organization'  =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  255,
+                    'null'              =>  TRUE
+                ),
+                'email'         =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  255,
+                    'null'              =>  TRUE
+                ),
+                'phone'         =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  32,
+                    'null'              =>  TRUE
+                ),
+                'interest'      =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  255,
+                    'null'              =>  TRUE
+                ),
+                'timestamp DATETIME DEFAULT GETDATE()',
+                'created datetime DEFAULT GETDATE()',
+                'owner'         =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE
+                ),
+                'sid'           =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'did'           =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                )
+            ),
+            'eop_user'      =>  array(
+                'user_id'       =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'role_id'       =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                ),
+                'first_name'    =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  255,
+                    'null'              =>  TRUE
+                ),
+                'last_name'     =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  255,
+                    'null'              =>  TRUE
+                ),
+                'email'         =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  128,
+                    'null'              =>  FALSE
+                ),
+                'username'      =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  255,
+                    'null'              =>  FALSE
+                ),
+                'password'      =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  255,
+                    'null'              =>  FALSE
+                ),
+                'phone'         =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  30,
+                    'null'              =>  TRUE
+                ),
+                'status'        =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  24,
+                    'null'              =>  TRUE
+                ),
+                'join_date datetime  NULL DEFAULT GETDATE()',
+                'modified DATETIME NULL DEFAULT GETDATE()',
+                'read_only'     =>  array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'n'
+                )
+            ),
+            'eop_user2district'     =>  array(
+                'id'        =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'uid'       =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'did'       =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'timestamp DATETIME NULL DEFAULT GETDATE()'
+            ),
+            'eop_user2school'     =>  array(
+                'id'        =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'uid'       =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'sid'       =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'timestamp DATETIME NULL DEFAULT GETDATE()'
+            ),
+            'eop_user_access'       =>  array(
+                'id'        =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'uid'       =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'entity_id' =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'field_id'  =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                ),
+                'permissions'   =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  45,
+                    'null'              =>  TRUE
+                ),
+            ),
+            'eop_user_roles'    =>  array(
+                'role_id'       =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  FALSE,
+                    'auto_increment'    =>  TRUE
+                ),
+                'title'         =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  100,
+                    'null'              =>  FALSE
+                ),
+                'screen_name'   =>  array(
+                    'type'              =>  'varchar',
+                    'constraint'        =>  32,
+                    'null'              =>  TRUE
+                ),
+                'description'   =>  array(
+                    'type'              =>  'text'
+                ),
+                'is_locked'     =>  array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'n'
+                ),
+                'can_view'      =>  array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'y'
+                ),
+                'can_edit'      =>  array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'y'
+                ),
+                'create_district'=> array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'n'
+                ),
+                'edit_district' =>  array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'n'
+                ),
+                'create_school' =>  array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'n'
+                ),
+                'edit_school'   =>  array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'n'
+                ),
+                'create_user'   =>  array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'y'
+                ),
+                'edit_user'     =>  array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'y'
+                ),
+                'alter_state_access'=>  array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'n'
+                ),
+                'edit_entity'   =>  array(
+                    'type'              =>  'char',
+                    'constraint'        =>  1,
+                    'null'              =>  FALSE,
+                    'default'           =>  'y'
+                ),
+                'level' =>  array(
+                    'type'              =>  'INT',
+                    'null'              =>  TRUE
+                )
+            )
+
+
+        );
+
+        return $fields;
+
+    }
+}
