@@ -209,6 +209,9 @@ class App extends CI_Controller {
                                 $config['password'] = $configs['database']['password'];
                                 $config['database'] = $configs['database']['database'];
                                 $config['dbdriver'] = $configs['database']['dbdriver'];
+                                $config['pconnect'] = ($configs['database']['dbdriver'] == 'sqlsrv') ? FALSE : TRUE;
+
+
 
                                 $this->db = $this->load->database($config, TRUE); // Load the database
 

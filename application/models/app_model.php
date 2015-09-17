@@ -186,6 +186,7 @@ class App_model extends CI_Model {
                 //Initialize functions in the entity table
                 $data = get_default_functions();
                 foreach ($data as $record) {
+                    array_shift($record);
                     $this->db->insert('eop_entity', $record);
                 }
 
