@@ -341,16 +341,9 @@ class User_model extends CI_Model {
 
                     $returnData = $query->result_array();
 
-
-                    /*if(is_array($returnData) && count($returnData)>0){
-                        foreach($returnData as &$returnDataRow){
-                            if(empty($returnData['district_id'])){
-                                $var = $this->getUserDistrictFromSchool($returnDataRow['user_id']);
-                                $returnDataRow['district_id']= $var['district_id'];
-                                $returnDataRow['district']= $var['district'];
-                            }
-                        }
-                    }*/
+                    foreach($returnData as &$sampleRow){
+                        $sampleRow['district_id'] = $districtId;
+                    }
 
                     return $returnData;
                 }else{
