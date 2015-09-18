@@ -480,11 +480,13 @@ class App extends CI_Controller {
         $data = array();
         $data['fatal_errs']=array();
         $data['warnings']= array();
+        $data['file_errs'] = array();
 
         $required_libraries = array(
             'mysql', 'mysqli', 'date', 'gd', 'libxml', 'mbstring', 'mcrypt', 'mysqlnd', 'session', 'SimpleXML', 'xml', 'xmlreader', 'zip', 'zlib'
         );
         $optional_libraries = array('sqlsrv', 'pdo_sqlsrv', 'PDO_ODBC');
+        $writable_files = array ('application/config/settings.php', 'uploads');
 
 
         $data['php'] = array(
@@ -506,6 +508,15 @@ class App extends CI_Controller {
                 $data['warnings'][]=array(
                     'library'=>$library,
                     'message'=> 'Not loaded, Required for MS SQL SERVER'
+                );
+            }
+        }
+
+        foreach($writable_files as $file){
+            if(!file_exists($file) || !is_writable($file)){
+                $data['file_errs'][] = array(
+                    'file'      =>  $file,
+                    'message'   =>  'This file is not writable, please make sure that the user: '.posix_getpwuid(posix_geteuid())['name'].', www-data for IIS or apache for Apache has write permissions to this file or directory to continue.'
                 );
             }
         }
