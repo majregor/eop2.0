@@ -20,7 +20,10 @@
 <h3 class="clicker resources exampleimg">Examples</h3>
  <ul class="reveal">
 <UL>
-  <LI>Assessment Materials and Surveys in REMS <A href="http://rems.ed.gov/ToolBox.aspx" target="_blank">Tool Box</A> </LI></UL>
+  <LI>Assessment Materials and Surveys in REMS <A href="http://rems.ed.gov/ToolBox.aspx" target="_blank">Tool Box</A> </LI>
+    <li><a href="http://rems.ed.gov/ResourceSubmission/ResourceSubmissions.aspx" target="_blank"> Submit your example to the REMS Tool Box</a></li>
+
+</UL>
 </UL>
 
 </div>

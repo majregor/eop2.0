@@ -27,7 +27,6 @@ class User_model extends CI_Model {
         else{
             return false;
         }
-
     }
 
     function addUser($userData){
@@ -342,16 +341,9 @@ class User_model extends CI_Model {
 
                     $returnData = $query->result_array();
 
-
-                    /*if(is_array($returnData) && count($returnData)>0){
-                        foreach($returnData as &$returnDataRow){
-                            if(empty($returnData['district_id'])){
-                                $var = $this->getUserDistrictFromSchool($returnDataRow['user_id']);
-                                $returnDataRow['district_id']= $var['district_id'];
-                                $returnDataRow['district']= $var['district'];
-                            }
-                        }
-                    }*/
+                    foreach($returnData as &$sampleRow){
+                        $sampleRow['district_id'] = $districtId;
+                    }
 
                     return $returnData;
                 }else{
@@ -379,9 +371,9 @@ class User_model extends CI_Model {
 
                 return $returnData;
             }
-            //For State admin return all users except Super admin and school user
+            //For State admin return all users except Super admin
             elseif($this->session->userdata['role']['level'] == 2){
-                $excludedRoles = array('1', '5' );
+                $excludedRoles = array('1');
                 $this->db->where_not_in('role_id', $excludedRoles);
                 $query = $this->db->get('eop_view_user');
 
@@ -497,7 +489,12 @@ class User_model extends CI_Model {
 
         foreach($query->result_array() as $key=>$value){
             if($value['level'] >$userRole['level']){
-                array_push($cleanRoleData, $value);
+                if($this->session->userdata('host_level')=='district' && $value['level']==2){
+                    //do nothing
+                }else{
+                    array_push($cleanRoleData, $value);
+                }
+
             }
 
             //Add School Admin to list as an exception to enable school admins be able to add fellow school admins
@@ -524,7 +521,7 @@ class User_model extends CI_Model {
      */
     function getDistricts($state){
 
-        $query = $this->db->get_where('eop_district', array('state_val' => $state));
+        $query = $this->db->order_by('name', 'ASC')->get_where('eop_district', array('state_val' => $state));
         return $query->result_array();
 
     }
@@ -542,7 +539,7 @@ class User_model extends CI_Model {
             $conditions['district_id'] = $district;
         }
 
-        $query = $this->db->get_where('eop_school', $conditions);
+        $query = $this->db->order_by('name', 'ASC')->get_where('eop_school', $conditions);
         return $query->result_array();
 
     }

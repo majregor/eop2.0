@@ -27,7 +27,7 @@
         different categories of information used in the ranking scheme. Using this approach, the planning team may
         categorize threats and hazards as posing a relatively high, medium, or low risk. Click
         <a href="<?php echo base_url(); ?>assets/resources/sample_risk_vulnerability_assessment.xlsx" target="_blank">here</a>
-        to use a risk and vulnerability assessment based on this approach.</p>
+        to use a sample of a risk and vulnerability assessment based on this approach.</p>
 </div>
 
 <script type='text/javascript'>

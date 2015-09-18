@@ -63,7 +63,14 @@ if($action=='add'){
     </tr>
     <tr>
         <td>Date:</td>
-        <td><input type="text" id="dateField" <?php echo($controlStatus); ?>  class="datePickerWidget" value="<?php echo(isset($child0['fields'][1]['body'])? $child0['fields'][1]['body'] : ''); ?>"/></td>
+        <td>
+            <input
+                type="text"
+                id="dateField"
+                <?php echo($controlStatus); ?>
+                class="datePickerWidget"
+                value="<?php echo(isset($child0['fields'][1]['body'])? $child0['fields'][1]['body'] : ''); ?>"/>
+        </td>
     </tr>
     <tr>
         <td colspan="2">&nbsp;</td>
@@ -322,13 +329,13 @@ if($action=='add'){
         $( 'textarea' ).ckeditor();
 
         $('#dateField').datepicker({
-            dateFormat: "yy-mm-dd",
+            dateFormat: "mm/dd/yy",
             changeMonth: true,//this option for allowing user to select month
             changeYear: true //this option for allowing user to select from year range
         });
 
         $('.datePickerWidget').datepicker({
-            dateFormat: "yy-mm-dd",
+            dateFormat: "mm/dd/yy",
             changeMonth: true,//this option for allowing user to select month
             changeYear: true //this option for allowing user to select from year range
         });

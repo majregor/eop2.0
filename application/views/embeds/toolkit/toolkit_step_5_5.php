@@ -13,6 +13,11 @@
     <LI><A href="http://rems.ed.gov/EOPinteractivetools.aspx" target="_blank">REMS EOP Evaluate Tool</A> </LI>
     <LI><A href="http://rems.ed.gov/K12PPStep05.aspx" target="_blank">Related Resources for Step 5 on the REMS Website</A></LI>
 </UL>
-</UL>	
-  <h3 class="clicker resources exampleimg">Examples</h3>
+</UL>
+    <h3 class="clicker resources exampleimg">Examples</h3>
+    <ul class="reveal">
+        <ul>
+            <li><a href="http://rems.ed.gov/ResourceSubmission/ResourceSubmissions.aspx" target="_blank"> Submit your example to the REMS Tool Box</a></li>
+        </ul>
+    </ul>
 </div>

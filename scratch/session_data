@@ -4,6 +4,7 @@ $this->session->userdata('is_logged_in')
 $this->session->userdata('user_id')
 $this->session->userdata('username')
 $this->session->userdata('host_state')
+$this->session->userdata('host_level')
 
 $this->session->userdata['role']
 $this->session->userdata['role']['role_id']

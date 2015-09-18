@@ -544,7 +544,10 @@ if(! function_exists('generateConfigOutput')){
         $data .=    "\$config['db']['password'] = '"   . (isset($parsedArray['database']['password'])? $parsedArray['database']['password'] :  '')      				."';\n";
         $data .=    "\$config['db']['database'] = '"   . (isset($parsedArray['database']['database'])? $parsedArray['database']['database'] :  '')    					."';\n";
         $data .=    "\$config['db']['dbdriver'] = '"   . (isset($parsedArray['database']['dbdriver'])? $parsedArray['database']['dbdriver'] :  'mysqli')   			."';\n";
-       
+
+		if(isset($parsedArray['database']['dbdriver']) && $parsedArray['database']['dbdriver'] == 'sqlsrv'){
+			$data .=    "\$config['db']['pconnect'] = FALSE;\n";
+		}
 
         return $data;
     }

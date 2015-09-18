@@ -18,6 +18,8 @@
 <UL>
   <LI><A href="http://rems.ed.gov/ToolBox.aspx" target="_blank">Examples of Plan Sections and Supporting Materials in the REMS  Tool Box</A>
  </LI>
- </UL>
+    <li><a href="http://rems.ed.gov/ResourceSubmission/ResourceSubmissions.aspx" target="_blank"> Submit your example to the REMS Tool Box</a></li>
+
+</UL>
 </UL>
 </div>

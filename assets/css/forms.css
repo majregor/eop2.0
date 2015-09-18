@@ -96,8 +96,6 @@ table.resultsFinal {
     background-color: #eee;
 }*/
 
-table.resultsFinal tr {
-}
 
 table.resultsFinal th {
 	height: 10px;
@@ -117,6 +115,7 @@ table.resultsFinal tr.planEven td {
 	vertical-align: text-top;
 	padding: 0 10px;
 	line-height: 35px;
+	background-color: #F3F3F3;
 }
 
 table.resultsFinal tr.planOdd td {
@@ -124,11 +123,12 @@ table.resultsFinal tr.planOdd td {
 	vertical-align: text-top;
 	padding: 0 10px;
 	line-height: 35px;
-	background-color: #eee;
+	background-color: #D9EAF4;
 }
 
-table.resultsFinal tr.even {
-
+#form1Div table , #form2Div table, #form3Div table, #form4Div table, #form5Div table, #form6Div table, #form7Div table, #form8Div table, #form9Div table, #form10Div table{
+	padding: 5px 0px 30px 0px;
+	margin: auto 0;
 }
 
 /*-----------final result filedl-------*/
@@ -268,7 +268,7 @@ table.AddMore td.txtnorm{
 	float: left;
 }
 /*-------------------------------------
-form header h1, fieldset
+Form Header, Fieldset
 --------------------------------------*/
 a#showTeamManagementFormLinkId {
 	font-size: 1.3em;
@@ -290,7 +290,7 @@ fieldset.th,fieldset.tm {
 }
 
 /*------------------------------------------------------------
-team management form/table
+Team Management Form/Table
 ------------------------------------------------------------*/
 table.tmform {
 /*	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", serif;
@@ -327,7 +327,7 @@ table.sctable, table.sctable tr, table.sctable td {
 }
 
 /*------------------------
-team list result
+Team List Result
 ------------------------*/
 #subDetailDiv table.teamresult tr td {
 		padding: 8px;
@@ -341,27 +341,31 @@ table.teamresult{
 
 
 table.teamresult th, table.teamresult td { /*--border for all cell sides --*/
-	border: 1px solid #cccccc;
+	border: 1px solid #ffffff;
 	vertical-align: text-top;
 	padding: 8px;
 }
 
 table.teamresult th {
-	height: 10px;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	background-color: #0172b8;
-	border-bottom: 3px solid #93a036;
-	color:#FFFFFF;
-	text-align: center; 
+height: 35px;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+background-color: #0172B8;
+color: #FFF;
+text-align: center;
+vertical-align: middle;
 }
 
 table.teamresult tr.even {
-	background-color: #efefef;
+	background-color: #eee;
+}
+
+table.teamresult tr:nth-child(odd) {
+	background: #D9EAF4;
 }
 
 /*------------------------
-team list edit
+Team List Edit
 ------------------------*/
 #subDetailDiv table.teamedit{
 		padding-top: 20px;
@@ -403,10 +407,8 @@ table.teamedit td.txtb {
 	padding-bottom: 5px;
 }*/
 
-
-
 /*------------------------------------------------------------
-th management form/table (thmanagementform.php)
+TH Management Form/Table
 ------------------------------------------------------------*/
 table.thform {
 	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", serif;
@@ -444,7 +446,7 @@ table.sctable, table.sctable tr, table.sctable td {
 
 
 /*------------------------
-th list edit (showeditfieldsofth.php)
+TH List Edit
 ------------------------*/
 
 #subDetailDiv table.thedit {
@@ -482,10 +484,7 @@ img#editIcon {
 }
 
 /*------------------------
-select threats and hazards list result 
-(goalfirstmanagmentform_modified.php)
-(goalsecondmanagementform_modified.php)
-(showaddgoalseconddetailform.php)
+Threats and Hazards List Result 
 ------------------------*/
 table.action, table.actionfunction {
 	width: 100%;
@@ -493,9 +492,8 @@ table.action, table.actionfunction {
 	border: none;
 }
 
-table.action td, table.actionfunction td{ /*--border for all cell sides --*/
-/*	border: 1px solid #cccccc;
-*/	vertical-align: text-top;
+table.action td, table.actionfunction td { 
+	vertical-align: text-top;
 	padding: 8px;
 }
 
@@ -520,8 +518,7 @@ table.action th, table.actionfunction th{
 }*/
 
 /*--------------------------------------------------------------
-NEW 3-3
-Goals and Objectives for Threats Hazards
+ 3-3 Goals and Objectives for Threats Hazards
 --------------------------------------------------------------*/
 
 #goalFirstDivToRefresh table.results {
@@ -551,6 +548,3 @@ table.editOne tr td, table.editTwo tr td, table.editThree tr td {
 	padding: 10px 10px;
 }
 
-table.editUpdate {
-	
-}

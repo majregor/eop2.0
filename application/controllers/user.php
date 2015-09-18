@@ -142,6 +142,19 @@ class User extends CI_Controller{
                 }
             }
 
+            /* If we are creating a district admin, make sure a district is selected else redirect with an error
+            */
+            if($data['role_id'] == 3){
+
+                if(empty($data['district']) || $data['district']== 'Null' || $data['district']== '-1' || $data['district']== Null){
+
+                    $this->session->set_flashdata('error', ' You need to select a district for a district administrator');
+
+                    redirect('/user');
+
+                }
+            }
+
             $savedRecs = $this->user_model->addUser($data);
 
             if(is_numeric($savedRecs) && $savedRecs>=1){
@@ -150,12 +163,6 @@ class User extends CI_Controller{
             else{
                 $this->session->set_flashdata('error', ' New user creation failed!');
             }
-
-            $templateData = array(
-                'page'          =>  'users',
-                'page_title'    =>  'User Management',
-                'step_title'    =>  'Users'
-            );
 
             redirect('/user');
         }
@@ -181,7 +188,7 @@ class User extends CI_Controller{
             $templateData = array(
                 'page'          =>  'users',
                 'page_title'    =>  'User Management',
-                'step_title'    =>  'Create User',
+                'step_title'    =>  'Users',
                 'viewform'      =>  true,
                 'roles'         =>  $roles,
                 'districts'     =>  $districts,
@@ -192,7 +199,6 @@ class User extends CI_Controller{
             );
             $this->template->load('template', 'users_screen', $templateData);
         }
-
 
     }
 
@@ -218,6 +224,9 @@ class User extends CI_Controller{
                 'access'           =>   $this->input->post('access')
             );
 
+            // Force access (View only attribute) to 'No' for other users except school user.
+            if($this->input->post('role_id')<=4)
+                $data['access'] = 'n';
 
             $savedRecs = $this->user_model->update($data);
 

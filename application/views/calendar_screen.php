@@ -18,7 +18,7 @@ if($this->session->userdata['role']['level']==3){
         <div id="select_school_dialog" title="Select School">
             <p style="margin-top:20px;">
 
-                <select id="sltschool" name="sltschool" required="required"></select>
+                <select id="sltschool_dialog" name="sltschool_dialog" required="required"></select>
             </p>
         </div>
     <?php
@@ -139,7 +139,8 @@ if($this->session->userdata['role']['level']==3){
             selectedEventStart,
             selectedEventEnd,
             selectedEventLocation,
-            selectedEventBody;
+            selectedEventBody,
+            selectedEventSchool;
         //tips = $( ".validateTips" );
 
         function checkLength( o, n, min, max ) {
@@ -169,7 +170,7 @@ if($this->session->userdata['role']['level']==3){
             buttons: {
                 "OK": function(){
 
-                    var selectElement = $("#sltschool");
+                    var selectElement = $("#sltschool_dialog");
                     if(selectElement.val()==''){
                         selectElement.addClass('error');
                         selectElement.focus();
@@ -465,7 +466,7 @@ if($this->session->userdata['role']['level']==3){
                     global_start = start;
                     global_end = end;
 
-                    $("#selectedDate").html(start.toISOString());
+                    $("#selectedDate").html(start.format("L"));
 
 
                     populateStartEndLists();
@@ -532,6 +533,12 @@ if($this->session->userdata['role']['level']==3){
                     eventEnds = eventStarts;
                 }
 
+                <?php if($this->session->userdata['role']['level']<=2): ?>
+                    if(!eventSchool){
+                        eventSchool = 'State ';
+                    }
+                <?php endif; ?>
+
                 var finalString = "Event: " + eventTitle + "\n";
                 finalString += "School: " + eventSchool + "\n";
                 if(eventStarts && eventStarts !== null && eventStarts !== "undefined"){
@@ -565,13 +572,19 @@ if($this->session->userdata['role']['level']==3){
                 selectedEventEnd = calEvent.end;
                 selectedEventLocation = calEvent.location;
                 selectedEventBody = calEvent.body;
+                selectedEventSchool = calEvent.school;
 
                 var startDate  = new Date(selectedEventStart);
                 var endDate = new Date(selectedEventEnd);
 
+                <?php if($this->session->userdata['role']['level']<=2): ?>
+                if(!selectedEventSchool){
+                    selectedEventSchool = 'State ';
+                }
+                <?php endif; ?>
 
                 $("#title-ed").val(selectedEventTitle);
-                $("span#school").html(calEvent.school);
+                $("span#school").html(selectedEventSchool);
                 populateEditStartEndLists(selectedEventStart, selectedEventId);
 
                 $("#location-ed").val(selectedEventLocation);

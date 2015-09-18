@@ -22,7 +22,7 @@ class App extends CI_Controller {
 	{
         $is_logged_in = FALSE;
         $is_installed = FALSE;
-//       $this->session->sess_destroy();
+ //      $this->session->sess_destroy();
 
 
         /**
@@ -32,16 +32,25 @@ class App extends CI_Controller {
 
             //echo $this->db->_error_message();
            //var_dump( $this->db->conn_id);
-            echo 'Database not setup';
-            echo $this->db->username;
+            //echo 'Database not setup';
+            //echo $this->db->username;
+            $is_installed = false;
 
         }
         else{
 
-            $is_installed = $this->registry_model->getValue('install_status');
-            $host_state = $this->registry_model->getValue('host_state');
-            $this->session->set_userdata(array('install_status' => $is_installed));
-            $this->session->set_userdata(array('host_state' => $host_state));
+            try{
+
+                $is_installed = $this->registry_model->getValue('install_status');
+                $host_state = $this->registry_model->getValue('host_state');
+                $this->session->set_userdata(array('install_status' => $is_installed));
+                $this->session->set_userdata(array('host_state' => $host_state));
+
+            }catch(Exception $err){
+                $is_installed = false;
+               // $this->session->unset_userdata('install_statu')
+            }
+
         }
 
 
@@ -73,7 +82,6 @@ class App extends CI_Controller {
     */
     public function install(){
 
-
         // installation progress variables
         $install_started = $this->session->userdata('install_started');
 
@@ -93,9 +101,7 @@ class App extends CI_Controller {
                 $this->template->load('install/template', 'install/install_screen', $data);
             }
             else{
-
                 $install_step = $this->session->userdata('install_step');
-
                 switch($install_step){
                     case "hosting_level":
                         $install_step_status = $this->session->userdata('install_step_status');
@@ -103,57 +109,72 @@ class App extends CI_Controller {
 
                             if($this->input->post('ajax')){ // If form was submitted using ajax request
 
+
                                 $data['screen'] =   'verify_requirements';
                                 $data['step']   =   'verify_requirements';
+
                                 $this->session->set_userdata(array(
                                     'pref_hosting_level'    => $this->input->post('pref_hosting_level'),
                                     'install_step'          => 'verify_requirements',
                                     'install_step_status'   => 'initiated'
                                 ));
 
+
+                                /**
+                                 * Call method to inspect host system
+                                 * The method will return an array of status messages
+                                 */
+                                $statusMsgs = $this->checkRequirements();
+                                $data['status']=$statusMsgs;
+
                                 //$this->output->set_output(json_encode($data));
-                                $d=$this->load->view('install/embeds/verify_requirements', $data, TRUE);
-                                $this->output->set_output($d);
+
+                                $this->output->set_output($this->load->view('install/embeds/verify_requirements', $data, TRUE));
                             }
                             else{
-                                $data['screen']     =   'hosting_level';
-                                $data['step']       =   'hosting_level';
-                                $this->template->set('title', 'EOP ASSIST Installation');
-                                $this->template->load('install/template', 'install/install_screen', $data);
-
+                                $this->session->sess_destroy();
+                                redirect("app/install");
                             }
                         }
                         break;
                     case "verify_requirements":
                         $install_step_status = $this->session->userdata('install_step_status');
 
+                        /**
+                         * Call method to inspect host system
+                         * The method will return an array of status messages
+                         */
+                        $statusMsgs = $this->checkRequirements();
+                        $data['status']=$statusMsgs;
+
                         if($install_step_status == 'initiated'){
+
                             if($this->input->post('ajax')){ // If form is submitted using ajax
+                                if(count($data['status']['fatal_errs']) <=0 ){
 
-                                /**
-                                 * Call method to inspect host system
-                                 * The method will return an array of status messages
-                                 */
-                                //$statusMsgs = checkRequirements();
+                                    $data['screen'] = 'database_settings';
+                                    $data['step'] = 'database_settings';
+                                    $this->session->set_userdata(array(
+                                        'requirements_verified' => 'yes',
+                                        'install_step' => 'database_settings',
+                                        'install_step_status' => 'initiated'
+                                    ));
 
+                                    //$this->output->set_output(json_encode($data));
+                                    $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
 
-                                $data['screen'] =   'database_settings';
-                                $data['step']   =   'database_settings';
-                                $this->session->set_userdata(array(
-                                    'requirements_verified'    => 'yes',
-                                    'install_step'          => 'database_settings',
-                                    'install_step_status'   => 'initiated'
-                                ));
+                                }else{
 
-                                //$this->output->set_output(json_encode($data));
-                                $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
+                                    // print_r ($data['status']);
+                                    $data['screen']    =   'verify_requirements';
+                                    $data['step']      =   'verify_requirements';
+                                    $this->output->set_output($this->load->view('install/embeds/verify_requirements', $data, TRUE));
 
+                                }
                             }
                             else{
-                                $data['screen']    =   'verify_requirements';
-                                $data['step']      =   'verify_requirements';
-                                $this->template->set('title', 'EOP ASSIST Installation');
-                                $this->template->load('install/template', 'install/install_screen', $data);
+                                $this->session->sess_destroy();
+                                redirect('app/install');
                             }
                         }
                         break;
@@ -161,43 +182,45 @@ class App extends CI_Controller {
                         $install_step_status = $this->session->userdata('install_step_status');
 
                         if($install_step_status == 'initiated'){
+
+                            //Get form input and add to session
+                            $configs = array(
+                                'database' => array(
+                                    'hostname'  =>  $this->input->post('host_name'),
+                                    'username'  =>  $this->input->post('database_username'),
+                                    'password'  =>  $this->input->post('database_password'),
+                                    'database'  =>  $this->input->post('database_name'),
+                                    'dbdriver'  =>  ($this->input->post('database_type')) ? $this->input->post('database_type') : 'mysqli'
+                                )
+                            );
+
+                            $this->session->set_userdata($configs);
+
+                            /**
+                             * Write database settings into config file
+                             */
+                            $dbsetup = $this->mkconfig($configs);
+
+                            if(!$dbsetup['error']) { // If successfully written to config file
+
+                                // Load the database
+                                $config['hostname'] = $configs['database']['hostname'];
+                                $config['username'] = $configs['database']['username'];
+                                $config['password'] = $configs['database']['password'];
+                                $config['database'] = $configs['database']['database'];
+                                $config['dbdriver'] = $configs['database']['dbdriver'];
+                                $config['pconnect'] = ($configs['database']['dbdriver'] == 'sqlsrv') ? FALSE : TRUE;
+
+
+
+                                $this->db = $this->load->database($config, TRUE); // Load the database
+
+                                $connected = $this->db->initialize(); // Initialize the database connections
+                            }
+
                             if($this->input->post('ajax')){ // If form is submitted using ajax
 
-                                //Get form input and add to session
-                                  $configs = array(
-                                        'database' => array(
-                                            'hostname'  =>  $this->input->post('host_name'),
-                                            'username'  =>  $this->input->post('database_username'),
-                                            'password'  =>  $this->input->post('database_password'),
-                                            'database'  =>  $this->input->post('database_name'),
-                                            'dbdriver'  =>  $this->input->post('pref_database_type')
-                                        )
-                                    );
-                                  
-                                  $this->session->set_userdata($configs);
-
-                                /**
-                                 * Write database settings into config file
-                                 */
-                                  $dbsetup = $this->mkconfig($configs);
-
-                                  if(!$dbsetup['error']){ // If successfully written to config file
-
-                                    // Load the database
-
-                                    $data['screen'] =   'admin_account';
-                                    $data['step']   =   'admin_account';
-                                    $this->session->set_userdata(array(
-                                        'database_settings_set'    => 'yes',
-                                        'install_step'          => 'admin_account',
-                                        'install_step_status'   => 'initiated'
-                                    ));
-
-                                    //$this->output->set_output(json_encode($data));
-                                    $this->output->set_output($this->load->view('install/embeds/admin_account', $data, TRUE));
-
-                                  }
-                                  else{ // If saving to config file failed
+                                if($dbsetup['error']){ // If saving to config file failed
 
                                     //Set  error message and reload step
                                     //$this->session->set_flashdata('error', $dbsetup['msg']);
@@ -206,20 +229,70 @@ class App extends CI_Controller {
                                     $data['error']     =    $dbsetup['msg'];
 
                                     $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
-                                  }
+                                }else{
 
+                                    if (!$connected) {
+
+                                        $data['screen']       = 'database_settings';
+                                        $data['step']         = 'database_settings';
+                                        $data['error']        = 'Database connection failed!';
+
+                                        //$this->output->set_output(json_encode($data));
+                                        $this->output->set_output($this->load->view('install/embeds/database_settings', $data, TRUE));
+
+                                    }else{
+
+                                        $data['screen'] =   'admin_account';
+                                        $data['step']   =   'admin_account';
+                                        $this->session->set_userdata(array(
+                                            'database_settings_set'    => 'yes',
+                                            'install_step'          => 'admin_account',
+                                            'install_step_status'   => 'initiated'
+                                        ));
+
+                                        //$this->output->set_output(json_encode($data));
+                                        $this->output->set_output($this->load->view('install/embeds/admin_account', $data, TRUE));
+
+                                    }
+                                }
                             }
                             else{
 
-                                $data['screen']    =   'database_settings';
-                                $data['step']      =   'database_settings';
+                                if($dbsetup['error']){
 
-                                $this->template->set('title', 'EOP ASSIST Installation');
-                                $this->template->load('install/template', 'install/install_screen', $data);
+                                    $data['screen']    =   'database_settings';
+                                    $data['step']      =   'database_settings';
+                                    $data['error']     =    $dbsetup['msg'];
+
+                                    $this->template->set('title', 'EOP ASSIST Installation');
+                                    $this->template->load('install/template', 'install/install_screen', $data);
+
+                                }else{
+
+                                    if(!$connected){
+
+                                        $data['screen']    =   'database_settings';
+                                        $data['step']      =   'database_settings';
+                                        $data['error']     =    'Database connection failed!';
+
+                                        $this->template->set('title', 'EOP ASSIST Installation');
+                                        $this->template->load('install/template', 'install/install_screen', $data);
+
+                                    }else{
+
+                                        $data['screen']    =   'admin_account';
+                                        $data['step']      =   'admin_account';
+                                        $this->session->set_userdata(array(
+                                            'database_settings_set'    => 'yes',
+                                            'install_step'          => 'admin_account',
+                                            'install_step_status'   => 'initiated'
+                                        ));
+
+                                        $this->template->set('title', 'EOP ASSIST Installation');
+                                        $this->template->load('install/template', 'install/install_screen', $data);
+                                    }
+                                }
                             }
-                        }
-                        else{
-
                         }
                         break;
                     case "admin_account":
@@ -237,6 +310,10 @@ class App extends CI_Controller {
                                         'last_name'     =>  'Administrator',
                                         'role_id'       =>  1
                                 );
+
+                                //Populate database with tables and views
+                                $this->addTables($this->session->userdata['database']['dbdriver']);
+
                                 /**
                                  * Connect to database and save the super admin settings
                                  *
@@ -244,6 +321,22 @@ class App extends CI_Controller {
 
                                 $this->load->model('user_model');
                                 $savedUsers = $this->user_model->addUser($adminData);
+
+                                if($this->session->userdata('pref_hosting_level') == 'district'){
+                                    $district_name = $this->input->post('district_name');
+
+                                    if(!empty($district_name)){
+                                        $this->load->model('district_model');
+                                        $districtData = array(
+                                            'name'          =>  $district_name,
+                                            'screen_name'   =>  $district_name,
+                                            'state_val'     =>  ($this->input->post('host_state')) ? $this->input->post('host_state') :  NULL
+                                        );
+
+                                        $this->district_model->addDistrict($districtData);
+                                    }
+
+                                }
 
                                 /**
                                  * Save the selected settings into the App registry
@@ -256,7 +349,9 @@ class App extends CI_Controller {
                                     'dbtype'            =>  $this->session->userdata['database']['dbdriver'],
                                     'host_level'        =>  $this->session->userdata('pref_hosting_level'),
                                     'host_state'        =>  $this->input->post('host_state'),
-                                    'state_permission'  =>  'deny'
+                                    'state_permission'  =>  'write',
+                                    'sys_preferences'   =>  '',
+                                    'EOP_type'          =>  'internal'
                                 );
 
                                 $savedRecs = $this->registry_model->addVariables($registryData);
@@ -375,6 +470,133 @@ class App extends CI_Controller {
         return make_config_file($configs);
 
     }
+
+    /**
+     * Check system requirements and returns mixed array status message.
+     * @return array
+     */
+    public function checkRequirements(){
+
+        $data = array();
+        $data['fatal_errs']=array();
+        $data['warnings']= array();
+        $data['file_errs'] = array();
+
+        $required_libraries = array(
+            'mysql', 'mysqli', 'date', 'gd', 'libxml', 'mbstring', 'mcrypt', 'mysqlnd', 'session', 'SimpleXML', 'xml', 'xmlreader', 'zip', 'zlib'
+        );
+        $optional_libraries = array('sqlsrv', 'pdo_sqlsrv', 'PDO_ODBC');
+        $writable_files = array ('application/config/settings.php', 'uploads');
+
+
+        $data['php'] = array(
+            'version'=>phpversion(),
+            'sufficient'=> version_compare(phpversion(), '5.5.0'),
+        );
+
+        foreach($required_libraries as $library){
+            if(!extension_loaded($library)){
+                $data['fatal_errs'][]=array(
+                    'library'=>$library,
+                    'message'=> 'Not loaded'
+                );
+            }
+        }
+
+        foreach($optional_libraries as $library){
+            if(!extension_loaded($library)){
+                $data['warnings'][]=array(
+                    'library'=>$library,
+                    'message'=> 'Not loaded, Required for MS SQL SERVER'
+                );
+            }
+        }
+
+        foreach($writable_files as $file){
+            if(!file_exists($file) || !is_writable($file)){
+                $data['file_errs'][] = array(
+                    'file'      =>  $file,
+                    'message'   =>  'This file is not writable, please make sure that the user: '.posix_getpwuid(posix_geteuid())['name'].', www-data for IIS or apache for Apache has write permissions to this file or directory to continue.'
+                );
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param $dbdriver String
+     */
+    public function addTables($dbdriver){
+
+        $this->load->model('app_model');
+        $savedRecs = array();
+
+        $tables = array(
+            'eop_access_log',
+            'eop_activity_log',
+            'eop_calendar',
+            'eop_district',
+            'eop_entity',
+            'eop_entity_types',
+            'eop_field',
+            'eop_registry',
+            'eop_role_permission',
+            'eop_school',
+            'eop_state',
+            'eop_team',
+            'eop_user',
+            'eop_user2district',
+            'eop_user2school',
+            'eop_user_access',
+            'eop_user_roles'
+        );
+
+        foreach($tables as $table){
+            $savedRecs[] = $this->app_model->createTable($table, $dbdriver);
+        }
+
+        //Initialise entity_types, states and user roles tables
+        $this->app_model->initializeTables($dbdriver);
+
+        //Create views
+        $this->app_model->createViews($dbdriver);
+
+    }
+
+    public function test($dbdriver='mysqli'){
+
+        $tables = array(
+            'eop_access_log',
+            'eop_activity_log',
+            'eop_calendar',
+            'eop_district',
+            'eop_entity',
+            'eop_entity_types',
+            'eop_field',
+            'eop_registry',
+            'eop_role_permission',
+            'eop_school',
+            'eop_state',
+            'eop_team',
+            'eop_user',
+            'eop_user2district',
+            'eop_user2school',
+            'eop_user_access',
+            'eop_user_roles'
+        );
+        $this->load->model('app_model');
+        foreach($tables as $table){
+            $savedRecs[] = $this->app_model->createTable($table, $dbdriver);
+        }
+
+        //Initialise entity_types, states and user roles tables
+        $this->app_model->initializeTables($dbdriver);
+
+        //Create views
+        $this->app_model->createViews($dbdriver);
+    }
+
     /**
      * Echo PHP installation information on the server running the Web Application
      *

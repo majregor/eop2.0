@@ -866,9 +866,9 @@ color: #000000;
 
 
 
-/**
+/**********************************************************************************************************************
 **** Added by Godfrey as part of 2.0 Major upgrade
-*/
+***********************************************************************************************************************
 /* Users management
 */
 .adminMenu{
@@ -1032,12 +1032,12 @@ em.revoke{background-image: url(../img/check_mark_cross.png);}
     margin: 5px 15px;
 }
 .boxed-group h3{
-    background-color: #F5F5F5;
+    background-color: #0172B8;
     margin: 0px;
     border-radius: 3px 3px 0px 0px;
     border-width: 1px 1px 0px;
-    border-style: solid solid none;
-    border-color: #D8D8D8 -moz-use-text-color: #D8D8D8;
+    /*    border-style: solid solid none;
+    */    border-color: #D8D8D8 -moz-use-text-color: #D8D8D8;
     -moz-border-top-colors: none;
     -moz-border-right-colors: none;
     -moz-border-bottom-colors: none;
@@ -1047,6 +1047,7 @@ em.revoke{background-image: url(../img/check_mark_cross.png);}
     font-size: 14px;
     line-height: 17px;
     display: block;
+    color: #FFFFFF
 }
 .boxed-group-inner{
     padding: 0px;
@@ -1056,6 +1057,8 @@ em.revoke{background-image: url(../img/check_mark_cross.png);}
     border-bottom-right-radius: 3px;
     color: #666;
     font-size: 13px;
+    background-color: #F5F5F5;
+    font-weight: bold;
 }
 .clearfix:before{
     display:table;
@@ -1066,39 +1069,39 @@ em.revoke{background-image: url(../img/check_mark_cross.png);}
     clear:both;content:"";
 }
 .boxed-group.left{
-  width:25%;
-  max-width: 25%;
-  float: left;
+    width:25%;
+    max-width: 25%;
+    float: left;
 }
 .boxed-group.right{
-  width:65%;
-  max-width:70%;
-  float: left;
+    width:65%;
+    max-width:70%;
+    float: left;
 }
 .boxed-group-inner ul{
-  list-style: none;
-  list-style-type: none;
-  margin: 0px;
+    list-style: none;
+    list-style-type: none;
+    margin: 0px;
 }
 .boxed-group-inner ul li{
-  list-style-type: none;
-  list-style: none;
-  margin:0px;
-  width: auto;
+    list-style-type: none;
+    list-style: none;
+    margin:0px;
+    width: auto;
 }
 .boxed-group-inner ul li a, .boxed-group-inner ul li a:link,  .boxed-group-inner ul li a:visited{
-  padding:10px 0px 10px 15px;
-  display: block;
-  width: auto;
-  border-bottom: 1px solid #EEE;
-  color: #0172B8;
+    padding:10px 0px 10px 15px;
+    display: block;
+    width: auto;
+    border-bottom: 1px solid #EEE;
+    color: #0172B8;
 }
 .boxed-group-inner ul li a:hover{
-  background-color: #F5F5F5;
+    background-color: #F5F5F5;
 }
 .boxed-group-inner p{
-  float: left;
-  width: 48%;
+    float: left;
+    width: 48%;
 
 }
 a.current{
@@ -1123,10 +1126,21 @@ a.current{
 /*
 Team List Table
 */
+/* Hide the export button */
+#export_list_button {
+    display: none;
+}
 table#teamListTable tr:nth-of-type(even){
     background: #eee;
 }
 @media only screen and (max-width: 768px), (min-device-width: 768px) and (max-device-width: 1024px) {
+
+    /**SHOW THE EXPORT BUTTON*/
+
+    #export_list_button{
+        display: block;
+        margin: 10px;
+    }
 
     table#teamListTable, #teamListTable thead, #teamListTable tbody, #teamListTable th, #teamListTable td, #teamListTable tr {
         display: block;
@@ -1191,6 +1205,21 @@ table#teamListTable tr:nth-of-type(even){
     #teamListTable td:nth-of-type(8):before {
         content: "Action";
     }
+}
+
+/*
+Profile
+*/
+
+input#last_name, input#email, input#fname,  input#phone,  input#username, input#user_password_current, input#user_password_conf_reset, input#user_password_reset, input#database_type, input#database_host, input#database_name, input#database_user_name, input#database_password {
+    max-width: 100%;
+    min-width: 20%;
+}
+
+form.account_form p {
+    display: block;
+    position: relative;
+    margin: 10px 5px;
 }
 
 

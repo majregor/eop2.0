@@ -27,6 +27,9 @@
 
 if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
     ?>
+    <div id="export_list_button">
+        <a href="<?php echo(base_url('report/export/members'));?>" target="_blank"><input type="button" value="Export List" style="border: 1px solid #ddd;" /></a>
+    </div>
     <table id="teamListTable" class="teamresult" width="100%">
         <thead>
         <tr>
@@ -61,12 +64,12 @@ if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
                            data-phone="<?php echo $value['phone']; ?>"
                            data-interest="<?php echo $value['interest']; ?>"
                             >
-                            Edit
+                            Edit <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/edit_icon.png" />
                         </a>
                     </td>
 
                     <td scope="col" width="8%" align="middle">
-                        <a href="" class="teamDeleteLink" id="<?php echo $value['id']; ?>">Delete</a>
+                        <a href="" class="teamDeleteLink" id="<?php echo $value['id']; ?>">Delete <img id="editIcon" src="<?php echo(base_url()); ?>assets/img/remove_icon.png" /></a>
                     </td>
                 <?php else: ?>
 
@@ -167,10 +170,10 @@ if(isset($memberData) && is_array($memberData) && count($memberData)>0) {
 
 
             var b = $(this).attr('data-interest');
-            var arr = b.split(", ");
+            var arr = b.split(",");
 
             for(var i=0; i<arr.length; i++) {
-                $("input:checkbox[value='" + arr[i] +"']").prop("checked", true);
+                $("input:checkbox[value='" + arr[i].trim() +"']").prop("checked", true);
             }
 
             $("#update-team-dialog").dialog('open');

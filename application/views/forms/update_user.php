@@ -103,13 +103,13 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         echo form_dropdown('slctuserrole_update', $options, "$first_key", $otherAttributes);
         ?>
     </p>
-    <?php if($role['level']<2): ?>
+    <?php if($role['level']<=2):  // Super and State admin should edit user districts ?>
         <p id="districtInputHolder">
             <span>&nbsp;</span>
             <label for="sltdistrict_update">District:</label>
             <?php
             $options = array();
-            $options['empty'] = '--Select--';
+            $options['Null'] = '--Select--';
             foreach($districts as $rowIndex => $row){
                 $options[$row['id']] = $row['name'];
             }
@@ -122,13 +122,13 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
         </p>
     <?php endif; ?>
 
-    <?php if($role['level']<2 || $role['level']==3)://Only Super admin and district admin should change user's school ?>
+    <?php if($role['level']<=3)://Only Super admin, state admin and district admin should change user's school ?>
     <p id="SchoolInputHolder">
         <span>&nbsp;</span>
         <label for="sltschool_update">School:</label>
         <?php
         $options = array();
-        $options['empty'] = '--Select--';
+        $options[''] = '--Select--';
         foreach($schools as $rowIndex => $row){
             $options[$row['id']] = $row['name'];
         }
@@ -164,17 +164,53 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
 <script>
     $(document).ready(function(){
         $("#slctuserrole_update").change(function(){
+            $('#sltdistrict_update').removeClass('error');
+            $('#sltschool_update').removeClass('error');
+
             if($(this).val()==3){
                 $("#districtInputHolder").show();
                 $("#SchoolInputHolder").hide();
+
+                $("#sltdistrict_update > option[value='']").remove();
+                $('#sltdistrict_update option').eq(1).before($("<option></option>").val("").text("None"));
+
+
+                $('#sltschool_update').attr('required', false);
+                <?php if($role['level']!=4): ?>
+                    $('#sltschool_update').rules('remove', 'required');
+                <?php endif; ?>
             }
             else if($(this).val()==4 || $(this).val()==5){
                 $("#districtInputHolder").show();
                 $("#SchoolInputHolder").show();
+
+                $("#sltdistrict_update > option[value='']").remove();
+                $('#sltdistrict_update option').eq(1).before($("<option></option>").val("").text("None"));
+
+
+                $('#sltschool_update').attr('required', true);
+                <?php if($role['level']!=4): ?>
+                    $('#sltschool_update').rules('add', 'required');
+                <?php endif; ?>
+
+                <?php if($role['level']==3): ?>
+                    get_schools_in_district(<?php echo($adminDistrict); ?>);
+                <?php else: ?>
+                    get_schools_in_district($('#sltdistrict_update').val());
+                <?php endif; ?>
             }
             else if($(this).val()==1 || $(this).val()==2){
                 $("#districtInputHolder").hide();
                 $("#SchoolInputHolder").hide();
+
+                $('#sltschool_update').attr('required', false);
+                $('#sltschool_update').rules('remove', 'required');
+            }
+
+            if($(this).val() == 5){
+                $('#viewonlyInputHolder').show();
+            }else{
+                $('#viewonlyInputHolder').hide();
             }
         });
 
@@ -183,7 +219,6 @@ echo form_open('user/update', array('class'=>'update_user_form', 'id'=>'update_u
             var district_id = $(this).val();
             get_schools_in_district(district_id);
         });
-
 
 
 

@@ -235,6 +235,10 @@ abstract class AbstractPart
                     $section->addPageBreak(); // PageBreak
                 }else{
                     $parent->addTextBreak(null, $paragraphStyle);
+                    if($xmlReader->elementExists('w:t', $domNode)){
+                        $textContent = $xmlReader->getValue('w:t', $domNode);
+                        $parent->addText(htmlspecialchars($textContent), $fontStyle, $paragraphStyle);
+                    }
                 }
             }
             // Footnote

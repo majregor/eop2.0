@@ -33,8 +33,8 @@ $entities = $page_vars['entities'];
         </ul>
     </blockquote>
     <p>It is now time to develop courses of action that address the <strong>threats and hazards</strong> that your planning team selected for your school EOP in Step 3. As your team may recall, Step 3 also prompted your team to develop goals and objectives for threats and hazards. Those goals and objectives that your team developed may be found below, and are listed by the name of the threat or hazard.</p>
-    <p>Please click on the Add button for each threat or hazard below. In the space indicated, write out courses of action that accomplish the goals and objectives that your team previously developed. After completing the courses of action field for the selected threat or hazard, click the Save button. Repeat this process for the remaining threats and hazards.</p>
-    <p>If your team has already developed courses of action for a threat or hazard and wishes to modify the information, please click the Edit button for the respective threat or hazard. Pre-populated fields will appear with previously saved information. After editing the available field, click the Update button. Repeat this process, as needed.</p>
+    <p>Please click on the Add button for each threat or hazard below. In the space indicated, write out courses of action that accomplish the goals and objectives that your team previously developed. After completing the courses of action fields for the selected threat or hazard, click the Save button. Repeat this process for the remaining threats and hazards.</p>
+    <p>If your team has already developed courses of action for a threat or hazard and wishes to modify the information, please click the Edit button for the respective threat or hazard. Pre-populated fields will appear with previously saved information. After editing the available fields, click the Update button. Repeat this process, as needed.</p>
 </div>
 
 <div class="col-half left">

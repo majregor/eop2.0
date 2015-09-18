@@ -43,6 +43,7 @@ class Report extends CI_Controller{
             $this->load->model('report_model');
             $this->load->model('team_model');
             $this->load->model('registry_model');
+            $this->load->model('state_model');
             $this->load->library('../controllers/school');
 
         }
@@ -261,14 +262,12 @@ class Report extends CI_Controller{
 
         $this->authenticate();
 
-        if($this->session->userdata['role']['level']==2){
-            redirect('school');
-        }
 
         $eligibleSchools = array();
-        $schools_with_data = $this->report_model->getSchoolsWithData();
+
 
         if(isset($this->session->userdata['role']['level']) && $this->session->userdata['role']['level'] ==3){//District Admins
+            $schools_with_data = $this->report_model->getSchoolsWithData();
             $data = $this->school->get_schools_in_my_district();
 
             foreach($schools_with_data as $schoolWithData){
@@ -282,6 +281,7 @@ class Report extends CI_Controller{
             }
         }
         else if($this->session->userdata['role']['level'] ==4 || $this->session->userdata['role']['level'] ==5){ //School Admin and User
+            $schools_with_data = $this->report_model->getSchoolsWithData();
             foreach($schools_with_data as $schoolWithData){
                 if($this->session->userdata['loaded_school']['id'] == $schoolWithData[0]['id']){
                     array_push($eligibleSchools, $schoolWithData);
@@ -290,10 +290,36 @@ class Report extends CI_Controller{
             }
         }
         else if($this->session->userdata['role']['level'] ==1){ // Super Admins
+            $schools_with_data = $this->report_model->getSchoolsWithData();
             $eligibleSchools = $schools_with_data;
         }
         elseif($this->session->userdata['role']['level']==2){ // State Admins
 
+            $virtualStateSchool = array();
+
+            if($this->report_model->hasData(null)) {
+                //Get virtual state school data
+
+                $preferences = $this->registry_model->getValue('sys_preferences');
+
+                $state = $this->state_model->getStateName($this->registry_model->getValue('host_state'));
+                $virtualStateSchool = array(
+                    array(
+                        array(
+                            'id'                    => null,
+                            'district-id'           => 0,
+                            'state'                 => $state,
+                            'name'                  => 'State of '.$state,
+                            'screen_name'           => 'State of '.$state,
+                            'has_data'              => true,
+                            'last_modified'         => $this->report_model->getLastModifiedDate(null),
+                            'preferences'           => $preferences
+                        )
+                    )
+                );
+            }
+
+            $eligibleSchools = $virtualStateSchool;
         }
 
 
@@ -319,15 +345,41 @@ class Report extends CI_Controller{
             $this->school_id = $school_id;
         }
 
-        $school = $this->school_model->getSchool($this->school_id);
-        //Get the basic plan source preference for the school
-        $this->EOP_type = 'internal';
-        $this->EOP_ctype = 'internal';
-        if(!empty($school[0]['preferences'])) {
-            $preferencesObj = json_decode($school[0]['preferences']);
+        if($this->school_id == Null){
+            $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
 
-            $this->EOP_type     = isset($preferencesObj->main)  ? $preferencesObj->main->basic_plan_source  : 'internal';
-            $this->EOP_ctype    = isset($preferencesObj->cover) ? $preferencesObj->cover->basic_plan_source : 'internal';
+            if(!empty($preferences)){
+                $this->EOP_type = isset($preferences->main->basic_plan_source) ? $preferences->main->basic_plan_source : 'internal';
+                $this->EOP_ctype = isset($preferences->cover->basic_plan_source) ? $preferences->cover->basic_plan_source : 'internal';
+            }else{
+                $this->EOP_type = 'internal';
+                $this->EOP_ctype = 'internal';
+            }
+
+            $loaded_state = $this->state_model->getStateName($this->registry_model->getValue('host_state'));
+            $school = array(
+                    array(
+                        'id' => null,
+                        'district-id' => 0,
+                        'state' => $loaded_state,
+                        'name' =>  "State of $loaded_state Sample",
+                        'screen_name' => "State of $loaded_state Sample",
+                        'has_data' => true,
+                        'last_modified' => $this->report_model->getLastModifiedDate(null)
+                    )
+            );
+        }
+        else {
+            $school = $this->school_model->getSchool($this->school_id);
+            //Get the basic plan source preference for the school
+            $this->EOP_type = 'internal';
+            $this->EOP_ctype = 'internal';
+            if (!empty($school[0]['preferences'])) {
+                $preferencesObj = json_decode($school[0]['preferences']);
+
+                $this->EOP_type = isset($preferencesObj->main) ? $preferencesObj->main->basic_plan_source : 'internal';
+                $this->EOP_ctype = isset($preferencesObj->cover) ? $preferencesObj->cover->basic_plan_source : 'internal';
+            }
         }
 
         //Make file name from the school's name
@@ -406,15 +458,26 @@ class Report extends CI_Controller{
 
         //Insert Uploaded Basic Plan sections
         if($this->EOP_type=='external'){
-            //$entityData = $this->plan_model->getEntities('file', array("sid"=>$sid) , false);
-            $uploadedEntityData   = $this->plan_model->getEntities('file', array('name'=>'Basic Plan', 'sid'=>$this->school_id), false);
-            if(is_array($uploadedEntityData) && count($uploadedEntityData)>0){
-                $fileData = json_decode($uploadedEntityData[0]['description']);
 
-                $section->addTitle('Basic Plan', 1);
+            if($this->school_id == Null){
+                $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
 
-                $this->insertUploadedBasicPlan($fileData->main, $section);
+                if(!empty($preferences)) {
+                    $section->addTitle('Basic Plan', 1);
+                    $this->insertUploadedBasicPlan($preferences->main, $section);
+                }
+
+            }else {
+                $uploadedEntityData = $this->plan_model->getEntities('file', array('name' => 'Basic Plan', 'sid' => $this->school_id), false);
+                if (is_array($uploadedEntityData) && count($uploadedEntityData) > 0) {
+                    $fileData = json_decode($uploadedEntityData[0]['description']);
+
+                    $section->addTitle('Basic Plan', 1);
+
+                    $this->insertUploadedBasicPlan($fileData->main, $section);
+                }
             }
+
         }
 
         //Add Section 1
@@ -470,12 +533,24 @@ class Report extends CI_Controller{
         if($this->EOP_type == 'external'){
             if($this->EOP_ctype=='external'){
 
-                $uploadedEntityData   = $this->plan_model->getEntities('file', array('name'=>'Basic Plan', 'sid'=>$this->school_id), false);
-                if(is_array($uploadedEntityData) && count($uploadedEntityData)>0){
-                    $fileData = json_decode($uploadedEntityData[0]['description']);
+                if($this->school_id == Null){
+                    $preferences = json_decode($this->registry_model->getValue('sys_preferences'));
 
-                    $this->insertUploadedCoverPage($fileData->cover);
+                    if(!empty($preferences)) {
+
+                        $this->insertUploadedCoverPage($preferences->cover);
+                    }
+
+                }else {
+                    $uploadedEntityData = $this->plan_model->getEntities('file', array('name' => 'Basic Plan', 'sid' => $this->school_id), false);
+                    if(is_array($uploadedEntityData) && count($uploadedEntityData)>0){
+                        $fileData = json_decode($uploadedEntityData[0]['description']);
+
+                        $this->insertUploadedCoverPage($fileData->cover);
+                    }
                 }
+
+
             }else{
                 if (is_array($form1Data) && count($form1Data) > 0) {
                     $html_dom = $this->simple_html_dom;

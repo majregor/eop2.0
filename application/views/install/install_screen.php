@@ -8,9 +8,7 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 //echo @$this->session->userdata['database']['hostname'];
 ?>
     <div id="left-pane" style="width:30%; float:left; display:block;">
-        <p>
-        <a href="http://rems.ed.gov/" target="_blank"><img src="<?php echo base_url(); ?>assets/img/REMS-TA-Center.png" width="161" height="59" class="REMSlogo"></a>
-        </p>
+
         <ul class="task-list">
             <li id="step_hosting_level" class="<?php echo ($step=='hosting_level')? 'active': (is_null($step1)? '':'done'); ?>">
                 Choose Hosting Level
@@ -57,6 +55,14 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
 
 
     <script type="text/javascript">
+        $(document).ready(function(){
+            $('#verify_requirements_form').submit(submit_verify_requirements_form);
+        });
+
+        $(document).on('submit', '#verify_requirements_form', function(){
+            submit_verify_requirements_form();
+        });
+
         $('#hosting_level_form').submit(function() {
             var selectedVal;
             var selectedOption = $("input[type='radio'][name='pref_hosting_level']:checked");
@@ -135,7 +141,6 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
             var form_data = {
                 ajax: '1'
             };
-
             $.ajax({
                 url: "<?php echo base_url('app/install'); ?>",
                 type: 'POST',
@@ -171,7 +176,7 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
             }
 
             var form_data = {
-                pref_database_type      : selectedDbVal,
+                database_type           : selectedDbVal,
                 host_name               : $('#host_name').val(),
                 database_name           : $('#database_name').val(),
                 database_username       : $('#database_username').val(),
@@ -214,6 +219,7 @@ $step5 = ($this->session->userdata('step_finished'))? $this->session->userdata('
                 user_name               : $('#user_name').val(),
                 user_email              : $('#user_email').val(),
                 host_state              : $('#host_state').val(),
+                district_name           : $('#district_name').val(),
                 user_password           : $('#user_password').val(),
                 ajax                    : '1'
             };

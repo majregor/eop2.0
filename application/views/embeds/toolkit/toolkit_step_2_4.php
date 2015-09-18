@@ -17,6 +17,8 @@
 <UL>
 <LI><A href="http://rems.ed.gov/ToolBox.aspx" target="_blank">Assessment Checklists/Worksheets in REMS  Tool Box</A></LI>
 <LI><A href="<?php echo(base_url());?>assets/resources/sample_risk_vulnerability_assessment.xlsx" target="_blank">Risk Assessment Matrix</A></LI>
+    <li><a href="http://rems.ed.gov/ResourceSubmission/ResourceSubmissions.aspx" target="_blank"> Submit your example to the REMS Tool Box</a></li>
+
 </UL>
 </UL>
 </div>

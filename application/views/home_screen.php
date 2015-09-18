@@ -14,7 +14,7 @@ if($this->session->userdata['role']['level']==3 && $this->session->userdata('loa
     <div id="select_school_dialog" title="Select School">
         <p style="margin-top:20px;">
 
-            <select id="sltschool" name="sltschool" required="required"></select>
+            <select id="sltschool_dialog" name="sltschool_dialog" required="required"></select>
         </p>
     </div>
 <?php
@@ -33,7 +33,7 @@ if($this->session->userdata['role']['level']==3 && $this->session->userdata('loa
     <div id="select_school_dialog" title="Select School">
         <p style="margin-top:20px;">
 
-            <select id="sltschool" name="sltschool"></select>
+            <select id="sltschool_dialog" name="sltschool_dialog"></select>
         </p>
     </div>
     <?php endif;

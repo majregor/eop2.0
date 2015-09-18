@@ -49,10 +49,10 @@ if(isset($viewform)){
 <?php if($role['level']<5): ?>
 <div style="margin:10px 5px 20px 0px;"><a href="<?php echo base_url(); ?>user/add">Create New User</a></div>
 <?php endif; ?>
-<div>
+<div style="overflow: auto;">
     <!-- Hidden field used to store selected user id -->
     <input type="hidden" id="selectedUserId" value="" />
-    <table id="userManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="100%" style="display: block; font-size:13px;">
+    <table id="userManagementTbl" border="1" rules="rows" class="display" cellspacing="0" width="99%" style="display: block; font-size:13px;">
 
         <thead>
             <tr>
@@ -100,7 +100,7 @@ if(isset($viewform)){
                          <?php echo $value['district'] ?>
                     </td>
                 <?php endif; ?>
-                <td>
+                <td style="word-wrap: break-word; nowrap:wrap; max-width:80px">
                      <?php echo (($value['read_only']=='n')? 'No':'Yes'); ?>
                 </td>
                 <td>
@@ -123,13 +123,14 @@ if(isset($viewform)){
                        param7="<?php echo($value['district_id']); ?>"
                        param8="<?php echo($value['school_id']); ?>"
                        param9="<?php echo($value['read_only']); ?>"
-                       id="<?php echo($value['user_id']); ?>" href="/user">
+                       id="<?php echo($value['user_id']); ?>" href="<?php echo(base_url('user')); ?>">
                         Edit
                     </a>
                      &nbsp;|&nbsp;
-                    <?php if($value['status'] == 'active'): ?>
+                    <?php if($value['status'] == 'active' && $value['user_id'] != $this->session->userdata('user_id')): ?>
                         <a class="blockUserLink"
-                           id="<?php echo($value['user_id']); ?>" href="/user">
+                           id="<?php echo($value['user_id']); ?>" href="/user"
+                            >
                             Block
                         </a>
 
@@ -186,7 +187,7 @@ if(isset($viewform)){
 </div>
 
 <script language="JavaScript" type="text/javascript">
-    
+
 
     $(document).ready(function(){
 
@@ -196,9 +197,10 @@ if(isset($viewform)){
         var appendedRole = false;
         var appendedValue = null;
 
+
         var form_data = {
             ajax:           '1',
-            district_id:    (selectedDistrict != 'Null') ? selectedDistrict : -1
+            district_id:    (selectedDistrict != 'Null' && selectedDistrict) ? selectedDistrict : -1
         };
         $.ajax({
             url: "<?php echo base_url('school/get_schools_in_district'); ?>",
@@ -219,6 +221,14 @@ if(isset($viewform)){
                 });
             }
         });
+
+        if(selectedDistrict=='Null' || (typeof selectedDistrict == 'undefined')){
+            $('#sltschool').empty();
+            $('#sltschool').append($("<option></option>")
+                .attr("value", "")
+                .text("--Select--"));
+
+        }
 
 
 
@@ -318,6 +328,20 @@ if(isset($viewform)){
     });
 
 
+        $(document).on('submit', '#user_form', function(){
+
+            if($('#districtRow').css("display") != "none"){
+
+                var selectedDistrict = $('#sltdistrict').val();
+
+                if(selectedDistrict == "Null" || selectedDistrict == "-1" || selectedDistrict == -1){
+                    $('#sltdistrict').addClass("error");
+                    $('#sltdistrict').focus();
+                    return false;
+                }
+            }
+
+        });
 
 
     /**
@@ -411,6 +435,8 @@ if(isset($viewform)){
             $('#username_update').val(user_name);
             $('#phone_update').val(phone);
 
+            get_schools_in_district(district, school);
+
 
             if(role==<?php echo($role['role_id']); ?>){
                     if($("#slctuserrole_update option[value='"+role+"']").length >0){ // Check if the value exists
@@ -422,7 +448,8 @@ if(isset($viewform)){
                         appendedValue = role;
                     }
 
-                    $('#slctuserrole_update').attr("disabled", true);
+                //Lock admins from editing fellow admin's roles by uncommenting here
+                    //$('#slctuserrole_update').attr("disabled", true);
 
                 }else{
                     $('#slctuserrole_update').attr("disabled", false);
@@ -432,11 +459,12 @@ if(isset($viewform)){
                         appendedValue=null;
                     }
                 }
+
                 $('#slctuserrole_update').val(role);
 
                 if(role >= 2){
 
-                    <?php if($role['level']==3): ?> // If logged in as a district admin, show the school to enable school changes
+                    <?php if($role['level']==3 || $role['level']<=2): ?> // If logged in as a district or state admin, show the school to enable school changes
                         if(role >3){
                             $('#SchoolInputHolder').show();
                             $('#sltschool_update').val(school);
@@ -444,7 +472,7 @@ if(isset($viewform)){
                             $('#SchoolInputHolder').hide();
                         }
                     <?php endif; ?>
-                    <?php if($role['level']!=3): ?>
+                    <?php if($role['level']>3): ?>
                         $('#SchoolInputHolder').hide();
                     <?php endif; ?>
                 }
@@ -459,11 +487,23 @@ if(isset($viewform)){
 
                 <?php endif; ?>
 
-                if(role >3 || role==2){
+                if(role <3 ){
+                    $("#sltdistrict_update option[value='']").remove();
                     $('#districtInputHolder').hide();
+                    $('#sltdistrict_update').attr("required", false);
                 }
                 else{
+
+                    $("#sltdistrict_update option[value='']").remove();
+                    if(role !=3){
+                        $("<option></option>")
+                            .val('')
+                            .html("None")
+                            .insertAfter($('#sltdistrict_update').children().first());
+                    }
+
                     $('#districtInputHolder').show();
+                    $('#sltdistrict_update').val(district);
                 }
                 $('#user_access_permission_update').val(access);
                 $('#user_id_update').val(id);
@@ -473,6 +513,9 @@ if(isset($viewform)){
                 }else{
                     $('#viewonlyInputHolder').show();
                 }
+                    if(role <=2 ){
+                        $('#districtInputHolder').hide();
+                    }
 
                 //Open the update user dialog form
                 $("#update-user-dialog").dialog('open');
@@ -493,7 +536,20 @@ if(isset($viewform)){
                 },
                 buttons: {
                     "Update": function(){
-                        $("#update_user_form").submit();
+
+                        if($('#districtInputHolder').css('display') != 'none'){
+                            var selectedDistrict = $('#sltdistrict_update').val();
+
+                            if(selectedDistrict == "Null" || selectedDistrict == "-1" || selectedDistrict == -1){
+                                $('#sltdistrict_update').addClass("error");
+                                $('#sltdistrict_update').focus();
+                                return false;
+                            }else{
+                                $("#update_user_form").submit();
+                            }
+                        }else{
+                            $("#update_user_form").submit();
+                        }
                     },
                     Cancel: function() {
                         $("#update_user_form")[0].reset();
@@ -631,7 +687,7 @@ if(isset($viewform)){
                  "Yes": function(){
                     var form_data = {
                         ajax:       '1',
-                        user_id:    $('#selectedUserId').val() 
+                        user_id:    $('#selectedUserId').val()
                     };
                     $.ajax({
                         url: "<?php echo base_url('user/block'); ?>",
@@ -653,10 +709,10 @@ if(isset($viewform)){
              modal: true,
              buttons: {
                  "Ok": function(){
-                    
+
                     var form_data = {
                         ajax:       '1',
-                        user_id:    $('#selectedUserId').val()   
+                        user_id:    $('#selectedUserId').val()
                     };
                     $.ajax({
                         url: "<?php echo base_url('user/unblock'); ?>",
@@ -674,7 +730,7 @@ if(isset($viewform)){
              });
 
             /***
-            * Load District dropdown when district admin is selected 
+            * Load District dropdown when district admin is selected
             */
             if($('select#slctuserrole').val() == 3){
                 $('#viewonlyRow').css('display', 'none');
@@ -746,7 +802,7 @@ if(isset($viewform)){
                 }
                 else if(this.value == 4){ //School admin selected
                     $('#schoolRow').css('display', 'table-row');
-                    $('#sltschool').val('Null');
+
                     <?php if($role['level']!=3): ?>
                         $('#districtRow').css('display', 'table-row');
                         $('#sltdistrict').attr("required", false);
@@ -763,6 +819,11 @@ if(isset($viewform)){
                         }
                         $('#sltdistrict').val('Null');
                         $('#districtRow span').addClass("required");
+                        $('#sltschool').empty();
+                        $('#sltschool').append($("<option></option>")
+                            .attr("value", "")
+                            .text("--Select--"));
+
                     <?php else: ?>
                         getDistrictSchools();
                     <?php endif; ?>
@@ -791,11 +852,63 @@ if(isset($viewform)){
                     <?php else: ?> // Else show the district for State and Super admins
                     $('#districtRow').css('display', 'table-row');
                     $('#sltdistrict').attr("required", true);
+
+                    $('#sltschool').empty();
+                    $('#sltschool').append($("<option></option>")
+                        .attr("value", "")
+                        .text("--Select--"));
+
                     <?php endif; ?>
                 }
-                
 
-                
+
+
             });
+
+
+        function get_schools_in_district(district_id, school){
+
+            var form_data = {
+                ajax:           '1',
+                district_id:    (district_id != 'Null') ? district_id : -1
+            };
+
+            $.ajax({
+                url: "<?php echo base_url('school/get_schools_in_district'); ?>",
+                type: 'POST',
+                data: form_data,
+                success: function (response) {
+                    var schools = JSON.parse(response);
+                    var schoolElement = $("#sltschool_update");
+                    schoolElement.empty(); // remove the old options
+
+                    if(school =='') {
+                        schoolElement.append($("<option></option>")
+                            .attr("value", "")
+                            .attr("selected", "selected")
+                            .text("--Select--"));
+                    }else{
+                        schoolElement.append($("<option></option>")
+                            .attr("value", "")
+                            .text("--Select--"));
+                    }
+
+                    $.each(schools, function (key, value) {
+                        if(school == value.id){
+                            schoolElement.append($("<option></option>")
+                                .attr("value", value.id)
+                                .attr("selected", "selected")
+                                .text(value.name));
+                        }else{
+                            schoolElement.append($("<option></option>")
+                                .attr("value", value.id)
+                                .text(value.name));
+                        }
+
+                    });
+                }
+            });
+        }
+
     });
 </script>

@@ -31,7 +31,7 @@ class Plan_model extends CI_Model {
         $this->db->delete('eop_entity', $data);
     }
 
-    public function addThreatAndHazard($data){
+    public function addThreatAndHazard($data, &$entityIds=array(), &$field_ids=array(), $school_id=null){
 
         $this->db->insert('eop_entity', $data);
         $insertedId = $this->db->insert_id();
@@ -40,13 +40,13 @@ class Plan_model extends CI_Model {
         /**
          * Add the default goal 1, 2 and 3 objectives as children to the new Threat & Hazard
          */
-        $this->saveDefaultTHGoals($insertedId);
+        $this->saveDefaultTHGoals($insertedId, $entityIds, $field_ids, $school_id);
 
         return $affected_rows;
 
     }
 
-    public function addTHFn($data){
+    public function addTHFn($data, &$fn_id = 0){
 
         //Check if there is a top level function with the same name, if not create one before adding the current function
         $query = $this->db->get_where('eop_entity', array('type_id'=>$data['type_id'], 'name'=>$data['name'],'parent'=>null));
@@ -67,6 +67,7 @@ class Plan_model extends CI_Model {
 
         if($data['parent']!=null) {
             $this->db->insert('eop_entity', $data);
+            $fn_id = $this->db->insert_id();
             $affected_rows = $this->db->affected_rows();
         }
 
@@ -293,15 +294,18 @@ class Plan_model extends CI_Model {
      * Saves the default TH Goals and their respective Objectives
      * @method saveDefaultTHGoals
      * @param int parent entity ID
+     * @param [array] by ref. holds newly created entity ids
+     * @param [array] by ref. holds newly created field ids
+     * @param int optional school_id
      * @return void
      */
-    private function saveDefaultTHGoals($parent_id){
+    private function saveDefaultTHGoals($parent_id, &$entityIds=array(), &$field_ids = array(), $school_id = null){
         $goalData = array(
             array(
                 'name'      =>      'Goal 1',
                 'title'     =>      'Goal 1 (Before)',
                 'owner'     =>      $this->session->userdata('user_id'),
-                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : (($school_id != null) ? $school_id : null),
                 'type_id'   =>      $this->getEntityTypeId('g1', 'name'),
                 'parent'    =>      $parent_id,
                 'weight'    =>      1
@@ -310,7 +314,7 @@ class Plan_model extends CI_Model {
                 'name'      =>      'Goal 2',
                 'title'     =>      'Goal 2 (During)',
                 'owner'     =>      $this->session->userdata('user_id'),
-                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : (($school_id != null) ? $school_id : null),
                 'type_id'   =>      $this->getEntityTypeId('g2', 'name'),
                 'parent'    =>      $parent_id,
                 'weight'    =>      2
@@ -319,7 +323,7 @@ class Plan_model extends CI_Model {
                 'name'      =>      'Goal 3',
                 'title'     =>      'Goal 3 (After)',
                 'owner'     =>      $this->session->userdata('user_id'),
-                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : (($school_id != null) ? $school_id : null),
                 'type_id'   =>      $this->getEntityTypeId('g3', 'name'),
                 'parent'    =>      $parent_id,
                 'weight'    =>      3
@@ -327,15 +331,17 @@ class Plan_model extends CI_Model {
         );
 
         foreach($goalData as $key=> $goal){
+
             $this->db->insert('eop_entity', $goal);
             $inserted_id = $this->db->insert_id();
             $count = $key +1;
+            $entityIds["g{$count}"] = $inserted_id;
 
             $objectiveData = array(
                 'name'      =>      'Goal '.$count.' Objective',
                 'title'     =>      'Objective',
                 'owner'     =>      $this->session->userdata('user_id'),
-                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : (($school_id != null) ? $school_id : null),
                 'type_id'   =>      $this->getEntityTypeId('obj', 'name'),
                 'parent'    =>      $inserted_id,
                 'weight'    =>      $key
@@ -345,7 +351,7 @@ class Plan_model extends CI_Model {
                 'name'      =>      'Goal '.$count.' Course of Action',
                 'title'     =>      'Course of Action',
                 'owner'     =>      $this->session->userdata('user_id'),
-                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
+                'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : (($school_id != null) ? $school_id : null),
                 'type_id'   =>      $this->getEntityTypeId('ca', 'name'),
                 'parent'    =>      $inserted_id,
                 'weight'    =>      $key
@@ -361,10 +367,14 @@ class Plan_model extends CI_Model {
             );
 
             $this->db->insert('eop_field', $fieldData);
+            $inserted_field_id = $this->db->insert_id();
+            $field_ids["g{$count}"]['goal'] = $inserted_field_id;
+
 
             //Insert Objective Entity and field
             $this->db->insert('eop_entity', $objectiveData);
             $insertedObjective_id = $this->db->insert_id();
+            $entityIds["g{$count}Obj"] = $insertedObjective_id;
             $fieldData = array( //Field for the goal's objective item
                 'entity_id' =>      $insertedObjective_id,
                 'name'      =>      'Goal '.$count.' Objective Field',
@@ -374,11 +384,14 @@ class Plan_model extends CI_Model {
                 'body'      =>      ''
             );
             $this->db->insert('eop_field', $fieldData);
+            $inserted_field_id = $this->db->insert_id();
+            $field_ids["g{$count}"]['objective'] = $inserted_field_id;
 
 
             //Insert Course of Action Entity and field
             $this->db->insert('eop_entity', $courseOfActionData);
             $insertedCourseofAction_id = $this->db->insert_id();
+            $entityIds["g{$count}ca"] = $insertedCourseofAction_id;
             $fieldData = array( //Field for the goal's objective item
                 'entity_id' =>      $insertedCourseofAction_id,
                 'name'      =>      'Goal '.$count.' TH Course of Action Field',
@@ -388,6 +401,8 @@ class Plan_model extends CI_Model {
                 'body'      =>      ''
             );
             $this->db->insert('eop_field', $fieldData);
+            $inserted_field_id = $this->db->insert_id();
+            $field_ids["g{$count}"]['course_of_action'] = $inserted_field_id;
 
         }
 

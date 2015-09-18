@@ -49,7 +49,7 @@ if( ! function_exists('make_list_box')){
             else if($dst==0){
                 date_default_timezone_set('America/New_York');
             }
-            echo "<tr><td colspan='2'><label><span>Date: </span><span id='selectedDate-ed'>" . date ( 'Y-m-d', strtotime ( $selectedDate ) ) . "</span></label></td></tr>";
+            echo "<tr><td colspan='2'><label><span>Date: </span><span id='selectedDate-ed'>" . date ( 'm/d/Y', strtotime ( $selectedDate ) ) . "</span></label></td></tr>";
         }
         if ($list_type == 'start-ed' || $list_type == 'startTime') {
             $label = "Start Time";

@@ -32,8 +32,8 @@ $entities = $page_vars['entities'];
         </ul>
     </blockquote>
     <p>It is now time to develop courses of action for the <a href="#" class="bt" title="Functions are activities that apply to more than one threat or hazard.">functions</a> that your planning team identified in Step 3. As your team may recall, Step 3 prompted your team to develop goals and objectives and then to categorize those as functions or as specific to the threat or hazard. The list of functions your team identified, and the goals and objectives supporting those functions, may be found below.</p>
-    <p>Please click on the Add button for each function below. In the  space indicated, write out courses of action that accomplish the goals and  objectives that your team previously established. After completing the courses  of action field for the selected function, click the Save button. Repeat this  process for the remaining functions.</p>
-    <p>If your team has already developed courses of action for a  function and wishes to modify the information, please click the Edit button for  the respective function. Pre-populated fields will appear with previously saved information. After editing the available field, click the Update button.  Repeat this process, as needed.</p>
+    <p>Please click on the Add button for each function below. In the space indicated, write out courses of action that accomplish the goals and objectives that your team previously established. After completing the courses of action fields for the selected function, click the Save button. Repeat this process for the remaining functions.</p>
+    <p>If your team has already developed courses of action for a function and wishes to modify the information, please click the Edit button for the respective function. Pre-populated fields will appear with previously saved information. After editing the available fields, click the Update button. Repeat this process, as needed.</p>
 </div>
 
 <div class="col-half left">

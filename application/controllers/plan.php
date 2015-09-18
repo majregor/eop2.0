@@ -271,12 +271,7 @@ class Plan extends CI_Controller{
 
     }
 
-    public function test(){
-        //$thData = $this->plan_model->getEntities('th',null,true);
-        $ff = $this->input->post('q4Rows');
-        $data =array('dump' => $ff);
-        $this->load->view('test', $data);
-    }
+
 
     /**
      * Action to add new items
@@ -653,7 +648,7 @@ class Plan extends CI_Controller{
                                     'title'     =>      'Course of Action',
                                     'owner'     =>      $this->session->userdata('user_id'),
                                     'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                                    'type_id'   =>      $this->getEntityTypeId('ca', 'name'),
+                                    'type_id'   =>      $this->plan_model->getEntityTypeId('ca', 'name'),
                                     'parent'    =>      $fieldObj['parent'],
                                     'weight'    =>      $key+1
                                 );
@@ -1125,7 +1120,7 @@ class Plan extends CI_Controller{
                                     'title'     =>      'Course of Action',
                                     'owner'     =>      $this->session->userdata('user_id'),
                                     'sid'       =>      isset($this->session->userdata['loaded_school']['id']) ? $this->session->userdata['loaded_school']['id'] : null,
-                                    'type_id'   =>      $this->getEntityTypeId('ca', 'name'),
+                                    'type_id'   =>      $this->plan_model->getEntityTypeId('ca', 'name'),
                                     'parent'    =>      $fieldObj['parent'],
                                     'weight'    =>      $key+1
                                 );
