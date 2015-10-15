@@ -220,7 +220,7 @@ if ( ! function_exists('get_table_fields')) {
                     'constraint'    =>  11,
                     'null'          =>  FALSE
                 ),
-                'modification_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP',
+                'modification_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP',
                 'allDay'        =>  array(
                     'type'          =>  'INT',
                     'constraint'    =>  2,
@@ -373,7 +373,7 @@ if ( ! function_exists('get_table_fields')) {
                     'constraint'        =>  8,
                     'null'              =>  TRUE
                 ),
-                'created datetime DEFAULT CURRENT_TIMESTAMP',
+                'created timestamp DEFAULT CURRENT_TIMESTAMP',
                 'timestamp timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
                 'description'   =>  array(
                     'type'              =>  'longtext',
@@ -425,7 +425,7 @@ if ( ! function_exists('get_table_fields')) {
                     'constraint'    =>  8,
                     'null'          =>  TRUE
                 ),
-                'created datetime DEFAULT CURRENT_TIMESTAMP',
+                'created timestamp DEFAULT CURRENT_TIMESTAMP',
                 'timestamp timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
                 'type'          =>  array(
                     'type'          =>  'varchar',
@@ -521,7 +521,7 @@ if ( ! function_exists('get_table_fields')) {
                     'constraint'        =>  256,
                     'null'              =>  TRUE
                 ),
-                'created_date datetime DEFAULT CURRENT_TIMESTAMP',
+                'created_date timestamp DEFAULT CURRENT_TIMESTAMP',
                 'modified_date timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
                 'owner'         =>  array(
                     'type'              =>  'INT',
@@ -599,7 +599,7 @@ if ( ! function_exists('get_table_fields')) {
                     'null'              =>  TRUE
                 ),
                 'timestamp timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
-                'created datetime DEFAULT CURRENT_TIMESTAMP',
+                'created timestamp DEFAULT CURRENT_TIMESTAMP',
                 'owner'         =>  array(
                     'type'              =>  'INT',
                     'constraint'        =>  32,
@@ -663,7 +663,7 @@ if ( ! function_exists('get_table_fields')) {
                     'constraint'        =>  24,
                     'null'              =>  TRUE
                 ),
-                'join_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP',
+                'join_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP',
                 'modified timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
                 'read_only'     =>  array(
                     'type'              =>  'char',
