@@ -27,7 +27,6 @@ class Home extends CI_Controller{
             // Redirect to login for if not logged in
             redirect('/login');
         }
-
 	}
 
     /**
@@ -53,5 +52,4 @@ class Home extends CI_Controller{
             redirect('/login');
         }
     }
-
 }

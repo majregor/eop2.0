@@ -191,9 +191,16 @@ class School_model extends CI_Model {
         $conditions = array('id' => $school_id);
         $this->db->select('district_id');
         $query = $this->db->get_where('eop_school', $conditions);
+        if($query){
 
-        if($query->num_rows()>0){
-            $returnVal =  $query->result_array()[0]['district_id'];
+            $recs = $query->num_rows();
+
+            if(is_numeric($recs) && $recs > 0){
+                $returnVal =  $query->result_array()[0]['district_id'];
+            }else{
+                $returnVal = null;
+            }
+
         }else{
             $returnVal = null;
         }
