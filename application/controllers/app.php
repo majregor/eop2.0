@@ -10,6 +10,25 @@ class App extends CI_Controller {
         // Load the registry module
         $this->load->model('registry_model');
 
+        if(! function_exists('posix_getpwuid')){
+
+            function posix_geteuid(){
+
+                $arr = array(
+                    'name'  =>  getenv('USERNAME') ?: getenv('USER'),
+                    'account'=> get_current_user()
+                );
+
+                return $arr;
+            }
+
+            function posix_getpwuid($uid='Unknown'){
+
+                return $uid;
+
+            }
+        }
+
     }
 
 
@@ -486,7 +505,7 @@ class App extends CI_Controller {
             'mysql', 'mysqli', 'date', 'gd', 'libxml', 'mbstring', 'mcrypt', 'mysqlnd', 'session', 'SimpleXML', 'xml', 'xmlreader', 'zip', 'zlib'
         );
         $optional_libraries = array('sqlsrv', 'pdo_sqlsrv', 'PDO_ODBC');
-        $writable_files = array ('application/config/settings.php', 'uploads');
+        $writable_files = array ('application/config/settings.php', 'uploads', 'application/logs');
 
 
         $data['php'] = array(
@@ -516,13 +535,15 @@ class App extends CI_Controller {
             if(!file_exists($file) || !is_writable($file)){
                 $data['file_errs'][] = array(
                     'file'      =>  $file,
-                    'message'   =>  'This file is not writable, please make sure that the user: '.posix_getpwuid(posix_geteuid())['name'].', www-data for IIS or apache for Apache has write permissions to this file or directory to continue.'
+                    'message'   =>  'This file is not writable, please make sure that the user: <strong><em>'.posix_getpwuid(posix_geteuid())['name'].'</em></strong>, www-data for IIS or apache for Apache has write permissions to this file or directory to continue.'
                 );
             }
         }
 
         return $data;
     }
+
+
 
     /**
      * @param $dbdriver String
